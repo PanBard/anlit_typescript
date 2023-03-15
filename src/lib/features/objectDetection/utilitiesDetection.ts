@@ -33,7 +33,7 @@ export const drawRect = (boxes: [any], classes: [], scores: [], threshold: numbe
             // ctx.rect(x*imgWidth, y*imgHeight, width*imgWidth, height*imgHeight);
             ctx.stroke()
             
-             if (cam == 0){   saveAs(imgForScreenshot, 'zookdj.jpg'); cam =1}
+            //  if (cam == 0){   saveAs(imgForScreenshot, 'zookdj.jpg'); cam =1}  //screenshot
             
          
         }
