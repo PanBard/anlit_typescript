@@ -2354,6 +2354,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/dom-speech-recognition@*":
+  version "0.0.1"
+  resolved "https://registry.npmjs.org/@types/dom-speech-recognition/-/dom-speech-recognition-0.0.1.tgz"
+  integrity sha512-udCxb8DvjcDKfk1WTBzDsxFbLgYxmQGKrE/ricoMqHRNjSlSUCcamVTA5lIQqzY10mY5qCY0QDwBfFEwhfoDPw==
+
 "@types/eslint-scope@^3.7.3":
   version "3.7.4"
   resolved "https://registry.npmjs.org/@types/eslint-scope/-/eslint-scope-3.7.4.tgz"
@@ -2544,6 +2549,13 @@
   integrity sha512-aBTIWg1emtu95bLTLx0cpkxwGW3ueZv71nE2YFBpL8k/z5czEW8yYpOo8Dp+UUAFAtKwNaOsh/ioSeQnWlZcfw==
   dependencies:
     "@types/react" "*"
+
+"@types/react-speech-recognition@^3.9.1":
+  version "3.9.1"
+  resolved "https://registry.npmjs.org/@types/react-speech-recognition/-/react-speech-recognition-3.9.1.tgz"
+  integrity sha512-9aR3BvLMgO9M+dKueOd5TK5UwGm/0wqnykGHD2irTsSf0sGUMk19q4nmjVNeVMLDBfuLfR8o0rj5WvMv5Fje/Q==
+  dependencies:
+    "@types/dom-speech-recognition" "*"
 
 "@types/react-transition-group@^4.4.5":
   version "4.4.5"

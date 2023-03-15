@@ -1,1 +1,1 @@
-export {ScreenObjectDetection} from './ScreenObjectDetection'
+export {DevScreen} from './DevScreen'

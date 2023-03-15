@@ -1,23 +1,30 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { ObjDetect } from "./objectDetection"
+import { Voice } from "./voiceRecognition"
 
-export const ScreenObjectDetection = () => {
+export const DevScreen: React.FunctionComponent = () => {
 
     const [showWebcam, setShowWebcam] = useState<boolean>(true)
+    
 
-    const madeMagic = () => {
-        if (showWebcam==true){setShowWebcam(false); console.log(showWebcam)}
-        else setShowWebcam(true); console.log(showWebcam)
+    const madeMagic1 = () => {
+        if (showWebcam==true){setShowWebcam(false)}
+        else setShowWebcam(true)
+    }
+    const madeMagic2 = () => {
+        Voice('testowo nie wiem')
     }
 
 
     return(
         <Mojdiv>
-            <MojButton onClick={madeMagic}>WLACZ KAMERKIE</MojButton>
+            <MojButton onClick={madeMagic1}>WLACZ KAMERKIE</MojButton>
+            <MojButton onClick={madeMagic2}>Powiedz cos</MojButton>
 
             {!showWebcam && <ObjDetect/>}
-            {/* <ObjDetect/> */}
+            
+            
         </Mojdiv>
     )
 }

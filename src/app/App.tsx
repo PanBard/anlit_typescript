@@ -1,13 +1,13 @@
 import React from "react"
 import styled, {ThemeProvider} from "styled-components"
 import {myTheme} from "lib/styles"
-import { ScreenObjectDetection } from "lib/features"
+import { DevScreen } from "lib/features"
 export const App = () => {
 
     return(
        <ThemeProvider theme={ myTheme }>
             <MojDIV>
-                <ScreenObjectDetection/>
+                <DevScreen/>
             </MojDIV>
        </ThemeProvider>
     )
