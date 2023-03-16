@@ -7,6 +7,7 @@ type DetectComponentProps = {
   canvasRef: any,
   stopDetect(): void,
   detectReady(): void,
+  imgg(params: any): any
 }
 
 
@@ -14,7 +15,8 @@ export const DetectComponent: React.FunctionComponent<DetectComponentProps> = ({
   webcamRef,
   canvasRef,
   stopDetect,
-  detectReady
+  detectReady,
+  imgg
 }) => {
 
   const [elo, setElo] = useState(false);
@@ -99,6 +101,9 @@ export const DetectComponent: React.FunctionComponent<DetectComponentProps> = ({
               ctx.clearRect(0, 0, videoWidth, videoHeight);
               warningson = true
               setElo(true)
+              // imgg(img)
+              const iko = {1:img, 2:imgForScreenshot}
+              imgg(iko)
               stopDetect()
               return true
             }

@@ -1,10 +1,20 @@
-import { ORDERS } from "lib/dictionary/voice_script"
+import { useVoiceScript } from "lib/hooks/useVoiceScript" 
 import React, { useMemo, useState } from "react"
 import styled from "styled-components"
 import { ObjDetect } from "./objectDetection"
 import { Voice } from "./voiceRecognition"
 
-export const DevScreen: React.FunctionComponent = () => {
+type DevScreenProps = {
+    endWork(): void
+    imgg(params: any): any
+}
+
+
+export const DevScreen: React.FunctionComponent<DevScreenProps> = ({
+    endWork,
+    imgg
+}) => {
+    const Voice_script = useVoiceScript()
 
     const [showWebcam, setShowWebcam] = useState<boolean>(true)
     const [displayMessage, setdisplayMessage] = useState<boolean>(false)
@@ -16,12 +26,14 @@ export const DevScreen: React.FunctionComponent = () => {
         else setShowWebcam(true)
     }
     const madeMagic2 = () => {
-        Voice(ORDERS[5].startorder1)
+        Voice(Voice_script.ORDER[5].startorder1)
     }
 
     useMemo(()=>{ 
         if(tell){
-             Voice('wykryto!')
+             Voice('wykryto próbówkę!')
+             setTimeout(()=>{endWork()}, 2000);
+             
         }
     },[tell]) 
     
@@ -42,6 +54,9 @@ export const DevScreen: React.FunctionComponent = () => {
         
     }
 
+    const logMessage = (message: any) => {
+        imgg(message);
+      };
     // useMemo(()=>{ if(displayMessage){
     //     setWykryteObiekty([
     //         ...wykryte_oniekty,
@@ -55,21 +70,48 @@ export const DevScreen: React.FunctionComponent = () => {
 
 
     return(
-        <Mojdiv>
-            <MojButton onClick={madeMagic1}>WLACZ KAMERKIE</MojButton>
-            <MojButton onClick={madeMagic2}>Powiedz cos</MojButton>
-            <MojButton onClick={madeMagic3}>Testowy</MojButton>
+        <Container>
+            <TranslatorContainer>
+                {/* <InputContainer>
+                    <MojButton onClick={madeMagic1}>WLACZ KAMERKIE</MojButton>
+                    <MojButton onClick={madeMagic2}>Powiedz cos</MojButton>
+                    <MojButton onClick={madeMagic3}>Testowy</MojButton>
+                </InputContainer> */}
 
-            {!showWebcam && <ObjDetect detected={()=>{setdisplayMessage(true); setTell(true)}} />}
-            {displayMessage && <div>Znaleziono obiekt!</div>}
+                <InputContainer>
+                <ObjDetect detected={()=>{setdisplayMessage(true); setTell(true)} } imgg={logMessage}/>
+                    {/* {!showWebcam && <ObjDetect detected={()=>{setdisplayMessage(true); setTell(true)}} />} */}
+                    {displayMessage && <div>Znaleziono obiekt!</div>}
+                </InputContainer>
+            </TranslatorContainer>
             
             
-        </Mojdiv>
+        </Container>
+  
+            
+       
     )
 }
+const Container = styled.div`
+    color: ${({theme}) => theme.colors.typography};
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    
+`
+const TranslatorContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 50px;
+`
+
 
 const Mojdiv = styled.div`
-     color: ${({theme})=> theme.colors.typography};
+    color: ${({theme}) => theme.colors.typography};
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 `
 
 const MojButton = styled.button`
@@ -79,4 +121,9 @@ const MojButton = styled.button`
     background-color: ${({theme})=> theme.colors.primary};
     /* background-color: red; */
     cursor: pointer;
+`
+
+const InputContainer = styled.div`
+    display: flex;
+    flex-direction: column;
 `

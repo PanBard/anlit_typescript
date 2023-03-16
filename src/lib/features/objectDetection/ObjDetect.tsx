@@ -11,14 +11,14 @@ type ColorProps = {
 
 type ObjDetectProps = {
   detected(): void
-
+  imgg(params: any): any
 }
 
 
 
 export const ObjDetect: React.FunctionComponent<ObjDetectProps> = ({
   detected,
-
+  imgg
 }) => {
     
   const [elo, setElo] = useState(false);
@@ -35,60 +35,71 @@ export const ObjDetect: React.FunctionComponent<ObjDetectProps> = ({
   // console.log(mainLoop)
 
     
+  useMemo(()=>{ 
+    if(redOrBlack){
+         Voice('Wykrywanie obiektu w gotowości!') 
+    }
+},[redOrBlack]) 
 
 
-
-
+const logMessage = (message: any) => {
+  imgg(message);
+};
     
   
 
   return (
-    <section>
-      
-    <div >
-        <canvas>elo</canvas>
-        
-<Dekoracja
-  changeColor = {redOrBlack}
->
-            <Webcam
-                      ref={webcamRef}
-                      muted={true} 
-                      screenshotFormat="image/jpeg"
-                      style={{
-                        position: "absolute",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        left: 0,
-                        right: 0,
-                        textAlign: "center",
-                        zIndex: 9,
-                        width: 640,
-                        height: 480,
-                      }}
-                    />
-              
-           </Dekoracja>
-        
+    <CenterContainer>
 
-        <canvas
-          ref={canvasRef}
-          style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zIndex: 10,
-            width: 640,
-            height: 480,
-          }}
-        />
+
+      
+
+
+          
+  <Dekoracja
+    changeColor = {redOrBlack}
+  >
+              <Webcam
+                        ref={webcamRef}
+                        muted={true} 
+                        screenshotFormat="image/jpeg"
+                        // style={{
+                        //   position: "absolute",
+                        //   marginLeft: "auto",
+                        //   marginRight: "auto",
+                        //   left: 0,
+                        //   right: 0,
+                        //   textAlign: "center",
+                        //   zIndex: 9,
+                        //   width: 640,
+                        //   height: 480,
+                        // }}
+                      />
+                
+             </Dekoracja>
+          
   
-    </div> 
-          <DetectComponent canvasRef={canvasRef} webcamRef={webcamRef} stopDetect={() => {setElo(!elo); detected()}} detectReady={() => setRedOrBlack(true)}/>
-    </section>
+          <canvas
+            ref={canvasRef}
+            style={{
+              position: "absolute",
+              marginLeft: "auto",
+              marginRight: "auto",
+              left: 0,
+              right: 0,
+              textAlign: "center",
+              zIndex: 10,
+              width: 640,
+              height: 480,
+            }}
+          />
+    
+
+            <DetectComponent canvasRef={canvasRef} webcamRef={webcamRef} stopDetect={() => {setElo(!elo); detected()}} detectReady={() => setRedOrBlack(true) } imgg={logMessage}/>
+
+
+    </CenterContainer>
+    
   );
 }
 
@@ -96,13 +107,19 @@ export const ObjDetect: React.FunctionComponent<ObjDetectProps> = ({
 const Dekoracja = styled.div<ColorProps>`
   border:5px solid;
   border-color: ${({changeColor, theme})=> changeColor ? theme.colors.error : theme.colors.background  };
-  position: absolute;
+  /* position: absolute;
   margin-left: auto;
   margin-right:  auto;
   left: 0;
   right: 0;
   text-align: center;
-  /* z-Index: 9; */
+  z-Index: 9; */
   width: 650px;
   height: 490px;
+`
+
+
+const CenterContainer = styled.div`
+    display: flex;
+    justify-content: center;
 `
