@@ -39,6 +39,8 @@ export const drawRect = (boxes: any, classes: number, scores: number, threshold:
             
             console.log('licznik=',cam)
             cam +=1
+            ctx.clearRect(0, 0,imgWidth, imgHeight);
+            return true
             
         }
     }
