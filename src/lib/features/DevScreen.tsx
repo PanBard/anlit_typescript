@@ -31,9 +31,7 @@ export const DevScreen: React.FunctionComponent<DevScreenProps> = ({
 
     useMemo(()=>{ 
         if(tell){
-             Voice('wykryto próbówkę!')
-             setTimeout(()=>{endWork()}, 2000);
-             
+             setTimeout(()=>{endWork()}, 500);
         }
     },[tell]) 
     

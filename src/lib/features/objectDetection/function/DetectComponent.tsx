@@ -101,8 +101,7 @@ export const DetectComponent: React.FunctionComponent<DetectComponentProps> = ({
               ctx.clearRect(0, 0, videoWidth, videoHeight);
               warningson = true
               setElo(true)
-              // imgg(img)
-              const iko = {1:img, 2:imgForScreenshot}
+              const iko = {1:video, 2:imgForScreenshot}
               imgg(iko)
               stopDetect()
               return true
