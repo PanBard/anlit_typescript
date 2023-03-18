@@ -50,8 +50,8 @@ export const pl_PL = {
    
    INFORM : {
             after_phase_1 :{
-               info: 'Powstanie osadu wskazuje na obecność w roztworze kationów pierwszej grupy analitycznej.'           
-               
+               info: 'Powstanie osadu wskazuje na obecność w roztworze kationów pierwszej grupy analitycznej.',
+               prepare: 'W celu dalszej analizy należy:'
             }
    }
 }

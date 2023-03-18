@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { DetectBase } from "./DetectBase"
-import { VoiceOracle } from "./VoiceOracle"
+import { Gallery } from "./Gallery"
+import { VoiceStage_1 } from "./voice_kingdom/Stage_1"
+import { VoiceOracle } from "./voice_kingdom/VoiceOracle"
 
 
 export const Dashboard: React.FunctionComponent = () => {
@@ -12,11 +14,13 @@ export const Dashboard: React.FunctionComponent = () => {
     const [list_of_phase, setList_of_phase] = useState<number[]>([])
     const [list_of_labels_num,setlist_of_labels_num] = useState<number[]>([])
     const [list_of_detected_images,setlist_of_Detected_iamges] = useState<any[]>([])
+    const [list_of_order,setlist_of_order] = useState<string[]>([])
+    const [temp_list_of_order,setTemp_list_of_order] = useState<string[]>([])
 
     const catchMessageFromChild = (message: any) => {
-        console.log('KIEDY')
         setDataFromChildComponent(message)
         setEndDetect(!endDetect)
+        console.log('PRZEKAZANE DANE: ',message)
       }; 
 
       useEffect(() => {
@@ -38,24 +42,54 @@ export const Dashboard: React.FunctionComponent = () => {
                 console.log('list_of_labels_num',list_of_labels_num)
                 console.log('list_of_detected_images',list_of_detected_images)
                 console.log('list_of_phase',list_of_phase)
+                console.log('list_of_order',list_of_order)
       },[list_of_phase])
 
-      useEffect(() => {
-        mowa()
-        },[endDetect])
+      
+      const kodowanie = {
+        'gr1_11' : 'gr1_1'
+    }
+
+    useMemo(()=>{setlist_of_order([...list_of_order, temp_list_of_order[temp_list_of_order.length-1]])},[temp_list_of_order])
 
 
-
+    useEffect(() => { mowa()},[endDetect])
     const mowa = async ()=>{
-            if(list_of_labels_num[list_of_labels_num.length-1] && list_of_phase[list_of_phase.length-1]) {
-                console.log('MOWIE TO')
-            await VoiceOracle(list_of_labels_num[list_of_labels_num.length-1], list_of_phase[list_of_phase.length-1])
-                    } }
+        if(list_of_order[list_of_order.length-1]){
+            switch(list_of_order[list_of_order.length-1]){
+                case '404':
+                    console.log('slabo bo 404')
+                    return 
 
+                case 'gr1':
+                    console.log('dashbord start gr1')
+                    const gr1 =  VoiceStage_1(list_of_labels_num[list_of_labels_num.length-1], list_of_order[list_of_order.length-1]) 
+                    if( gr1 ) setTemp_list_of_order([...temp_list_of_order, 'gr1_1'])  
+                    return gr1
+
+                case 'gr1_1':
+                    console.log('dashbord start gr_1')
+                    const gr2 = VoiceStage_1(list_of_labels_num[list_of_labels_num.length-1], list_of_order[list_of_order.length-1]) 
+                    if( gr2 == 'gr1_11' ) setTemp_list_of_order([...temp_list_of_order, 'gr1_1'])   
+                    return gr2
+                    
+         }   
+        }    
+        else {
+            if(list_of_labels_num[list_of_labels_num.length-1] && list_of_phase[list_of_phase.length-1]) {
+           const w =  VoiceOracle(list_of_labels_num[list_of_labels_num.length-1], list_of_phase[list_of_phase.length-1])
+              if( w ) setlist_of_order([...list_of_order, w])    
+              
+        } }
+        }
+            
+
+    // useEffect(( )=>{ if(list_of_order[list_of_order.length-1]) console.log(list_of_order[list_of_order.length-1])},[list_of_order])
 
     return(
         <Container>
             <DetectBase return_results_to_parent_component={catchMessageFromChild} key={phase}/>
+         < Gallery images={list_of_detected_images}/>
         </Container>
         
     )
