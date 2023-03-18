@@ -11,86 +11,60 @@ type ColorProps = {
   changeColor: boolean
 }
 
-type ObjDetectProps = {
-  detected(): void
-  imgg(params: any): any
+type DetectBaseProps = {
+  return_results_to_parent_component(params: any): any
 }
 
 
 
-export const DetectBase: React.FunctionComponent= () => {
+
+export const DetectBase: React.FunctionComponent<DetectBaseProps> = ({
+    return_results_to_parent_component,
+}) => {
     
-  const [elo, setElo] = useState(false);
+  const [functionReturn, setFunctionReturn] = useState<any>();
   const [redOrBlack, setRedOrBlack] = useState(false);
-
-    const webcamRef = useRef<Webcam>(null);
-    const canvasRef = useRef<any>(null);
-    // const video = async () => { DetectFunction(webcamRef,canvasRef)}
+  const [hideCamera, setHideCamera] = useState(false);
+  const [detectedImage, setDetectedImage] = useState();
+  const webcamRef = useRef<Webcam>(null);
+  const canvasRef = useRef<any>(null);
     
-    // const f = async () => {
-    //     console.log('start')
-        
-    //     const r = await video().then(proise=> console.log('promis',proise))
-    //     console.log('po',r)
-    //     } 
-
-    // f()
-
+  const [show, setShow] = useState<boolean>(false)
+  
    useEffect(()=>{
-    console.log('wyswietlamy rezultat funkcji',elo)
-   },[elo])
+    if(functionReturn){
+console.log('wyswietlamy rezultat funkcji',functionReturn)
+    const obj = [functionReturn,detectedImage]
+    return_results_to_parent_component(obj)
+    }
+    
+   },[functionReturn])
     
 
     const DetectFunction = (webcamRef: any, canvasRef: any) => {
     
     
-        // const ultimateFunction = async (webcamRef: any, canvasRef: any) => {
-        //      await mainFunction(webcamRef,canvasRef)
-            
-                
-            
-        // }
-    
         const  mainFunction = async (webcamRef: any, canvasRef: any) => {
-            // let v:any
-            const model = await loadModel()  
-            const model2 = await loadModelC()
+            const detectModel = await loadModel()  
+            const classifyModel = await loadModelC()
             console.log('Start detect')
-            return await repeatingFunc(webcamRef,model,model2,canvasRef)
+            return await repeatingFunction(webcamRef,detectModel,classifyModel,canvasRef)
            
         }
     
-    // const t = (r:any) => {v=r}
-            
-            // nIntervId = setInterval( async() => {
-            //     const elo = await detect(webcamRef, model, canvasRef)
-            //        if(elo){
-                   
-            //         console.log('wykryto obiekt!!!')
-            //         console.log('elo:',elo)
-                
-            //         const elo2 = await clasify(model2, elo) 
-            //         if(elo2){
-            //             t(elo2)
-            //             console.log('elo2',elo2)
-            //             clearInterval(nIntervId)
-            //         }
-                    
-            //        }
-            //     console.log('interval:')
-            // }, 1000);
-        const repeatingFunc = async (webcamRef: any, model1: any,model2: any,canvasRef: any)=> {
+  
+        const repeatingFunction = async (webcamRef: any, model1: any,model2: any,canvasRef: any)=> {
             console.log('loop');
-            const elo = await detect(webcamRef, model1, canvasRef)
-               if(elo){
+            const detectResult = await detect(webcamRef, model1, canvasRef)
+               if(detectResult){
                     console.log('wykryto obiekt!!!')
-                    const elo2 = await clasify(model2, elo) 
-                    if(elo2){
-                        console.log('koniec petli, zwracamy:',elo2)
-                        setElo(elo2)
+                    const classifyResult = await clasify(model2, detectResult) 
+                    if(classifyResult){
+                        console.log('koniec petli, zwracamy:',classifyResult)
+                        setFunctionReturn(classifyResult)
                         }
                 }
-                else setTimeout(()=>{repeatingFunc(webcamRef,model1,model2,canvasRef)}, 500);
+                else setTimeout(()=>{repeatingFunction(webcamRef,model1,model2,canvasRef)}, 500);
             
     
         }
@@ -116,13 +90,13 @@ export const DetectBase: React.FunctionComponent= () => {
     
                 if(all){
                     const classes = all[0]
-          
-                    const result = classes.indexOf(Math.max(...classes));
-                    console.log('rezultat:',result)
-                    return result
+                    
+                    const number_of_label = classes.indexOf(Math.max(...classes));
+                    console.log('rezultat:',number_of_label )
+                 
+                    
+                    return number_of_label
                 }
-    
-                
     
                 tf.dispose(img)
                 tf.dispose(resized)
@@ -134,14 +108,7 @@ export const DetectBase: React.FunctionComponent= () => {
      
               }
     
-    
-    
-    
-    
-    
-    
-    
-    
+
     
         const loadModel = async () => { 
             const net =  tf.loadGraphModel('https://panbard.github.io/model_host/tfjsexport_3/model.json')
@@ -155,7 +122,9 @@ export const DetectBase: React.FunctionComponent= () => {
                 webcamRef.current !== null &&
                 webcamRef.current.video?.readyState === 4
             ) {
-        
+              
+                const detected_image = webcamRef.current.getScreenshot();
+
                 // Get Video Properties
                 const video = webcamRef.current.video;
                 const videoWidth = webcamRef.current.video.videoWidth;
@@ -176,13 +145,12 @@ export const DetectBase: React.FunctionComponent= () => {
                 const expanded = casted.expandDims(0)
                 const obj = await net.executeAsync(expanded)
         
-                // console.log("object badany",await obj[7].array())
                 
                 const boxes = await obj[4].array()
                 const classes = await obj[7].array()
                 const scores = await obj[5].array()
                 
-               
+                if (boxes)  setRedOrBlack(true) //red border if ready
     
                 if(boxes[0][0] && classes[0][0] && scores[0][0]>0.8){
                                 
@@ -192,12 +160,12 @@ export const DetectBase: React.FunctionComponent= () => {
                         tf.dispose(expanded)
                         tf.dispose(obj)
                         
-                        // clearInterval(nIntervId)
+                        setDetectedImage(detected_image)
+                        setHideCamera(true)
                         return video
                 }
     
                 else{
-    // requestAnimationFrame(()=>{drawRect(boxes[0][0], classes[0][0], scores[0][0], 0.8, videoWidth, videoHeight, ctx, imgForScreenshot)}); 
                 tf.dispose(img)
                 tf.dispose(resized)
                 tf.dispose(casted)
@@ -212,31 +180,14 @@ export const DetectBase: React.FunctionComponent= () => {
     
     }
     
-    useEffect(()=>{    DetectFunction(webcamRef,canvasRef)},[])
-
-//    const repeatingFunc= async ()=> {
-//         console.log("It's been 5 seconds. Execute the function again.");
-        
-//         const elo = true
-//         if(elo){
-//             return elo
-//         }
-//         setTimeout(repeatingFunc, 500);
-
-//     }
-//     console.log( 'typpo',typeof setTimeout(repeatingFunc,500))
-    
+    useEffect(()=>{ if(show) DetectFunction(webcamRef,canvasRef)},[show])
 
 
-
-
-  return (
+    if(show){
+       return (
     <CenterContainer>
-
-  <Dekoracja
-    changeColor = {redOrBlack}
-  >
-              <Webcam
+       {!hideCamera  && <Dekoracja changeColor = {redOrBlack}>
+             <Webcam
                         ref={webcamRef}
                         muted={true} 
                         screenshotFormat="image/jpeg"
@@ -253,7 +204,7 @@ export const DetectBase: React.FunctionComponent= () => {
                         // }}
                       />
                 
-             </Dekoracja>
+             </Dekoracja>}
           
   
           <canvas
@@ -270,9 +221,17 @@ export const DetectBase: React.FunctionComponent= () => {
               height: 480,
             }}
           />
-    </CenterContainer>
+
+
+        <img src={detectedImage}></img>
+    </CenterContainer> 
     
   );
+    }
+    else {return(
+      <MojButton onClick={()=>{setShow(true)}}>Rozpocznij analizę</MojButton>
+    )} 
+ 
 }
 
 
@@ -294,4 +253,15 @@ const Dekoracja = styled.div<ColorProps>`
 const CenterContainer = styled.div`
     display: flex;
     justify-content: center;
+`
+
+
+
+const MojButton = styled.button`
+    padding: 10px 5px;
+    text-align: center;
+    border-radius: 8px; 
+    background-color: ${({theme})=> theme.colors.primary};
+    /* background-color: red; */
+    cursor: pointer;
 `

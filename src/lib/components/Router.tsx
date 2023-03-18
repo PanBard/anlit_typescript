@@ -6,6 +6,7 @@ import { BossState } from "lib/sate/BossState";
 import { WelcomePage } from "./WelcomePage";
 import { StartDetection } from "./StartDetection";
 import { DetectBase } from "lib/new_concept/DetectBase";
+import { Dashboard } from "lib/new_concept/Dashboard";
 
 export const Router: React.FunctionComponent = () => {
 
@@ -20,7 +21,7 @@ export const Router: React.FunctionComponent = () => {
 
             <Route path='/' element={<WelcomePage/>}/>
             <Route path={'start'} element={<StartDetection/> }/>
-            <Route path={'testowy'} element={<DetectBase/> }/>
+            <Route path={'testowy'} element={<Dashboard/> }/>
            
         </Routes>
 

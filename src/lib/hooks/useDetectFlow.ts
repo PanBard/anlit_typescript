@@ -1,7 +1,12 @@
-import { labelMap, labels } from "lib/dictionary/detect_flow/labelMap" 
+import { labelMap, labels, labelMapNumb } from "lib/dictionary/detect_flow/labelMap" 
 
 export const useLabelMap = () => {
     return labelMap 
+}
+
+
+export const useLabelMapNumb = () => {
+    return labelMapNumb 
 }
 
 

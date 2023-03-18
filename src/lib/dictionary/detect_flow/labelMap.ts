@@ -27,3 +27,19 @@ export const labelMap = {
 'zolty':'żółty',
 'zolty_o':'żółty'
 }
+
+export const labelMapNumb = [
+      'biały',
+      'brunatny',
+      'cielisty',
+      'ciemny',
+      'czarny',
+      'czarny',
+      'niebieski',
+      'pomarańczowy',
+      'różowo niebieski',
+      'różowy',
+      'żółty',
+      'żółty'
+]
+
