@@ -1,15 +1,15 @@
 export const labels = [
-    'bialy_o',
-    'brunatny_o',
+  'bialy_o',
+  'brunatny_o',
   'cielisty_o',
-   'ciemny',
-   'czarny_o',
-'czarny_o_2',
- 'niebieski_o',
- 'pomarancz',
- 'rozowo_nieb_o',
+  'ciemny',
+  'czarny_o',
+  'czarny_o_2',
+  'niebieski_o',
+  'pomarancz',
+  'rozowo_nieb_o',
   'rozowy',
- 'zolty',
+  'zolty',
   'zolty_o'
 ]
 

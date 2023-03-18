@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
-import { labels } from "./labelMap";
+import { useLabel } from "lib/hooks/useDetectFlow";
 
 type ObjClass = {
     video:any
@@ -13,6 +13,8 @@ export const ObjClass: React.FunctionComponent<ObjClass> = ({
     labelName
     
 }) => {
+
+    const labels = useLabel()
 
     useEffect(()=>{
         classifyImage(video)

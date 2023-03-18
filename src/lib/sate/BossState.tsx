@@ -1,13 +1,23 @@
 import { DevScreen } from "lib/features"
-import { labelMap } from "lib/features/objectClasification/labelMap"
 import { ObjClass } from "lib/features/objectClasification/ObjClass"
 import { Voice } from "lib/features/voiceRecognition"
+import { useLabelMap } from "lib/hooks/useDetectFlow"
 // import { classifyImage } from "lib/features/objectClasification/ObjectClassification"
 import React, { useMemo, useState } from "react"
 import styled from "styled-components"
 
-export const BossState: React.FunctionComponent = () => {
+
+type BossStateProps = {
+    donne(params: any): any
+}
+
+
+
+export const BossState: React.FunctionComponent<BossStateProps> = ({
+    donne
+}) => {
      
+    const labelMap = useLabelMap()
     const [showWebcam, setShowWebcam] = useState<boolean>(true)
     const [makeClasify, setmakeClasify] = useState<boolean>(true)
     const [img, setImg] = useState()
@@ -17,6 +27,8 @@ export const BossState: React.FunctionComponent = () => {
         if (showWebcam==true){setShowWebcam(false)}
         else setShowWebcam(true)
     }
+
+   
 
     const logMessage = async (message: any) => {
         console.log('zwrocono propsa z img');
@@ -41,6 +53,7 @@ export const BossState: React.FunctionComponent = () => {
             if(label){
         console.log('label z klasyfikacji = ', label);
         Voice(`Pokazana próbówka zawiera ${labelMap[label]} osad`)
+           donne(label)
             }
            }
             ,[label])
@@ -61,6 +74,10 @@ export const BossState: React.FunctionComponent = () => {
             {!showWebcam && <DevScreen endWork={()=>{madeMagic1() }} imgg={logMessage} />}
             {!makeClasify && <ObjClass labelName={logMessage2} video={vid} />}
             <StoryImage src={img} alt="screenshot" />
+            <button onClick={()=>{setmakeClasify(!makeClasify);console.log('vid z bossa: ',vid)}}>dawaj</button>
+
+        
+        
         </Container>
     )
 }

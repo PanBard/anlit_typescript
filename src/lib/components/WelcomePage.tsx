@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
-export const Start: React.FunctionComponent = () => {
+export const WelcomePage: React.FunctionComponent = () => {
 
 
 

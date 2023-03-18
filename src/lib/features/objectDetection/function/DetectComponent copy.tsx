@@ -1,6 +1,6 @@
 import React ,{useEffect, useState} from "react";
 import * as tf from "@tensorflow/tfjs";
-// import { drawRect } from "./drawRectangle";
+import { drawRect } from "./drawRectangle";
 
 type DetectComponentProps = {
   webcamRef: any,
@@ -79,14 +79,14 @@ export const DetectComponent: React.FunctionComponent<DetectComponentProps> = ({
             }
             
             // Draw mesh
-            // const ctx = canvasRef.current.getContext("2d");
+            const ctx = canvasRef.current.getContext("2d");
       
             
             // 5. TODO - Update drawing utility
         
             if(boxes[0][0] && classes[0][0] && scores[0][0]>0.8){
               
-              // requestAnimationFrame(()=>{drawRect(boxes[0][0], classes[0][0], scores[0][0], 0.8, videoWidth, videoHeight, ctx, imgForScreenshot)})
+              requestAnimationFrame(()=>{drawRect(boxes[0][0], classes[0][0], scores[0][0], 0.8, videoWidth, videoHeight, ctx, imgForScreenshot)})
               
               tf.dispose(img)
               tf.dispose(resized)
@@ -98,10 +98,9 @@ export const DetectComponent: React.FunctionComponent<DetectComponentProps> = ({
               clearInterval(nIntervId);
               console.log('po interwale')
               
-              // ctx.clearRect(0, 0, videoWidth, videoHeight);
+              ctx.clearRect(0, 0, videoWidth, videoHeight);
               warningson = true
               setElo(true)
-              // imgg(img)
               const iko = {1:video, 2:imgForScreenshot}
               imgg(iko)
               stopDetect()

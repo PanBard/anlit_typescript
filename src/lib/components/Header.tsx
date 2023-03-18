@@ -23,7 +23,7 @@ export const Header = () => {
             <div>
             {/* <Link to='/'>Home</Link> */}
             <NavLink to='start'> <Title>START</Title></NavLink>
-           
+            <NavLink to='testowy'> <Title>TESTOWY</Title></NavLink>
             </div>
 
 

@@ -46,7 +46,13 @@ export const pl_PL = {
    QUESTIONS: {
             stracenie : 'Czy wytrącił się osad?',
             rozpuszczenie: 'Czy osad się rozpuszcza?'
-      }
-  
+      },
+   
+   INFORM : {
+            after_phase_1 :{
+               info: 'Powstanie osadu wskazuje na obecność kationów I grupy analitycznej.'           
+               
+            }
+   }
 }
 

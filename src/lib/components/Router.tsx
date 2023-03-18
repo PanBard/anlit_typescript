@@ -1,9 +1,11 @@
 import React from "react"
-import { Start } from "./Start"
 import { BrowserRouter as BrowserRouter, Route, Routes} from 'react-router-dom';
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { BossState } from "lib/sate/BossState";
+import { WelcomePage } from "./WelcomePage";
+import { StartDetection } from "./StartDetection";
+import { DetectBase } from "lib/new_concept/DetectBase";
 
 export const Router: React.FunctionComponent = () => {
 
@@ -16,8 +18,9 @@ export const Router: React.FunctionComponent = () => {
 
         <Routes >
 
-            <Route path='/' element={<Start/>}/>
-            <Route path={'start'} element={<BossState/>}/>
+            <Route path='/' element={<WelcomePage/>}/>
+            <Route path={'start'} element={<StartDetection/> }/>
+            <Route path={'testowy'} element={<DetectBase/> }/>
            
         </Routes>
 
