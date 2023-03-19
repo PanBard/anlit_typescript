@@ -2,10 +2,8 @@ import React from "react"
 import { BrowserRouter as BrowserRouter, Route, Routes} from 'react-router-dom';
 import { Footer } from "./Footer";
 import { Header } from "./Header";
-import { BossState } from "lib/sate/BossState";
 import { WelcomePage } from "./WelcomePage";
 import { StartDetection } from "./StartDetection";
-import { DetectBase } from "lib/new_concept/DetectBase";
 import { Dashboard } from "lib/new_concept/Dashboard";
 
 export const Router: React.FunctionComponent = () => {

@@ -8,6 +8,7 @@ import { useVoiceScript } from "lib/hooks/useVoiceScript";
 export const VoiceOracle = (label: number, phase: number) =>{
     const labelMap = useLabelMapNumb()
 
+    const Voice1 = (text:string) =>{Voice(text)}
   
 
     const voiceScript = useVoiceScript()
@@ -28,29 +29,44 @@ export const VoiceOracle = (label: number, phase: number) =>{
     
     console.log('label ',label )
     console.log('wyrocznia',labelMap[label])
-    switch( phase ){
-        case  1:
-            if(label == 0){
-                console.log('nie powinoo tego byc vo1')
-                Voice(`Pokazana próbówka zawiera ${labelMap[label]} osad! `)
-                Voice('Prawdopodobnie oznacza to, że nie przeprowadzono prawidłowo poprzedniej instrukcji!')
-                return '404'
-            }
-            else{
-                console.log('nie powinoo tego byc vo2')
-                // Voice(voiceScript.INFORM.after_phase_1.info)
-                // Voice(voiceScript.INFORM.after_phase_1.prepare)
-                Voice(voiceScript.ORDER[1].order2)
-                return 'gr1'
-            }
-       
-            
-            
-        
-           
+    // switch( phase ){
+    //     case  1:
+    //         if(label == 0){
+    //             console.log('nie powinoo tego byc vo1')
+    //             Voice(`Pokazana próbówka zawiera ${labelMap[label]} osad! `)
+    //             Voice('Prawdopodobnie oznacza to, że nie przeprowadzono prawidłowo poprzedniej instrukcji!')
+    //             return '404'
+    //         }
+    //         else{
+    //             console.log('nie powinoo tego byc vo2')
+    //             // Voice(voiceScript.INFORM.after_phase_1.info)
+    //             // Voice(voiceScript.INFORM.after_phase_1.prepare)
+    //             Voice(voiceScript.ORDER[1].order2)
+    //             return 'gr1'
+    //         }    
+    // }
+
+  if(phase==1){
+    if(label == 0){
+        console.log('nie powinoo tego byc vo1')
+        Voice1(`Pokazana próbówka zawiera ${labelMap[label]} osad! `)
+        Voice1('Prawdopodobnie oznacza to, że nie przeprowadzono prawidłowo poprzedniej instrukcji!')
+        return '404'
     }
+    else{
+        console.log('nie powinoo tego byc vo2')
+        // Voice(voiceScript.INFORM.after_phase_1.info)
+        // Voice(voiceScript.INFORM.after_phase_1.prepare)
+        Voice1(voiceScript.ORDER[1].order2)
+        return 'gr1'
+    }    
+  }
+
+
 }
 
+
+  
 
 
 // case reverseLabelMap(labelMap.czarny_o):

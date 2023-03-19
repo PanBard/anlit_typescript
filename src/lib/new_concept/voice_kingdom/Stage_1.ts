@@ -9,7 +9,7 @@ export const VoiceStage_1 = (label: number, info: string) =>{
     const labelMap = useLabelMapNumb()
 
    
-  
+    const Voice1 = (text:string) =>{Voice(text)}
 
     const voiceScript = useVoiceScript()
 
@@ -19,42 +19,75 @@ export const VoiceStage_1 = (label: number, info: string) =>{
     console.log('jestesmy w fazie!!!! ' )
     console.log('faza1:',labelMap[label])
 
-    switch( info ){
-        case  'gr1':
-            if(label == 0){
-                console.log('gada w gr 1')
-                Voice(`Pokazana próbówka zawiera ${labelMap[label]} osad! `)
-                console.log('gada w gr 1 po label')
-                Voice('Prawdopodobnie oznacza to, że nie przeprowadzono prawidłowo poprzedniej instrukcji!')
-                return '404'
-            }
-            else{
-                console.log('nie powinoo tego byc 1')
-                // Voice(voiceScript.INFORM.after_phase_1.prepare)
-                Voice(voiceScript.ORDER[1].order3)
-                return 'gr1_11'
-            }
+    // switch( info ){
+    //     case  'gr1':
+    //         if(label == 0){
+    //             console.log('gada w gr 1')
+    //             Voice(`Pokazana próbówka zawiera ${labelMap[label]} osad! `)
+    //             console.log('gada w gr 1 po label')
+    //             Voice('Prawdopodobnie oznacza to, że nie przeprowadzono prawidłowo poprzedniej instrukcji!')
+    //             return '404'
+    //         }
+    //         else{
+    //             console.log('nie powinoo tego byc 1')
+    //             // Voice(voiceScript.INFORM.after_phase_1.prepare)
+    //             Voice(voiceScript.ORDER[1].order3)
+    //             return 'gr1_11'
+    //         }
         
-        case  'gr1_1':
-            if(label == 0){
-                console.log('nie powinoo tego byc 2')
-                Voice(`Pokazana próbówka zawiera ${labelMap[label]} osad! `)
-                Voice('Prawdopodobnie oznacza to, że nie przeprowadzono prawidłowo poprzedniej instrukcji!')
-                return '404'
-            }
-            else{
-                console.log('nie powinoo tego byc 3')
-                // Voice(voiceScript.INFORM.after_phase_1.info)
-                // Voice(voiceScript.INFORM.after_phase_1.prepare)
-                Voice('ok doszedles do gr_1')
-                return 'gr_2 '
-            }
-       
-            
-            
+    //     case  'gr1_1':
+    //         if(label == 0){
+    //             console.log('nie powinoo tego byc 2')
+    //             Voice(`Pokazana próbówka zawiera ${labelMap[label]} osad! `)
+    //             Voice('Prawdopodobnie oznacza to, że nie przeprowadzono prawidłowo poprzedniej instrukcji!')
+    //             return '404'
+    //         }
+    //         else{
+    //             console.log('nie powinoo tego byc 3')
+    //             // Voice(voiceScript.INFORM.after_phase_1.info)
+    //             // Voice(voiceScript.INFORM.after_phase_1.prepare)
+    //             Voice('ok doszedles do gr_1')
+    //             return 'gr_2 '
+    //         }
         
-           
+    // }
+
+
+    if(info=='gr1'){
+        if(label == 0){
+            console.log('gada w gr 1')
+            Voice1(`Pokazana próbówka zawiera ${labelMap[label]} osad! `)
+            console.log('gada w gr 1 po label')
+            Voice1('Prawdopodobnie oznacza to, że nie przeprowadzono prawidłowo poprzedniej instrukcji!')
+            return '404'
+        }
+        else{
+            console.log('nie powinoo tego byc 1')
+            // Voice(voiceScript.INFORM.after_phase_1.prepare)
+            Voice1(voiceScript.ORDER[1].order3)
+            return 'gol'
+        }
     }
+
+    if(info=='gr1_1'){
+        if(label == 0){
+            console.log('nie powinoo tego byc 2')
+            Voice1(`Pokazana próbówka zawiera ${labelMap[label]} osad! `)
+            Voice1('Prawdopodobnie oznacza to, że nie przeprowadzono prawidłowo poprzedniej instrukcji!')
+            return '404'
+        }
+        else{
+            console.log('nie powinoo tego byc 3')
+            // Voice(voiceScript.INFORM.after_phase_1.info)
+            // Voice(voiceScript.INFORM.after_phase_1.prepare)
+            Voice1('ok doszedles do gr_1')
+            return 'gr_2 '
+        }
+    }
+
+
+
+
 }
 
 

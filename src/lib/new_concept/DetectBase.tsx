@@ -35,6 +35,7 @@ export const DetectBase: React.FunctionComponent<DetectBaseProps> = ({
     if(functionReturn){
 console.log('wyswietlamy rezultat funkcji',functionReturn)
     const obj = [functionReturn,detectedImage]
+    console.log('---------------------------------------------------- KONIEC : '+tf.memory().numTensors)
     return_results_to_parent_component(obj)
     }
     
@@ -51,7 +52,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
             return await repeatingFunction(webcamRef,detectModel,classifyModel,canvasRef)
            
         }
-    
+        
   
         const repeatingFunction = async (webcamRef: any, model1: any,model2: any,canvasRef: any)=> {
             console.log('loop');
@@ -61,6 +62,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                     const classifyResult = await clasify(model2, detectResult) 
                     if(classifyResult){
                         console.log('koniec petli, zwracamy:',classifyResult)
+                          console.log('totalny koniec: '+tf.memory().numTensors)
                         setFunctionReturn(classifyResult)
                         }
                 }
@@ -94,7 +96,18 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                     const number_of_label = classes.indexOf(Math.max(...classes));
                     console.log('rezultat:',number_of_label )
                  
-                    
+                    tf.dispose(img)
+                    tf.dispose(resized)
+                    tf.dispose(casted)
+                    tf.dispose(expanded)
+                    tf.dispose(obj)
+                    tf.dispose(net)
+                    tf.dispose(all)
+                    tf.dispose(classes)
+                    console.log(tf.memory().numTensors)
+                    tf.disposeVariables()
+                    console.log('koniec CLASIFY')
+                    console.log('tyle tensorów zostało:'+tf.memory().numTensors)
                     return number_of_label
                 }
     
@@ -103,6 +116,9 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 tf.dispose(casted)
                 tf.dispose(expanded)
                 tf.dispose(obj)
+                tf.dispose(all)
+                
+                console.log(tf.memory().numTensors)
                 
           }
      
@@ -135,8 +151,8 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 webcamRef.current.video.height = videoHeight;
         
                 // Set canvas height and width
-                canvasRef.current.width = videoWidth;
-                canvasRef.current.height = videoHeight;
+                // canvasRef.current.width = videoWidth;
+                // canvasRef.current.height = videoHeight;
         
                 // 4. TODO - Make Detections
                 const img = tf.browser.fromPixels(video)
@@ -159,9 +175,15 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                         tf.dispose(casted)
                         tf.dispose(expanded)
                         tf.dispose(obj)
-                        
+                        tf.dispose(boxes)
+                        tf.dispose(classes)
+                        tf.dispose(scores)
+                        tf.dispose(net)
                         setDetectedImage(detected_image)
                         setHideCamera(true)
+                        console.log(tf.memory().numTensors)
+                        tf.disposeVariables()
+                        console.log('koniec detect')
                         return video
                 }
     
@@ -171,7 +193,20 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 tf.dispose(casted)
                 tf.dispose(expanded)
                 tf.dispose(obj)
+                tf.dispose(boxes)
+                tf.dispose(classes)
+                tf.dispose(scores)
+                console.log(tf.memory().numTensors)
             } 
+            tf.dispose(img)
+            tf.dispose(resized)
+            tf.dispose(casted)
+            tf.dispose(expanded)
+            tf.dispose(obj)
+            tf.dispose(boxes)
+            tf.dispose(classes)
+            tf.dispose(scores)
+            console.log(tf.memory().numTensors)
             }
             }
     
@@ -191,23 +226,23 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                         ref={webcamRef}
                         muted={true} 
                         screenshotFormat="image/jpeg"
-                        // style={{
-                        //   position: "absolute",
-                        //   marginLeft: "auto",
-                        //   marginRight: "auto",
-                        //   left: 0,
-                        //   right: 0,
-                        //   textAlign: "center",
-                        //   zIndex: 9,
-                        //   width: 640,
-                        //   height: 480,
-                        // }}
+                        style={{
+                          // position: "absolute",
+                          // marginLeft: "auto",
+                          // marginRight: "auto",
+                          // left: 0,
+                          // right: 0,
+                          // textAlign: "center",
+                          // zIndex: 9,
+                          width: 640,
+                          height: 480,
+                        }}
                       />
                 
              </Dekoracja>}
           
   
-          <canvas
+          {/* <canvas
             ref={canvasRef}
             style={{
               position: "absolute",
@@ -220,16 +255,16 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
               width: 640,
               height: 480,
             }}
-          />
+          /> */}
 
 
-        <img src={detectedImage}></img>
+        {/* <img src={detectedImage}></img> */}
     </CenterContainer> 
     
   );
     }
     else {return(
-      <MojButton onClick={()=>{setShow(true)}}>Rozpocznij analizę</MojButton>
+      <MojButton onClick={()=>{setShow(true) ;   console.log('---------------------------------------------- START : '+tf.memory().numTensors)}}>Rozpocznij analizę</MojButton>
     )} 
  
 }
