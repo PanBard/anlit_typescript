@@ -3,7 +3,9 @@ import { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import routs from "../server_routs.json"
 
-export const NewTable = ()=>{
+
+
+export const Analysis = ()=>{
 
     const [show, setShow] = useState(false)
     const [script_flow_data, setScript_flow_data] = useState([])
@@ -11,11 +13,10 @@ export const NewTable = ()=>{
     // const [inputFields, setInputFields] = useState([])
 
 
-    const [testo, setTesto] = useState(false)
+    const [showModyf, setTesto] = useState(false)
     const [modification, setModification] = useState<any>()
 
     const [id,setID] = useState<any>()
-    const [symbol,setSymbol] = useState<any>()
     const [f1,set1] = useState<any>()
     const [f2,set2] = useState<any>()
     const [f3,set3] = useState<any>()
@@ -25,21 +26,26 @@ export const NewTable = ()=>{
     const [f7,set7] = useState<any>()
    
     const [seed, setSeed] = useState(1);
+
     const reset = () => {
-         setSeed(Math.random());
+         setSeed(Math.random())
+         
      }
     
 
-
-    const input_name = ['id','symbol','f1','f2','f3','f4','f5','f6','f7']
-    const setters = [setID,setSymbol,set1,set2,set3,set4,set5,set6,set7]
+    const variable = [id,f1,f2,f3,f4,f5,f6,f7]
+    const input_name = ['id','f1','f2','f3','f4','f5','f6','f7']
+    const setters = [setID,set1,set2,set3,set4,set5,set6,set7]
 
    //get data
-    useEffect(()=>{Axios.get(routs.script_flow).then( (response: any)=>{setScript_flow_data(response.data); console.log(response.data)} );
+    useEffect(()=>{Axios.get(routs.analysis).then( (response: any)=>{setScript_flow_data(response.data); console.log('popo',response.data)} );
     },[])
 
+
+
+    
     useMemo(()=>{
-        Axios.get(routs.script_flow).then( (response: any)=>{setScript_flow_data(response.data); console.log(response.data)} )
+        Axios.get(routs.analysis).then( (response: any)=>{setScript_flow_data(response.data);} )
     },[getData])
 
 // console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)
@@ -50,22 +56,23 @@ export const NewTable = ()=>{
             //             )
           
             // setID(script_flow_data[modification-1]['id']);setSymbol(script_flow_data[modification-1]['symbol']);set1(script_flow_data[modification-1]['f1']);set2(script_flow_data[modification-1]['f2']);set3(script_flow_data[modification-1]['f3']);set4(script_flow_data[modification-1]['f4']);set5(script_flow_data[modification-1]['f5']);set6(script_flow_data[modification-1]['f6']);set7(script_flow_data[modification-1]['f7'])
-            console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)
-
+            // console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)
+            
              return(  
-        <div >Modyfikacja wersetu: {modification}
+        <div >Modyfikacja wersetu nr: {modification} 
             <div >
             {input_name.map( (obj,i)=>{
                 // setters[i](script_flow_data[modification-1][obj])
                 return(
               <div key={i}>
               <label>{input_name[i]}</label>
-              <input defaultValue={script_flow_data[modification-1][obj]} style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value)} }/>
+              <input onClick={()=>{setters[i](script_flow_data[modification-1][obj]); }} defaultValue={script_flow_data[modification-1][obj]} style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value)} }/>
+              {/* <input defaultValue={script_flow_data[modification-1][obj]} style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value)} }/> */}
               </div>
             )})} 
                 </div>
-                <button onClick={()=>{aaa();setTesto(!testo)}}>Submit data to database</button>
-                <button onClick={()=>{setTesto(!testo);console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)}}>Back</button>
+                <button onClick={()=>{setTesto(!showModyf); update_data_in_db(modification)}}>Update data</button>
+                <button onClick={()=>{setTesto(!showModyf)}}>Back</button>
                 </div >
 
                
@@ -74,40 +81,57 @@ export const NewTable = ()=>{
        
     }
 
-    const aaa = ()=>{
-        console.log(id,symbol,f1,f2,f3,f4,f5,f6,f7)
-    }
+   
 
 
     const test = ()=>{
        setShow(!show)
       }
 
-    
-
-
-      const send_data_to_db = ()=>{
-        Axios.post(routs.post, {id:id,symbol:symbol,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
-        console.log('niby w')
-        Axios.get(routs.script_flow).then( (response: any)=>{setScript_flow_data(response.data)} );
+      const update_data_in_db = (ajdi: any)=>{
+        Axios.put(routs.update_analysis, {id:ajdi,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
+        Axios.get(routs.analysis).then( (response: any)=>{setScript_flow_data(response.data)} );
         // window.location.reload() //odswiezanie strony
-       
+       console.log('update')
         setGetData(!getData)
         reset()
+        setters.map((set)=>{
+            set(undefined)
+        })
+        
+      };
+    
+      
+
+      const send_data_to_db = async ()=>{
+        Axios.post(routs.insert_analysis, {id:id,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
+      
+        Axios.get(routs.analysis).then( (response: any)=>{setScript_flow_data(response.data)} );
+        // window.location.reload() //odswiezanie strony
+       
+        setGetData(!getData);   
+       
+        setters.map((set)=>{
+            set(undefined)
+        
+        })
+
+        console.log('Zmodyfikowano')
+         reset();
       };
 
       const delete_row_from_db = (id: number)=>{
-        // Axios.delete(  routs.delete+`/${id}`  ); //przesyłamy tu parametr w adresie !!!!!!!!!!!!!! to nie jest ' tylko `
-        
+        Axios.delete(  routs.delete_analysis+`/${id}`  ); //przesyłamy tu parametr w adresie !!!!!!!!!!!!!! to nie jest ' tylko `
+         setGetData(!getData)
         reset()
-        setGetData(!getData)
+       
     }; 
 
 
     return(
         <Container2>
-          {!testo &&  <Container2>
-        {!show && <MojButton onClick={test}>NOWA TABELA</MojButton>}
+          {!showModyf &&  <Container2>
+        {!show && <MojButton onClick={test}>Analysis</MojButton>}
         {show && <Container2>
 
             <Container>
@@ -122,10 +146,10 @@ export const NewTable = ()=>{
             <button onClick={send_data_to_db}>Submit data to database</button>
             </Container>
             
-            <Container key={seed}>
+            <TableContainer key={seed}>
 
-            <table>
-            <tbody>
+            <table >
+            <tbody >
                     <tr>
                         {input_name.map( (obj, i) => { return(<th key={i}>{obj}</th>) })}
 
@@ -133,9 +157,8 @@ export const NewTable = ()=>{
 
                     {script_flow_data.map((data: any)=>{
                         return (
-                        <tr key={data.id}>
-                            <Td>{data.id}  </Td>
-                            <Td>{data.symbol}  </Td>
+                        <tr key={data.idanalysis}>
+                            <Td>{data.idanalysis}  </Td>
                             <Td>{data.f1}  </Td>
                             <Td>{data.f2}  </Td>
                             <Td>{data.f3}  </Td>
@@ -143,8 +166,8 @@ export const NewTable = ()=>{
                             <Td>{data.f5}  </Td>
                             <Td>{data.f6}  </Td>
                             <Td>{data.f7}  </Td>
-                            <Td style={{cursor:'pointer', background: 'red'}} onClick={ ()=> { delete_row_from_db(data.id)}}>USUŃ </Td>
-                            <Td style={{cursor:'pointer', background: 'gray'}} onClick={()=>{setTesto(true);setModification(data.id)}} >MOD </Td>
+                            <Td style={{cursor:'pointer', background: 'red'}} onClick={ ()=> { delete_row_from_db(data.idanalysis)}}>USUŃ </Td>
+                            <Td style={{cursor:'pointer', background: 'gray'}} onClick={()=>{setTesto(true);setModification(data.idanalysis)}} >MOD </Td>
                            
                         </tr>)})
                     }
@@ -152,12 +175,12 @@ export const NewTable = ()=>{
             </tbody>
             </table>
             
-        </Container>
+        </TableContainer>
         </Container2> }
            
         </Container2>}
         <Container> 
-             {testo && modify()}
+             {showModyf && modify()}
         </Container>  
         </Container2>
     )
@@ -172,6 +195,8 @@ const Td = styled.td`
 
 const MojButton = styled.button`
     padding: 10px 5px;
+    width: 150px;
+    height: 40px;
     text-align: center;
     border-radius: 8px; 
     background-color: ${({theme})=> theme.colors.primary};
@@ -186,6 +211,12 @@ const Container = styled.div`
     flex: 1; */
     
 `
+const TableContainer = styled.div`
+    
+`
+
+
+
 
 const Container2 = styled.div`
     color: ${({theme}) => theme.colors.typography};

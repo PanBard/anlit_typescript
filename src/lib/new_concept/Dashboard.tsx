@@ -16,6 +16,8 @@ export const Dashboard: React.FunctionComponent = () => {
     const [list_of_detected_images,setlist_of_Detected_iamges] = useState<any[]>([])
     const [list_of_order,setlist_of_order] = useState<string[]>([])
    
+    console.log(list_of_detected_images[0])
+
     const setter = (smt: any) => {
         
         setTimeout(()=>{setlist_of_order([...list_of_order, smt])},1000)
