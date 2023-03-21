@@ -1,0 +1,9 @@
+{
+    "get" : "http://localhost:4001/api/get/moje",
+    "post" : "http://localhost:4001/api/insert",
+    "delete" : "http://localhost:4001/api/delete",
+    "update" : "http://localhost:4001/api/update",
+    "create_new_table" : "http://localhost:4001/api/testy",
+    "viev_all_tables" : "http://localhost:4001/api/get/all_tables",
+    "script_flow" : "http://localhost:4001/api/get/script_flow"
+}

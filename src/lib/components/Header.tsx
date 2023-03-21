@@ -20,11 +20,13 @@ export const Header = () => {
                 </Title></NavLink>
             </LogoContainer>
 
-            <div>
+            <LinkContainer>
             {/* <Link to='/'>Home</Link> */}
-            <NavLink to='start'> <Title>START</Title></NavLink>
-            <NavLink to='testowy'> <Title>TESTOWY</Title></NavLink>
-            </div>
+            {/* <NavLink to='start'> <Title>START</Title></NavLink> */}
+            <Cont>     <NavLink to='testowy'> <Title>TESTOWY</Title></NavLink></Cont>
+       
+            <Cont><NavLink to='baza_danych'> <Title>DANE</Title></NavLink></Cont>
+            </LinkContainer>
 
 
             <LinkContainer>
@@ -71,12 +73,21 @@ const Title = styled.h1`
 `
 
 const LinkContainer = styled.div`
-    
+    display: flex;
+    flex-direction: row;
 `
 
 const Linkos = styled.a`
       color: ${({theme})=> theme.colors.typography};
       text-decoration: underline;
       cursor: pointer; 
-      padding: 0 10px
+      padding: 0 10px;
+`
+
+
+const Cont = styled.div`
+      color: ${({theme})=> theme.colors.typography};
+      text-decoration: underline;
+      cursor: pointer; 
+      padding: 0 10px;
 `
