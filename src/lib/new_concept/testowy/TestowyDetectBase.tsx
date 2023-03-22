@@ -12,14 +12,16 @@ type ColorProps = {
 }
 
 type DetectBaseProps = {
-  return_results_to_parent_component(params: any): any
+  return_results_to_parent_component(params: any): any,
+  tensorr: any
 }
 
 
 
 
-export const DetectBase: React.FunctionComponent<DetectBaseProps> = ({
+export const TestowyDetectBase: React.FunctionComponent<DetectBaseProps> = ({
     return_results_to_parent_component,
+    tensorr
 }) => {
     
   const [functionReturn, setFunctionReturn] = useState<any>();
@@ -160,8 +162,9 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 const casted = resized.cast('int32')
                 const expanded = casted.expandDims(0)
                 const obj = await net.executeAsync(expanded)
-        
-                
+
+                console.log('obj((((((((((((((((((((((((((((((((((((((((((((',obj)
+                  
                 const boxes = await obj[4].array()
                 const classes = await obj[7].array()
                 const scores = await obj[5].array()

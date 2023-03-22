@@ -24,6 +24,8 @@ export const Analysis = ()=>{
     const [f5,set5] = useState<any>()
     const [f6,set6] = useState<any>()
     const [f7,set7] = useState<any>()
+    const [end,setEnd] = useState<any>()
+    
    
     const [seed, setSeed] = useState(1);
 
@@ -33,9 +35,9 @@ export const Analysis = ()=>{
      }
     
 
-    const variable = [id,f1,f2,f3,f4,f5,f6,f7]
-    const input_name = ['id','f1','f2','f3','f4','f5','f6','f7']
-    const setters = [setID,set1,set2,set3,set4,set5,set6,set7]
+    const variable = [id,f1,f2,f3,f4,f5,f6,f7, end]
+    const input_name = ['idanalysis','f1','f2','f3','f4','f5','f6','f7', 'end']
+    const setters = [setID,set1,set2,set3,set4,set5,set6,set7,setEnd]
 
    //get data
     useEffect(()=>{Axios.get(routs.analysis).then( (response: any)=>{setScript_flow_data(response.data); console.log('popo',response.data)} );
@@ -57,7 +59,7 @@ export const Analysis = ()=>{
           
             // setID(script_flow_data[modification-1]['id']);setSymbol(script_flow_data[modification-1]['symbol']);set1(script_flow_data[modification-1]['f1']);set2(script_flow_data[modification-1]['f2']);set3(script_flow_data[modification-1]['f3']);set4(script_flow_data[modification-1]['f4']);set5(script_flow_data[modification-1]['f5']);set6(script_flow_data[modification-1]['f6']);set7(script_flow_data[modification-1]['f7'])
             // console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)
-            
+            console.log('modification',modification)
              return(  
         <div >Modyfikacja wersetu nr: {modification} 
             <div >
@@ -65,7 +67,7 @@ export const Analysis = ()=>{
                 // setters[i](script_flow_data[modification-1][obj])
                 return(
               <div key={i}>
-              <label>{input_name[i]}</label>
+              <label>{obj}</label>
               <input onClick={()=>{setters[i](script_flow_data[modification-1][obj]); }} defaultValue={script_flow_data[modification-1][obj]} style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value)} }/>
               {/* <input defaultValue={script_flow_data[modification-1][obj]} style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value)} }/> */}
               </div>
@@ -89,7 +91,7 @@ export const Analysis = ()=>{
       }
 
       const update_data_in_db = (ajdi: any)=>{
-        Axios.put(routs.update_analysis, {id:ajdi,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
+        Axios.put(routs.update_analysis, {id:ajdi,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,end:end});
         Axios.get(routs.analysis).then( (response: any)=>{setScript_flow_data(response.data)} );
         // window.location.reload() //odswiezanie strony
        console.log('update')
@@ -104,7 +106,7 @@ export const Analysis = ()=>{
       
 
       const send_data_to_db = async ()=>{
-        Axios.post(routs.insert_analysis, {id:id,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
+        Axios.post(routs.insert_analysis, {id:id,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,end:end});
       
         Axios.get(routs.analysis).then( (response: any)=>{setScript_flow_data(response.data)} );
         // window.location.reload() //odswiezanie strony
@@ -166,6 +168,7 @@ export const Analysis = ()=>{
                             <Td>{data.f5}  </Td>
                             <Td>{data.f6}  </Td>
                             <Td>{data.f7}  </Td>
+                            <Td>{data.end}  </Td>
                             <Td style={{cursor:'pointer', background: 'red'}} onClick={ ()=> { delete_row_from_db(data.idanalysis)}}>USUŃ </Td>
                             <Td style={{cursor:'pointer', background: 'gray'}} onClick={()=>{setTesto(true);setModification(data.idanalysis)}} >MOD </Td>
                            

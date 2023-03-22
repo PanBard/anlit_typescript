@@ -47,13 +47,6 @@ export const DataScript = ()=>{
 // console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)
     const modify = ( ) => {
         if(modification){ 
-            // input_name.map( (obj,i)=>{ console.log(i)
-            //                 setters[i](script_flow_data[modification-1][obj])}
-            //             )
-          
-            // setID(script_flow_data[modification-1]['id']);setSymbol(script_flow_data[modification-1]['symbol']);set1(script_flow_data[modification-1]['f1']);set2(script_flow_data[modification-1]['f2']);set3(script_flow_data[modification-1]['f3']);set4(script_flow_data[modification-1]['f4']);set5(script_flow_data[modification-1]['f5']);set6(script_flow_data[modification-1]['f6']);set7(script_flow_data[modification-1]['f7'])
-            // console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)
-            
              return(  
         <div >Modyfikacja wersetu nr: {modification} 
             <div >
@@ -176,9 +169,9 @@ export const DataScript = ()=>{
         </Container2> }
            
         </Container2>}
-        <Container> 
-             {showModyf && modify()}
-        </Container>  
+            <Container> 
+                {showModyf && modify()}
+            </Container>  
         </Container2>
     )
 

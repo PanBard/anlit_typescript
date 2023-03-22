@@ -26,6 +26,8 @@ export const Header = () => {
             <Cont>     <NavLink to='testowy'> <Title>TESTOWY</Title></NavLink></Cont>
        
             <Cont><NavLink to='baza_danych'> <Title>DANE</Title></NavLink></Cont>
+
+            <Cont><NavLink to='udawacz'> <Title>Udawacz</Title></NavLink></Cont>
             </LinkContainer>
 
 

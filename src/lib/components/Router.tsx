@@ -6,6 +6,7 @@ import { WelcomePage } from "./WelcomePage";
 import { StartDetection } from "./StartDetection";
 import { Dashboard } from "lib/new_concept/Dashboard";
 import { DataDashboard } from "lib/database/DataDashboard";
+import { TestowyDashboard } from "lib/new_concept/testowy/TestowyDashboard";
 
 export const Router: React.FunctionComponent = () => {
 
@@ -22,6 +23,7 @@ export const Router: React.FunctionComponent = () => {
             <Route path={'start'} element={<StartDetection/> }/>
             <Route path={'testowy'} element={<Dashboard/> }/>
             <Route path={'baza_danych'} element={<DataDashboard/> }/>
+            <Route path={'udawacz'} element={<TestowyDashboard/> }/>
            
         </Routes>
 
