@@ -13,7 +13,7 @@ export const Voice = (words: string) => {
     // msg.text =  "No jak na razie jest ok"
     msg.text =  words
     window.speechSynthesis.speak(msg)
-    return true
+    
     
 
 //   const commands =[

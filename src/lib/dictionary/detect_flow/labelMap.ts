@@ -43,3 +43,14 @@ export const labelMapNumb = [
       'żółty'
 ]
 
+
+export const test_labels= [
+  "brak",
+  "bialy", 
+  "czarny",
+  "zolty",
+  "pomaranczowy",
+  "zielony",
+  "niebieski",
+  "nieb_rozowy"
+]

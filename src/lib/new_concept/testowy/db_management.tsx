@@ -135,4 +135,5 @@ const SmallButton = styled.button`
     background-color: gray;
     border: 1px solid red;
     margin-left: 10px;
+    cursor: pointer;
 `

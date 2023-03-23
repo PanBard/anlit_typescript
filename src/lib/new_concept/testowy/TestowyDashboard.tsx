@@ -1,21 +1,19 @@
+import { tensor } from "@tensorflow/tfjs"
 import React, { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 
-import { Gallery } from "../Gallery"
+import { TestowyGallery } from "./TestowyGallery"
 import { VoiceStage_1 } from "../voice_kingdom/Stage_1"
 import { VoiceOracle } from "../voice_kingdom/VoiceOracle"
 import { DbPushAndGet } from "./db_management"
 import { images_from_base64 } from "./images_from_base64"
 import { TestowyDetectBase } from "./TestowyDetectBase"
+import { test_voice_wyrocznia } from "./voiceWyrocznia"
+
 
 
 export const TestowyDashboard: React.FunctionComponent = () => {
     
-
-
-
-
-
     const[dataFromChildComponent , setDataFromChildComponent] = useState()
     const [phase, setPhase] = useState(1)
     const [endDetect, setEndDetect] = useState<boolean>(false)
@@ -24,10 +22,18 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     const [list_of_detected_images,setlist_of_Detected_iamges] = useState<any[]>([])
     const [list_of_order,setlist_of_order] = useState<string[]>([])
     const [testowy_label,setTestowy_label] = useState<any>()
-   
+    const [image, setImage] = useState<any>()
+    const [choosen_mode, setChoosen_mode] = useState('start')
+
+
     // console.log(list_of_detected_images[0])
     const img = images_from_base64.bialy
+    const keys = Object.keys(images_from_base64)
+    
 
+   
+
+  
     
 
     const setter = (smt: any) => {
@@ -37,81 +43,90 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     }
 
     const catchMessageFromChild = (message: any) => {
-        setDataFromChildComponent(message)
+        if(message[0] !== '404' && typeof message[0] !== 'undefined') //w razie gdyby wybrano opcje choose image
+        {
+            console.log('typeof',typeof message[0])
+            console.log('message',message)
+             setDataFromChildComponent(message)
         setEndDetect(!endDetect)
-        console.log('PRZEKAZANE DANE: ',message)
+        console.log('Otrzymano dane z detekcji obrazu! ')
+        }
+        else console.log('nic nie przekazano!')
+       
         
       }; 
 
+      
+
       useEffect(() => {
         if(endDetect){
-            // console.log(dataFromChildComponent)
-            setPhase(prev => prev + 1)
             if(dataFromChildComponent){
-                setlist_of_labels_num([...list_of_labels_num, dataFromChildComponent[0]])
                 setlist_of_Detected_iamges([...list_of_detected_images, dataFromChildComponent[1]])
-                setList_of_phase([...list_of_phase, phase])
             }
+
+            test_voice_wyrocznia(testowy_label) 
+
             setEndDetect(!endDetect)
         }
       },[dataFromChildComponent])
 
-
-      //testowy do wyswietlania stanu
-    //   useMemo(()=>{
-    //             // console.log('list_of_labels_num',list_of_labels_num)
-    //             // console.log('list_of_detected_images',list_of_detected_images)
-    //             // console.log('list_of_phase',list_of_phase)
-    //             // console.log('list_of_order',list_of_order)
-    //   },[list_of_phase])
-
-      
- 
-   
-
-
-    useEffect(() => { mowa()},[endDetect])
-    const mowa = async ()=>{
-        if(list_of_order[list_of_order.length-1]){
-            
-            if(list_of_order[list_of_order.length-1] == 'gr1'){
-                console.log('dashbord start gr1')
-                const gr1 =  VoiceStage_1(list_of_labels_num[list_of_labels_num.length-1], list_of_order[list_of_order.length-1]) 
-                // if( gr1 ) setTemp_list_of_order([...temp_list_of_order, 'gr1_1'])  
-                if( gr1 ) setter(gr1)
-                //  setlist_of_order([...list_of_order, gr1])  
-                return true
-            }
-            if(list_of_order[list_of_order.length-1] == 'gr1_1'){
-                console.log('dashbord start gr_1')
-                const gr2 = VoiceStage_1(list_of_labels_num[list_of_labels_num.length-1], list_of_order[list_of_order.length-1]) 
-                // if( gr2 == 'gr1_11' ) setTemp_list_of_order([...temp_list_of_order, 'gr1_1'])   
-                if( gr2 ) setter(gr2)
-                // setlist_of_order([...list_of_order, 'gr1_1'])  
-                return true
-            }
-
-        }    
-        else {
-            if(list_of_labels_num[list_of_labels_num.length-1] && list_of_phase[list_of_phase.length-1]) {
-           const w =  VoiceOracle(list_of_labels_num[list_of_labels_num.length-1], list_of_phase[list_of_phase.length-1])
-              if( w ) setlist_of_order([...list_of_order, w])    
-              
-        } }
+      const returnComponent = () => {
+        if(choosen_mode=='start'){
+            return(
+            <Container>
+                <MojButton onClick={()=>{ setChoosen_mode('nowa') }} > Nowa analiza</MojButton>
+                <MojButton onClick={()=>{ setChoosen_mode('stara') }} > Kontynyuj poprzednie</MojButton>
+            </Container>
+            )
         }
-    
+
+
+        if(choosen_mode == 'nowa'){
+            return(
+                <Container>
+                    <Container>
+                    <MojButton onClick={()=>{ setChoosen_mode('start') }} > Cofnij </MojButton>
+                    </Container>
+                     <label>Wybierz</label>
+            <select name="op" id="op" onChange={(obj)=>{ 
+                setTestowy_label(obj.target.value);
+                setImage(images_from_base64[keys[obj.target.value as keyof typeof keys] as keyof typeof images_from_base64]);
+                // console.log('select:  ','label: ',obj.target.value, 'image: ', keys[obj.target.value as keyof typeof keys] )
+                }}>
+                 <option key={89} value={404}> CHOOSE IMAGE </option>
+                {keys.map((obj,index)=>{
+                    return(  <option key={index} value={index}> {obj} </option>  )
+                })}
+
+            </select>
+            <MojButton onClick={()=>{catchMessageFromChild([testowy_label,image])}} > Fake detection</MojButton>
+            <Container2>
+                < TestowyGallery images={list_of_detected_images}/>
+            </Container2>
+                </Container>
+            )
+        }
+
+        if(choosen_mode == 'stara'){
+            return(
+                <Container>
+                    <Container>
+                    <MojButton onClick={()=>{ setChoosen_mode('start') }} > Cofnij </MojButton>
+                    </Container>
+                       <DbPushAndGet message={dataFromChildComponent}/>
+                </Container>
+            )
+        }
+
+      }
 
     
-
+        
     return(
         <Container>
-            {/* <TestowyDetectBase return_results_to_parent_component={catchMessageFromChild}  key={phase}/> */}
-       
-            <input defaultValue={1} style={{backgroundColor: 'gray'}} type="text" name={'im'}  onChange={ (e)=>{setTestowy_label(e.target.value)} }/>
-            <MojButton onClick={()=>{catchMessageFromChild([testowy_label,img])}} > Fake detection</MojButton>
-        
-         < Gallery images={list_of_detected_images}/>
-        <DbPushAndGet message={dataFromChildComponent}/>
+         
+            {returnComponent()}
+
         </Container>
         
     )
@@ -119,6 +134,14 @@ export const TestowyDashboard: React.FunctionComponent = () => {
 
 
 const Container = styled.div`
+    /* color: ${({theme}) => theme.colors.typography};
+    display: flex;
+    flex-direction: column;
+    flex: 1; */
+    
+`
+
+const Container2 = styled.div`
     /* color: ${({theme}) => theme.colors.typography};
     display: flex;
     flex-direction: column;
