@@ -1,7 +1,7 @@
 import  Axios  from "axios";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import routs from '../../database/server_routs.json'
+import { SERVER_ROUTS } from "lib/database/server_routs";
 
 type Db_push_and_getProps = {
     message: any
@@ -13,8 +13,11 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
     const [data, setData] = useState<any[]>([])
     const [boolean, setBoolean] = useState(false)
     const [key_array,setKey_array] = useState([])
- 
-
+    const [seed, setSeed] = useState(1);
+    const reset = () => {
+        setSeed(Math.random())
+        
+    }
 
     // const [id,setID] = useState<any>()
     // const [f1,set1] = useState<any>()
@@ -45,26 +48,45 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
     
 
     const get_data_from_db = () => {
-        Axios.get(routs.analysis)
+        Axios.get(SERVER_ROUTS.ultimate_analysis.get)
         .then( (response: any)=>{console.log(':)');setData(response.data) })
-        .catch(()=>{console.log('db status :(')})
+        .catch((err)=>{console.log('db status :(')})
     }
+
+    const delete_row_from_db = async (id: number)  =>{
+      await  Axios.delete(SERVER_ROUTS.ultimate_analysis.delete+`/${id}`)
+        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then(()=>{reset()} )
+        .catch(err => {console.log(err)})
+        
+    }; 
 
 
     const viewPoint = () =>{
         if(data[0]){
             const keys = Object.keys(data[0]) 
-            return(
-                            data.map((obj: any, index: number)=>{ return( 
-                                        <Contr key={index}> 
-                                            <div > Analiza nr: {index+1} - { obj.end ? 'ZAKOŃCZONY' : 'nie' }  </div> 
-                                            <SmallButton onClick={()=>{console.log('wykorzystać:',obj.end)}} style={{}}> {obj.end ? 'ZOBACZ' : 'KONTYNYUJ'} </SmallButton>
-                                        </Contr>
-                                    ) 
-                        })
-                    )
-                }
-            } 
+            return (
+                <table key={seed}>
+                    <tbody >
+                        <tr>
+                        {keys.map( (obj, i) => { return(<th key={i}>{obj}</th>) })}
+                        </tr>
+
+                        {data.map((data: any, index)=>{
+                            return (
+                            <tr key={index}>  
+                            {keys.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
+                            <Td style={{cursor:'pointer', background: 'red'}} onClick={ ()=> { delete_row_from_db(data.id)}} >USUŃ </Td>
+                            <Td style={{cursor:'pointer', background: 'gray'}}  >MOD </Td>
+                            <Td onClick={()=>{console.log('wykorzystać:',data.end)}} style={{cursor:'pointer'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
+                            </tr>)
+                            })
+                        }
+                    </tbody>
+                </table>
+            )                 
+        }
+    } 
     
 
     // const send_data_to_db = async ()=>{
@@ -107,6 +129,17 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
 //     Axios.get(routs.analysis).then( (response: any)=>{console.log('pobrano dane:',response.data);return(response.data) })
 // }
 
+const MyImage = styled.img`
+width: '100px';
+height: '100px';
+
+`
+
+const Td = styled.td`
+    border: 1px solid gray;
+    justify-content: center;
+    
+`
 
 const Container = styled.div`
     /* color: ${({theme}) => theme.colors.typography};

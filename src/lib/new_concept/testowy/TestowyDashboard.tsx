@@ -1,15 +1,12 @@
-import { tensor } from "@tensorflow/tfjs"
 import React, { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
-
 import { TestowyGallery } from "./TestowyGallery"
-import { VoiceStage_1 } from "../voice_kingdom/Stage_1"
-import { VoiceOracle } from "../voice_kingdom/VoiceOracle"
 import { DbPushAndGet } from "./db_management"
 import { images_from_base64 } from "./images_from_base64"
-import { TestowyDetectBase } from "./TestowyDetectBase"
 import { test_voice_wyrocznia } from "./voiceWyrocznia"
-
+import { AnalysisTestowy } from "./AnalysisTestowy"
+import  Axios  from "axios"
+import { SERVER_ROUTS } from "lib/database/server_routs"
 
 
 export const TestowyDashboard: React.FunctionComponent = () => {
@@ -24,85 +21,57 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     const [testowy_label,setTestowy_label] = useState<any>()
     const [image, setImage] = useState<any>()
     const [choosen_mode, setChoosen_mode] = useState('start')
-
+    const [db_images,setDb_images] = useState()
+    const [current_analysis, setCurrent_analysis] = useState()
+    const [data, setData] = useState<any[]>([])
+    const [analysis_name, setAnalysis_name] = useState<string>('default')
 
     // console.log(list_of_detected_images[0])
     const img = images_from_base64.bialy
     const keys = Object.keys(images_from_base64)
     
 
-   
-
-  
-    
-
-    const setter = (smt: any) => {
+   const return_new_analysis_id = ()=>  {
+        if(data.length==0) return 1
+        return data[data.length-1]['id']+1
         
-        setTimeout(()=>{setlist_of_order([...list_of_order, smt])},1000)
-        console.log('ograniete')
     }
 
-    const catchMessageFromChild = (message: any) => {
-        if(message[0] !== '404' && typeof message[0] !== 'undefined') //w razie gdyby wybrano opcje choose image
-        {
-            console.log('typeof',typeof message[0])
-            console.log('message',message)
-             setDataFromChildComponent(message)
-        setEndDetect(!endDetect)
-        console.log('Otrzymano dane z detekcji obrazu! ')
-        }
-        else console.log('nic nie przekazano!')
-       
-        
-      }; 
+    useEffect(  ()  =>  {
+        get_data_from_db()
+    },[])
 
+    const get_data_from_db = () => {
+        Axios.get(SERVER_ROUTS.ultimate_analysis.get)
+        .then( (response: any)=>{console.log(':)');setData(response.data) })
+        .catch((err)=>{console.log('db status :(')})
+    }
       
-
-      useEffect(() => {
-        if(endDetect){
-            if(dataFromChildComponent){
-                setlist_of_Detected_iamges([...list_of_detected_images, dataFromChildComponent[1]])
-            }
-
-            test_voice_wyrocznia(testowy_label) 
-
-            setEndDetect(!endDetect)
-        }
-      },[dataFromChildComponent])
-
       const returnComponent = () => {
         if(choosen_mode=='start'){
             return(
             <Container>
-                <MojButton onClick={()=>{ setChoosen_mode('nowa') }} > Nowa analiza</MojButton>
+                <MojButton onClick={()=>{ setChoosen_mode('wprowadzanie_imienia') }} > Nowa analiza</MojButton>
                 <MojButton onClick={()=>{ setChoosen_mode('stara') }} > Kontynyuj poprzednie</MojButton>
             </Container>
             )
         }
 
 
-        if(choosen_mode == 'nowa'){
+        if(choosen_mode == 'wprowadzanie_imienia'){
+
             return(
                 <Container>
                     <Container>
-                    <MojButton onClick={()=>{ setChoosen_mode('start') }} > Cofnij </MojButton>
+                        <MojButton onClick={()=>{ setChoosen_mode('start') }} > Cofnij </MojButton>
                     </Container>
-                     <label>Wybierz</label>
-            <select name="op" id="op" onChange={(obj)=>{ 
-                setTestowy_label(obj.target.value);
-                setImage(images_from_base64[keys[obj.target.value as keyof typeof keys] as keyof typeof images_from_base64]);
-                // console.log('select:  ','label: ',obj.target.value, 'image: ', keys[obj.target.value as keyof typeof keys] )
-                }}>
-                 <option key={89} value={404}> CHOOSE IMAGE </option>
-                {keys.map((obj,index)=>{
-                    return(  <option key={index} value={index}> {obj} </option>  )
-                })}
-
-            </select>
-            <MojButton onClick={()=>{catchMessageFromChild([testowy_label,image])}} > Fake detection</MojButton>
-            <Container2>
-                < TestowyGallery images={list_of_detected_images}/>
-            </Container2>
+             
+                        Wpisz nazwę nowej analizy:
+                        <input style={{backgroundColor: 'gray'}} type="text"  onChange={ (e)=>{setAnalysis_name(e.target.value)} }/>
+                        <Container>
+                    <MojButton onClick={()=>{ setChoosen_mode('analiza') }} > Rozpocznij analizę </MojButton>
+                    </Container>
+                    
                 </Container>
             )
         }
@@ -114,6 +83,15 @@ export const TestowyDashboard: React.FunctionComponent = () => {
                     <MojButton onClick={()=>{ setChoosen_mode('start') }} > Cofnij </MojButton>
                     </Container>
                        <DbPushAndGet message={dataFromChildComponent}/>
+                </Container>
+            )
+        }
+
+        if(choosen_mode == 'analiza'){
+            return(
+                <Container>
+                    
+                       <AnalysisTestowy name={analysis_name} id={return_new_analysis_id()} back={()=>{setChoosen_mode('start')}}/>
                 </Container>
             )
         }

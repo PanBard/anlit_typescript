@@ -1,7 +1,7 @@
 import  Axios  from "axios"
 import { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
-import routs from "../server_routs.json"
+import { SERVER_ROUTS } from "../server_routs"
 
 
 
@@ -40,14 +40,14 @@ export const Analysis = ()=>{
     const setters = [setID,set1,set2,set3,set4,set5,set6,set7,setEnd]
 
    //get data
-    useEffect(()=>{Axios.get(routs.analysis).then( (response: any)=>{setScript_flow_data(response.data); console.log('popo',response.data)} );
+    useEffect(()=>{Axios.get( SERVER_ROUTS.analysis.analysis).then( (response: any)=>{setScript_flow_data(response.data); console.log('popo',response.data)} );
     },[])
 
 
 
     
     useMemo(()=>{
-        Axios.get(routs.analysis).then( (response: any)=>{setScript_flow_data(response.data);} )
+        Axios.get(SERVER_ROUTS.analysis.analysis).then( (response: any)=>{setScript_flow_data(response.data);} )
     },[getData])
 
 // console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)
@@ -91,8 +91,8 @@ export const Analysis = ()=>{
       }
 
       const update_data_in_db = (ajdi: any)=>{
-        Axios.put(routs.update_analysis, {id:ajdi,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,end:end});
-        Axios.get(routs.analysis).then( (response: any)=>{setScript_flow_data(response.data)} );
+        Axios.put(SERVER_ROUTS.analysis.update_analysis, {id:ajdi,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,end:end});
+        Axios.get(SERVER_ROUTS.analysis.analysis).then( (response: any)=>{setScript_flow_data(response.data)} );
         // window.location.reload() //odswiezanie strony
        console.log('update')
         setGetData(!getData)
@@ -106,9 +106,9 @@ export const Analysis = ()=>{
       
 
       const send_data_to_db = async ()=>{
-        Axios.post(routs.insert_analysis, {id:id,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,end:end});
+        Axios.post(SERVER_ROUTS.analysis.insert_analysis, {id:id,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,end:end});
       
-        Axios.get(routs.analysis).then( (response: any)=>{setScript_flow_data(response.data)} );
+        Axios.get(SERVER_ROUTS.analysis.analysis).then( (response: any)=>{setScript_flow_data(response.data)} );
         // window.location.reload() //odswiezanie strony
        
         setGetData(!getData);   
@@ -123,7 +123,7 @@ export const Analysis = ()=>{
       };
 
       const delete_row_from_db = (id: number)=>{
-        Axios.delete(  routs.delete_analysis+`/${id}`  ); //przesyłamy tu parametr w adresie !!!!!!!!!!!!!! to nie jest ' tylko `
+        Axios.delete(  SERVER_ROUTS.analysis.delete_analysis+`/${id}`  ); //przesyłamy tu parametr w adresie !!!!!!!!!!!!!! to nie jest ' tylko `
          setGetData(!getData)
         reset()
        

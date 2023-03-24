@@ -3,8 +3,9 @@ import React, { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { Analysis } from "./db_component/Analysis"
 import { DataScript } from "./db_component/DataScript"
-import { DetectImages } from "./db_component/DetectImages"
-import routs from "./server_routs.json"
+// import { DetectImages } from "./db_component/DetectImages"
+import { ImagesDb } from "./db_component/ImagesDb"
+
 
 
 
@@ -35,7 +36,8 @@ export const DataDashboard: React.FunctionComponent = () => {
             <MojButton onClick={reset}> Back</MojButton>
             <MojButton onClick={()=>{showComponent(<DataScript key={seed}/>)}}> DataScript</MojButton>
             <MojButton onClick={()=>{showComponent(<Analysis key={seed}/>)}}> Analysis</MojButton>
-            <MojButton onClick={()=>{showComponent(<DetectImages key={seed}/>)}}> Img</MojButton>
+            {/* <MojButton onClick={()=>{showComponent(<DetectImages key={seed}/>)}}> Img</MojButton> */}
+            <MojButton onClick={()=>{showComponent(<ImagesDb key={seed}/>)}}> Image</MojButton>
             </HeaderContainer>
 
        
