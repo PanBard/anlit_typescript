@@ -35,8 +35,11 @@ export const SERVER_ROUTS = {
      "post" : "http://localhost:4001/api/post/ultimate_analysis",
      "put" : "http://localhost:4001/api/put/ultimate_analysis",
      "delete" : "http://localhost:4001/api/delete/ultimate_analysis"
-     
- }
+     },
+
+     shuffle_match : {
+          "get" : "http://localhost:4001/api/get/shuffle"
+          },
 
 
    

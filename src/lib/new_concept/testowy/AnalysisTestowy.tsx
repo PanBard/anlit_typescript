@@ -7,17 +7,23 @@ import { test_voice_wyrocznia } from "./voiceWyrocznia"
 import {db_insert_new_id_and_status_analysis} from './crud_data'
 import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs"
+import { LiveChangeWatch } from "./LiveChangeWatch"
+import { ShuffleFate } from "./ShuffleFate"
 
 type AnalysisProps = {
     id: number,
     name?: string,
-    back?(): void
+    back?(): void,
+    rerender?(): void,
+    phase1: number
 }
 
 export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
     id,
     back,
-    name
+    name,
+    rerender,
+    phase1
 }) => {
     const [data, setData] = useState<any[]>([])
     const[dataFromChildComponent , setDataFromChildComponent] = useState()
@@ -33,22 +39,11 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
     const [db_images,setDb_images] = useState()
     const [current_analysis, setCurrent_analysis] = useState()
     const [analysis_name, setAnalysis_name] = useState<string>()
+    const [mode, setMode] = useState('')
 
-    console.log('w nowej analizie: ', id)
-    console.log('id: ', id)
-    console.log('name: ', name)
-
-    // console.log(list_of_detected_images[0])
     const img = images_from_base64.bialy
     const keys = Object.keys(images_from_base64)
         
-    // const check_last_analysis = async ()=>  { 
-    //     const e: [] = await db_get_images()
-    //     const r = e[e.length-1]
-    //     console.log(' ostatnia analiza o id: ',   r['id'])
-    //     db_add_image_id(r['id']+1)
-    //     setCurrent_analysis(r['id']+1)
-    // }
     const setter = (smt: any) => {
         setTimeout(()=>{setlist_of_order([...list_of_order, smt])},1000)
         console.log('ograniete')
@@ -57,57 +52,99 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
     const catchMessageFromChild = (message: any) => {
         if(message[0] !== '404' && typeof message[0] !== 'undefined') //w razie gdyby wybrano opcje choose image
         {
-            console.log('typeof',typeof message[0])
-            console.log('message',message)
+            // console.log('typeof',typeof message[0])
+            // console.log('message',message)
              setDataFromChildComponent(message)
         setEndDetect(!endDetect)
-        console.log('Otrzymano dane z detekcji obrazu! ')
+        // console.log('Otrzymano dane z detekcji obrazu! ')
         }
         else console.log('nic nie przekazano!')
       }; 
 
       useEffect(()=>{
-        Axios.get(SERVER_ROUTS.ultimate_analysis.get)
-        .then( (response: any)=>{console.log(':)');setData(response.data) })
-        .catch((err)=>{console.log('db status :(')})
+        get_data()
       },[])
 
-     
+      const get_data = async () => {
+        let kontrol = false
+      await  Axios.get(SERVER_ROUTS.ultimate_analysis.get)
+        .then( (response: any)=>{console.log('status -> :)');setData(response.data); kontrol=true ;setMode('start')})
+        .catch((err)=>{console.log('db status :(')})
+        if(kontrol) return 'ok'
 
-      const insert_to_db =async () => {
-                console.log(data)
+      }
 
-                if(data.length == 0){
-                        await db_insert_new_id_and_status_analysis(1,name as string)
-                }
 
-            if(data[0]){
-                    if(data[data.length-1]['id'] !== id){
-                        console.log('data[data.length-1][id]',data[data.length-1]['id'])
-                    await db_insert_new_id_and_status_analysis(id,name as string)}
-                }
+      
+
+    const update_data_in_db = async (label: any)=>{
+            await Axios.put(SERVER_ROUTS.ultimate_analysis.put, {id:id,name:name,f1:label,end:'new'})
+            .then(p => console.log('update----------------------------------------------------------UP'))
+        }; 
+
+    const quck_update = async (label: any, img_index:string,f_index:string, end:string)=>{
+        await Axios.put(SERVER_ROUTS.ultimate_analysis.put, {id:id,name:name,[f_index]:label,[img_index]:image,end:end})
+        // .then(p => console.log('update----------------------------------------------------------UP'))
+        .then(rerender)
+    }; 
+
+    // ############## todo s
+    const set_up_phase = async ()  => {
+       await get_data()
+       .then(e =>{
+        const current = data[data.length-1]
+        const keys = Object.keys(current)
+        // console.log(current)
+        // keys.map((e:any)=>{
+        //     if(current[e] == null) console.log(current[e])})
+        if((current['end'] == 'new') && (phase !== 100)){
+            if(current['f1'] == null){setPhase(2);console.log('faza f1');quck_update(testowy_label,'img1','f1','new');return true}
+            if(current['f2'] == null){setPhase(3);console.log('faza f2');quck_update(testowy_label,'img2','f2','new');return true}
+            if(current['f3'] == null){setPhase(4);console.log('faza f3');quck_update(testowy_label,'img3','f3','new');return true}
+            if(current['f4'] == null){setPhase(5);console.log('faza f4');quck_update(testowy_label,'img4','f4','new');return true}
+            if(current['f5'] == null){setPhase(6);console.log('faza f5');quck_update(testowy_label,'img5','f5','new');return true}
+            if(current['f6'] == null){setPhase(7);console.log('faza f6');quck_update(testowy_label,'img6','f6','new');return true}
+            if(current['f7'] == null){setPhase(100);console.log('faza f7');quck_update(testowy_label,'img7','f7','end');return true}
+        }
+           
+        if((current['end'] == 'end') && (phase !== 100)){
+            console.log('END --------------------- END');
         }
 
-        const update_data_in_db = async (label: any)=>{
-           await Axios.put(SERVER_ROUTS.ultimate_analysis.put, {id:id,name:name,f1:label,end:{data}});
-            console.log('update')
-          }; 
-      
-      
+
+       })}
+          // ############## todo e
 
       useEffect(() => {
         if(endDetect){
             if(dataFromChildComponent){
+
                 setlist_of_Detected_iamges([...list_of_detected_images, dataFromChildComponent[1]])
             }
 
             test_voice_wyrocznia(testowy_label) 
-            update_data_in_db(testowy_label )
+            // update_data_in_db(testowy_label )
+            set_up_phase()
             setEndDetect(!endDetect)
         }
       },[dataFromChildComponent])
 
-      useMemo(() =>{ insert_to_db() },[data])
+
+
+    const returnComponent = () => {
+        // if((typeof data !== 'undefined') && (typeof testowy_label !== 'undefined') ){
+            // console.log('data[id-1]',data[id-1])
+            // console.log('testowy_label-------------------------',testowy_label)
+            return(
+            <Container>
+              <ShuffleFate label={testowy_label} phase={phase1} id={id} data={data[id-1]}/>
+            </Container>
+            )
+        // }
+    
+    }
+
+    // console.log('OBECNA FAZA1: ',phase1)
 
       return(
         <Container>
@@ -117,9 +154,6 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
                     <h2>Nazwa analizy: {name} </h2>
                     <h3>ID: {id}</h3>
                     </Container>
-
-
-
             <label>Wybierz</label>
             <select name="op" id="op" onChange={(obj)=>{ 
                 setTestowy_label(obj.target.value);
@@ -134,7 +168,13 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
             </select>
             <MojButton onClick={()=>{catchMessageFromChild([testowy_label,image])}} > Fake detection</MojButton>
             <Container2>
-                < TestowyGallery images={list_of_detected_images}/>
+                {/* < TestowyGallery images={list_of_detected_images}/> */}
+                
+                       {/* <DbPushAndGet message={dataFromChildComponent}/> */}
+                       
+                       {returnComponent()}
+                       <LiveChangeWatch message={dataFromChildComponent}/>
+                    
             </Container2>
         </Container>
     )

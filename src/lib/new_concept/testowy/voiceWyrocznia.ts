@@ -33,13 +33,13 @@ export const test_voice_wyrocznia = (label_number: number) =>{
 
     
 
-    console.log('wyrocznia',labelMap[label_number])
-    console.log('label_number',label_number)
+    // console.log('wyrocznia',labelMap[label_number])
+    // console.log('label_number',label_number)
 
     console.log(script_detected[labelMap[label_number] as keyof typeof script_detected])
 
     Voice(script_detected[labelMap[label_number] as keyof typeof script_detected])
 
-
+    return true
 
 }

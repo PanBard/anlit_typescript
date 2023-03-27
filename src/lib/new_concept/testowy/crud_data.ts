@@ -22,7 +22,7 @@ export const db_get_images = async () => {
 export const db_insert_new_id_and_status_analysis = async (id: number,name:string) => {
     const status = 'new'
    await Axios.post(SERVER_ROUTS.ultimate_analysis.post, {id:id,name:name,end:status})
-    .then(ressponse => console.log(ressponse.data))
+    .then(ressponse => {console.log(ressponse.data);return 'ok'})
     .catch(err => console.log('PROBLEM WITH SERVER'))
 
 }

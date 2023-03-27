@@ -3,11 +3,11 @@ import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { SERVER_ROUTS } from "lib/database/server_routs";
 
-type Db_push_and_getProps = {
+type LiveChangeWatchProps = {
     message: any
 }
 
-export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () => {
+export const LiveChangeWatch: React.FunctionComponent<LiveChangeWatchProps> = () => {
 
 
     const [data, setData] = useState<any[]>([])
@@ -23,6 +23,20 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
         get_data_from_db()
     },[])
 
+    useMemo(()=>{
+      
+        // if(data[0]){
+        //     input_name =Object.keys(data[0])
+        // }
+
+    },[data])
+
+    const divide_analysis_on_done_and_undone = () => {
+        const done = []
+        const undone = []
+    }
+
+    
 
     const get_data_from_db = () => {
         Axios.get(SERVER_ROUTS.ultimate_analysis.get)
@@ -71,49 +85,20 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
     } 
     
 
-    // const send_data_to_db = async ()=>{
-    //     Axios.post(routs.insert_analysis, {id:id,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
-    //  }
-
-
-    // const update_data_in_db = (ajdi: any)=>{
-    //     Axios.put(routs.update_analysis, {id:ajdi,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
-    //    console.log('update')
-        
-    //   };
-
+  
         return(
         <Container12>
-            {boolean && 
-                <Container>
-                    <MojButton onClick={()=>{setBoolean(!boolean)}}>Ukryj panel</MojButton>
-
                     <Container> 
                         {viewPoint()}
                     </Container>
-                    
-                </Container> 
-            }
-
-           {!boolean && <MojButton onClick={()=>{setBoolean(!boolean)}}>Pokaz poprzednie analizy</MojButton>}
-        
         </Container12>)
 }
 
-// export const whats_up = () => {
-//     let dane =  
-//     Axios.get(routs.analysis).then( (response: any)=>{console.log('pobrano dane:',response.data);  const dane =  response.data })
-    
-// }
 
-
-// export const get_data_from_db = () => {
-//     Axios.get(routs.analysis).then( (response: any)=>{console.log('pobrano dane:',response.data);return(response.data) })
-// }
 
 const MyImage = styled.img`
-width: 100px;
-height: 100px;
+width: 50px;
+height: 50px;
 `
 
 const Td = styled.td`
