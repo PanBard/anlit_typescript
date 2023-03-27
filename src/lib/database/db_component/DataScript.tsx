@@ -60,7 +60,7 @@ export const DataScript = ()=>{
               </div>
             )})} 
                 </div>
-                <button onClick={()=>{setTesto(!showModyf); update_data_in_db(modification)}}>Update data</button>
+                <button onClick={()=>{setTesto(!showModyf); update_data_in_db(modification); reset()}}>Update data</button>
                 <button onClick={()=>{setTesto(!showModyf)}}>Back</button>
                 </div >
 
@@ -123,8 +123,8 @@ export const DataScript = ()=>{
         {!show && <MojButton onClick={test}>DataSkrypt</MojButton>}
         {show && <Container2>
 
-            <Container>
-                <div key={seed}>
+            <Container  key={seed+1}>
+                <div>
             {input_name.map( (obj,i)=>{return(
               <div key={i}>
               <label>{input_name[i]}</label>

@@ -9,6 +9,7 @@ import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs"
 import { LiveChangeWatch } from "./LiveChangeWatch"
 import { ShuffleFate } from "./ShuffleFate"
+import { useTest_labels } from "lib/hooks/useDetectFlow";
 
 type AnalysisProps = {
     id: number,
@@ -40,7 +41,7 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
     const [current_analysis, setCurrent_analysis] = useState()
     const [analysis_name, setAnalysis_name] = useState<string>()
     const [mode, setMode] = useState('')
-
+    const labelMap = useTest_labels()
     const img = images_from_base64.bialy
     const keys = Object.keys(images_from_base64)
         
@@ -83,7 +84,7 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
         }; 
 
     const quck_update = async (label: any, img_index:string,f_index:string, end:string)=>{
-        await Axios.put(SERVER_ROUTS.ultimate_analysis.put, {id:id,name:name,[f_index]:label,[img_index]:image,end:end})
+        await Axios.put(SERVER_ROUTS.ultimate_analysis.put, {id:id,name:name,[f_index]: labelMap[label] ,[img_index]:image,end:end})
         // .then(p => console.log('update----------------------------------------------------------UP'))
         .then(rerender)
     }; 

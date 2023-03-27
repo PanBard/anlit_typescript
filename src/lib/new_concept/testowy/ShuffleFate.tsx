@@ -25,11 +25,12 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
     const keys_f = ['f1',"f2","f3",'f4','f5','f6','f7']
     const [script_flow_data, setScript_flow_data] = useState([])
     const [label_string, setLabelString] = useState('')
-    const [phase, setPhase] = useState(1)
+    const [phase, setPhase] = useState<number>()
     const [data, setData] = useState<any[]>([])
     const [label, setLabel] = useState<any>()
-    const labelMap = useTest_labels()
-   
+    const [rightSymbol, setRightSymbol] = useState<any[]>([])
+    const [foundIon, setfoundIon] = useState<any>()
+    let symbolf1: any = []
 
     useEffect(  ()  =>  {
         get_data()
@@ -41,7 +42,7 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
       const get_data = async () => {
         let kontrol = false
       await  Axios.get(SERVER_ROUTS.ultimate_analysis.get)
-        .then( (response: any)=>{console.log('shufle dostalo data :)',response.data);setData(response.data); kontrol=true ;setMode('start');set_up_phase(response.data).then(()=>{console.log('PHASE?????????',phase);shuffle()})})
+        .then( (response: any)=>{console.log('shufle dostalo data :)',response.data);setData(response.data); kontrol=true ;setMode('start');set_up_phase(response.data).then(()=>{console.log('PHASE?????????',phase)})})
         .then(()=>{ })
         .catch((err)=>{console.log('db status :(')})
         if(kontrol) return 'ok'
@@ -76,7 +77,7 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
              if(current['f4'] == null){setPhase(4);console.log('faza f4',phase);setLabel(current.f3);return true}
              if(current['f5'] == null){setPhase(5);console.log('faza f5',phase);setLabel(current.f4);return true}
              if(current['f6'] == null){setPhase(6);console.log('faza f6',phase);setLabel(current.f5);return true}
-             if(current['f7'] == null){setPhase(100);console.log('faza f7',phase);setLabel(current.f6);return true}
+             if(current['f7'] == null){setPhase(7);console.log('faza f7',phase);setLabel(current.f6);return true}
          }
             
          if((current['end'] == 'end') && (phase !== 100)){
@@ -89,22 +90,88 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
         }
 
       
-
+       
 
 
 
 
     const shuffle = async () => {
-                if(phase !== 1){
+                if(phase !== 1 && typeof phase !== 'undefined'){
+                    console.log('faza w shuffle =',phase)
                     const current = data[data.length-1]
-                console.log('label',label)
-                console.log('label: labelMap[label]',labelMap[label])
-                await Axios.put(SERVER_ROUTS.shuffle_match.get,{phase: phase, label: labelMap[current[`f${phase}`]]})
-                .then( (response: any)=>{console.log('SHUFFLE',response.data); setScript_flow_data(response.data) ;
+
+                // console.log('label',label)
+                // console.log('label: labelMap[label]',labelMap[label])
+
+                const prevoiusPhase = phase-1
+                await Axios.put(SERVER_ROUTS.shuffle_match.get,{phase: prevoiusPhase, label: current[`f${prevoiusPhase}`]})
+                .then( (response: any)=>{
+                    // console.log('SHUFFLE',response.data);
+                //  setScript_flow_data(response.data) ;
+            
                 const data = response.data;
+                console.log('powinno wybierac symbole  w fazie: ',phase)
+                console.log('powinn ',phase)
+
                 data.map((obj: any)=>{
-                console.log('&&&&&&&&&&&&&&&&&&&&&&',obj.symbol)
-                })})
+                    if(phase==2){
+                        if(obj.f1 == current.f1){
+                            setRightSymbol(prevoius => [...prevoius, obj.symbol])
+                        }}
+
+
+                    if(phase==3){
+                        if(obj.f1 == current.f1 && obj.f2 ==current.f2){
+                            setRightSymbol(prevoius => [...prevoius, obj.symbol])
+                        }
+                    if(obj.f1 == current.f1 && obj.f2 == current.f2  && obj.f3=='-' ){
+                        setfoundIon(obj.symbol)
+                        console.log('ZNALEZIONY!!!!!!! ', obj.symbol)
+                    }}
+
+
+                    if(phase==4){
+                        if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3  ){
+                            setRightSymbol(prevoius => [...prevoius, obj.symbol])
+                        }
+                        if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4=='-' ){
+                            setfoundIon(obj.symbol)
+                            console.log('ZNALEZIONY!!!!!!! ', obj.symbol)
+                        }}
+
+
+                    if(phase==5){
+                        if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  ){
+                            setRightSymbol(prevoius => [...prevoius, obj.symbol])
+                        }
+                        if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5=='-' ){
+                            setfoundIon(obj.symbol)
+                            console.log('ZNALEZIONY!!!!!!! ', obj.symbol)
+                        }}
+
+
+                    if(phase==6){
+                        if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 ){
+                            setRightSymbol(prevoius => [...prevoius, obj.symbol])
+                        }
+                        if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4 && obj.f5 == current.f5 && obj.f6=='-' ){
+                            setfoundIon(obj.symbol)
+                            console.log('ZNALEZIONY!!!!!!! ', obj.symbol)
+                        }}
+
+
+                    if(phase==7){
+                        if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 && obj.f6 == current.f6 ){
+                            setRightSymbol(prevoius => [...prevoius, obj.symbol])
+                        }
+                        if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4 && obj.f5 == current.f5 && obj.f6 == current.f6 && obj.f7=='-' ){
+                            setfoundIon(obj.symbol)
+                            console.log('ZNALEZIONY!!!!!!! ', obj.symbol)
+                        }}
+
+                   })
+                
+            })
                 .catch((err)=>{console.log('db status :(')})
                 }
                 
@@ -125,35 +192,48 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
 //     .then(rerender)
 // }; 
 
-
+useMemo(()=>{
+    if(typeof phase !== 'undefined') shuffle()
+},[phase])
 
 
 
     const returnComponent = () => {
-        if( typeof script_flow_data !== 'undefined'){
-            return(
+        if(typeof phase !== 'undefined'){
+            console.log('return na stronce: ', rightSymbol.length)
+            console.log('znaleziony:' , typeof foundIon)
+            if(typeof foundIon !== 'undefined'){
+                return(
+                    <Container>
+                        Znaleziono!!!!!!!!! = {foundIon}
+                    </Container>
+                    )
+            }
+            else{
+                if(rightSymbol.length == 0){
+                    return(
+                        <Container>
+                            Taki wynik nie powinien się pojawić na tym etapie analizy.
+                        </Container>
+                        )
+                }
+                else{
+                      return(
                  
             <Container>
-
-                {script_flow_data.map((obj: any,index)=>{
+                Prawdopodobnie:
+                {rightSymbol.map((obj: any,index:number)=>{
                       return(
-                        <div key={index}>{ obj.symbol }</div>
+                        <div key={index}>{ obj}</div>
                     )
                 })}
                 
-                {/* {script_flow_data.map((phase,index)=>{
-                    
-                    if(data[keys_f[index]] == phase[index][keys_f[index]]){
-                    console.log('phase[keys_f[index]]   ',phase[keys_f[index]])
-                         return(
-                        <div key={index}>{ phase[keys_f[index]]}</div>
-                    )
-                    }
-                   
-                })} */}
-               
             </Container>
             )
+                }
+              
+            }
+            
         }
     
     }
