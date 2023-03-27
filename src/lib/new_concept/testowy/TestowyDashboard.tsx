@@ -8,6 +8,7 @@ import { AnalysisTestowy } from "./AnalysisTestowy"
 import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs"
 import { db_insert_new_id_and_status_analysis } from "./crud_data"
+import { Wyrocznia } from "./Wyrocznia"
 
 
 export const TestowyDashboard: React.FunctionComponent = () => {
@@ -124,6 +125,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
                 <Container>
                     
                        <AnalysisTestowy phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
+                       <Wyrocznia key={seed/2}/>
                 </Container>
             )
         }
