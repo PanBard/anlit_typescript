@@ -12,15 +12,15 @@ type ShuffleFateProps = {
     id?: any,
     data?:any,
     phase?:any,
-    label?:any
+    rerender():any
 }
 
 export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
+    rerender
 }) => {
 
     const [phase, setPhase] = useState<number>()
     const [data, setData] = useState<any[]>([])
-    const [label, setLabel] = useState<any>()
     const [rightSymbol, setRightSymbol] = useState<any[]>([])
     const [foundIon, setfoundIon] = useState<any>()
     
@@ -56,86 +56,134 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
         .catch((err)=>{console.log('db WYROCZNIA status :(')})
         
       }
+    
 
     const set_up_phase = async (data: any)  => {
          const current = data[data.length-1]
-         console.log('current wWYROCZNIA: ',current)
+        //  console.log('current wWYROCZNIA: ',current)
         if(typeof current !== 'undefined'){
              if((current['end'] == 'new') && (phase !== 100)){
              if(current['f1'] == null){setPhase(1);return true}
-             if(current['f2'] == null){setPhase(2); setLabel(current.f1);return true}
-             if(current['f3'] == null){setPhase(3);setLabel(current.f2);return true}
-             if(current['f4'] == null){setPhase(4);setLabel(current.f3);return true}
-             if(current['f5'] == null){setPhase(5);setLabel(current.f4);return true}
-             if(current['f6'] == null){setPhase(6);setLabel(current.f5);return true}
-             if(current['f7'] == null){setPhase(7);setLabel(current.f6);return true}
+             if(current['f2'] == null){setPhase(2);return true}
+             if(current['f3'] == null){setPhase(3);return true}
+             if(current['f4'] == null){setPhase(4);return true}
+             if(current['f5'] == null){setPhase(5);return true}
+             if(current['f6'] == null){setPhase(6);return true}
+             if(current['f7'] == null){setPhase(7);return true}
             }  
             
             if((current['end'] == 'end') && (phase !== 100)){
+                setPhase(8)
                 console.log('END --------------------- END');
             }
         }
     }
-    console.log('faza wyroczni:',phase)
+    // console.log('faza wyroczni:',phase)
     const shuffle = async () => {
+
         const current = data[data.length-1]
-                if(phase == 1 && typeof phase !== 'undefined'){
-                    Voice('Witam w  pierwszej fazie analizy! Proszę'+script.ORDER[1].startorder1) 
-                    
-                }
+        console.log('WYROCZNIA')
+        console.log('current',current)
+
+            if(phase == 1 && typeof phase !== 'undefined'){Voice('Faza pierwsza!') }
+
+            if(phase !== 1 && typeof phase !== 'undefined'){
+                const prevoiusPhase = 'f'+(phase - 1)
+                const prevoiusLabel = current[prevoiusPhase]
+
+                await Axios.put(SERVER_ROUTS.shuffle_match.get,{phase: (phase-1), label: prevoiusLabel})
+                .then((response)=>{console.log('pomoc',response.data[0])
+                    const data = response.data;
+                    console.log('data',data)
+                    console.log('Mapowanie w fazie',phase)
+                    data.map((obj: any)=>{
+
+                        if(phase==2){
+                            if(obj.f1 == current.f1){
+                                console.log('szukanie w fazie 2')
+                                setRightSymbol(prevoius => [...prevoius, obj.id])
+                            }}
+
+                        if(phase==3){
+                            if(obj.f1 == current.f1 && obj.f2 ==current.f2){
+                                console.log('szukanie w fazie 3')
+                                setRightSymbol(prevoius => [...prevoius, obj.id])
+                            }}
+
+                        if(phase==4){
+                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3  ){
+                                console.log('szukanie w fazie 4')
+                                setRightSymbol(prevoius => [...prevoius, obj.id])
+                            }}
+
+                        if(phase==5){
+                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  ){
+                                console.log('szukanie w fazie 5')
+                                setRightSymbol(prevoius => [...prevoius, obj.id])
+                            }}
+
+                        if(phase==6){
+                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 ){
+                                console.log('szukanie w fazie 6')
+                                setRightSymbol(prevoius => [...prevoius, obj.id])
+                            }}
+
+                        if(phase==7){
+                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 && obj.f6 == current.f6 ){
+                                console.log('szukanie w fazie 7')
+                                setRightSymbol(prevoius => [...prevoius, obj.id])
+                            }}
+
+                        if(phase==8){
+                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 && obj.f6 == current.f6  && obj.f7 == current.f7){
+                                console.log('szukanie w fazie 8')
+                                setRightSymbol(prevoius => [...prevoius, obj.id])
+                            }}
+
+                    }) 
+                  
+
+                })
+
                 
-                if(phase == 2 && typeof phase !== 'undefined'){
-                    Voice(script_detected[current.f1  as keyof typeof script_detected])
-                    if(current.f1 == 'bialy'){ Voice(script.ORDER[1].opis+' '+script.ORDER[1].order2) ; console.log('1')}
-                    if(current.f1 == 'brak'){ Voice(script.ORDER[2].opis+' '+script.ORDER[2].startoder1) ;console.log('1')}
-                    if(current.f1 !== 'bialy' && current.f1 !== 'brak'){ Voice('Niestety ale na tym etapie analizy taki wynik nie powinien sie pojawić') ;console.log('1')}
-                }
-
-                if(phase == 3 && typeof phase !== 'undefined'){
-                   
-                    Voice('Witam w fazie trzeciej') 
-                    if(current.f1 == 'bialy' && current.f2 == 'bialy'){ Voice('Właśnie wybrałeś biały osad');console.log('2') }
-                    if(current.f1 == 'brak' && current.f2 == 'bialy' ){ Voice('Właśnie wybrałeś brak osad') ;console.log('2')}
-                    if(current.f1 !== 'bialy' && current.f1 !== 'brak'){ Voice('Musztarda 2');console.log('2') }
-
-                }
-                if(phase == 4 && typeof phase !== 'undefined'){
                
-                    Voice('Witam w fazie czworaka') 
-                }
-                if(phase == 5 && typeof phase !== 'undefined'){
-              
-                    Voice('Witam w fazie piątej') 
-                }
-                if(phase == 6 && typeof phase !== 'undefined'){
-                   
-                    Voice('Witam w fazie szóstej') 
-                }
-                if(phase == 7 && typeof phase !== 'undefined'){
-                 
-                    Voice('Witam w fazie ziudmej') 
-                }
 
-                if(phase !== 1 && typeof phase !== 'undefined'){
-                    const current = data[data.length-1]
-                    console.log('current  wWYROCZNIA w WYROCZNI function: ',current)
+            }
+
+            }
 
 
-                    // Voice(`teraz jest ${phase} faza`)
+const set_happy_end =async () => {
+        const current = data[data.length-1]
+        console.log('happy_end -- current',current)
+        console.log('happy_end -- id',current.id)
+    if(current.end !== 'end'){
+        await Axios.put(SERVER_ROUTS.ultimate_analysis.put, {id: current.id , end:'end'})
+        .then(p => {console.log(p.data); rerender()})
+    }
+        
 
-                const prevoiusPhase = phase-1
-                await Axios.put(SERVER_ROUTS.shuffle_match.get,{phase: prevoiusPhase, label: current[`f${prevoiusPhase}`]})
-                .then( (response: any)=>{
-                    console.log('data wWYROCZNIA: ',response.data[0])
-                const data = response.data;
-                console.log('faza wyroczni:',phase)
-               })
-                .catch((err)=>{console.log('db status :(')})
-                }}
+}
+
+
+const get_script_from_db =async () => {
+    await Axios.put(SERVER_ROUTS.voice_script.get_required_script,{phase: phase, match_id: rightSymbol[0] })
+                .then((response)=>{console.log('powinien byc skrypt----->',response.data[0].script)
+                // if(response.data[0].f7 !== 'end')Voice(response.data[0].script)
+                // if(response.data[0].f7 == 'end'){Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!')} 
+                if(response.data[0].f7 !== 'end') console.log('gadańsko')
+                if(response.data[0].f7 == 'end'){set_happy_end()} 
+                })
+                .catch((err)=>{console.log(err)})
+}
 
 useMemo(()=>{
     if(typeof phase !== 'undefined'){console.log('włączamy szufle'); shuffle()}
 },[phase])
+
+useMemo(()=>{
+    if(typeof phase !== 'undefined'){console.log('włączamy poieranie skryptu'); get_script_from_db()}
+},[rightSymbol])
 
 
 

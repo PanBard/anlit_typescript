@@ -16,7 +16,6 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
     const [mode, setMode] = useState('')
     const [phase, setPhase] = useState<number>()
     const [data, setData] = useState<any[]>([])
-    const [label, setLabel] = useState<any>()
     const [rightSymbol, setRightSymbol] = useState<any[]>([])
     const [foundIon, setfoundIon] = useState<any>()
 
@@ -36,17 +35,18 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
          const current = data[data.length-1]
          console.log('current w shuffle: ',current)
         if(typeof current !== 'undefined'){
-             if((current['end'] == 'new') && (phase !== 100)){
+             if((current['end'] == 'new') ){
              if(current['f1'] == null){setPhase(1);return true}
-             if(current['f2'] == null){setPhase(2); setLabel(current.f1);return true}
-             if(current['f3'] == null){setPhase(3);setLabel(current.f2);return true}
-             if(current['f4'] == null){setPhase(4);setLabel(current.f3);return true}
-             if(current['f5'] == null){setPhase(5);setLabel(current.f4);return true}
-             if(current['f6'] == null){setPhase(6);setLabel(current.f5);return true}
-             if(current['f7'] == null){setPhase(7);setLabel(current.f6);return true}
+             if(current['f2'] == null){setPhase(2);return true}
+             if(current['f3'] == null){setPhase(3);return true}
+             if(current['f4'] == null){setPhase(4);return true}
+             if(current['f5'] == null){setPhase(5);return true}
+             if(current['f6'] == null){setPhase(6);return true}
+             if(current['f7'] == null){setPhase(7);return true}
             }  
             
             if((current['end'] == 'end') && (phase !== 100)){
+                setPhase(8)
                 console.log('END --------------------- END');
             }
         }
@@ -118,6 +118,15 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
                             console.log('ZNALEZIONY!!!!!!! ', obj.symbol)
                         }}
 
+                    if(phase==8){
+                        // if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 && obj.f6 == current.f6  && obj.f7 == current.f7){
+                        //     setRightSymbol(prevoius => [...prevoius, obj.symbol])
+                        // }
+                        if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4 && obj.f5 == current.f5 && obj.f6 == current.f6 && obj.f7 == current.f7 && obj.end == 'end'){
+                            setfoundIon(obj.symbol)
+                            console.log('ZNALEZIONY!!!!!!! ', obj.symbol)
+                        }}
+
                    })})
                 .catch((err)=>{console.log('db status :(')})
                 }}
@@ -137,6 +146,15 @@ useMemo(()=>{
             }
             else{
                 if(rightSymbol.length == 0 && phase!==1){
+                    const current = data[data.length-1]
+                    if(current.end == 'end' && current.f7 !== 'brak'){
+                        return(
+                            <Container>
+                               Zakończono analizę.
+                            </Container>
+                            )
+                    }
+                   
                     return(
                         <Container>
                             Taki wynik nie powinien się pojawić na tym etapie analizy.

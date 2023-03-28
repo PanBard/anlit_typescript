@@ -5,6 +5,7 @@ import { Analysis } from "./db_component/Analysis"
 import { DataScript } from "./db_component/DataScript"
 // import { DetectImages } from "./db_component/DetectImages"
 import { ImagesDb } from "./db_component/ImagesDb"
+import { VoiceScript } from "./db_component/VoiceScript"
 
 
 
@@ -35,9 +36,10 @@ export const DataDashboard: React.FunctionComponent = () => {
             <HeaderContainer>
             <MojButton onClick={reset}> Back</MojButton>
             <MojButton onClick={()=>{showComponent(<DataScript key={seed}/>)}}> DataScript</MojButton>
-            <MojButton onClick={()=>{showComponent(<Analysis key={seed}/>)}}> Analysis</MojButton>
+            {/* <MojButton onClick={()=>{showComponent(<Analysis key={seed}/>)}}> Analysis</MojButton> */}
             {/* <MojButton onClick={()=>{showComponent(<DetectImages key={seed}/>)}}> Img</MojButton> */}
-            <MojButton onClick={()=>{showComponent(<ImagesDb key={seed}/>)}}> Image</MojButton>
+            {/* <MojButton onClick={()=>{showComponent(<ImagesDb key={seed}/>)}}> Image</MojButton> */}
+            <MojButton onClick={()=>{showComponent(<VoiceScript key={seed}/>)}}> VoiceScript</MojButton>
             </HeaderContainer>
 
        
@@ -56,7 +58,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1; */
-    overflow-y:scroll;
+    /* overflow-y:scroll; */
     
 `
 

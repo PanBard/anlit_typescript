@@ -26,7 +26,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     const [db_images,setDb_images] = useState()
     const [current_analysis, setCurrent_analysis] = useState()
     const [data, setData] = useState<any[]>([])
-    const [analysis_name, setAnalysis_name] = useState<string>('default')
+    const [analysis_name, setAnalysis_name] = useState<string>('Default name')
     const [id, setId] = useState(1)
     // console.log(list_of_detected_images[0])
     const img = images_from_base64.bialy
@@ -76,7 +76,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
         .then( (response: any)=>{console.log(':)');setData(response.data);console.log(' return_new_analysis_id()',return_new_analysis_id(response.data));return_new_analysis_id(response.data) })
         .catch((err)=>{console.log('db status :(', err)})
     }
-      
+      console.log('daszbord',choosen_mode)
       const returnComponent = () => {
         if(choosen_mode=='start'){
             return(
@@ -125,7 +125,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
                 <Container>
                     
                        <AnalysisTestowy phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
-                       <Wyrocznia key={seed/2}/>
+                       <Wyrocznia key={seed+3} rerender={reset}/>
                 </Container>
             )
         }

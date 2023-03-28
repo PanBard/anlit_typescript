@@ -85,13 +85,13 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
        .then(e =>{
         const current = data[data.length-1]
         if((current['end'] == 'new') && (phase !== 100)){
-            if(current['f1'] == null){console.log('faza f1');quck_update(testowy_label,'img1','f1','new');return true}
-            if(current['f2'] == null){console.log('faza f2');quck_update(testowy_label,'img2','f2','new');return true}
-            if(current['f3'] == null){console.log('faza f3');quck_update(testowy_label,'img3','f3','new');return true}
-            if(current['f4'] == null){console.log('faza f4');quck_update(testowy_label,'img4','f4','new');return true}
-            if(current['f5'] == null){console.log('faza f5');quck_update(testowy_label,'img5','f5','new');return true}
-            if(current['f6'] == null){console.log('faza f6');quck_update(testowy_label,'img6','f6','new');return true}
-            if(current['f7'] == null){console.log('faza f7');quck_update(testowy_label,'img7','f7','end');return true}
+            if(current['f1'] == null && current['end'] !== 'end'){console.log('faza f1');quck_update(testowy_label,'img1','f1','new');return true}
+            if(current['f2'] == null && current['end'] !== 'end'){console.log('faza f2');quck_update(testowy_label,'img2','f2','new');return true}
+            if(current['f3'] == null && current['end'] !== 'end'){console.log('faza f3');quck_update(testowy_label,'img3','f3','new');return true}
+            if(current['f4'] == null && current['end'] !== 'end'){console.log('faza f4');quck_update(testowy_label,'img4','f4','new');return true}
+            if(current['f5'] == null && current['end'] !== 'end'){console.log('faza f5');quck_update(testowy_label,'img5','f5','new');return true}
+            if(current['f6'] == null && current['end'] !== 'end'){console.log('faza f6');quck_update(testowy_label,'img6','f6','new');return true}
+            if(current['f7'] == null && current['end'] !== 'end'){console.log('faza f7');quck_update(testowy_label,'img7','f7','end');return true}
         }
         if((current['end'] == 'end') && (phase !== 100)){
             console.log('END --------------------- END');

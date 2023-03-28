@@ -45,7 +45,9 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
             const keys_f = ['id','name','f1',"f2","f3",'f4','f5','f6','f7']
             const keys_img = ['img1','img2','img3','img4','img5','img6','img7']
             return (
-                <table key={seed}>
+                <TableContainer>
+
+                      <table key={seed}>
                     <tbody >
                         <tr>
                         {keys.map( (obj, i) => { return(<th key={i}>{obj}</th>) })}
@@ -66,6 +68,9 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
                         }
                     </tbody>
                 </table>
+                
+                </TableContainer>
+              
             )                 
         }
     } 
@@ -112,8 +117,8 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
 // }
 
 const MyImage = styled.img`
-width: 100px;
-height: 100px;
+width: 50px;
+height: 50px;
 `
 
 const Td = styled.td`
@@ -158,4 +163,8 @@ const SmallButton = styled.button`
     border: 1px solid red;
     margin-left: 10px;
     cursor: pointer;
+`
+const TableContainer = styled.div`
+    height: 300px;
+    overflow-y: scroll;
 `

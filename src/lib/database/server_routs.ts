@@ -34,14 +34,21 @@ export const SERVER_ROUTS = {
      "get" : "http://localhost:4001/api/get/ultimate_analysis",
      "post" : "http://localhost:4001/api/post/ultimate_analysis",
      "put" : "http://localhost:4001/api/put/ultimate_analysis",
-     "delete" : "http://localhost:4001/api/delete/ultimate_analysis"
+     "delete" : "http://localhost:4001/api/delete/ultimate_analysis",
+     "set_end" : "http://localhost:4001/api/put/ultimate_analysis/set_end"
      },
 
      shuffle_match : {
           "get" : "http://localhost:4001/api/get/shuffle"
           },
 
-
+     voice_script : {
+          "get" : "http://localhost:4001/api/get/voice_script",
+          "post" : "http://localhost:4001/api/post/voice_script",
+          "put" : "http://localhost:4001/api/put/voice_script",
+          "delete" : "http://localhost:4001/api/delete/voice_script",
+          "get_required_script" : "http://localhost:4001/api/get/required_voice_script"
+          }
    
 
 
