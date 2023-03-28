@@ -28,6 +28,8 @@ export const Header = () => {
             <Cont><NavLink to='baza_danych'> <Title>DANE</Title></NavLink></Cont>
 
             <Cont><NavLink to='udawacz'> <Title>Udawacz</Title></NavLink></Cont>
+
+            <Cont><NavLink to='integracja'> <Title>INTEGRACJA</Title></NavLink></Cont>
             </LinkContainer>
 
 

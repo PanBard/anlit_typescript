@@ -71,9 +71,9 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
              if(current['f7'] == null){setPhase(7);return true}
             }  
             
-            if((current['end'] == 'new') && (current['f7'] !== null)){
+            if((current['end'] == 'end') && (phase !== 100)){
                 setPhase(8)
-                console.log('ustawiono fazę 8');
+                console.log('END --------------------- END');
             }
         }
     }

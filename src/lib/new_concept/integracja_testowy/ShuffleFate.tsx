@@ -123,7 +123,7 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
                         // if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 && obj.f6 == current.f6  && obj.f7 == current.f7){
                         //     setRightSymbol(prevoius => [...prevoius, obj.symbol])
                         // }
-                        if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4 && obj.f5 == current.f5 && obj.f6 == current.f6 && obj.f7 == current.f7 ){
+                        if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4 && obj.f5 == current.f5 && obj.f6 == current.f6 && obj.f7 == current.f7 && obj.end == 'end'){
                             setfoundIon(obj.symbol)
                             console.log('ZNALEZIONY!!!!!!! ', obj.symbol)
                         }}

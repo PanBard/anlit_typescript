@@ -2,8 +2,8 @@
 
 export const en_GB = {
     common: {
-        autoTranslate: 'Auto translate',
-        companyName: "CodeMask Academy"
+        autoTranslate: 'Auto ',
+        companyName: "Hogwart Academy"
     },
     components: {
         app: {
@@ -12,7 +12,7 @@ export const en_GB = {
             loading: 'Fetching supported languages...'
         },
         header: {
-            title: "Translator",
+            title: "CatChad",
             diskord: "Diskord",
             github: "Github"
         },

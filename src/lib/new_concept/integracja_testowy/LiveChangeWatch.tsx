@@ -59,33 +59,28 @@ export const LiveChangeWatch: React.FunctionComponent<LiveChangeWatchProps> = ()
             const keys_f = ['id','name','f1',"f2","f3",'f4','f5','f6','f7']
             const keys_img = ['img1','img2','img3','img4','img5','img6','img7']
             return (
-                <TableContainer>
-
                 <table key={seed}>
-                                    <tbody >
-                                        <tr>
-                                        {keys.map( (obj, i) => { return(<th key={i}>{obj}</th>) })}
-                                        </tr>
+                    <tbody >
+                        <tr>
+                        {keys.map( (obj, i) => { return(<th key={i}>{obj}</th>) })}
+                        </tr>
 
-                                        {data.slice(0).reverse().map((data: any, index)=>{
-                                            return (
-                                            <tr key={index}>  
-                                            {keys_f.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
-                                            {keys_img.map( (obj, i) => { return( <Td key={i}><MyImage  src={data[obj]}/></Td>) })}
-                                            
-                                            <Td key={index}>{data['end']}</Td>
-                                            <Td key={index+1}>{data['result']}</Td>
-                                            <Td style={{cursor:'pointer', background: 'red'}} onClick={ ()=> { delete_row_from_db(data.id)}} >USUŃ </Td>
-                                            <Td style={{cursor:'pointer', background: 'gray'}}  >MOD </Td>
-                                            <Td onClick={()=>{console.log('wykorzystać:',data.end)}} style={{cursor:'pointer'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
-                                            </tr>)
-                                            })
-                                        }
-                                    </tbody>
-                                </table>
-
-                </TableContainer>
-               
+                        {data.map((data: any, index)=>{
+                            return (
+                            <tr key={index}>  
+                            {keys_f.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
+                            {keys_img.map( (obj, i) => { return( <Td key={i}><MyImage  src={data[obj]}/></Td>) })}
+                            
+                            <Td key={index}>{data['end']}</Td>
+                            <Td key={index+1}>{data['result']}</Td>
+                            <Td style={{cursor:'pointer', background: 'red'}} onClick={ ()=> { delete_row_from_db(data.id)}} >USUŃ </Td>
+                            <Td style={{cursor:'pointer', background: 'gray'}}  >MOD </Td>
+                            <Td onClick={()=>{console.log('wykorzystać:',data.end)}} style={{cursor:'pointer'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
+                            </tr>)
+                            })
+                        }
+                    </tbody>
+                </table>
             )                 
         }
     } 
@@ -149,9 +144,4 @@ const SmallButton = styled.button`
     border: 1px solid red;
     margin-left: 10px;
     cursor: pointer;
-`
-
-const TableContainer = styled.div`
-    height: 200px;
-    overflow-y: scroll;
 `

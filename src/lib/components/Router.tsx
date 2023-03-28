@@ -7,6 +7,7 @@ import { StartDetection } from "./StartDetection";
 import { Dashboard } from "lib/new_concept/Dashboard";
 import { DataDashboard } from "lib/database/DataDashboard";
 import { TestowyDashboard } from "lib/new_concept/testowy/TestowyDashboard";
+import { IntegracyjnyDashboard } from "lib/new_concept/integracja_testowy/IntegracyjnyDashboard";
 
 export const Router: React.FunctionComponent = () => {
 
@@ -24,7 +25,7 @@ export const Router: React.FunctionComponent = () => {
             <Route path={'testowy'} element={<Dashboard/> }/>
             <Route path={'baza_danych'} element={<DataDashboard/> }/>
             <Route path={'udawacz'} element={<TestowyDashboard/> }/>
-           
+            <Route path={'integracja'} element={<IntegracyjnyDashboard/> }/>
         </Routes>
 
         <Footer/>
