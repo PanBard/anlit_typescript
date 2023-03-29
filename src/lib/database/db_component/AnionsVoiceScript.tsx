@@ -1,11 +1,9 @@
 import  Axios  from "axios"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import styled from "styled-components"
-import { SERVER_ROUTS } from "../server_routs"
+import { SERVER_ROUTS } from "../server_routs" 
 
-
-
-export const Analysis = ()=>{
+export const AnionsVoiceScript = ()=>{
 
     const [show, setShow] = useState(false)
     const [script_flow_data, setScript_flow_data] = useState([])
@@ -17,6 +15,8 @@ export const Analysis = ()=>{
     const [modification, setModification] = useState<any>()
 
     const [id,setID] = useState<any>()
+    const [script,setScript] = useState<any>()
+    const [phase,setPhase] = useState<any>()
     const [f1,set1] = useState<any>()
     const [f2,set2] = useState<any>()
     const [f3,set3] = useState<any>()
@@ -24,9 +24,7 @@ export const Analysis = ()=>{
     const [f5,set5] = useState<any>()
     const [f6,set6] = useState<any>()
     const [f7,set7] = useState<any>()
-    const [end,setEnd] = useState<any>()
-    
-   
+    const [match_id,setMatch_id] = useState<any>()
     const [seed, setSeed] = useState(1);
 
     const reset = () => {
@@ -35,31 +33,30 @@ export const Analysis = ()=>{
      }
     
 
-    const variable = [id,f1,f2,f3,f4,f5,f6,f7, end]
-    const input_name = ['idanalysis','f1','f2','f3','f4','f5','f6','f7', 'end']
-    const setters = [setID,set1,set2,set3,set4,set5,set6,set7,setEnd]
+    const variable = [id,phase,f6,f7,match_id,script]
+    const input_name = ['id','phase','f6','f7','match_id','script']
+    const setters = [setID,setPhase,set6,set7,setMatch_id,setScript]
 
    //get data
-    useEffect(()=>{Axios.get( SERVER_ROUTS.analysis.analysis).then( (response: any)=>{setScript_flow_data(response.data); console.log('popo',response.data)} );
+    useEffect(  ()  =>  {
+        get_data_from_db()
     },[])
 
+    const get_data_from_db = () => {
+        Axios.get(SERVER_ROUTS.anion_voice_script.get)
+        .then( (response: any)=>{console.log(':)');setScript_flow_data(response.data) })
+        .catch((err)=>{console.log('db status :(')})
+    }
 
+    const setuj =async ( id: any) => {
+        const data = script_flow_data[id-1]
+        setters.map((set,index)=>{set(data[input_name[index]])})
+        setModification(id)
+    }
 
-    
-    useMemo(()=>{
-        Axios.get(SERVER_ROUTS.analysis.analysis).then( (response: any)=>{setScript_flow_data(response.data);} )
-    },[getData])
-
-// console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)
     const modify = ( ) => {
         if(modification){ 
-            // input_name.map( (obj,i)=>{ console.log(i)
-            //                 setters[i](script_flow_data[modification-1][obj])}
-            //             )
-          
-            // setID(script_flow_data[modification-1]['id']);setSymbol(script_flow_data[modification-1]['symbol']);set1(script_flow_data[modification-1]['f1']);set2(script_flow_data[modification-1]['f2']);set3(script_flow_data[modification-1]['f3']);set4(script_flow_data[modification-1]['f4']);set5(script_flow_data[modification-1]['f5']);set6(script_flow_data[modification-1]['f6']);set7(script_flow_data[modification-1]['f7'])
-            // console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)
-            console.log('modification',modification)
+            // setuj().then(()=>{console.log('madafaka')})
              return(  
         <div >Modyfikacja wersetu nr: {modification} 
             <div >
@@ -67,13 +64,13 @@ export const Analysis = ()=>{
                 // setters[i](script_flow_data[modification-1][obj])
                 return(
               <div key={i}>
-              <label>{obj}</label>
+              <label>{input_name[i]}</label>
               <input onClick={()=>{setters[i](script_flow_data[modification-1][obj]); }} defaultValue={script_flow_data[modification-1][obj]} style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value)} }/>
               {/* <input defaultValue={script_flow_data[modification-1][obj]} style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value)} }/> */}
               </div>
             )})} 
                 </div>
-                <button onClick={()=>{setTesto(!showModyf); update_data_in_db(modification)}}>Update data</button>
+                <button onClick={()=>{setTesto(!showModyf); update_data_in_db(modification); reset()}}>Update data</button>
                 <button onClick={()=>{setTesto(!showModyf)}}>Back</button>
                 </div >
 
@@ -91,53 +88,42 @@ export const Analysis = ()=>{
       }
 
       const update_data_in_db = (ajdi: any)=>{
-        Axios.put(SERVER_ROUTS.analysis.update_analysis, {id:ajdi,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,end:end});
-        Axios.get(SERVER_ROUTS.analysis.analysis).then( (response: any)=>{setScript_flow_data(response.data)} );
-        // window.location.reload() //odswiezanie strony
-       console.log('update')
-        setGetData(!getData)
-        reset()
-        setters.map((set)=>{
-            set(undefined)
-        })
-        
-      };
+        Axios.put(SERVER_ROUTS.anion_voice_script.put, {id:ajdi,phase:phase,script:script,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,match_id:match_id})
+        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then(()=>{reset()})
+        .then(()=>{ setters.map((set)=>{set(undefined)}) })
+        .catch(err => {console.log(err)})
+       
+       
+        };
     
-      
-
       const send_data_to_db = async ()=>{
-        Axios.post(SERVER_ROUTS.analysis.insert_analysis, {id:id,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,end:end});
-      
-        Axios.get(SERVER_ROUTS.analysis.analysis).then( (response: any)=>{setScript_flow_data(response.data)} );
-        // window.location.reload() //odswiezanie strony
-       
-        setGetData(!getData);   
-       
-        setters.map((set)=>{
-            set(undefined)
+        Axios.post(SERVER_ROUTS.anion_voice_script.post, {id:id,phase:phase,script:script,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,match_id:match_id})
+        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then(()=>{reset()} )
+        .then(()=>{ setters.map((set)=>{set(undefined)}) })
+        .catch(err => {console.log(err)})
         
-        })
+        setters.map((set)=>{set(undefined)})
 
-        console.log('Zmodyfikowano')
-         reset();
       };
 
       const delete_row_from_db = (id: number)=>{
-        Axios.delete(  SERVER_ROUTS.analysis.delete_analysis+`/${id}`  ); //przesyłamy tu parametr w adresie !!!!!!!!!!!!!! to nie jest ' tylko `
-         setGetData(!getData)
-        reset()
-       
+        Axios.delete(  SERVER_ROUTS.anion_voice_script.delete+`/${id}`  )
+        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then(()=>{reset()} )
+        .catch(err => {console.log(err)})
     }; 
 
 
     return(
         <Container2>
           {!showModyf &&  <Container2>
-        {!show && <MojButton onClick={test}>Analysis</MojButton>}
-        {show && <Container2>
+        {/* {!show && <MojButton onClick={test}>OPEN voice Script</MojButton>} */}
+         <Container2>
 
-            <Container>
-                <div key={seed}>
+            <Container  key={seed+1}>
+                <div>
             {input_name.map( (obj,i)=>{return(
               <div key={i}>
               <label>{input_name[i]}</label>
@@ -157,20 +143,17 @@ export const Analysis = ()=>{
 
                     </tr>
 
-                    {script_flow_data.map((data: any)=>{
+                    {script_flow_data.slice(0).reverse().map((data: any)=>{
                         return (
-                        <tr key={data.idanalysis}>
-                            <Td>{data.idanalysis}  </Td>
-                            <Td>{data.f1}  </Td>
-                            <Td>{data.f2}  </Td>
-                            <Td>{data.f3}  </Td>
-                            <Td>{data.f4}  </Td>
-                            <Td>{data.f5}  </Td>
+                        <tr key={data.id}>
+                            <Td>{data.id} </Td>
+                            <Td>{data.phase} </Td>
                             <Td>{data.f6}  </Td>
                             <Td>{data.f7}  </Td>
-                            <Td>{data.end}  </Td>
-                            <Td style={{cursor:'pointer', background: 'red'}} onClick={ ()=> { delete_row_from_db(data.idanalysis)}}>USUŃ </Td>
-                            <Td style={{cursor:'pointer', background: 'gray'}} onClick={()=>{setTesto(true);setModification(data.idanalysis)}} >MOD </Td>
+                            <Td>{data.match_id}  </Td>
+                            <Td>{data.script}  </Td>
+                            <Td style={{cursor:'pointer', background: 'red'}} onClick={ ()=> { delete_row_from_db(data.id)}}>USUŃ </Td>
+                            <Td style={{cursor:'pointer', background: 'gray'}} onClick={()=>{setTesto(true);setuj(data.id)}} >MOD </Td>
                            
                         </tr>)})
                     }
@@ -179,12 +162,12 @@ export const Analysis = ()=>{
             </table>
             
         </TableContainer>
-        </Container2> }
+        </Container2> 
            
         </Container2>}
-        <Container> 
-             {showModyf && modify()}
-        </Container>  
+            <Container> 
+                {showModyf && modify()}
+            </Container>  
         </Container2>
     )
 
@@ -215,8 +198,10 @@ const Container = styled.div`
     
 `
 const TableContainer = styled.div`
-    
+    height: 260px;
+    overflow-y: scroll;
 `
+
 
 
 

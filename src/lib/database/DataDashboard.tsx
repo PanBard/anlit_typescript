@@ -1,22 +1,13 @@
-import  Axios  from "axios"
-import React, { useEffect, useMemo, useState } from "react"
+import React, {useState } from "react"
 import styled from "styled-components"
-import { Analysis } from "./db_component/Analysis"
-import { DataScript } from "./db_component/DataScript"
-// import { DetectImages } from "./db_component/DetectImages"
-import { ImagesDb } from "./db_component/ImagesDb"
-import { VoiceScript } from "./db_component/VoiceScript"
-
-
-
+import { AnionsDataScript } from "./db_component/AnionsDataScript"
+import { AnionsVoiceScript } from "./db_component/AnionsVoiceScript"
+import { CationsDataScript } from "./db_component/CationsDataScript"
+import { CationsVoiceScript } from "./db_component/CationsVoiceScript"
 
 export const DataDashboard: React.FunctionComponent = () => {
     
-    const [dane, setDane] = useState([])
-    const [tables, setTables] = useState([])
-    const [show, setShow] = useState(false)
     const [component, setComponent] = useState()
-
     const [seed, setSeed] = useState(1);
 
     const reset = () => {
@@ -34,19 +25,13 @@ export const DataDashboard: React.FunctionComponent = () => {
     return(
         <Container>
             <HeaderContainer>
-            <MojButton onClick={reset}> Back</MojButton>
-            <MojButton onClick={()=>{showComponent(<DataScript key={seed}/>)}}> DataScript</MojButton>
-            {/* <MojButton onClick={()=>{showComponent(<Analysis key={seed}/>)}}> Analysis</MojButton> */}
-            {/* <MojButton onClick={()=>{showComponent(<DetectImages key={seed}/>)}}> Img</MojButton> */}
-            {/* <MojButton onClick={()=>{showComponent(<ImagesDb key={seed}/>)}}> Image</MojButton> */}
-            <MojButton onClick={()=>{showComponent(<VoiceScript key={seed}/>)}}> VoiceScript</MojButton>
+                <MojButton onClick={reset}> Back</MojButton>
+                <MojButton onClick={()=>{showComponent(<CationsDataScript key={seed}/>)}}> DataScript + Cations</MojButton>
+                <MojButton onClick={()=>{showComponent(<AnionsDataScript key={seed}/>)}}> DataScript - Anions</MojButton>
+                <MojButton onClick={()=>{showComponent(<CationsVoiceScript key={seed}/>)}}> VoiceScript + Cations</MojButton>
+                <MojButton onClick={()=>{showComponent(<AnionsVoiceScript key={seed}/>)}}> VoiceScript - Anions </MojButton>
             </HeaderContainer>
-
-       
-        {showComponent2()}
-
-
-
+            {showComponent2()}
         </Container>
         
     )

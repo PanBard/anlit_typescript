@@ -39,13 +39,13 @@ export const LiveChangeWatch: React.FunctionComponent<LiveChangeWatchProps> = ()
     
 
     const get_data_from_db = () => {
-        Axios.get(SERVER_ROUTS.ultimate_analysis.get)
+        Axios.get(SERVER_ROUTS.cation_analysis.get)
         .then( (response: any)=>{console.log(':)');setData(response.data) })
         .catch((err)=>{console.log('db status :(')})
     }
 
     const delete_row_from_db = async (id: number)  =>{
-      await  Axios.delete(SERVER_ROUTS.ultimate_analysis.delete+`/${id}`)
+      await  Axios.delete(SERVER_ROUTS.cation_analysis.delete+`/${id}`)
         .then((response: any)=>{get_data_from_db(),console.log(response.data)})
         .then(()=>{reset()} )
         .catch(err => {console.log(err)})

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 
-export const VoiceScript = ()=>{
+export const CationsDataScript = ()=>{
 
     const [show, setShow] = useState(false)
     const [script_flow_data, setScript_flow_data] = useState([])
@@ -15,8 +15,7 @@ export const VoiceScript = ()=>{
     const [modification, setModification] = useState<any>()
 
     const [id,setID] = useState<any>()
-    const [script,setScript] = useState<any>()
-    const [phase,setPhase] = useState<any>()
+    const [symbol,setSymbol] = useState<any>()
     const [f1,set1] = useState<any>()
     const [f2,set2] = useState<any>()
     const [f3,set3] = useState<any>()
@@ -24,7 +23,7 @@ export const VoiceScript = ()=>{
     const [f5,set5] = useState<any>()
     const [f6,set6] = useState<any>()
     const [f7,set7] = useState<any>()
-    const [match_id,setMatch_id] = useState<any>()
+   
     const [seed, setSeed] = useState(1);
 
     const reset = () => {
@@ -33,30 +32,21 @@ export const VoiceScript = ()=>{
      }
     
 
-    const variable = [id,phase,f1,f2,f3,f4,f5,f6,f7,match_id,script]
-    const input_name = ['id','phase','f1','f2','f3','f4','f5','f6','f7','match_id','script']
-    const setters = [setID,setPhase,set1,set2,set3,set4,set5,set6,set7,setMatch_id,setScript]
+    const variable = [id,symbol,f1,f2,f3,f4,f5,f6,f7]
+    const input_name = ['id','symbol','f1','f2','f3','f4','f5','f6','f7']
+    const setters = [setID,setSymbol,set1,set2,set3,set4,set5,set6,set7]
 
    //get data
-    useEffect(  ()  =>  {
-        get_data_from_db()
+    useEffect(()=>{Axios.get(SERVER_ROUTS.cation_script_flow.get).then( (response: any)=>{setScript_flow_data(response.data); } );
     },[])
 
-    const get_data_from_db = () => {
-        Axios.get(SERVER_ROUTS.voice_script.get)
-        .then( (response: any)=>{console.log(':)');setScript_flow_data(response.data) })
-        .catch((err)=>{console.log('db status :(')})
-    }
+    useMemo(()=>{
+        Axios.get(SERVER_ROUTS.cation_script_flow.get).then( (response: any)=>{setScript_flow_data(response.data);} )
+    },[getData])
 
-    const setuj =async ( id: any) => {
-        const data = script_flow_data[id-1]
-        setters.map((set,index)=>{set(data[input_name[index]])})
-        setModification(id)
-    }
-
+// console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)
     const modify = ( ) => {
         if(modification){ 
-            // setuj().then(()=>{console.log('madafaka')})
              return(  
         <div >Modyfikacja wersetu nr: {modification} 
             <div >
@@ -88,39 +78,50 @@ export const VoiceScript = ()=>{
       }
 
       const update_data_in_db = (ajdi: any)=>{
-        Axios.put(SERVER_ROUTS.voice_script.put, {id:ajdi,phase:phase,script:script,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,match_id:match_id})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-        .then(()=>{reset()})
-        .then(()=>{ setters.map((set)=>{set(undefined)}) })
-        .catch(err => {console.log(err)})
-       
-       
-        };
-    
-      const send_data_to_db = async ()=>{
-        Axios.post(SERVER_ROUTS.voice_script.post, {id:id,phase:phase,script:script,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,match_id:match_id})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-        .then(()=>{reset()} )
-        .then(()=>{ setters.map((set)=>{set(undefined)}) })
-        .catch(err => {console.log(err)})
+        Axios.put(SERVER_ROUTS.cation_script_flow.put, {id:ajdi,symbol:symbol,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
+        Axios.get(SERVER_ROUTS.cation_script_flow.get).then( (response: any)=>{setScript_flow_data(response.data)} );
+        // window.location.reload() //odswiezanie strony
+       console.log('update')
+        setGetData(!getData)
+        reset()
+        setters.map((set)=>{
+            set(undefined)
+        })
         
-        setters.map((set)=>{set(undefined)})
+      };
+    
+      
 
+      const send_data_to_db = async ()=>{
+        Axios.post(SERVER_ROUTS.cation_script_flow.post, {id:id,symbol:symbol,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
+      
+        Axios.get(SERVER_ROUTS.cation_script_flow.get).then( (response: any)=>{setScript_flow_data(response.data)} );
+        // window.location.reload() //odswiezanie strony
+       
+        setGetData(!getData);   
+       
+        setters.map((set)=>{
+            set(undefined)
+        
+        })
+
+        console.log('Zmodyfikowano')
+         reset();
       };
 
       const delete_row_from_db = (id: number)=>{
-        Axios.delete(  SERVER_ROUTS.voice_script.delete+`/${id}`  )
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-        .then(()=>{reset()} )
-        .catch(err => {console.log(err)})
+        // Axios.delete(  SERVER_ROUTS.script_flow.delete_script_flow+`/${id}`  ); //przesyłamy tu parametr w adresie !!!!!!!!!!!!!! to nie jest ' tylko `
+         setGetData(!getData)
+        reset()
+       
     }; 
 
 
     return(
         <Container2>
           {!showModyf &&  <Container2>
-        {/* {!show && <MojButton onClick={test}>OPEN voice Script</MojButton>} */}
-         <Container2>
+        {/* {!show && <MojButton onClick={test}>DataSkrypt</MojButton>} */}
+        <Container2>
 
             <Container  key={seed+1}>
                 <div>
@@ -135,7 +136,7 @@ export const VoiceScript = ()=>{
             </Container>
             
             <TableContainer key={seed}>
-
+                KATIONY
             <table >
             <tbody >
                     <tr>
@@ -143,11 +144,11 @@ export const VoiceScript = ()=>{
 
                     </tr>
 
-                    {script_flow_data.slice(0).reverse().map((data: any)=>{
+                    {script_flow_data.map((data: any)=>{
                         return (
                         <tr key={data.id}>
-                            <Td>{data.id} </Td>
-                            <Td>{data.phase} </Td>
+                            <Td>{data.id}  </Td>
+                            <Td>{data.symbol}  </Td>
                             <Td>{data.f1}  </Td>
                             <Td>{data.f2}  </Td>
                             <Td>{data.f3}  </Td>
@@ -155,10 +156,8 @@ export const VoiceScript = ()=>{
                             <Td>{data.f5}  </Td>
                             <Td>{data.f6}  </Td>
                             <Td>{data.f7}  </Td>
-                            <Td>{data.match_id}  </Td>
-                            <Td>{data.script}  </Td>
                             <Td style={{cursor:'pointer', background: 'red'}} onClick={ ()=> { delete_row_from_db(data.id)}}>USUŃ </Td>
-                            <Td style={{cursor:'pointer', background: 'gray'}} onClick={()=>{setTesto(true);setuj(data.id)}} >MOD </Td>
+                            <Td style={{cursor:'pointer', background: 'gray'}} onClick={()=>{setTesto(true);setModification(data.id)}} >MOD </Td>
                            
                         </tr>)})
                     }
@@ -203,10 +202,9 @@ const Container = styled.div`
     
 `
 const TableContainer = styled.div`
-    height: 260px;
-    overflow-y: scroll;
+    height: 300px;
+    overflow-y:scroll;
 `
-
 
 
 

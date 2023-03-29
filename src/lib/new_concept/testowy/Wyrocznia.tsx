@@ -51,7 +51,7 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
 
       const get_data = async () => {
       
-        await  Axios.get(SERVER_ROUTS.ultimate_analysis.get)
+        await  Axios.get(SERVER_ROUTS.cation_analysis.get)
         .then( (response: any)=>{console.log('WYROCZNIA db :)');setData(response.data);set_up_phase(response.data)})
         .catch((err)=>{console.log('db WYROCZNIA status :(')})
         
@@ -152,12 +152,12 @@ const set_happy_end =async (id: any) => {
         const current = data[data.length-1]
         console.log('happy_end -- id',current.id)
     if(current.end !== 'end'){
-        await Axios.put(SERVER_ROUTS.ultimate_analysis.put, {id: current.id , end:'end'})
+        await Axios.put(SERVER_ROUTS.cation_analysis.put, {id: current.id , end:'end'})
             .then(p => {console.log(p.data);
                 const query = `SELECT symbol FROM script_flow WHERE id = ${id}`
                 Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
                 .then((response)=>{console.log('z cutoma query: ',response.data[0].symbol)
-                    Axios.put(SERVER_ROUTS.ultimate_analysis.set_result, {id: current.id , result:response.data[0].symbol})
+                    Axios.put(SERVER_ROUTS.cation_analysis.set_result, {id: current.id , result:response.data[0].symbol})
                         .then(rerender())
 
                     })
@@ -172,7 +172,7 @@ const set_happy_end =async (id: any) => {
 
 
 const get_script_from_db =async () => {
-    await Axios.put(SERVER_ROUTS.voice_script.get_required_script,{phase: phase, match_id: rightSymbol[0] })
+    await Axios.put(SERVER_ROUTS.cation_voice_script.get_required_script,{phase: phase, match_id: rightSymbol[0] })
                 .then((response)=>{console.log('powinien byc skrypt----->',response.data[0].script)
                 if(response.data[0].f7 !== 'end') Voice(response.data[0].script)
                 if(response.data[0].f7 == 'end'){Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6)} 

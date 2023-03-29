@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { images_from_base64 } from "./images_from_base64"
-import { test_voice_wyrocznia } from "./voiceWyrocznia"
 import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs"
 import { LiveChangeWatch } from "./LiveChangeWatch"
@@ -34,21 +33,7 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
 
     const set_up_phase = async (data: any)  => {
         const current = data[data.length-1]
-    //    if(typeof current !== 'undefined'){
-    //         if((current['end'] == 'new') && (phase !== 100)){
-    //         if(current['f1'] == null){setPhase(1); test_voice_wyrocznia( 1, current) ;return true}
-    //         if(current['f2'] == null){setPhase(2); test_voice_wyrocznia( 2,current) ;return true}
-    //         if(current['f3'] == null){setPhase(3); test_voice_wyrocznia( 3,current) ;return true}
-    //         if(current['f4'] == null){setPhase(4); test_voice_wyrocznia( 4,current) ;return true}
-    //         if(current['f5'] == null){setPhase(5); test_voice_wyrocznia( 5,current) ;return true}
-    //         if(current['f6'] == null){setPhase(6); test_voice_wyrocznia( 6,current) ;return true}
-    //         if(current['f7'] == null){setPhase(7); test_voice_wyrocznia( 7,current) ;return true}
-    //        }  
-           
-    //        if((current['end'] == 'end') && (phase !== 100)){
-    //            console.log('END --------------------- END');
-    //        }
-    //    }
+  
    }
 //    console.log('faza w analysis testowym 00000000000 : ', phase)
     const catchMessageFromChild = (message: any) => {
@@ -67,7 +52,7 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
 
       const get_data = async () => {
         let kontrol = false
-      await  Axios.get(SERVER_ROUTS.ultimate_analysis.get)
+      await  Axios.get(SERVER_ROUTS.cation_analysis.get)
         .then( (response: any)=>{setData(response.data); kontrol=true ;set_up_phase(response.data);})
         .catch((err)=>{console.log('db status :(')})
         if(kontrol) return 'ok'
@@ -75,7 +60,7 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
       }
 
     const quck_update = async (label: any, img_index:string,f_index:string, end:string)=>{
-        await Axios.put(SERVER_ROUTS.ultimate_analysis.put, {id:id,name:name,[f_index]: labelMap[label] ,[img_index]:image,end:end})
+        await Axios.put(SERVER_ROUTS.cation_analysis.put, {id:id,name:name,[f_index]: labelMap[label] ,[img_index]:image,end:end})
         // .then(p => console.log('update----------------------------------------------------------UP'))
         .then(rerender)
     }; 

@@ -25,7 +25,7 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
 
       const get_data = async () => {
         let kontrol = false
-      await  Axios.get(SERVER_ROUTS.ultimate_analysis.get)
+      await  Axios.get(SERVER_ROUTS.cation_analysis.get)
         .then( (response: any)=>{console.log('shufle db :)');setData(response.data); kontrol=true ;setMode('start');set_up_phase(response.data)})
         .catch((err)=>{console.log('db status :(')})
         if(kontrol) return 'ok'

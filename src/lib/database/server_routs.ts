@@ -1,55 +1,48 @@
 export const SERVER_ROUTS = {
-    script_flow : {
-         "script_flow" : "http://localhost:4001/api/get/script_flow",
-    "insert_script_flow" : "http://localhost:4001/api/insert_script_flow",
-    "update_script_flow" : "http://localhost:4001/api/update_script_flow",
-    "delete_script_flow" : "http://localhost:4001/api/delete_script_flow",
-    },
+     cation_script_flow : {
+          "get" : "http://localhost:4001/api/get/cation_script_flow",
+          "post" : "http://localhost:4001/api/post/cation_script_flow",
+          "put" : "http://localhost:4001/api/put/cation_script_flow",
+          "delete" : "http://localhost:4001/api/delete/cation_script_flow",
+     },
 
-    analysis: {
-         "analysis" : "http://localhost:4001/api/get/analysis",
-    "update_analysis" : "http://localhost:4001/api/update_analysis",
-    "insert_analysis" : "http://localhost:4001/api/insert_analysis",
-    "delete_analysis" : "http://localhost:4001/api/delete_analysis",
-    },
+     anion_script_flow : {
+          "get" : "http://localhost:4001/api/get/anion_script_flow",
+          "post" : "http://localhost:4001/api/post/anion_script_flow",
+          "put" : "http://localhost:4001/api/put/anion_script_flow",
+          "delete" : "http://localhost:4001/api/delete/anion_script_flow",
+  },
 
-    image_test: {
-         "image" : "http://localhost:4001/api/get/detected_imades",
-    "insert_image" : "http://localhost:4001/api/insert_detected_imades",
-    },
-    
-   tables : {
-     "create_new_table" : "http://localhost:4001/api/testy",
-    "viev_all_tables" : "http://localhost:4001/api/get/all_tables"
-   },
+     cation_voice_script : {
+          "get" : "http://localhost:4001/api/get/cation_voice_script",
+          "post" : "http://localhost:4001/api/post/cation_voice_script",
+          "put" : "http://localhost:4001/api/put/cation_voice_script",
+          "delete" : "http://localhost:4001/api/delete/cation_voice_script",
+          "get_required_script" : "http://localhost:4001/api/get/required_cation_voice_script"
+          },
 
-   images : {
-     "get" : "http://localhost:4001/api/get/images",
-     "post" : "http://localhost:4001/api/post/images",
-     "put" : "http://localhost:4001/api/put/images",
-     "delete" : "http://localhost:4001/api/delete/image"
-   },
+     anion_voice_script : {
+          "get" : "http://localhost:4001/api/get/anion_voice_script",
+          "post" : "http://localhost:4001/api/post/anion_voice_script",
+          "put" : "http://localhost:4001/api/put/anion_voice_script",
+          "delete" : "http://localhost:4001/api/delete/anion_voice_script",
+          "get_required_script" : "http://localhost:4001/api/get/required_anion_voice_script"
+       },
 
-   ultimate_analysis : {
-     "get" : "http://localhost:4001/api/get/ultimate_analysis",
-     "post" : "http://localhost:4001/api/post/ultimate_analysis",
-     "put" : "http://localhost:4001/api/put/ultimate_analysis",
-     "delete" : "http://localhost:4001/api/delete/ultimate_analysis",
-     "set_end" : "http://localhost:4001/api/put/ultimate_analysis/set_end",
-     "set_result" : "http://localhost:4001/api/put/ultimate_analysis/set_result"
+     cation_analysis : {
+          "get" : "http://localhost:4001/api/get/cation_analysis",
+          "post" : "http://localhost:4001/api/post/cation_analysis",
+          "put" : "http://localhost:4001/api/put/cation_analysis",
+          "delete" : "http://localhost:4001/api/delete/cation_analysis",
+          "set_end" : "http://localhost:4001/api/put/cation_analysis/set_end",
+          "set_result" : "http://localhost:4001/api/put/cation_analysis/set_result"
      },
 
      shuffle_match : {
           "get" : "http://localhost:4001/api/get/shuffle"
           },
 
-     voice_script : {
-          "get" : "http://localhost:4001/api/get/voice_script",
-          "post" : "http://localhost:4001/api/post/voice_script",
-          "put" : "http://localhost:4001/api/put/voice_script",
-          "delete" : "http://localhost:4001/api/delete/voice_script",
-          "get_required_script" : "http://localhost:4001/api/get/required_voice_script"
-          },
+    
 
      custom_query : {
           "get" : "http://localhost:4001/api/get/custom_query"

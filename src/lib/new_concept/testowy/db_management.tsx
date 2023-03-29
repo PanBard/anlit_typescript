@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { SERVER_ROUTS } from "lib/database/server_routs";
 
 type Db_push_and_getProps = {
-    message: any
 }
 
 export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () => {
@@ -25,13 +24,13 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
 
 
     const get_data_from_db = () => {
-        Axios.get(SERVER_ROUTS.ultimate_analysis.get)
+        Axios.get(SERVER_ROUTS.cation_analysis.get)
         .then( (response: any)=>{console.log(':)');setData(response.data) ; console.log(response.data) })
         .catch((err)=>{console.log('db status :(')})
     }
 
     const delete_row_from_db = async (id: number)  =>{
-      await  Axios.delete(SERVER_ROUTS.ultimate_analysis.delete+`/${id}`)
+      await  Axios.delete(SERVER_ROUTS.cation_analysis.delete+`/${id}`)
         .then((response: any)=>{get_data_from_db(),console.log(response.data)})
         .then(()=>{reset()} )
         .catch(err => {console.log(err)})

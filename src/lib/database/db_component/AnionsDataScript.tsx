@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 
-export const DataScript = ()=>{
+export const AnionsDataScript = ()=>{
 
     const [show, setShow] = useState(false)
     const [script_flow_data, setScript_flow_data] = useState([])
@@ -15,15 +15,11 @@ export const DataScript = ()=>{
     const [modification, setModification] = useState<any>()
 
     const [id,setID] = useState<any>()
-    const [symbol,setSymbol] = useState<any>()
     const [f1,set1] = useState<any>()
     const [f2,set2] = useState<any>()
     const [f3,set3] = useState<any>()
     const [f4,set4] = useState<any>()
-    const [f5,set5] = useState<any>()
-    const [f6,set6] = useState<any>()
-    const [f7,set7] = useState<any>()
-   
+    const [symbol,setSymbol] = useState<any>()
     const [seed, setSeed] = useState(1);
 
     const reset = () => {
@@ -32,21 +28,30 @@ export const DataScript = ()=>{
      }
     
 
-    const variable = [id,symbol,f1,f2,f3,f4,f5,f6,f7]
-    const input_name = ['id','symbol','f1','f2','f3','f4','f5','f6','f7']
-    const setters = [setID,setSymbol,set1,set2,set3,set4,set5,set6,set7]
+    const variable = [id,symbol,f1,f2,f3,f4]
+    const input_name = ['id','symbol','f1','f2','f3','f4']
+    const setters = [setID,setSymbol,set1,set2,set3,set4]
 
    //get data
-    useEffect(()=>{Axios.get(SERVER_ROUTS.script_flow.script_flow).then( (response: any)=>{setScript_flow_data(response.data); } );
+    useEffect(  ()  =>  {
+        get_data_from_db()
     },[])
 
-    useMemo(()=>{
-        Axios.get(SERVER_ROUTS.script_flow.script_flow).then( (response: any)=>{setScript_flow_data(response.data);} )
-    },[getData])
+    const get_data_from_db = () => {
+        Axios.get(SERVER_ROUTS.anion_script_flow.get)
+        .then( (response: any)=>{console.log(':)');setScript_flow_data(response.data) })
+        .catch((err)=>{console.log('db status :(')})
+    }
 
-// console.log( id,symbol,f1,f2,f3,f4,f5,f6,f7)
+    const setuj =async ( id: any) => {
+        const data = script_flow_data[id-1]
+        setters.map((set,index)=>{set(data[input_name[index]])})
+        setModification(id)
+    }
+
     const modify = ( ) => {
         if(modification){ 
+            // setuj().then(()=>{console.log('madafaka')})
              return(  
         <div >Modyfikacja wersetu nr: {modification} 
             <div >
@@ -78,50 +83,39 @@ export const DataScript = ()=>{
       }
 
       const update_data_in_db = (ajdi: any)=>{
-        Axios.put(SERVER_ROUTS.script_flow.update_script_flow, {id:ajdi,symbol:symbol,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
-        Axios.get(SERVER_ROUTS.script_flow.script_flow).then( (response: any)=>{setScript_flow_data(response.data)} );
-        // window.location.reload() //odswiezanie strony
-       console.log('update')
-        setGetData(!getData)
-        reset()
-        setters.map((set)=>{
-            set(undefined)
-        })
-        
-      };
+        Axios.put(SERVER_ROUTS.anion_script_flow.put, {id:ajdi,symbol:symbol,f1:f1,f2:f2,f3:f3,f4:f4})
+        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then(()=>{reset()})
+        .then(()=>{ setters.map((set)=>{set(undefined)}) })
+        .catch(err => {console.log(err)})
+       
+       
+        };
     
-      
-
       const send_data_to_db = async ()=>{
-        Axios.post(SERVER_ROUTS.script_flow.insert_script_flow, {id:id,symbol:symbol,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
-      
-        Axios.get(SERVER_ROUTS.script_flow.script_flow).then( (response: any)=>{setScript_flow_data(response.data)} );
-        // window.location.reload() //odswiezanie strony
-       
-        setGetData(!getData);   
-       
-        setters.map((set)=>{
-            set(undefined)
+        Axios.post(SERVER_ROUTS.anion_script_flow.post, {id:id,symbol:symbol,f1:f1,f2:f2,f3:f3,f4:f4})
+        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then(()=>{reset()} )
+        .then(()=>{ setters.map((set)=>{set(undefined)}) })
+        .catch(err => {console.log(err)})
         
-        })
+        setters.map((set)=>{set(undefined)})
 
-        console.log('Zmodyfikowano')
-         reset();
       };
 
       const delete_row_from_db = (id: number)=>{
-        // Axios.delete(  SERVER_ROUTS.script_flow.delete_script_flow+`/${id}`  ); //przesyłamy tu parametr w adresie !!!!!!!!!!!!!! to nie jest ' tylko `
-         setGetData(!getData)
-        reset()
-       
+        Axios.delete(  SERVER_ROUTS.anion_script_flow.delete+`/${id}`  )
+        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then(()=>{reset()} )
+        .catch(err => {console.log(err)})
     }; 
 
 
     return(
         <Container2>
           {!showModyf &&  <Container2>
-        {/* {!show && <MojButton onClick={test}>DataSkrypt</MojButton>} */}
-        <Container2>
+        {/* {!show && <MojButton onClick={test}>OPEN voice Script</MojButton>} */}
+         <Container2>
 
             <Container  key={seed+1}>
                 <div>
@@ -136,7 +130,7 @@ export const DataScript = ()=>{
             </Container>
             
             <TableContainer key={seed}>
-
+                ANIONY
             <table >
             <tbody >
                     <tr>
@@ -147,17 +141,14 @@ export const DataScript = ()=>{
                     {script_flow_data.map((data: any)=>{
                         return (
                         <tr key={data.id}>
-                            <Td>{data.id}  </Td>
-                            <Td>{data.symbol}  </Td>
+                            <Td>{data.id} </Td>
+                            <Td>{data.symbol} </Td>
                             <Td>{data.f1}  </Td>
                             <Td>{data.f2}  </Td>
                             <Td>{data.f3}  </Td>
                             <Td>{data.f4}  </Td>
-                            <Td>{data.f5}  </Td>
-                            <Td>{data.f6}  </Td>
-                            <Td>{data.f7}  </Td>
                             <Td style={{cursor:'pointer', background: 'red'}} onClick={ ()=> { delete_row_from_db(data.id)}}>USUŃ </Td>
-                            <Td style={{cursor:'pointer', background: 'gray'}} onClick={()=>{setTesto(true);setModification(data.id)}} >MOD </Td>
+                            <Td style={{cursor:'pointer', background: 'gray'}} onClick={()=>{setTesto(true);setuj(data.id)}} >MOD </Td>
                            
                         </tr>)})
                     }
@@ -202,9 +193,10 @@ const Container = styled.div`
     
 `
 const TableContainer = styled.div`
-    height: 300px;
-    overflow-y:scroll;
+    height: 260px;
+    overflow-y: scroll;
 `
+
 
 
 
