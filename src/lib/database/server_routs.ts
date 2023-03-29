@@ -38,6 +38,16 @@ export const SERVER_ROUTS = {
           "set_result" : "http://localhost:4001/api/put/cation_analysis/set_result"
      },
 
+     anion_analysis : {
+          "get" : "http://localhost:4001/api/get/anion_analysis",
+          "post" : "http://localhost:4001/api/post/anion_analysis",
+          "put" : "http://localhost:4001/api/put/anion_analysis",
+          "delete" : "http://localhost:4001/api/delete/anion_analysis",
+          "set_end" : "http://localhost:4001/api/put/anion_analysis/set_end",
+          "set_result" : "http://localhost:4001/api/put/anion_analysis/set_result"
+          
+      },
+
      shuffle_match : {
           "get" : "http://localhost:4001/api/get/shuffle"
           },

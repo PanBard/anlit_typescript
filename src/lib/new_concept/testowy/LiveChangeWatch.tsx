@@ -4,16 +4,21 @@ import styled from "styled-components";
 import { SERVER_ROUTS } from "lib/database/server_routs";
 
 type LiveChangeWatchProps = {
-    message: any
+    message: any,
+    cation: boolean
 }
 
-export const LiveChangeWatch: React.FunctionComponent<LiveChangeWatchProps> = () => {
+export const LiveChangeWatch: React.FunctionComponent<LiveChangeWatchProps> = ({
+    cation
+}) => {
 
 
     const [data, setData] = useState<any[]>([])
-    const [boolean, setBoolean] = useState(false)
-    const [key_array,setKey_array] = useState([])
     const [seed, setSeed] = useState(1);
+
+    const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
+    console.log('db_type:',db_type)
+
     const reset = () => {
         setSeed(Math.random())
         
@@ -39,13 +44,13 @@ export const LiveChangeWatch: React.FunctionComponent<LiveChangeWatchProps> = ()
     
 
     const get_data_from_db = () => {
-        Axios.get(SERVER_ROUTS.cation_analysis.get)
+        Axios.get(SERVER_ROUTS[db_type].get)
         .then( (response: any)=>{console.log(':)');setData(response.data) })
         .catch((err)=>{console.log('db status :(')})
     }
 
     const delete_row_from_db = async (id: number)  =>{
-      await  Axios.delete(SERVER_ROUTS.cation_analysis.delete+`/${id}`)
+      await  Axios.delete(SERVER_ROUTS[db_type].delete+`/${id}`)
         .then((response: any)=>{get_data_from_db(),console.log(response.data)})
         .then(()=>{reset()} )
         .catch(err => {console.log(err)})
@@ -56,8 +61,8 @@ export const LiveChangeWatch: React.FunctionComponent<LiveChangeWatchProps> = ()
     const viewPoint = () =>{
         if(data[0]){
             const keys = Object.keys(data[0]) 
-            const keys_f = ['id','name','f1',"f2","f3",'f4','f5','f6','f7']
-            const keys_img = ['img1','img2','img3','img4','img5','img6','img7']
+            const keys_f = cation ? ['id','name','f1',"f2","f3",'f4','f5','f6','f7'] : ['id','name','f1',"f2","f3",'f4']
+            const keys_img = cation ? ['img1','img2','img3','img4','img5','img6','img7'] : ['img1','img2','img3','img4']
             return (
                 <TableContainer>
 

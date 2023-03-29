@@ -34,28 +34,29 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     const insert_to_db =async () => {
         if(data.length == 0){
             console.log('New analysis id: ',1)
-            await db_insert_new_id_and_status_analysis(1,analysis_name)
+            await db_insert_new_id_and_status_analysis(1,analysis_name,current_analysis)
             .then(()=>setChoosen_mode('analiza'))
         }
 
         if(data[0]){
             
             console.log('New analysis id: ',id)
-            await db_insert_new_id_and_status_analysis(id,analysis_name)
+            await db_insert_new_id_and_status_analysis(id,analysis_name,current_analysis)
             .then(()=>setChoosen_mode('analiza'))
         }
 }
 
-    useEffect(  ()  =>  {
-        get_data_from_db()
-    },[])
+    // useEffect(  ()  =>  {
+    //     get_data_from_db()
+    // },[])
 
-    const get_data_from_db = () => {
-        Axios.get(SERVER_ROUTS.cation_analysis.get)
+    const get_data_from_db = (db: string) => {
+        Axios.get(SERVER_ROUTS[db as keyof typeof SERVER_ROUTS].get)
         .then( (response: any)=>{console.log(':)');setData(response.data);console.log(' return_new_analysis_id()',return_new_analysis_id(response.data));return_new_analysis_id(response.data) })
         .catch((err)=>{console.log('db status :(', err)})
     }
       console.log('daszbord',choosen_mode)
+      
       const returnComponent = () => {
         if(choosen_mode=='start'){
             return(
@@ -69,13 +70,13 @@ export const TestowyDashboard: React.FunctionComponent = () => {
         if(choosen_mode=='choose_ion'){
             return(
                 <Container>
-                    <MojButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('cation') }} > Nowa analiza kationów </MojButton>
-                    <MojButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('anion')  }} > Nowa analiza anionów </MojButton>
+                    <MojButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('cation'); get_data_from_db('cation_analysis') }} > Nowa analiza kationów </MojButton>
+                    <MojButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('anion'); get_data_from_db('anion_analysis')   }} > Nowa analiza anionów </MojButton>
                 </Container>
                 )
         }
 
-        if(choosen_mode == 'new_analysis' && (current_analysis == 'cation')){
+        if(choosen_mode == 'new_analysis'){
 
             return(
                 <Container>
@@ -92,6 +93,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
                 </Container>
             )
         }
+        
 
         if(choosen_mode == 'stara'){
             return(
@@ -106,15 +108,28 @@ export const TestowyDashboard: React.FunctionComponent = () => {
             )
         }
 
-        if((choosen_mode == 'analiza') && (current_analysis == 'cation')){
+        if((choosen_mode == 'analiza')){
 
-            return(
+            if(current_analysis == 'cation'){
+                return(
                 <Container>
                     
-                       <AnalysisTestowy phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
-                       <Wyrocznia key={seed+3} rerender={reset}/>
+                       <AnalysisTestowy cation={true} phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
+                       <Wyrocznia cation={true} key={seed+3} rerender={reset}/>
                 </Container>
             )
+            }
+
+            if(current_analysis == 'anion'){
+                return(
+                <Container>
+                    
+                       <AnalysisTestowy cation={false} phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
+                       <Wyrocznia cation={false} key={seed+3} rerender={reset}/>
+                </Container>
+            )
+            }
+            
         }
 
       }

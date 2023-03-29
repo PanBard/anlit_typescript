@@ -12,11 +12,13 @@ type ShuffleFateProps = {
     id?: any,
     data?:any,
     phase?:any,
-    rerender():any
+    rerender():any,
+    cation: boolean
 }
 
 export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
-    rerender
+    rerender,
+    cation
 }) => {
 
     const [phase, setPhase] = useState<number>()
@@ -24,7 +26,14 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
     const [rightSymbol, setRightSymbol] = useState<any[]>([])
     const [foundIon, setfoundIon] = useState<any>()
     
-    const script = useVoiceScript()
+    const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
+    const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
+    const db_voice_script_name = cation ? 'cation_voice_script' : 'anion_voice_script' 
+    console.log('db_type:',db_type)
+
+
+
+ 
 
 
     const script_detected= {
@@ -51,7 +60,7 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
 
       const get_data = async () => {
       
-        await  Axios.get(SERVER_ROUTS.cation_analysis.get)
+        await  Axios.get(SERVER_ROUTS[db_type].get)
         .then( (response: any)=>{console.log('WYROCZNIA db :)');setData(response.data);set_up_phase(response.data)})
         .catch((err)=>{console.log('db WYROCZNIA status :(')})
         
@@ -87,7 +96,7 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
                 const prevoiusPhase = 'f'+(phase - 1)
                 const prevoiusLabel = current[prevoiusPhase]
 
-                await Axios.put(SERVER_ROUTS.shuffle_match.get,{phase: (phase-1), label: prevoiusLabel})
+                await Axios.put(SERVER_ROUTS.shuffle_match.get,{phase: (phase-1), label: prevoiusLabel, db_type:db_type_name})
                 .then((response)=>{
                     const data = response.data;
                     console.log('Mapowanie w fazie',phase)
@@ -135,9 +144,8 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
                                 setRightSymbol(prevoius => [...prevoius, obj.id])
                             }}
 
-                    }) 
-                  
-
+                    } ) 
+                    // if(rightSymbol.length == 0) Voice('Niestety, ale taki wynik nie powinien się pojawić na tym etapie analizy.')
                 })
 
                 
@@ -152,12 +160,12 @@ const set_happy_end =async (id: any) => {
         const current = data[data.length-1]
         console.log('happy_end -- id',current.id)
     if(current.end !== 'end'){
-        await Axios.put(SERVER_ROUTS.cation_analysis.put, {id: current.id , end:'end'})
+        await Axios.put(SERVER_ROUTS[db_type].put, {id: current.id , end:'end'})
             .then(p => {console.log(p.data);
-                const query = `SELECT symbol FROM script_flow WHERE id = ${id}`
+                const query = `SELECT symbol FROM ${db_type_name} WHERE id = ${id}`
                 Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
                 .then((response)=>{console.log('z cutoma query: ',response.data[0].symbol)
-                    Axios.put(SERVER_ROUTS.cation_analysis.set_result, {id: current.id , result:response.data[0].symbol})
+                    Axios.put(SERVER_ROUTS[db_type].set_result, {id: current.id , result:response.data[0].symbol})
                         .then(rerender())
 
                     })
@@ -172,7 +180,7 @@ const set_happy_end =async (id: any) => {
 
 
 const get_script_from_db =async () => {
-    await Axios.put(SERVER_ROUTS.cation_voice_script.get_required_script,{phase: phase, match_id: rightSymbol[0] })
+    await Axios.put(SERVER_ROUTS[db_voice_script_name].get_required_script,{phase: phase, match_id: rightSymbol[0] })
                 .then((response)=>{console.log('powinien byc skrypt----->',response.data[0].script)
                 if(response.data[0].f7 !== 'end') Voice(response.data[0].script)
                 if(response.data[0].f7 == 'end'){Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6)} 
@@ -185,7 +193,7 @@ useMemo(()=>{
 },[phase])
 
 useMemo(()=>{
-    if(typeof phase !== 'undefined'){console.log('włączamy poieranie skryptu'); get_script_from_db()}
+    if(typeof phase !== 'undefined' && rightSymbol.length !== 0){console.log('włączamy poieranie skryptu'); get_script_from_db()}
 },[rightSymbol])
 
 

@@ -7,10 +7,12 @@ type ShuffleFateProps = {
     id?: any,
     data?:any,
     phase?:any,
-    label?:any
+    label?:any,
+    cation: boolean
 }
 
 export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
+    cation
 }) => {
 
     const [mode, setMode] = useState('')
@@ -19,13 +21,18 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
     const [rightSymbol, setRightSymbol] = useState<any[]>([])
     const [foundIon, setfoundIon] = useState<any>()
 
+    const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
+    const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
+    console.log('db_type:',db_type)
+
+
     useEffect(  ()  =>  {
         get_data()
     },[])
 
       const get_data = async () => {
         let kontrol = false
-      await  Axios.get(SERVER_ROUTS.cation_analysis.get)
+      await  Axios.get(SERVER_ROUTS[db_type].get)
         .then( (response: any)=>{console.log('shufle db :)');setData(response.data); kontrol=true ;setMode('start');set_up_phase(response.data)})
         .catch((err)=>{console.log('db status :(')})
         if(kontrol) return 'ok'
@@ -58,7 +65,7 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
                     const current = data[data.length-1]
 
                 const prevoiusPhase = phase-1
-                await Axios.put(SERVER_ROUTS.shuffle_match.get,{phase: prevoiusPhase, label: current[`f${prevoiusPhase}`]})
+                await Axios.put(SERVER_ROUTS.shuffle_match.get,{phase: prevoiusPhase, label: current[`f${prevoiusPhase}`],db_type:db_type_name})
                 .then( (response: any)=>{
 
                 const data = response.data;

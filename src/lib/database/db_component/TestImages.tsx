@@ -7,26 +7,12 @@ export const TestImages = ()=>{
 
     const [show, setShow] = useState(false)
     const [script_flow_data, setScript_flow_data] = useState([])
-    const [getData, setGetData] = useState<boolean>(false)
-    // const [inputFields, setInputFields] = useState([])
-
-
     const [showModyf, setTesto] = useState(false)
     const [modification, setModification] = useState<any>()
 
     const [id,setID] = useState<any>()
-    const [script,setScript] = useState<any>()
-    const [phase,setPhase] = useState<any>()
-    const [f1,set1] = useState<any>()
-    const [f2,set2] = useState<any>()
-    const [f3,set3] = useState<any>()
-    const [f4,set4] = useState<any>()
-    const [f5,set5] = useState<any>()
-    const [f6,set6] = useState<any>()
-    const [f7,set7] = useState<any>()
     const [img,setImg] = useState<any>()
     const [label,setLabel] = useState<any>()
-    const [match_id,setMatch_id] = useState<any>()
     const [seed, setSeed] = useState(1);
 
     const reset = () => {
@@ -42,8 +28,6 @@ export const TestImages = ()=>{
    //get data
     useEffect(  ()  =>  {
         get_data_from_db()
-        
-    //   custom_send_data_to_db()
     },[])
 
     const get_data_from_db = () => {
@@ -54,7 +38,10 @@ export const TestImages = ()=>{
 
     const setuj =async ( id: any) => {
         const data = script_flow_data[id-1]
+          console.log('data',data)
+        console.log('data',data)
         setters.map((set,index)=>{set(data[input_name[index]])})
+
         setModification(id)
     }
 
@@ -113,24 +100,14 @@ export const TestImages = ()=>{
       };
 
 
-      const custom_img = 'op';
-      const custom_send_data_to_db = async ()=>{
-        Axios.post(SERVER_ROUTS.test_images.post, {id:1,img:custom_img,label:0})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-        .then(()=>{reset()} )
-        .then(()=>{ setters.map((set)=>{set(undefined)}) })
-        .catch(err => {console.log(err)})
-        
-        setters.map((set)=>{set(undefined)})
-
-      };
+     
 
 
       const delete_row_from_db = (id: number)=>{
-        Axios.delete(  SERVER_ROUTS.test_images.delete+`/${id}`  )
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-        .then(()=>{reset()} )
-        .catch(err => {console.log(err)})
+        // Axios.delete(  SERVER_ROUTS.test_images.delete+`/${id}`  )
+        // .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        // .then(()=>{reset()} )
+        // .catch(err => {console.log(err)})
     }; 
 
 
@@ -161,7 +138,7 @@ export const TestImages = ()=>{
 
                     </tr>
 
-                    {script_flow_data.slice(0).reverse().map((data: any)=>{
+                    {script_flow_data.map((data: any)=>{
                         return (
                         <tr key={data.id}>
                             <Td>{data.id} </Td>
@@ -218,8 +195,8 @@ const TableContainer = styled.div`
 `
 
 const MyImage = styled.img`
-width: 50px;
-height: 50px;
+width: 100px;
+height: 100px;
 `
 
 

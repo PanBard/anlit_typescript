@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
-import { images_from_base64 } from "./images_from_base64"
 import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs"
 import { LiveChangeWatch } from "./LiveChangeWatch"
@@ -12,14 +11,16 @@ type AnalysisProps = {
     name?: string,
     back?(): void,
     rerender?(): void,
-    phase1: number
+    phase1: number,
+    cation: boolean
 }
 
 export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
     id,
     back,
     name,
-    rerender
+    rerender,
+    cation
 }) => {
     const [data, setData] = useState<any[]>([])
     const[dataFromChildComponent , setDataFromChildComponent] = useState()
@@ -27,15 +28,12 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
     const [endDetect, setEndDetect] = useState<boolean>(false)
     const [testowy_label,setTestowy_label] = useState<any>()
     const [image, setImage] = useState<any>()
+    const [imgFromDataBase,setImgFromDataBase] = useState<any>([])
     const labelMap = useTest_labels()
-    const keys = Object.keys(images_from_base64)
 
+    const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
+    console.log('db_type:',db_type)
 
-    const set_up_phase = async (data: any)  => {
-        const current = data[data.length-1]
-  
-   }
-//    console.log('faza w analysis testowym 00000000000 : ', phase)
     const catchMessageFromChild = (message: any) => {
         if(message[0] !== '404' && typeof message[0] !== 'undefined') //w razie gdyby wybrano opcje choose image
         {
@@ -50,17 +48,22 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
        
       },[])
 
-      const get_data = async () => {
-        let kontrol = false
-      await  Axios.get(SERVER_ROUTS.cation_analysis.get)
-        .then( (response: any)=>{setData(response.data); kontrol=true ;set_up_phase(response.data);})
-        .catch((err)=>{console.log('db status :(')})
-        if(kontrol) return 'ok'
+      
 
+      const get_data = async () => {
+      await  Axios.get(SERVER_ROUTS[db_type].get)
+        .then( (response: any)=>{setData(response.data);
+          Axios.get(SERVER_ROUTS.test_images.get)
+          .then( (response: any)=>{console.log('img --> :)');setImgFromDataBase(response.data) })
+          .catch((err)=>{console.log('db status :(')})
+        
+        })
+        .catch((err)=>{console.log('db status :(')})
       }
 
     const quck_update = async (label: any, img_index:string,f_index:string, end:string)=>{
-        await Axios.put(SERVER_ROUTS.cation_analysis.put, {id:id,name:name,[f_index]: labelMap[label] ,[img_index]:image,end:end})
+      console.log('labelMap[label]',labelMap[label])
+        await Axios.put(SERVER_ROUTS[db_type].put, {id:id,name:name,[f_index]: labelMap[label] ,[img_index]:image,end:end})
         // .then(p => console.log('update----------------------------------------------------------UP'))
         .then(rerender)
     }; 
@@ -68,6 +71,7 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
     const send_detection_results_to_db = async ()  => {
        await get_data()
        .then(e =>{
+        console.log('testowy label',testowy_label)
         const current = data[data.length-1]
         if((current['end'] == 'new') && (phase !== 100)){
             if(current['f1'] == null && current['end'] !== 'end'){console.log('faza f1');quck_update(testowy_label,'img1','f1','new');return true}
@@ -94,9 +98,10 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
       },[dataFromChildComponent])
 
     const returnComponent = () => {
+
             return(
             <Container>
-              <ShuffleFate />
+              <ShuffleFate cation={cation} />
             </Container>
             )
     }
@@ -112,19 +117,18 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
             <label>Wybierz</label>
             <select name="op" id="op" onChange={(obj)=>{ 
                 setTestowy_label(obj.target.value);
-                setImage(images_from_base64[keys[obj.target.value as keyof typeof keys] as keyof typeof images_from_base64]);
-                // console.log('select:  ','label: ',obj.target.value, 'image: ', keys[obj.target.value as keyof typeof keys] )
+                setImage(imgFromDataBase[obj.target.value].img );
                 }}>
                 <option key={89} value={404}> CHOOSE IMAGE </option>
-                {keys.map((obj,index)=>{
-                return(  <option key={index} value={index}> {obj} </option>  )
+                {imgFromDataBase.map((obj: any,index: number)=>{
+                return(  <option key={index} value={index}> {obj.label} </option>  )
                 })}
 
             </select>
             <MojButton onClick={()=>{catchMessageFromChild([testowy_label,image])}} > Fake detection</MojButton>
             <Container2>
                        {returnComponent()}
-                       <LiveChangeWatch message={dataFromChildComponent}/>
+                       <LiveChangeWatch cation={cation} message={dataFromChildComponent}/>
                     
             </Container2>
         </Container>

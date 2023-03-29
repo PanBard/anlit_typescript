@@ -52,5 +52,9 @@ export const test_labels= [
   "pomaranczowy",
   "zielony",
   "niebieski",
-  "nieb_rozowy"
+  "nieb_rozowy",
+  "cielisty",
+  "pomaranczowy_p",
+  "fioletowy_p",
+  "zolty_p"
 ]
