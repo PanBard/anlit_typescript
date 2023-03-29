@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 
-export const AnionsVoiceScript = ()=>{
+export const TestImages = ()=>{
 
     const [show, setShow] = useState(false)
     const [script_flow_data, setScript_flow_data] = useState([])
@@ -24,6 +24,8 @@ export const AnionsVoiceScript = ()=>{
     const [f5,set5] = useState<any>()
     const [f6,set6] = useState<any>()
     const [f7,set7] = useState<any>()
+    const [img,setImg] = useState<any>()
+    const [label,setLabel] = useState<any>()
     const [match_id,setMatch_id] = useState<any>()
     const [seed, setSeed] = useState(1);
 
@@ -33,17 +35,19 @@ export const AnionsVoiceScript = ()=>{
      }
     
 
-    const variable = [id,phase,f6,f7,match_id,script]
-    const input_name = ['id','phase','f6','f7','match_id','script']
-    const setters = [setID,setPhase,set6,set7,setMatch_id,setScript]
+    const variable = [id,img,label]
+    const input_name = ['id','img','label']
+    const setters = [setID,setImg,setLabel]
 
    //get data
     useEffect(  ()  =>  {
         get_data_from_db()
+        
+    //   custom_send_data_to_db()
     },[])
 
     const get_data_from_db = () => {
-        Axios.get(SERVER_ROUTS.anion_voice_script.get)
+        Axios.get(SERVER_ROUTS.test_images.get)
         .then( (response: any)=>{console.log(':)');setScript_flow_data(response.data) })
         .catch((err)=>{console.log('db status :(')})
     }
@@ -88,7 +92,7 @@ export const AnionsVoiceScript = ()=>{
       }
 
       const update_data_in_db = (ajdi: any)=>{
-        Axios.put(SERVER_ROUTS.anion_voice_script.put, {id:ajdi,phase:phase,script:script,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,match_id:match_id})
+        Axios.put(SERVER_ROUTS.test_images.put, {id:ajdi,img:img,label:label})
         .then((response: any)=>{get_data_from_db(),console.log(response.data)})
         .then(()=>{reset()})
         .then(()=>{ setters.map((set)=>{set(undefined)}) })
@@ -98,7 +102,7 @@ export const AnionsVoiceScript = ()=>{
         };
     
       const send_data_to_db = async ()=>{
-        Axios.post(SERVER_ROUTS.anion_voice_script.post, {id:id,phase:phase,script:script,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7,match_id:match_id})
+        Axios.post(SERVER_ROUTS.test_images.post, {id:id,img:img,label:label})
         .then((response: any)=>{get_data_from_db(),console.log(response.data)})
         .then(()=>{reset()} )
         .then(()=>{ setters.map((set)=>{set(undefined)}) })
@@ -108,11 +112,25 @@ export const AnionsVoiceScript = ()=>{
 
       };
 
+
+      const custom_img = 'op';
+      const custom_send_data_to_db = async ()=>{
+        Axios.post(SERVER_ROUTS.test_images.post, {id:1,img:custom_img,label:0})
+        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then(()=>{reset()} )
+        .then(()=>{ setters.map((set)=>{set(undefined)}) })
+        .catch(err => {console.log(err)})
+        
+        setters.map((set)=>{set(undefined)})
+
+      };
+
+
       const delete_row_from_db = (id: number)=>{
-        // Axios.delete(  SERVER_ROUTS.anion_voice_script.delete+`/${id}`  )
-        // .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-        // .then(()=>{reset()} )
-        // .catch(err => {console.log(err)})
+        Axios.delete(  SERVER_ROUTS.test_images.delete+`/${id}`  )
+        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then(()=>{reset()} )
+        .catch(err => {console.log(err)})
     }; 
 
 
@@ -123,14 +141,14 @@ export const AnionsVoiceScript = ()=>{
          <Container2>
 
             <Container  key={seed+1}>
-                <div>
+                
             {input_name.map( (obj,i)=>{return(
               <div key={i}>
               <label>{input_name[i]}</label>
               <input style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value)} }/>
               </div>
             )})}
-                </div>
+             
             <button onClick={send_data_to_db}>Submit data to database</button>
             </Container>
             
@@ -147,11 +165,8 @@ export const AnionsVoiceScript = ()=>{
                         return (
                         <tr key={data.id}>
                             <Td>{data.id} </Td>
-                            <Td>{data.phase} </Td>
-                            <Td>{data.f6}  </Td>
-                            <Td>{data.f7}  </Td>
-                            <Td>{data.match_id}  </Td>
-                            <Td>{data.script}  </Td>
+                            <Td><MyImage  src={data.img}/></Td>
+                            <Td>{data.label} </Td>
                             <Td style={{cursor:'pointer', background: 'red'}} onClick={ ()=> { delete_row_from_db(data.id)}}>USUŃ </Td>
                             <Td style={{cursor:'pointer', background: 'gray'}} onClick={()=>{setTesto(true);setuj(data.id)}} >MOD </Td>
                            
@@ -202,7 +217,10 @@ const TableContainer = styled.div`
     overflow-y: scroll;
 `
 
-
+const MyImage = styled.img`
+width: 50px;
+height: 50px;
+`
 
 
 

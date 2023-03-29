@@ -104,10 +104,10 @@ export const AnionsDataScript = ()=>{
       };
 
       const delete_row_from_db = (id: number)=>{
-        Axios.delete(  SERVER_ROUTS.anion_script_flow.delete+`/${id}`  )
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-        .then(()=>{reset()} )
-        .catch(err => {console.log(err)})
+        // Axios.delete(  SERVER_ROUTS.anion_script_flow.delete+`/${id}`  )
+        // .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        // .then(()=>{reset()} )
+        // .catch(err => {console.log(err)})
     }; 
 
 

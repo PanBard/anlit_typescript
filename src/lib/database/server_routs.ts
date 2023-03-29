@@ -46,7 +46,14 @@ export const SERVER_ROUTS = {
 
      custom_query : {
           "get" : "http://localhost:4001/api/get/custom_query"
-          }
+          },
+
+     test_images : {
+          "get" : "http://localhost:4001/api/get/test_images",
+          "post" : "http://localhost:4001/api/post/test_images",
+          "put" : "http://localhost:4001/api/put/test_images",
+          "delete" : "http://localhost:4001/api/delete/test_images",
+       },
 
 
 

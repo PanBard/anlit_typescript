@@ -4,6 +4,7 @@ import { AnionsDataScript } from "./db_component/AnionsDataScript"
 import { AnionsVoiceScript } from "./db_component/AnionsVoiceScript"
 import { CationsDataScript } from "./db_component/CationsDataScript"
 import { CationsVoiceScript } from "./db_component/CationsVoiceScript"
+import { TestImages } from "./db_component/TestImages"
 
 export const DataDashboard: React.FunctionComponent = () => {
     
@@ -30,6 +31,7 @@ export const DataDashboard: React.FunctionComponent = () => {
                 <MojButton onClick={()=>{showComponent(<AnionsDataScript key={seed}/>)}}> DataScript - Anions</MojButton>
                 <MojButton onClick={()=>{showComponent(<CationsVoiceScript key={seed}/>)}}> VoiceScript + Cations</MojButton>
                 <MojButton onClick={()=>{showComponent(<AnionsVoiceScript key={seed}/>)}}> VoiceScript - Anions </MojButton>
+                <MojButton onClick={()=>{showComponent(<TestImages key={seed}/>)}}> Test img </MojButton>
             </HeaderContainer>
             {showComponent2()}
         </Container>
