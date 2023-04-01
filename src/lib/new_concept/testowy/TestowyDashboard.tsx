@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { DbPushAndGet } from "./db_management"
-import { images_from_base64 } from "./images_from_base64"
 import { AnalysisTestowy } from "./AnalysisTestowy"
 import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs"
 import { db_insert_new_id_and_status_analysis } from "./crud_data"
 import { Wyrocznia } from "./Wyrocznia"
+import { BestButton } from "lib/components/components_modules"
+
 
 
 export const TestowyDashboard: React.FunctionComponent = () => {
@@ -18,12 +19,16 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     const [analysis_name, setAnalysis_name] = useState<string>('Default name')
     const [id, setId] = useState(1)
     const [seed, setSeed] = useState(1);
- 
+    const [script, setScript] = useState();
+    const [talkingScript, setTalkingScript] = useState(' ');
+
     const reset = () => {
         setPhase(phase+1)
         setSeed(Math.random())
         
     }
+
+  
     
    const return_new_analysis_id = (data: any)=>  {
         const new_id = data[data.length-1]['id']+1
@@ -56,41 +61,61 @@ export const TestowyDashboard: React.FunctionComponent = () => {
         .catch((err)=>{console.log('db status :(', err)})
     }
       console.log('daszbord',choosen_mode)
+
+
+    //   const chatOnScreen = (script: string, index: number, interval: string) => {   
+    //     if (index < script.length) { 
+    //         setTalkingScript(talkingScript + script[index++])
+    //         console.log(talkingScript)
+    //       setTimeout(function () { chatOnScreen( script, index, interval); }, parseFloat(interval) );
+    //     }
+    //   }
+
+
+
       
       const returnComponent = () => {
         if(choosen_mode=='start'){
             return(
-            <Container>
-                <MojButton onClick={()=>{ setChoosen_mode('choose_ion') }} > Nowa analiza</MojButton>
-                <MojButton onClick={()=>{ setChoosen_mode('stara') }} > Kontynyuj poprzednie</MojButton>
-            </Container>
+            <ContainerP>
+                <BestButton onClick={()=>{ setChoosen_mode('choose_ion') }} > Nowa analiza</BestButton>
+                <BestButton onClick={()=>{ setChoosen_mode('stara') }} > Kontynyuj poprzednie</BestButton>
+                
+            </ContainerP>
             )
         }
 
         if(choosen_mode=='choose_ion'){
             return(
-                <Container>
-                    <MojButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('cation'); get_data_from_db('cation_analysis') }} > Nowa analiza kationów </MojButton>
-                    <MojButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('anion'); get_data_from_db('anion_analysis')   }} > Nowa analiza anionów </MojButton>
-                </Container>
+                <ContainerP>
+                    <BestButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('cation'); get_data_from_db('cation_analysis') }} > Analiza kationów </BestButton>
+                    <BestButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('anion'); get_data_from_db('anion_analysis')   }} > Analiza anionów </BestButton>
+                </ContainerP>
                 )
         }
 
         if(choosen_mode == 'new_analysis'){
 
             return(
-                <Container>
+                <ContainerP>
                     <Container>
-                        <MojButton onClick={()=>{ setChoosen_mode('start') }} > Cofnij </MojButton>
-                    </Container>
+
+                        <ContainerP>
+                            <BestButton onClick={()=>{ setChoosen_mode('start') }} > Cofnij </BestButton>
+                        </ContainerP>
              
+                       
+                        <ContainerW>
                         Wpisz nazwę nowej analizy:
                         <input style={{backgroundColor: 'gray'}} type="text"  onChange={ (e)=>{setAnalysis_name(e.target.value)} }/>
-                        <Container>
-                    <MojButton onClick={()=>{ insert_to_db() }} > Rozpocznij analizę </MojButton>
+                        </ContainerW>
+                        <ContainerP>
+                            <BestButton onClick={()=>{ insert_to_db() }} > Rozpocznij analizę </BestButton>
+                        </ContainerP>
+                    
                     </Container>
                     
-                </Container>
+                </ContainerP>
             )
         }
         
@@ -99,7 +124,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
             return(
                 <Container>
                     <Container>
-                    <MojButton onClick={()=>{ setChoosen_mode('start') }} > Cofnij </MojButton>
+                    <BestButton onClick={()=>{ setChoosen_mode('start') }} > Cofnij </BestButton>
                     </Container>
                     <Container12>
                        <DbPushAndGet />
@@ -113,9 +138,9 @@ export const TestowyDashboard: React.FunctionComponent = () => {
             if(current_analysis == 'cation'){
                 return(
                 <Container>
-                    
+                    <Container>{talkingScript}</Container>
                        <AnalysisTestowy cation={true} phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
-                       <Wyrocznia cation={true} key={seed+3} rerender={reset}/>
+                       <Wyrocznia cation={true} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
                 </Container>
             )
             }
@@ -123,9 +148,8 @@ export const TestowyDashboard: React.FunctionComponent = () => {
             if(current_analysis == 'anion'){
                 return(
                 <Container>
-                    
                        <AnalysisTestowy cation={false} phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
-                       <Wyrocznia cation={false} key={seed+3} rerender={reset}/>
+                       <Wyrocznia cation={false} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
                 </Container>
             )
             }
@@ -134,7 +158,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
 
       }
 
-    
+    //   useMemo(()=>{if(script) chatOnScreen(script,0,'0,2')},[script])
     return(
         <Container>
          
@@ -153,19 +177,30 @@ const Container = styled.div`
     flex: 1; */
     
 `
+
+const ContainerP = styled.div`
+    color: ${({theme}) => theme.colors.typography};
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex: 1;
+    
+`
+
+const ContainerW = styled.div`
+    color: ${({theme}) => theme.colors.typography};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    `
+
 const Container12 = styled.div`
     /* color: ${({theme}) => theme.colors.typography};
     display: flex;
     flex-direction: column;
     flex: 1; */
-    overflow-y:scroll;
+    /* overflow-y:scroll; */
     `
 
-const MojButton = styled.button`
-    padding: 10px 5px;
-    text-align: center;
-    border-radius: 8px; 
-    background-color: ${({theme})=> theme.colors.primary};
-    /* background-color: red; */
-    cursor: pointer;
-`
+

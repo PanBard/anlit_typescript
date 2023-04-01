@@ -36,10 +36,7 @@ export const LiveChangeWatch: React.FunctionComponent<LiveChangeWatchProps> = ({
 
     },[data])
 
-    const divide_analysis_on_done_and_undone = () => {
-        const done = []
-        const undone = []
-    }
+ 
 
     
 

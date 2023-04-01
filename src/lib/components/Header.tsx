@@ -29,13 +29,13 @@ export const Header = () => {
 
             <Cont><NavLink to='udawacz'> <Title>Udawacz</Title></NavLink></Cont>
 
-            <Cont><NavLink to='integracja'> <Title>INTEGRACJA</Title></NavLink></Cont>
+            {/* <Cont><NavLink to='integracja'> <Title>INTEGRACJA</Title></NavLink></Cont> */}
             </LinkContainer>
 
 
             <LinkContainer>
                  <Linkos href={APP_CONFIG.GITHUB_URL} target='_blank'>  {/* target='_blank' eby otwierao sié w nowym oknie */}
-                    {T.components.header.github}
+                    User
                 </Linkos>
                 <Linkos href={APP_CONFIG.DISCORD_URL} target='_blank'>
                     {T.components.header.diskord}

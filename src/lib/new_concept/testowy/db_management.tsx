@@ -2,6 +2,7 @@ import  Axios  from "axios";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { SERVER_ROUTS } from "lib/database/server_routs";
+import { BestButton } from "lib/components/components_modules";
 
 type Db_push_and_getProps = {
 }
@@ -11,46 +12,50 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
 
     const [data, setData] = useState<any[]>([])
     const [boolean, setBoolean] = useState(false)
-    const [key_array,setKey_array] = useState([])
     const [seed, setSeed] = useState(1);
+    const [component, setComponent] = useState<any>()
+    const [cation,setCation] = useState<boolean>()
+    // const keys = Object.keys(data[0]) 
+    const [keys, setKeys] = useState<any[]>([])
+
+    const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
+    console.log(db_type)
+
     const reset = () => {
         setSeed(Math.random())
-        
     }
 
-    useEffect(  ()  =>  {
-        get_data_from_db()
-    },[])
-
-
-    const get_data_from_db = () => {
-        Axios.get(SERVER_ROUTS.cation_analysis.get)
-        .then( (response: any)=>{console.log(':)');setData(response.data) ; console.log(response.data) })
+    const get_data_from_db = async () => {
+       await Axios.get(SERVER_ROUTS[db_type].get)
+        .then( (response: any)=>{console.log(':)');setData(response.data);setKeys(Object.keys(response.data[0]))})
+        .then(()=>{reset()})
         .catch((err)=>{console.log('db status :(')})
     }
 
     const delete_row_from_db = async (id: number)  =>{
-      await  Axios.delete(SERVER_ROUTS.cation_analysis.delete+`/${id}`)
+      await  Axios.delete(SERVER_ROUTS[db_type].delete+`/${id}`)
         .then((response: any)=>{get_data_from_db(),console.log(response.data)})
         .then(()=>{reset()} )
         .catch(err => {console.log(err)})
         
     }; 
+    
 
 
     const viewPoint = () =>{
-        if(data[0]){
-            const keys = Object.keys(data[0]) 
-            console.log(keys)
-            const keys_f = ['id','name','f1',"f2","f3",'f4','f5','f6','f7']
-            const keys_img = ['img1','img2','img3','img4','img5','img6','img7']
+        
+        if(keys.length !== 0 && data[0]){
+            console.log(data)
+            console.log('keys:',keys)
+            const keys_f = cation ? ['id','name','f1',"f2","f3",'f4','f5','f6','f7'] : ['id','name','f1',"f2","f3",'f4']
+            const keys_img = cation ? ['img1','img2','img3','img4','img5','img6','img7'] : ['img1','img2','img3','img4']
             return (
-                <TableContainer>
+                <TableContainer key={seed}>
 
-                      <table key={seed}>
+                      <table>
                     <tbody >
                         <tr>
-                        {keys.map( (obj, i) => { return(<th key={i}>{obj}</th>) })}
+                        {keys.map( (obj, index) => { return(<th key={index}>{obj}</th>) })}
                         </tr>
 
                         {data.map((data: any, index)=>{
@@ -75,24 +80,19 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
             )                 
         }
     } 
+     
+     useMemo(()=>{
+
+     },[cation])
+     
     
 
-    // const send_data_to_db = async ()=>{
-    //     Axios.post(routs.insert_analysis, {id:id,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
-    //  }
-
-
-    // const update_data_in_db = (ajdi: any)=>{
-    //     Axios.put(routs.update_analysis, {id:ajdi,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7});
-    //    console.log('update')
-        
-    //   };
-
         return(
-        <Container12>
+            <ContainerP>
+                     <Container12>
             {boolean && 
                 <Container>
-                    <MojButton onClick={()=>{setBoolean(!boolean)}}>Ukryj panel</MojButton>
+                    <BestButton onClick={()=>{setBoolean(!boolean)}}>Ukryj panel</BestButton>
 
                     <Container> 
                         {viewPoint()}
@@ -101,21 +101,40 @@ export const DbPushAndGet: React.FunctionComponent<Db_push_and_getProps> = () =>
                 </Container> 
             }
 
-           {!boolean && <MojButton onClick={()=>{setBoolean(!boolean)}}>Pokaz poprzednie analizy</MojButton>}
+           {!boolean && 
+           <HeaderContainer>
+                <BestButton onClick={()=>{setCation(true);setBoolean(!boolean); get_data_from_db()}}>Kationy</BestButton>
+                <BestButton onClick={()=>{setCation(false);setBoolean(!boolean); get_data_from_db()}}>Aniony</BestButton>
+           </HeaderContainer>
+           }
+          
+
         
-        </Container12>)
+        </Container12>
+            </ContainerP>)
+       
 }
 
-// export const whats_up = () => {
-//     let dane =  
-//     Axios.get(routs.analysis).then( (response: any)=>{console.log('pobrano dane:',response.data);  const dane =  response.data })
+
+const HeaderContainer = styled.div`
+    height: 60px;
+    /* background-color: ${({theme}) => theme.colors.foreground }; */
+    padding: 0 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* justify-content: space-between; */
+`
+
+
+const ContainerP = styled.div`
+    color: ${({theme}) => theme.colors.typography};
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex: 1;
     
-// }
-
-
-// export const get_data_from_db = () => {
-//     Axios.get(routs.analysis).then( (response: any)=>{console.log('pobrano dane:',response.data);return(response.data) })
-// }
+`
 
 const MyImage = styled.img`
 width: 50px;
@@ -144,15 +163,6 @@ const Container12 = styled.div`
     
 `
 
-const MojButton = styled.button`
-    padding: 10px 5px;
-    text-align: center;
-    border-radius: 8px; 
-    background-color: ${({theme})=> theme.colors.primary};
-    /* background-color: red; */
-    cursor: pointer;
-`
-
 const Contr = styled.div`
     /* display: inline-block; */
     display: flex;
@@ -166,6 +176,7 @@ const SmallButton = styled.button`
     cursor: pointer;
 `
 const TableContainer = styled.div`
-    height: 300px;
+    height: 400px;
     overflow-y: scroll;
+    border: 5px solid gray;
 `

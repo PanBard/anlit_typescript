@@ -13,12 +13,14 @@ type ShuffleFateProps = {
     data?:any,
     phase?:any,
     rerender():any,
-    cation: boolean
+    cation: boolean,
+    return_script(params: any): any
 }
 
 export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
     rerender,
-    cation
+    cation,
+    return_script
 }) => {
 
     const [phase, setPhase] = useState<number>()
@@ -142,18 +144,14 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
                             if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 && obj.f6 == current.f6  && obj.f7 == current.f7){
                                 console.log('szukanie w fazie 8')
                                 setRightSymbol(prevoius => [...prevoius, obj.id])
-                            }}
-
-                    } ) 
-                    // if(rightSymbol.length == 0) Voice('Niestety, ale taki wynik nie powinien się pojawić na tym etapie analizy.')
-                })
-
-                
-               
-
+                            }
+                        }
+                    }
+                    )
+                }
+                )
             }
-
-            }
+        }
 
 
 const set_happy_end =async (id: any) => {
@@ -182,8 +180,8 @@ const set_happy_end =async (id: any) => {
 const get_script_from_db =async () => {
     await Axios.put(SERVER_ROUTS[db_voice_script_name].get_required_script,{phase: phase, match_id: rightSymbol[0] })
                 .then((response)=>{console.log('powinien byc skrypt----->',response.data[0].script)
-                if(response.data[0].f7 !== 'end') Voice(response.data[0].script)
-                if(response.data[0].f7 == 'end'){Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6)} 
+                if(response.data[0].f7 !== 'end') {Voice(response.data[0].script); return_script(response.data[0].script)}
+                if(response.data[0].f7 == 'end'){Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6); return_script(response.data[0].script)} 
                 })
                 .catch((err)=>{console.log(err)})
 }

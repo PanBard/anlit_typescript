@@ -1,19 +1,19 @@
 export const SERVER_ROUTS = {
-     cation_script_flow : {
+     "cation_script_flow" : {
           "get" : "http://localhost:4001/api/get/cation_script_flow",
           "post" : "http://localhost:4001/api/post/cation_script_flow",
           "put" : "http://localhost:4001/api/put/cation_script_flow",
           "delete" : "http://localhost:4001/api/delete/cation_script_flow",
      },
 
-     anion_script_flow : {
+     "anion_script_flow" : {
           "get" : "http://localhost:4001/api/get/anion_script_flow",
           "post" : "http://localhost:4001/api/post/anion_script_flow",
           "put" : "http://localhost:4001/api/put/anion_script_flow",
           "delete" : "http://localhost:4001/api/delete/anion_script_flow",
   },
 
-     cation_voice_script : {
+     "cation_voice_script" : {
           "get" : "http://localhost:4001/api/get/cation_voice_script",
           "post" : "http://localhost:4001/api/post/cation_voice_script",
           "put" : "http://localhost:4001/api/put/cation_voice_script",
@@ -21,7 +21,7 @@ export const SERVER_ROUTS = {
           "get_required_script" : "http://localhost:4001/api/get/required_cation_voice_script"
           },
 
-     anion_voice_script : {
+     "anion_voice_script" : {
           "get" : "http://localhost:4001/api/get/anion_voice_script",
           "post" : "http://localhost:4001/api/post/anion_voice_script",
           "put" : "http://localhost:4001/api/put/anion_voice_script",
@@ -29,7 +29,7 @@ export const SERVER_ROUTS = {
           "get_required_script" : "http://localhost:4001/api/get/required_anion_voice_script"
        },
 
-     cation_analysis : {
+     "cation_analysis" : {
           "get" : "http://localhost:4001/api/get/cation_analysis",
           "post" : "http://localhost:4001/api/post/cation_analysis",
           "put" : "http://localhost:4001/api/put/cation_analysis",
@@ -38,7 +38,7 @@ export const SERVER_ROUTS = {
           "set_result" : "http://localhost:4001/api/put/cation_analysis/set_result"
      },
 
-     anion_analysis : {
+     "anion_analysis" : {
           "get" : "http://localhost:4001/api/get/anion_analysis",
           "post" : "http://localhost:4001/api/post/anion_analysis",
           "put" : "http://localhost:4001/api/put/anion_analysis",
@@ -48,17 +48,19 @@ export const SERVER_ROUTS = {
           
       },
 
-     shuffle_match : {
-          "get" : "http://localhost:4001/api/get/shuffle"
+     "shuffle_match" : {
+          "get" : "http://localhost:4001/api/get/shuffle",
+          "delete" : ""
           },
 
     
 
-     custom_query : {
-          "get" : "http://localhost:4001/api/get/custom_query"
+     "custom_query" : {
+          "get" : "http://localhost:4001/api/get/custom_query",
+          "delete" : ""
           },
 
-     test_images : {
+     "test_images" : {
           "get" : "http://localhost:4001/api/get/test_images",
           "post" : "http://localhost:4001/api/post/test_images",
           "put" : "http://localhost:4001/api/put/test_images",

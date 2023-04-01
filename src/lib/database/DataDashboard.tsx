@@ -1,10 +1,13 @@
+import { BestButton } from "lib/components/components_modules"
 import React, {useState } from "react"
 import styled from "styled-components"
 import { AnionsDataScript } from "./db_component/AnionsDataScript"
 import { AnionsVoiceScript } from "./db_component/AnionsVoiceScript"
+import { Analysis } from "./db_component/Analysis"
 import { CationsDataScript } from "./db_component/CationsDataScript"
 import { CationsVoiceScript } from "./db_component/CationsVoiceScript"
 import { TestImages } from "./db_component/TestImages"
+import { VoiceScript } from "./db_component/VoiceScript"
 
 export const DataDashboard: React.FunctionComponent = () => {
     
@@ -17,6 +20,7 @@ export const DataDashboard: React.FunctionComponent = () => {
 
      const showComponent = (component: any)=>{
         setComponent(component)
+        reset()
      }
      
      const showComponent2 = ()=>{
@@ -26,12 +30,15 @@ export const DataDashboard: React.FunctionComponent = () => {
     return(
         <Container>
             <HeaderContainer>
-                <MojButton onClick={reset}> Back</MojButton>
-                <MojButton onClick={()=>{showComponent(<CationsDataScript key={seed}/>)}}> DataScript + Cations</MojButton>
-                <MojButton onClick={()=>{showComponent(<AnionsDataScript key={seed}/>)}}> DataScript - Anions</MojButton>
-                <MojButton onClick={()=>{showComponent(<CationsVoiceScript key={seed}/>)}}> VoiceScript + Cations</MojButton>
-                <MojButton onClick={()=>{showComponent(<AnionsVoiceScript key={seed}/>)}}> VoiceScript - Anions </MojButton>
-                <MojButton onClick={()=>{showComponent(<TestImages key={seed}/>)}}> Test img </MojButton>
+                <BestButton onClick={reset}> Back</BestButton>
+                <BestButton onClick={()=>{showComponent(<CationsDataScript key={seed}/>)}}> DataScript + Cations</BestButton>
+                <BestButton onClick={()=>{showComponent(<AnionsDataScript key={seed}/>)}}> DataScript - Anions</BestButton>
+                <BestButton onClick={()=>{showComponent(<CationsVoiceScript key={seed}/>)}}> VoiceScript + Cations</BestButton>
+                <BestButton onClick={()=>{showComponent(<AnionsVoiceScript key={seed}/>)}}> VoiceScript - Anions </BestButton>
+                <BestButton onClick={()=>{showComponent(<TestImages key={seed}/>)}}> Test img </BestButton>
+                <BestButton onClick={()=>{showComponent(<Analysis key={seed} rout_name="cation_analysis"/>)}}> Analysis + Cations </BestButton>
+                <BestButton onClick={()=>{showComponent(<Analysis key={seed} rout_name="anion_analysis"/>)}}> Analysis + Anions </BestButton>
+                <BestButton onClick={()=>{showComponent(<VoiceScript key={seed}/>)}}> Voice </BestButton>
             </HeaderContainer>
             {showComponent2()}
         </Container>
@@ -41,24 +48,7 @@ export const DataDashboard: React.FunctionComponent = () => {
 
 
 const Container = styled.div`
-    /* color: ${({theme}) => theme.colors.typography};
-    display: flex;
-    flex-direction: column;
-    flex: 1; */
-    /* overflow-y:scroll; */
-    
 `
-
-
-const MojButton = styled.button`
-    padding: 10px 5px;
-    text-align: center;
-    border-radius: 8px; 
-    background-color: ${({theme})=> theme.colors.primary};
-    /* background-color: red; */
-    cursor: pointer;
-`
-
 
 const HeaderContainer = styled.div`
     height: 60px;
@@ -67,43 +57,5 @@ const HeaderContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    /* justify-content: space-between; */
 `
 
-const LogoContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-`
-
-const Logo = styled.img`
-    height: 36px;
-    width: 36px;
-    margin-right: 18px;
-`
-
-const Title = styled.h1`
-    display: inline;
-    font-size: 20px;
-    color: ${({theme})=> theme.colors.typography};
-`
-
-const LinkContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-`
-
-const Linkos = styled.a`
-      color: ${({theme})=> theme.colors.typography};
-      text-decoration: underline;
-      cursor: pointer; 
-      padding: 0 10px;
-`
-
-
-const Cont = styled.div`
-      color: ${({theme})=> theme.colors.typography};
-      text-decoration: underline;
-      cursor: pointer; 
-      padding: 0 10px;
-`

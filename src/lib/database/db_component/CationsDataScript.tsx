@@ -123,7 +123,7 @@ export const CationsDataScript = ()=>{
         {/* {!show && <MojButton onClick={test}>DataSkrypt</MojButton>} */}
         <Container2>
 
-            <Container  key={seed+1}>
+            {/* <Container  key={seed+1}>
                 <div>
             {input_name.map( (obj,i)=>{return(
               <div key={i}>
@@ -133,7 +133,7 @@ export const CationsDataScript = ()=>{
             )})}
                 </div>
             <button onClick={send_data_to_db}>Submit data to database</button>
-            </Container>
+            </Container> */}
             
             <TableContainer key={seed}>
                 KATIONY

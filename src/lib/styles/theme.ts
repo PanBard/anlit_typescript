@@ -7,7 +7,8 @@ export const myTheme: AppTheme = {
         foreground: '#484748',
         error: '#c44569',
         typography: '#c8d6e5',
-        input: '#484748'
+        input: '#484748',
+        button_hover: '#3b3a3b'
     },
     media: {
         sm: 900

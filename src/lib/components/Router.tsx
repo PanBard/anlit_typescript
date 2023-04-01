@@ -25,7 +25,7 @@ export const Router: React.FunctionComponent = () => {
             <Route path={'testowy'} element={<Dashboard/> }/>
             <Route path={'baza_danych'} element={<DataDashboard/> }/>
             <Route path={'udawacz'} element={<TestowyDashboard/> }/>
-            <Route path={'integracja'} element={<IntegracyjnyDashboard/> }/>
+            {/* <Route path={'integracja'} element={<IntegracyjnyDashboard/> }/> */}
         </Routes>
 
         <Footer/>

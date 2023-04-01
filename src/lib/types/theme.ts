@@ -5,7 +5,8 @@ export type AppTheme = {
         foreground: string,
         error: string,
         typography: string,
-        input: string
+        input: string,
+        button_hover: string
     },
     media: {
         sm: number

@@ -5,6 +5,7 @@ import { SERVER_ROUTS } from "lib/database/server_routs"
 import { LiveChangeWatch } from "./LiveChangeWatch"
 import { ShuffleFate } from "./ShuffleFate"
 import { useTest_labels } from "lib/hooks/useDetectFlow";
+import { BestButton } from "lib/components/components_modules"
 
 type AnalysisProps = {
     id: number,
@@ -32,6 +33,7 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
     const labelMap = useTest_labels()
 
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
+    const title = cation ? 'Identyfikacja kationu' : 'Identyfikacja anionu' 
     console.log('db_type:',db_type)
 
     const catchMessageFromChild = (message: any) => {
@@ -89,16 +91,12 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
 
       useEffect(() => {
         if(endDetect){
-            
-            // test_voice_wyrocznia(testowy_label, phase) 
-            
             send_detection_results_to_db()
             setEndDetect(!endDetect)
         }
       },[dataFromChildComponent])
 
     const returnComponent = () => {
-
             return(
             <Container>
               <ShuffleFate cation={cation} />
@@ -108,10 +106,10 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
 
       return(
         <Container>
-
                     <Container>
-                    <MojButton onClick={()=>{window.location.reload()}} > Cofnij </MojButton>
-                    <h2>Nazwa analizy: {name} </h2>
+                    <BestButton onClick={()=>{window.location.reload()}} > Cofnij </BestButton>
+                    <h4>[{title}]</h4>
+                    <h2>  Nazwa analizy: {name} </h2>
                     <h3>ID: {id}</h3>
                     </Container>
             <label>Wybierz</label>
@@ -125,7 +123,7 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
                 })}
 
             </select>
-            <MojButton onClick={()=>{catchMessageFromChild([testowy_label,image])}} > Fake detection</MojButton>
+            <BestButton onClick={()=>{catchMessageFromChild([testowy_label,image])}} > Fake detection</BestButton>
             <Container2>
                        {returnComponent()}
                        <LiveChangeWatch cation={cation} message={dataFromChildComponent}/>
@@ -152,12 +150,3 @@ const Container2 = styled.div`
     
 `
 
-
-const MojButton = styled.button`
-    padding: 10px 5px;
-    text-align: center;
-    border-radius: 8px; 
-    background-color: ${({theme})=> theme.colors.primary};
-    /* background-color: red; */
-    cursor: pointer;
-`
