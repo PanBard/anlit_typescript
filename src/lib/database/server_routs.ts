@@ -50,14 +50,18 @@ export const SERVER_ROUTS = {
 
      "shuffle_match" : {
           "get" : "http://localhost:4001/api/get/shuffle",
-          "delete" : ""
+          "delete" : "",
+          "post" : "",
+          "put" : ""
           },
 
     
 
      "custom_query" : {
           "get" : "http://localhost:4001/api/get/custom_query",
-          "delete" : ""
+          "delete" : "",
+          "post" : "",
+          "put" : ""
           },
 
      "test_images" : {

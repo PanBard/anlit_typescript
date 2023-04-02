@@ -2,15 +2,10 @@ import  Axios  from "axios"
 import { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
-import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
+import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
 
-type VoiceScriptProps = {
-    rout_name: string,
-}
 
-export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
-    rout_name
-})=>{
+export const ImagesTest: React.FunctionComponent = ()=>{
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
 
@@ -18,20 +13,18 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
     const [modification, setModification] = useState<any>()
 
     const [id,setID] = useState<any>()
-    const [script,setScript] = useState<any>()
-    const [phase,setPhase] = useState<any>()
-    const [f6,set6] = useState<any>()
-    const [f7,set7] = useState<any>()
-    const [match_id,setMatch_id] = useState<any>()
+    const [img,setImg] = useState<any>()
+    const [label,setLabel] = useState<any>()
     const [seed, setSeed] = useState(1);
     const [choosen_mode, setChoosen_mode] = useState('start')
 
     const reset = () => {
          setSeed(Math.random())
      }
-    const header_name =  (rout_name=='cation_voice_script') ? 'Cation ' : 'Anion '
-    const input_name = ['id','phase','f6','f7','match_id','script']
-    const setters = [setID,setPhase,set6,set7,setMatch_id,setScript]
+     const rout_name = 'test_images'
+    const header_name =  'Test images'
+    const input_name = ['id','img','label']
+    const setters = [setID,setImg,setLabel]
     
     useEffect(  ()  =>  {
         get_data_from_db()
@@ -51,7 +44,7 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
 
 
     const update_data_in_db = (ajdi: any)=>{
-        Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, {id:ajdi,phase:phase,script:script,f6:f6,f7:f7,match_id:match_id})
+        Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, {id:ajdi,img:img,label:label})
         .then((response: any)=>{get_data_from_db(),console.log(response.data)})
         .then(()=>{reset()})
         .then(()=>{ setters.map((set)=>{set(undefined)}) })
@@ -59,7 +52,7 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
     };
 
     const send_data_to_db = async ()=>{
-        Axios.post(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].post, {id:id,phase:phase,script:script,f6:f6,f7:f7,match_id:match_id})
+        Axios.post(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].post, {id:id,img:img,label:label})
         .then((response: any)=>{get_data_from_db(),console.log(response.data)})
         .then(()=>{reset()} )
         .then(()=>{ setters.map((set)=>{set(undefined)}) })
@@ -90,7 +83,9 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
                                 {dataFromDataBase.slice(0).reverse().map((data: any)=>{
                                     return (
                                         <tr key={data.id}>
-                                            {input_name.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
+                                             <Td>{data.id} </Td>
+                                            <Td><MyImage style={{height: '150px', width:'150px' }}  src={data.img}/></Td>
+                                            <Td>{data.label} </Td>
                                             <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>
                                                 <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container> 
                                                 <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { setTesto(true);setuj(data.id);setChoosen_mode('modify')}} ><ModifyButton>Mod</ModifyButton></Td_container>  

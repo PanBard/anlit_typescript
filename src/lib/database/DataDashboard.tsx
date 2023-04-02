@@ -1,13 +1,10 @@
 import { BestButton } from "lib/components/components_modules"
 import React, {useState } from "react"
 import styled from "styled-components"
-import { AnionsDataScript } from "./db_component/AnionsDataScript"
-import { AnionsVoiceScript } from "./db_component/AnionsVoiceScript"
 import { Analysis } from "./db_component/Analysis"
-import { CationsDataScript } from "./db_component/CationsDataScript"
-import { CationsVoiceScript } from "./db_component/CationsVoiceScript"
-import { TestImages } from "./db_component/TestImages"
 import { VoiceScript } from "./db_component/VoiceScript"
+import { DataScript } from "./db_component/DataScript"
+import { ImagesTest } from "./db_component/ImagesTest"
 
 export const DataDashboard: React.FunctionComponent = () => {
     
@@ -31,14 +28,13 @@ export const DataDashboard: React.FunctionComponent = () => {
         <Container>
             <HeaderContainer>
                 <BestButton onClick={reset}> Back</BestButton>
-                <BestButton onClick={()=>{showComponent(<CationsDataScript key={seed}/>)}}> DataScript + Cations</BestButton>
-                <BestButton onClick={()=>{showComponent(<AnionsDataScript key={seed}/>)}}> DataScript - Anions</BestButton>
-                <BestButton onClick={()=>{showComponent(<CationsVoiceScript key={seed}/>)}}> VoiceScript + Cations</BestButton>
-                <BestButton onClick={()=>{showComponent(<AnionsVoiceScript key={seed}/>)}}> VoiceScript - Anions </BestButton>
-                <BestButton onClick={()=>{showComponent(<TestImages key={seed}/>)}}> Test img </BestButton>
+                <BestButton onClick={()=>{showComponent(<DataScript key={seed} rout_name="cation_script_flow"/>)}}> DataFlow + Cation</BestButton>
+                <BestButton onClick={()=>{showComponent(<DataScript key={seed} rout_name="anion_script_flow"/>)}}> DataFlow - Anion</BestButton>
+                <BestButton onClick={()=>{showComponent(<VoiceScript rout_name="cation_voice_script" key={seed}/>)}}> VoiceScript + Cations</BestButton>
+                <BestButton onClick={()=>{showComponent(<VoiceScript rout_name="anion_voice_script" key={seed}/>)}}> VoiceScript + - Anions</BestButton>
+                <BestButton onClick={()=>{showComponent(<ImagesTest key={seed}/>)}}> Test images </BestButton>
                 <BestButton onClick={()=>{showComponent(<Analysis key={seed} rout_name="cation_analysis"/>)}}> Analysis + Cations </BestButton>
                 <BestButton onClick={()=>{showComponent(<Analysis key={seed} rout_name="anion_analysis"/>)}}> Analysis + Anions </BestButton>
-                <BestButton onClick={()=>{showComponent(<VoiceScript key={seed}/>)}}> Voice </BestButton>
             </HeaderContainer>
             {showComponent2()}
         </Container>

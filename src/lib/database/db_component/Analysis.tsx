@@ -21,7 +21,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
          setSeed(Math.random())
          
      }
-    
+    const header_name =  (rout_name=='cation_analysis') ? 'Cation' : 'Anion'
     const keys_f = (rout_name=='cation_analysis') ? ['id','name','f1',"f2","f3",'f4','f5','f6','f7'] : ['id','name','f1',"f2","f3",'f4']
     const keys_img = (rout_name=='cation_analysis') ? ['img1','img2','img3','img4','img5','img6','img7'] : ['img1','img2','img3','img4'] 
     const keys_end = ['end','result'] 
@@ -40,17 +40,17 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
     }
 
       const delete_row_from_db = (id: number)=>{
-        Axios.delete(  SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].delete+`/${id}`  )
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-        .then(()=>{reset()} )
-        .catch(err => {console.log(err)})
+        // Axios.delete(  SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].delete+`/${id}`  )
+        // .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        // .then(()=>{reset()} )
+        // .catch(err => {console.log(err)})
     }; 
 
     return(
         <ContainerP>
             {!showModyf &&  <Container>
                 <Container>
-                    <Container>Analizy Kationów</Container>
+                    <Container>{header_name} analysis </Container>
                     <TableContainer key={seed}>
                         <table >
                         <tbody >
