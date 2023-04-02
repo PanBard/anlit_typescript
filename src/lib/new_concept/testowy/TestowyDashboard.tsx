@@ -7,6 +7,7 @@ import { SERVER_ROUTS } from "lib/database/server_routs"
 import { db_insert_new_id_and_status_analysis } from "./crud_data"
 import { Wyrocznia } from "./Wyrocznia"
 import { BestButton } from "lib/components/components_modules"
+import { Chat } from "./Chat"
 
 
 
@@ -20,12 +21,17 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     const [id, setId] = useState(1)
     const [seed, setSeed] = useState(1);
     const [script, setScript] = useState();
-    const [talkingScript, setTalkingScript] = useState(' ');
+    const [ion_founded, setIonfounded] = useState<boolean>(false);
+    
+    console.log('ion_founded zewnatrz',ion_founded)
 
     const reset = () => {
         setPhase(phase+1)
         setSeed(Math.random())
-        
+        console.log('ion_founded',ion_founded)
+        if(!ion_founded) {
+            setScript(undefined)
+        } 
     }
 
   
@@ -51,29 +57,15 @@ export const TestowyDashboard: React.FunctionComponent = () => {
         }
 }
 
-    // useEffect(  ()  =>  {
-    //     get_data_from_db()
-    // },[])
 
     const get_data_from_db = (db: string) => {
         Axios.get(SERVER_ROUTS[db as keyof typeof SERVER_ROUTS].get)
-        .then( (response: any)=>{console.log(':)');setData(response.data);console.log(' return_new_analysis_id()',return_new_analysis_id(response.data));return_new_analysis_id(response.data) })
+        .then( (response: any)=>{console.log(':)');setData(response.data);return_new_analysis_id(response.data) })
         .catch((err)=>{console.log('db status :(', err)})
     }
-      console.log('daszbord',choosen_mode)
-
-
-    //   const chatOnScreen = (script: string, index: number, interval: string) => {   
-    //     if (index < script.length) { 
-    //         setTalkingScript(talkingScript + script[index++])
-    //         console.log(talkingScript)
-    //       setTimeout(function () { chatOnScreen( script, index, interval); }, parseFloat(interval) );
-    //     }
-    //   }
-
-
-
       
+
+
       const returnComponent = () => {
         if(choosen_mode=='start'){
             return(
@@ -138,9 +130,9 @@ export const TestowyDashboard: React.FunctionComponent = () => {
             if(current_analysis == 'cation'){
                 return(
                 <Container>
-                    <Container>{talkingScript}</Container>
+                        <Chat key={seed+9} script={script}/>
                        <AnalysisTestowy cation={true} phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
-                       <Wyrocznia cation={true} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
+                       <Wyrocznia ion_founded={()=>{setIonfounded(true)}} cation={true} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
                 </Container>
             )
             }
@@ -149,7 +141,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
                 return(
                 <Container>
                        <AnalysisTestowy cation={false} phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
-                       <Wyrocznia cation={false} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
+                       <Wyrocznia ion_founded={()=>{setIonfounded(true)}} cation={false} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
                 </Container>
             )
             }
@@ -158,7 +150,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
 
       }
 
-    //   useMemo(()=>{if(script) chatOnScreen(script,0,'0,2')},[script])
+    
     return(
         <Container>
          

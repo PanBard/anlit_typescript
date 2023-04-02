@@ -14,13 +14,15 @@ type ShuffleFateProps = {
     phase?:any,
     rerender():any,
     cation: boolean,
-    return_script(params: any): any
+    return_script(params: any): any,
+    ion_founded(): any
 }
 
 export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
     rerender,
     cation,
-    return_script
+    return_script,
+    ion_founded
 }) => {
 
     const [phase, setPhase] = useState<number>()
@@ -31,7 +33,7 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
     const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
     const db_voice_script_name = cation ? 'cation_voice_script' : 'anion_voice_script' 
-    console.log('db_type:',db_type)
+    
 
 
 
@@ -181,7 +183,7 @@ const get_script_from_db =async () => {
     await Axios.put(SERVER_ROUTS[db_voice_script_name].get_required_script,{phase: phase, match_id: rightSymbol[0] })
                 .then((response)=>{console.log('powinien byc skrypt----->',response.data[0].script)
                 if(response.data[0].f7 !== 'end') {Voice(response.data[0].script); return_script(response.data[0].script)}
-                if(response.data[0].f7 == 'end'){Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6); return_script(response.data[0].script)} 
+                if(response.data[0].f7 == 'end'){ion_founded(); return_script(response.data[0].script);Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6)} 
                 })
                 .catch((err)=>{console.log(err)})
 }

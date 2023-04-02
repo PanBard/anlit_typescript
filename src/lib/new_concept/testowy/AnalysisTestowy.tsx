@@ -34,7 +34,6 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
 
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
     const title = cation ? 'Identyfikacja kationu' : 'Identyfikacja anionu' 
-    console.log('db_type:',db_type)
 
     const catchMessageFromChild = (message: any) => {
         if(message[0] !== '404' && typeof message[0] !== 'undefined') //w razie gdyby wybrano opcje choose image

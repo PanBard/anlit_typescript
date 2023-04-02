@@ -23,7 +23,7 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
 
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
     const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
-    console.log('db_type:',db_type)
+    
 
 
     useEffect(  ()  =>  {
@@ -40,7 +40,7 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
 
     const set_up_phase = async (data: any)  => {
          const current = data[data.length-1]
-         console.log('current w shuffle: ',current)
+         
         if(typeof current !== 'undefined'){
              if((current['end'] == 'new') ){
              if(current['f1'] == null){setPhase(1);console.log('SHUFFLE FAZA:',1);return true}

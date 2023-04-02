@@ -17,7 +17,7 @@ export const LiveChangeWatch: React.FunctionComponent<LiveChangeWatchProps> = ({
     const [seed, setSeed] = useState(1);
 
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
-    console.log('db_type:',db_type)
+    
 
     const reset = () => {
         setSeed(Math.random())

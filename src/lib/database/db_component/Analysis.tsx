@@ -40,10 +40,10 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
     }
 
       const delete_row_from_db = (id: number)=>{
-        // Axios.delete(  SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].delete+`/${id}`  )
-        // .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-        // .then(()=>{reset()} )
-        // .catch(err => {console.log(err)})
+        Axios.delete(  SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].delete+`/${id}`  )
+        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then(()=>{reset()} )
+        .catch(err => {console.log(err)})
     }; 
 
     return(
