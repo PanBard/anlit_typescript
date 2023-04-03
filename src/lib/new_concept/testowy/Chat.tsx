@@ -1,24 +1,47 @@
-import React, { useRef, useState } from "react"
+import  Axios  from "axios"
+import { SERVER_ROUTS } from "lib/database/server_routs"
+import React, { useMemo, useRef, useState } from "react"
 import styled from "styled-components"
 
 type ChatProps = {
-    script: any
+    script: any,
+    phase?: any,
+    cation?: boolean,
+    id?: any
 }
 
 export const Chat: React.FunctionComponent<ChatProps> = ({
-    script
+    script,
+    phase,
+    cation,
+    id
 }) =>{
     const [slownictwo, setSlownictwo] = useState<string>()
 
 
     const divowansko = useRef<any>(null);
+    const db_rout = cation ? 'cation_analysis_texts' : 'anion_analysis_texts'
 
+    const get_script = async () => {
+        await  Axios.get(SERVER_ROUTS[db_rout].get)
+        .then( (response: any)=>{console.log('WYROCZNIA db :)')
+            const data = response.data
+            console.log('w fazie: ',phase)
+            console.log('db_rout: ',db_rout)
+            console.log('proba pobrania skryptu z danych: ',data,'o id: ',id)
+            console.log('NAJNOWSZY SKRYPCIK',data[data.length-1][`f${phase-1}`])
+            
+    
+    
+    })
+        .catch((err)=>{console.log('db WYROCZNIA status :(')})
+    }
 
  
 
    const wyswietlacz = ()=> {
     
-    if(typeof script !== 'undefined'){
+    if(typeof script !== 'undefined' && script.length > 0){
         const scrypt_copy =  script.slice();
         const script_slowa = scrypt_copy.split(" ");
         // console.log(script_slowa)
@@ -42,24 +65,21 @@ export const Chat: React.FunctionComponent<ChatProps> = ({
 
 wyswietlacz()
 
-
+useMemo(async ()=>{
+    if(typeof phase=='number'){console.log('FAZA Ccccccccccccccc ZACZTU: ',phase); await get_script()}
+    },[phase])
 
     return(
-        <ContainerP>
-            <div>
-                Chat
-            </div>
-            <ChatContainer ref={divowansko}></ChatContainer> 
-        </ContainerP>
-        
+            <ChatContainer style={{display: script ? 'block' : 'none'}} ref={divowansko}></ChatContainer> 
     )
 }
 
 const ChatContainer = styled.div`
-    border: 3px solid gray;
+    border: 3px solid #626062;
     border-radius: 10px;
     justify-content: center;
-    width: 300px;
+    width: 270px;
+    float: left;
 `
 
 const ContainerP = styled.div`

@@ -15,14 +15,16 @@ type ShuffleFateProps = {
     rerender():any,
     cation: boolean,
     return_script(params: any): any,
-    ion_founded(): any
+    ion_founded(): any,
+    rerender_chat?():any,
 }
 
 export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
     rerender,
     cation,
     return_script,
-    ion_founded
+    ion_founded,
+    rerender_chat
 }) => {
 
     const [phase, setPhase] = useState<number>()
@@ -33,7 +35,8 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
     const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
     const db_voice_script_name = cation ? 'cation_voice_script' : 'anion_voice_script' 
-    
+    const db_text_name = cation ? 'c_analysis_texts' : 'a_analysis_texts' 
+   
 
 
 
@@ -180,8 +183,12 @@ const set_happy_end =async (id: any) => {
 
 
 const get_script_from_db =async () => {
+        if(phase)
     await Axios.put(SERVER_ROUTS[db_voice_script_name].get_required_script,{phase: phase, match_id: rightSymbol[0] })
                 .then((response)=>{console.log('powinien byc skrypt----->',response.data[0].script)
+                const current = data[data.length-1];
+                const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
+                Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: response.data[0].script }).then(res=>console.log(res)).then(rerender_chat)
                 if(response.data[0].f7 !== 'end') {Voice(response.data[0].script); return_script(response.data[0].script)}
                 if(response.data[0].f7 == 'end'){ion_founded(); return_script(response.data[0].script);Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6)} 
                 })

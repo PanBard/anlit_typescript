@@ -13,13 +13,11 @@ type AnalysisProps = {
     name?: string,
     back?(): void,
     rerender?(): void,
-    phase1: number,
     cation: boolean
 }
 
 export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
     id,
-    back,
     name,
     rerender,
     cation
@@ -96,13 +94,7 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
         }
       },[dataFromChildComponent])
 
-    const returnComponent = () => {
-            return(
-            <Container>
-              <ShuffleFate cation={cation} />
-            </Container>
-            )
-    }
+ 
 
       return(
         <ContainerP>
@@ -134,8 +126,10 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
                     </Container>
 
                 
-                    {returnComponent()}
-                    
+                   
+                    <Container>
+                      <ShuffleFate cation={cation} />
+                    </Container>
                 
 
                 
@@ -154,6 +148,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1; */
+    margin-bottom: 10px;
     
 `
 

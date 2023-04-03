@@ -48,6 +48,24 @@ export const SERVER_ROUTS = {
           
       },
 
+      "cation_analysis_texts" : {
+          "get" : "http://localhost:4001/api/get/cation_analysis_texts",
+          "post" : "http://localhost:4001/api/post/cation_analysis_texts",
+          "put" : "http://localhost:4001/api/put/cation_analysis_texts",
+          "delete" : "http://localhost:4001/api/delete/cation_analysis_texts",
+     },
+  
+     "anion_analysis_texts" : {
+          "get" : "http://localhost:4001/api/get/anion_analysis_texts",
+          "post" : "http://localhost:4001/api/post/anion_analysis_texts",
+          "put" : "http://localhost:4001/api/put/anion_analysis_texts",
+          "delete" : "http://localhost:4001/api/delete/anion_analysis_texts",
+      },
+
+
+
+
+
      "shuffle_match" : {
           "get" : "http://localhost:4001/api/get/shuffle",
           "delete" : "",

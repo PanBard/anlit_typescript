@@ -8,6 +8,7 @@ import { db_insert_new_id_and_status_analysis } from "./crud_data"
 import { Wyrocznia } from "./Wyrocznia"
 import { BestButton } from "lib/components/components_modules"
 import { Chat } from "./Chat"
+import { ChatCat } from "./ChatCat"
 
 
 
@@ -20,12 +21,14 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     const [analysis_name, setAnalysis_name] = useState<string>('Default name')
     const [id, setId] = useState(1)
     const [seed, setSeed] = useState(1);
+    const [seed_for_chat, setSeed_for_chat] = useState(1);
     const [script, setScript] = useState();
     const [ion_founded, setIonfounded] = useState<boolean>(false);
     
     console.log('ion_founded zewnatrz',ion_founded)
 
     const reset = () => {
+        setSeed_for_chat(Math.random())
         setPhase(phase+1)
         setSeed(Math.random())
         console.log('ion_founded',ion_founded)
@@ -34,6 +37,9 @@ export const TestowyDashboard: React.FunctionComponent = () => {
         } 
     }
 
+    const reset_chat = () => {
+        setSeed_for_chat(Math.random())
+    }
   
     
    const return_new_analysis_id = (data: any)=>  {
@@ -131,7 +137,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
                 return(
                 <ContainerP>
                         
-                       <AnalysisTestowy cation={true} phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
+                       <AnalysisTestowy cation={true} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
                        <Wyrocznia ion_founded={()=>{setIonfounded(true)}} cation={true} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
                        <Chat key={seed+9} script={script}/>
                 </ContainerP>
@@ -140,10 +146,11 @@ export const TestowyDashboard: React.FunctionComponent = () => {
 
             if(current_analysis == 'anion'){
                 return(
-                <Container>
-                       <AnalysisTestowy cation={false} phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
-                       <Wyrocznia ion_founded={()=>{setIonfounded(true)}} cation={false} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
-                </Container>
+                <ContainerP>
+                       <AnalysisTestowy cation={false}  rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
+                       <Wyrocznia rerender_chat={reset_chat} ion_founded={()=>{setIonfounded(true)}} cation={false} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
+                       <ChatCat id={id} cation={false}  key={seed+9} script={script}/>
+                </ContainerP>
             )
             }
             
