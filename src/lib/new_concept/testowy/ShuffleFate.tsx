@@ -1,5 +1,5 @@
 import  Axios  from "axios";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { SERVER_ROUTS } from "lib/database/server_routs";
 
@@ -20,10 +20,46 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
     const [data, setData] = useState<any[]>([])
     const [rightSymbol, setRightSymbol] = useState<any[]>([])
     const [foundIon, setfoundIon] = useState<any>()
+    const [longString,setLongString] = useState<string>();
+
+    const shuffleDiv = useRef<any>(null);
 
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
     const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
     
+
+    const wyswietlacz = ()=> {
+    
+        if(typeof rightSymbol !== 'undefined' && rightSymbol.length>0){
+            console.log('rightSymbol.length',rightSymbol.length)
+
+            // console.log('chat wyklada slowa')
+            let index = 0
+
+            rightSymbol.map((obj)=>{ setLongString(longString+obj) })
+
+            // for(let i =0; i<rightSymbol.length;i++){
+            //     shuffleDiv.current.append(rightSymbol[i]+" ")
+            // }
+    
+            // const loop =  setInterval(()=>{
+            //     // console.log('weslo')
+            //     if(rightSymbol.length >= index){
+            //         // console.log(slowa)
+                    
+                    
+            //            if(typeof rightSymbol[index] !== 'undefined') {shuffleDiv.current.append(rightSymbol[index]+" ")}
+            //         console.log(index)
+            //         index = index + 1
+            //         }
+            //         else clearTimeout(loop) },400)
+        }
+        return console.log('chat nie mowi')
+    }
+    
+    // wyswietlacz()
+
+
 
 
     useEffect(  ()  =>  {
@@ -136,6 +172,7 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
                         }}
 
                    })})
+                // .then(()=>{if(rightSymbol.length>0) wyswietlacz()})
                 .catch((err)=>{console.log('db status :(')})
                 }}
 
@@ -169,12 +206,16 @@ useMemo(()=>{
                         </Container>
                         )
                 }
-                else{
+                else{   
+                        console.log('rightSymbol',rightSymbol)
                       return(
-                        <Container12>
+                        <ShuffleContainer ref={shuffleDiv}>
                             Mogą być:
-                            {rightSymbol.map((obj: any,index:number)=>{ return(<div key={index}>{ obj}</div>)})}
-                        </Container12>
+                            
+                            {rightSymbol.map((obj: any,index:number)=>{ return(obj+' ')})}
+                        </ShuffleContainer>
+                        
+                            
                      )
                 }
             } 
@@ -189,16 +230,9 @@ useMemo(()=>{
 }
 
 
-const MyImage = styled.img`
-width: 100px;
-height: 100px;
-`
 
-const Td = styled.td`
-    border: 1px solid gray;
-    justify-content: center;
-    
-`
+
+
 
 const Container = styled.div`
     /* color: ${({theme}) => theme.colors.typography};
@@ -207,33 +241,13 @@ const Container = styled.div`
     flex: 1; */
     
 `
-const Container12 = styled.div`
-    color: ${({theme}) => theme.colors.typography};
-    display: flex;
-    flex-direction: row;
-    flex: 1;
- 
+const ShuffleContainer = styled.div`
+    border: 3px solid gray;
+    border-radius: 10px;
+    justify-content: center;
+    width: 400px;
     
 `
 
-const MojButton = styled.button`
-    padding: 10px 5px;
-    text-align: center;
-    border-radius: 8px; 
-    background-color: ${({theme})=> theme.colors.primary};
-    /* background-color: red; */
-    cursor: pointer;
-`
 
-const Contr = styled.div`
-    /* display: inline-block; */
-    display: flex;
-    flex-direction: row;
-`
 
-const SmallButton = styled.button`
-    background-color: gray;
-    border: 1px solid red;
-    margin-left: 10px;
-    cursor: pointer;
-`

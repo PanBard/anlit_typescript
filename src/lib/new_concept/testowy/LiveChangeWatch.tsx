@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { SERVER_ROUTS } from "lib/database/server_routs";
 
 type LiveChangeWatchProps = {
-    message: any,
     cation: boolean
 }
 

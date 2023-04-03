@@ -2,7 +2,7 @@ import  Axios  from "axios"
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
-import { ContainerP, MyImage, TableContainer, Td_image } from "lib/components/components_modules"
+import { ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image } from "lib/components/components_modules"
 
 type AnalysysProps = {
     rout_name: string,
@@ -64,8 +64,8 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                                         {keys_f.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
                                         {keys_img.map( (obj, i) => { return( <Td_image key={i}><MyImage style={{display: data[obj]==null? 'none' : 'flex'}}  src={data[obj]}/></Td_image>) })}
                                         {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='end' ? '#618685' : 'none'}} key={i}>{data[obj]}</Td>) })}
-                                        {!hide && <Td_container style={{cursor:'pointer'}}  onClick={()=>{setHide(true)}} >...</Td_container>}
-                                        {hide &&  <Td_del_button onClick={ ()=> { delete_row_from_db(data.id)}} >Usuń</Td_del_button>  }
+                                        {!hide && <Td_container style={{cursor:'pointer'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>}
+                                        {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container>  }
                                         <Td onClick={()=>{console.log('wykorzystać:',data.end)}} style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
                                     </tr>
                                 )

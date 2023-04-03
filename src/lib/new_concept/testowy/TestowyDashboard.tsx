@@ -129,11 +129,12 @@ export const TestowyDashboard: React.FunctionComponent = () => {
 
             if(current_analysis == 'cation'){
                 return(
-                <Container>
-                        <Chat key={seed+9} script={script}/>
+                <ContainerP>
+                        
                        <AnalysisTestowy cation={true} phase1={phase} rerender={reset} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
                        <Wyrocznia ion_founded={()=>{setIonfounded(true)}} cation={true} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
-                </Container>
+                       <Chat key={seed+9} script={script}/>
+                </ContainerP>
             )
             }
 
@@ -176,6 +177,7 @@ const ContainerP = styled.div`
     flex-direction: row;
     justify-content: center;
     flex: 1;
+    /* background-color: grey; */
     
 `
 

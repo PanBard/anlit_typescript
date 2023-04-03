@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react"
+import styled from "styled-components"
 
 type ChatProps = {
     script: any
@@ -44,10 +45,28 @@ wyswietlacz()
 
 
     return(
-        <div ref={divowansko}>
-            {slownictwo}
-            
+        <ContainerP>
+            <div>
+                Chat
+            </div>
+            <ChatContainer ref={divowansko}></ChatContainer> 
+        </ContainerP>
         
-        </div>
     )
 }
+
+const ChatContainer = styled.div`
+    border: 3px solid gray;
+    border-radius: 10px;
+    justify-content: center;
+    width: 300px;
+`
+
+const ContainerP = styled.div`
+    color: ${({theme}) => theme.colors.typography};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    /* background-color: red; */
+`

@@ -5,7 +5,8 @@ import { SERVER_ROUTS } from "lib/database/server_routs"
 import { LiveChangeWatch } from "./LiveChangeWatch"
 import { ShuffleFate } from "./ShuffleFate"
 import { useTest_labels } from "lib/hooks/useDetectFlow";
-import { BestButton } from "lib/components/components_modules"
+import { BestButton, ContainerP } from "lib/components/components_modules"
+import { LiveUpdate } from "./LiveUpdate"
 
 type AnalysisProps = {
     id: number,
@@ -104,31 +105,46 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
     }
 
       return(
-        <Container>
-                    <Container>
-                    <BestButton onClick={()=>{window.location.reload()}} > Cofnij </BestButton>
+        <ContainerP>
+
+          <Container>
+          <BestButton onClick={()=>{window.location.reload()}} > Zakończ </BestButton>
+          </Container>
+
+           <Container>
+
+                <Container>
+                    
                     <h4>[{title}]</h4>
                     <h2>  Nazwa analizy: {name} </h2>
                     <h3>ID: {id}</h3>
-                    </Container>
-            <label>Wybierz</label>
-            <select name="op" id="op" onChange={(obj)=>{ 
-                setTestowy_label(obj.target.value);
-                setImage(imgFromDataBase[obj.target.value].img );
-                }}>
-                <option key={89} value={404}> CHOOSE IMAGE </option>
-                {imgFromDataBase.map((obj: any,index: number)=>{
-                return(  <option key={index} value={index}> {obj.label} </option>  )
-                })}
+                </Container>
 
-            </select>
-            <BestButton onClick={()=>{catchMessageFromChild([testowy_label,image])}} > Fake detection</BestButton>
-            <Container2>
-                       {returnComponent()}
-                       <LiveChangeWatch cation={cation} message={dataFromChildComponent}/>
+                    <Container>
+                        <label>Wybierz</label>
+                        <select name="op" id="op" onChange={(obj)=>{ 
+                          setTestowy_label(obj.target.value);
+                          setImage(imgFromDataBase[obj.target.value].img );
+                          }}>
+                        <option key={89} value={404}> CHOOSE IMAGE </option>
+                        {imgFromDataBase.map((obj: any,index: number)=>{
+                        return(  <option key={index} value={index}> {obj.label} </option>  )})}
+                        </select>
+                        <BestButton onClick={()=>{catchMessageFromChild([testowy_label,image])}} > Fake detection</BestButton>
+                    </Container>
+
+                
+                    {returnComponent()}
                     
-            </Container2>
-        </Container>
+                
+
+                
+                  <LiveUpdate cation={cation}/>
+                
+
+            </Container>
+        </ContainerP>
+       
     )
 }
 
@@ -149,3 +165,10 @@ const Container2 = styled.div`
     
 `
 
+const Container1 = styled.div`
+    color: ${({theme}) => theme.colors.typography};
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    
+`
