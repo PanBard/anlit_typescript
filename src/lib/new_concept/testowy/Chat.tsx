@@ -26,11 +26,11 @@ export const Chat: React.FunctionComponent<ChatProps> = ({
         await  Axios.get(SERVER_ROUTS[db_rout].get)
         .then( (response: any)=>{console.log('WYROCZNIA db :)')
             const data = response.data
-            console.log('w fazie: ',phase)
-            console.log('db_rout: ',db_rout)
-            console.log('proba pobrania skryptu z danych: ',data,'o id: ',id)
+            // console.log('w fazie: ',phase)
+            // console.log('db_rout: ',db_rout)
+            // console.log('proba pobrania skryptu z danych: ',data,'o id: ',id)
             console.log('NAJNOWSZY SKRYPCIK',data[data.length-1][`f${phase-1}`])
-            
+            wyswietlacz_2(data[data.length-1][`f${phase-1}`])
     
     
     })
@@ -39,7 +39,32 @@ export const Chat: React.FunctionComponent<ChatProps> = ({
 
  
 
-   const wyswietlacz = ()=> {
+//    const wyswietlacz = ()=> {
+    
+//     if(typeof script !== 'undefined' && script.length > 0){
+//         const scrypt_copy =  script.slice();
+//         const script_slowa = scrypt_copy.split(" ");
+//         // console.log(script_slowa)
+//         // console.log('chat wyklada slowa')
+//         let index = 0
+
+//         const loop =  setInterval(()=>{
+//             // console.log('weslo')
+//             if(script_slowa.length >= index){
+//                 // console.log(slowa)
+                
+                
+//                    if(typeof script_slowa[index] !== 'undefined') {console.log('typeof script_slowa[index]',typeof script_slowa[index]),divowansko.current.append(script_slowa[index]+" ")}
+//                 // console.log(index)
+//                 index = index + 1
+//                 }
+//                 else clearTimeout(loop) },400)
+//     }
+//     return console.log('chat nie mowi')
+// }
+
+
+const wyswietlacz_2 = (script: any)=> {
     
     if(typeof script !== 'undefined' && script.length > 0){
         const scrypt_copy =  script.slice();
@@ -63,14 +88,15 @@ export const Chat: React.FunctionComponent<ChatProps> = ({
     return console.log('chat nie mowi')
 }
 
-wyswietlacz()
+// wyswietlacz()
 
 useMemo(async ()=>{
     if(typeof phase=='number'){console.log('FAZA Ccccccccccccccc ZACZTU: ',phase); await get_script()}
     },[phase])
 
     return(
-            <ChatContainer style={{display: script ? 'block' : 'none'}} ref={divowansko}></ChatContainer> 
+            // <ChatContainer style={{display: script ? 'block' : 'none'}} ref={divowansko}></ChatContainer> 
+            <ChatContainer  ref={divowansko}></ChatContainer> 
     )
 }
 

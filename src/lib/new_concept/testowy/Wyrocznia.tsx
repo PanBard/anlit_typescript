@@ -30,7 +30,7 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
     const [phase, setPhase] = useState<number>()
     const [data, setData] = useState<any[]>([])
     const [rightSymbol, setRightSymbol] = useState<any[]>([])
-    const [foundIon, setfoundIon] = useState<any>()
+    const [foundIon, setfoundIon] = useState<boolean>()
     
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
     const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
@@ -153,28 +153,39 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
                         }
                     }
                     )
+                    setfoundIon(true)
+                    
+
                 }
                 )
             }
         }
 
+const set_failed_end = async () => {
+    const current = data[data.length-1]
+    if(current.end !== 'end' && current.end !== 'fail' ){
+        await Axios.put(SERVER_ROUTS[db_type].put, {id: current.id , end:'fail'})
+        .then(p => {console.log(p)})
+}
+}
 
 const set_happy_end =async (id: any) => {
         const current = data[data.length-1]
         console.log('happy_end -- id',current.id)
     if(current.end !== 'end'){
         await Axios.put(SERVER_ROUTS[db_type].put, {id: current.id , end:'end'})
-            .then(p => {console.log(p.data);
+            .then(p => {console.log(p);
                 const query = `SELECT symbol FROM ${db_type_name} WHERE id = ${id}`
                 Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
                 .then((response)=>{console.log('z cutoma query: ',response.data[0].symbol)
                     Axios.put(SERVER_ROUTS[db_type].set_result, {id: current.id , result:response.data[0].symbol})
-                        .then(rerender())
+                    // .then(()=>{
+                    //     const query = `UPDATE ${db_text_name} SET f${phase}=? WHERE id=?`
+                    //     Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: 'Analiza zakoczona powodzeniem!' }).then(res=>console.log(res)).then(rerender_chat)
+                    // })
+                        // .then(rerender())
 
                     })
-            
-
-            
         })
     }
         
@@ -188,7 +199,8 @@ const get_script_from_db =async () => {
                 .then((response)=>{console.log('powinien byc skrypt----->',response.data[0].script)
                 const current = data[data.length-1];
                 const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
-                Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: response.data[0].script }).then(res=>console.log(res)).then(rerender_chat)
+                if(response.data[0].f7 !== 'end')Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: response.data[0].script }).then(res=>console.log(res)).then(rerender_chat)
+                if(response.data[0].f7 == 'end'){const text = response.data[0].script + ' Analiza zakoczona powodzeniem!'   ;Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: text}).then(res=>console.log(res)).then(rerender_chat)}
                 if(response.data[0].f7 !== 'end') {Voice(response.data[0].script); return_script(response.data[0].script)}
                 if(response.data[0].f7 == 'end'){ion_founded(); return_script(response.data[0].script);Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6)} 
                 })
@@ -203,6 +215,14 @@ useMemo(()=>{
     if(typeof phase !== 'undefined' && rightSymbol.length !== 0){console.log('włączamy poieranie skryptu'); get_script_from_db()}
 },[rightSymbol])
 
+useMemo(()=>{
+    if(typeof phase !== 'undefined' && phase!==1 && rightSymbol.length == 0 && foundIon==true){ 
+        const current = data[data.length-1]
+        const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
+        Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: 'Taki wynik nie powinien się pojawić na tym etapie analizy.' }).then(res=>console.log(res)).then(rerender_chat).then(()=>{set_failed_end()})
+        .then(()=>{Voice('Taki wynik nie powinien się pojawić na tym etapie analizy.')})
+        console.log('No nieciekawa sytiuacaja, bo normalnie nie ma dopasowano liczby...............................................................................')}
+},[foundIon])
 
 
 return null

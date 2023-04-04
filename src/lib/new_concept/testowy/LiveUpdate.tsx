@@ -109,6 +109,8 @@ const TableContainer = styled.div`
     border: 3px solid gray;
     border-radius: 10px;
     justify-content: center;
+    align-items: center;
+    
 `
 
 const Td = styled.td`
@@ -122,6 +124,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1; */
+    justify-content: center;
     
 `
 const Container12 = styled.div`

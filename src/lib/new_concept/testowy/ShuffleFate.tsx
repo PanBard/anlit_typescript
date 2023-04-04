@@ -28,40 +28,6 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
     const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
     
 
-    const wyswietlacz = ()=> {
-    
-        if(typeof rightSymbol !== 'undefined' && rightSymbol.length>0){
-            console.log('rightSymbol.length',rightSymbol.length)
-
-            // console.log('chat wyklada slowa')
-            let index = 0
-
-            rightSymbol.map((obj)=>{ setLongString(longString+obj) })
-
-            // for(let i =0; i<rightSymbol.length;i++){
-            //     shuffleDiv.current.append(rightSymbol[i]+" ")
-            // }
-    
-            // const loop =  setInterval(()=>{
-            //     // console.log('weslo')
-            //     if(rightSymbol.length >= index){
-            //         // console.log(slowa)
-                    
-                    
-            //            if(typeof rightSymbol[index] !== 'undefined') {shuffleDiv.current.append(rightSymbol[index]+" ")}
-            //         console.log(index)
-            //         index = index + 1
-            //         }
-            //         else clearTimeout(loop) },400)
-        }
-        return console.log('chat nie mowi')
-    }
-    
-    // wyswietlacz()
-
-
-
-
     useEffect(  ()  =>  {
         get_data()
     },[])
@@ -207,7 +173,7 @@ useMemo(()=>{
                         )
                 }
                 else{   
-                        console.log('rightSymbol',rightSymbol)
+                        // console.log('rightSymbol',rightSymbol)
                       return(
                         <ShuffleContainer ref={shuffleDiv}>
                             Mogą być:

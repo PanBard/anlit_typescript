@@ -107,7 +107,7 @@ export const get_scriptvoice_match_id = async (current:any,phase:any,db_type_nam
                     }
                 }
                 ) 
-            return id
+             console.log('id=============',id)
         }
     }
 

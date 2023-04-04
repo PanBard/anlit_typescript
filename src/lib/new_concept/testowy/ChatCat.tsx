@@ -8,28 +8,36 @@ import { get_scriptvoice_match_id } from "./crud_data";
 type ChatCatProps = {
     script: any,
     cation: boolean,
-    id?: any
+    id?: any,
+    ready: boolean
 }
 
 export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
     // script,
     cation,
-    id
+    id,
+    ready
 }) =>{
 
     const [phase, setPhase] = useState<number>()
     const [data, setData] = useState<any[]>([])
     const [script, setScript] = useState<string>()
+    const [currentConversation,setCurrentConversation] = useState<any>()
+
+    const refChat = useRef<any>(null);
+
+
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
     const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
     const db_voice_script_name = cation ? 'cation_voice_script' : 'anion_voice_script' 
-
+    const db_rout = cation ? 'cation_analysis_texts' : 'anion_analysis_texts'
 
 
     useEffect(  ()  =>  {
-        get_data()
+        get_data()  
     },[])
-
+    
+   
 
     
     const set_up_phase = async (data: any)  => {
@@ -53,6 +61,29 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
        }
    }
 
+   const show_conversation = () => {
+    if(currentConversation && phase){
+        // refChat.current.scrollTop = refChat.current.scrollHeight;
+         const key = Object.keys(currentConversation)
+         console.log('key',key)
+         return(
+            key.map((obj,index)=>{
+        console.log('currentConversation[obj]', typeof currentConversation[obj])
+       if(obj !== `f${phase-1}` && obj !== 'id' && typeof currentConversation[obj] !== 'object') {
+        // refChat.current.scrollTop = refChat.current.scrollHeight;
+       return(<ChatContainer key={index}>{currentConversation[obj]}</ChatContainer>)}
+    })
+         )
+    
+    
+    }
+    else{
+        return (<div> brak wiadomości</div>)
+    }
+   
+    
+   }
+
 
    const get_data = async () => {
       
@@ -62,6 +93,18 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
     
   }
 
+  const get_script = async () => {
+    await  Axios.get(SERVER_ROUTS[db_rout].get)
+    .then( (response: any)=>{console.log('WYROCZNIA db :)')
+        const data = response.data
+        console.log('wszystkie sktypTY',data[data.length -1])
+        setCurrentConversation(data[data.length -1])
+})
+    .catch((err)=>{console.log('db status :(')})
+}
+useMemo(async ()=>{
+    if(ready) get_script()
+},[ready])
 
   useMemo(async ()=>{
     if(typeof phase !== 'undefined'){console.log('cAT faza:',phase)}
@@ -75,40 +118,94 @@ useMemo(()=>{
 
     return(
         <ContainerP>
-            <ChatHeader>
-                  <h3>ChatChat</h3> 
-            </ChatHeader>
-            <ChatBody>
-                < Chat id ={id} script={script} phase={phase}/>
-            </ChatBody>
+            
+            <ContainerF>
+                <ChatHeader>
+                 <b>CatChat</b> 
+                </ChatHeader>
+                <ChatBody ref={refChat}>
+
+                    {show_conversation()}
+                    {ready && <Margin>< Chat cation={cation} id ={id} script={script} phase={phase}/></Margin>  }
+                    <div style={{clear: 'left'}}></div>
+
+                    <Container2 ><Container >.   .   .</Container></Container2>
+                </ChatBody>
+            </ContainerF>
           
         </ContainerP>
     )
 
 }
 
+const ChatContainer = styled.div`
+    border: 3px solid #626062;
+    border-radius: 10px;
+    justify-content: center;
+    width: 270px;
+    float: right;
+    margin: 5px;
+    padding: 5px;
+`
+
+const Margin = styled.div`
+    
+    margin: 5px;
+`
+const ContainerF = styled.div`
+
+   position: fixed;
+   overflow: hidden;
+
+
+   
+   `
+
+const Container = styled.div`
+    
+    border: 3px solid gray;
+    border-radius: 10px;
+`
+
+const Container2 = styled.div`
+    /* width: 300px; */
+    display: flex;
+    justify-content: flex-end;
+`
+
 const ChatHeader = styled.div`
     border: 3px solid gray;
     border-radius: 10px;
     justify-content: center;
+    text-align: center;
+    height: 40px;
     width: 300px;
     /* background-color: grey; */
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 `
 
 const ChatBody = styled.div`
+    box-sizing: 100%;
     border: 3px solid gray;
-    
     border-radius: 10px;
     justify-content: center;
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    max-height: 350px;
     color: ${({theme}) => theme.colors.typography};
     display: flex;
     flex-direction: column;
     justify-content: center;
     flex: 1;
-    overflow-y:scroll;
+    overflow-y: auto;
+    ::-webkit-scrollbar{
+        width: 5px;  
+        background: grey;  
+    }
+    ::-webkit-scrollbar-thumb {
+    background: #484748;
+    }
+    
+
     /* background-color: grey; */
 `
 
@@ -118,5 +215,6 @@ const ContainerP = styled.div`
     flex-direction: column;
     justify-content: center;
     flex: 1;
+    
     /* background-color: magenta; */
 `

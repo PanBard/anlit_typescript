@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs"
-import { LiveChangeWatch } from "./LiveChangeWatch"
 import { ShuffleFate } from "./ShuffleFate"
 import { useTest_labels } from "lib/hooks/useDetectFlow";
 import { BestButton, ContainerP } from "lib/components/components_modules"
@@ -32,7 +31,9 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
     const labelMap = useTest_labels()
 
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
-    const title = cation ? 'Identyfikacja kationu' : 'Identyfikacja anionu' 
+    const title = cation ? 'Identyfikacja kationu' : 'Identyfikacja anionu'
+    
+    const nice_names = ['brak osadu','biały osad', 'czarny osad', 'żółty osad', 'pomarańczowy osad', 'zielony osad', 'niebieski osad', 'niebiesko-różowy osad', 'cielisty osad', 'pomarańczowy płyn', 'fioletowy płyn', 'żółty płyn']
 
     const catchMessageFromChild = (message: any) => {
         if(message[0] !== '404' && typeof message[0] !== 'undefined') //w razie gdyby wybrano opcje choose image
@@ -120,7 +121,7 @@ export const AnalysisTestowy: React.FunctionComponent<AnalysisProps> = ({
                           }}>
                         <option key={89} value={404}> CHOOSE IMAGE </option>
                         {imgFromDataBase.map((obj: any,index: number)=>{
-                        return(  <option key={index} value={index}> {obj.label} </option>  )})}
+                        return(  <option key={index} value={index}> {nice_names[index]} </option>  )})}
                         </select>
                         <BestButton onClick={()=>{catchMessageFromChild([testowy_label,image])}} > Fake detection</BestButton>
                     </Container>
