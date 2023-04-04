@@ -3,7 +3,8 @@ import styled from "styled-components"
 import { Chat } from "./Chat"
 import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs";
-import { get_scriptvoice_match_id } from "./crud_data";
+import { Speech } from "./Speech";
+
 
 type ChatCatProps = {
     script: any,
@@ -63,14 +64,14 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
 
    const show_conversation = () => {
     if(currentConversation && phase){
-        // refChat.current.scrollTop = refChat.current.scrollHeight;
+        // refChat.current.scrollIntoView({ behavior: "smooth" })
          const key = Object.keys(currentConversation)
          console.log('key',key)
          return(
             key.map((obj,index)=>{
         console.log('currentConversation[obj]', typeof currentConversation[obj])
        if(obj !== `f${phase-1}` && obj !== 'id' && typeof currentConversation[obj] !== 'object') {
-        // refChat.current.scrollTop = refChat.current.scrollHeight;
+        // refChat.current.scrollIntoView({ behavior: "smooth" })
        return(<ChatContainer key={index}>{currentConversation[obj]}</ChatContainer>)}
     })
          )
@@ -123,13 +124,13 @@ useMemo(()=>{
                 <ChatHeader>
                  <b>CatChat</b> 
                 </ChatHeader>
-                <ChatBody ref={refChat}>
+                <ChatBody >
 
                     {show_conversation()}
-                    {ready && <Margin>< Chat cation={cation} id ={id} script={script} phase={phase}/></Margin>  }
+                    {ready && < Chat cation={cation} id ={id} script={script} phase={phase}/>  }
                     <div style={{clear: 'left'}}></div>
 
-                    <Container2 ><Container >.   .   .</Container></Container2>
+                    <Container2 ref={refChat}><Container ><Speech/></Container></Container2>
                 </ChatBody>
             </ContainerF>
           
@@ -143,9 +144,11 @@ const ChatContainer = styled.div`
     border-radius: 10px;
     justify-content: center;
     width: 270px;
-    float: right;
+    float: left;
     margin: 5px;
     padding: 5px;
+    float:none;
+    
 `
 
 const Margin = styled.div`
@@ -179,24 +182,21 @@ const ChatHeader = styled.div`
     justify-content: center;
     text-align: center;
     height: 40px;
-    width: 300px;
+    width: 100px;
     /* background-color: grey; */
     margin-bottom: 5px;
 `
 
 const ChatBody = styled.div`
-    box-sizing: 100%;
+    padding: 5px;
     border: 3px solid gray;
     border-radius: 10px;
     justify-content: center;
     width: 400px;
+    height: 350px;
     max-height: 350px;
     color: ${({theme}) => theme.colors.typography};
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
     ::-webkit-scrollbar{
         width: 5px;  
         background: grey;  
@@ -215,6 +215,7 @@ const ContainerP = styled.div`
     flex-direction: column;
     justify-content: center;
     flex: 1;
+    padding: 5px;
     
     /* background-color: magenta; */
 `
