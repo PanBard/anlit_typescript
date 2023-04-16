@@ -2,7 +2,7 @@ import  Axios  from "axios"
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
-import { ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image } from "lib/components/components_modules"
+import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image } from "lib/components/components_modules"
 
 type AnalysysProps = {
     rout_name: string,
@@ -21,6 +21,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
          setSeed(Math.random())
          
      }
+     const db_name = (rout_name == 'cation_analysis') ? 'ultimate_analysis' : 'anion_analysis'
     const header_name =  (rout_name=='cation_analysis') ? 'Cation' : 'Anion'
     const keys_f = (rout_name=='cation_analysis') ? ['id','name','f1',"f2","f3",'f4','f5','f6','f7'] : ['id','name','f1',"f2","f3",'f4']
     const keys_img = (rout_name=='cation_analysis') ? ['img1','img2','img3','img4','img5','img6','img7'] : ['img1','img2','img3','img4'] 
@@ -46,8 +47,25 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
         .catch(err => {console.log(err)})
     }; 
 
+    const delete_all_data = () => {
+        if(confirm("Na pewno chcesz usunąć całą historię?")){
+             const QUERY = `DELETE FROM ${db_name}`
+        Axios.post(SERVER_ROUTS.custom_query.get, {query: QUERY})
+        .then( ()=>{console.log('data deleted') })
+        .then(()=>{get_data_from_db()})
+        .then(()=>{reset()})
+        .catch((err)=>{console.log('db status :(')})
+        } 
+       
+    }
+
     return(
         <ContainerP>
+
+            <Container>
+                  <BestButton onClick={delete_all_data}>Clear all</BestButton>
+            </Container>
+
             {!showModyf &&  <Container>
                 <Container>
                     <Container>{header_name} analysis </Container>

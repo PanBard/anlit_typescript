@@ -10,3 +10,66 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+
+
+/* ######################### Dropdown menu */
+
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+    margin: 10px;
+  }
+  
+  .dropdown .dropbtn {
+    /* font-size: 16px;   */
+    /* border: none; */
+    /* outline: none; */
+    /* color: white; */
+    /* padding: 14px 16px; */
+    /* background-color: inherit; */
+    /* font-family: inherit; */
+    margin: 0;
+    font-weight:600;
+  }
+  
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    /* background-color: #3b3a3b; */
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    /* background-color: #484748; */
+    background-color: gray;
+    min-width: 160px;
+    /* box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); */
+    z-index: 100;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .dropdown-content a {
+    background-color: #484748;
+    border: 1px solid gray;
+    float: none;
+    color: #c8d6e5;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin: 2px;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #3b3a3b;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+/* ######################### Dropdown menu */
+

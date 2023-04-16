@@ -2,12 +2,14 @@ import React from "react"
 import styled, {ThemeProvider} from "styled-components"
 import {myTheme} from "lib/styles"
 import { Router } from "lib/components/Router"
+import { OneRouter } from "lib/components/OneRouter"
 export const App = () => {
 
     return(
        <ThemeProvider theme={ myTheme }>
             <MojDIV>
-                <Router/>
+                {/* <Router/> */}
+                <OneRouter/>
             </MojDIV>
        </ThemeProvider>
     )

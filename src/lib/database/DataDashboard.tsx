@@ -5,6 +5,7 @@ import { Analysis } from "./db_component/Analysis"
 import { VoiceScript } from "./db_component/VoiceScript"
 import { DataScript } from "./db_component/DataScript"
 import { ImagesTest } from "./db_component/ImagesTest"
+import { Analysis_text_chat } from "./db_component/Analysis_text_chat"
 
 export const DataDashboard: React.FunctionComponent = () => {
     
@@ -24,17 +25,66 @@ export const DataDashboard: React.FunctionComponent = () => {
         return component
      }
 
+
+     const DropdownMenu_analysis = () =>{
+        return(
+            <div className="dropdown">
+            <BestButton className="dropbtn">Analysis</BestButton>
+            <div className="dropdown-content">
+              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="anion_analysis"/>)}}>Anions -</a>
+              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="cation_analysis"/>)}} >Cations +</a>
+            </div>
+          </div> 
+        )
+    }
+
+    const DropdownMenu_dataflow = () =>{
+        return(
+            <div className="dropdown">
+            <BestButton className="dropbtn">Dataflow</BestButton>
+            <div className="dropdown-content">
+            <a onClick={()=>{showComponent(<DataScript key={seed} rout_name="anion_script_flow"/>)}}> Anions - </a>
+            <a onClick={()=>{showComponent(<DataScript key={seed} rout_name="cation_script_flow"/>)}}> Cations + </a>
+            </div>
+          </div> 
+        )
+    }
+
+    const DropdownMenu_voicescript = () =>{
+        return(
+            <div className="dropdown">
+            <BestButton className="dropbtn">Dataflow</BestButton>
+            <div className="dropdown-content">
+            <a onClick={()=>{showComponent(<VoiceScript rout_name="anion_voice_script" key={seed}/>)}}> Anions - </a>
+            <a onClick={()=>{showComponent(<VoiceScript rout_name="cation_voice_script" key={seed}/>)}}> Cations + </a>
+            </div>
+          </div> 
+        )
+    }
+
+
+    const DropdownMenu_chatText = () =>{
+        return(
+            <div className="dropdown">
+            <BestButton className="dropbtn">Chat history</BestButton>
+            <div className="dropdown-content">
+            <a onClick={()=>{showComponent(<Analysis_text_chat rout_name="anion_analysis" key={seed}/>)}}> Anions - </a>
+            <a onClick={()=>{showComponent(<Analysis_text_chat rout_name="cation_analysis" key={seed}/>)}}> Cations + </a>
+            </div>
+          </div> 
+        )
+    }
+
     return(
         <Container>
             <HeaderContainer>
-                <BestButton onClick={reset}> Back</BestButton>
-                <BestButton onClick={()=>{showComponent(<DataScript key={seed} rout_name="cation_script_flow"/>)}}> DataFlow + Cation</BestButton>
-                <BestButton onClick={()=>{showComponent(<DataScript key={seed} rout_name="anion_script_flow"/>)}}> DataFlow - Anion</BestButton>
-                <BestButton onClick={()=>{showComponent(<VoiceScript rout_name="cation_voice_script" key={seed}/>)}}> VoiceScript + Cations</BestButton>
-                <BestButton onClick={()=>{showComponent(<VoiceScript rout_name="anion_voice_script" key={seed}/>)}}> VoiceScript + - Anions</BestButton>
+                {/* <BestButton onClick={reset}> Back</BestButton> */}
+                <DropdownMenu_analysis/>
+                <DropdownMenu_dataflow/>
+                <DropdownMenu_voicescript/>
+                < DropdownMenu_chatText/>
                 <BestButton onClick={()=>{showComponent(<ImagesTest key={seed}/>)}}> Test images </BestButton>
-                <BestButton onClick={()=>{showComponent(<Analysis key={seed} rout_name="cation_analysis"/>)}}> Analysis + Cations </BestButton>
-                <BestButton onClick={()=>{showComponent(<Analysis key={seed} rout_name="anion_analysis"/>)}}> Analysis + Anions </BestButton>
+                {/* <BestButton onClick={()=>{showComponent(<Analysis_text_chat rout_name="cation_voice_script" key={seed}/>)}}> ChatText </BestButton> */}
             </HeaderContainer>
             {showComponent2()}
         </Container>
