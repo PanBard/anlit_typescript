@@ -2,12 +2,12 @@ import React, { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { DbPushAndGet } from "./db_management"
 import { AnalysisTestowy } from "./AnalysisTestowy"
+import { AnalysisTestowy_2 } from "./AnalysisTestowy_2"
 import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs"
 import { db_insert_new_id_and_status_analysis } from "./crud_data"
 import { Wyrocznia } from "./Wyrocznia"
 import { BestButton } from "lib/components/components_modules"
-import { Chat } from "./Chat"
 import { ChatCat } from "./ChatCat"
 
 
@@ -25,6 +25,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     const [script, setScript] = useState();
     const [ion_founded, setIonfounded] = useState<boolean>(false);
     const [conversation_chat, setConversation_chat] = useState<any[]>([])
+    const [refreshChat, setRefreshChat] = useState<any>()
     
     console.log('ion_founded zewnatrz',ion_founded)
 
@@ -134,9 +135,9 @@ export const TestowyDashboard: React.FunctionComponent = () => {
                 return(
                 <ContainerP>
                         
-                        <AnalysisTestowy cation={true}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
+                        <AnalysisTestowy_2 chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={true}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
                         <Wyrocznia rerender_chat={()=>{setSeed_for_chat(true)}} ion_founded={()=>{setIonfounded(true)}} cation={true} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
-                       <ChatCat id={id} cation={true}  key={seed+9} script={script} ready={seed_for_chat}/>
+                       <ChatCat refreshChat={refreshChat} id={id} cation={true}  key={seed+9} script={script} ready={seed_for_chat}/>
                 </ContainerP>
             )
             }
@@ -144,9 +145,9 @@ export const TestowyDashboard: React.FunctionComponent = () => {
             if(current_analysis == 'anion'){
                 return(
                 <ContainerP>
-                       <AnalysisTestowy cation={false}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
+                       <AnalysisTestowy_2 chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={false}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
                        <Wyrocznia rerender_chat={()=>{setSeed_for_chat(true)}} ion_founded={()=>{setIonfounded(true)}} cation={false} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
-                       <ChatCat id={id} cation={false}  key={seed+9} script={script} ready={seed_for_chat}/>
+                       <ChatCat refreshChat={refreshChat} id={id} cation={false}  key={seed+9} script={script} ready={seed_for_chat}/>
                 </ContainerP>
             )
             }

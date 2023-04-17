@@ -3,6 +3,7 @@ import styled, {ThemeProvider} from "styled-components"
 import {myTheme} from "lib/styles"
 import { Router } from "lib/components/Router"
 import { OneRouter } from "lib/components/OneRouter"
+import 'regenerator-runtime/runtime'
 export const App = () => {
 
     return(

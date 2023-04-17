@@ -31,7 +31,7 @@ export const Chat: React.FunctionComponent<ChatProps> = ({
         await  Axios.get(SERVER_ROUTS[db_rout].get)
         .then( (response: any)=>{console.log('WYROCZNIA db :)')
             const data = response.data
-            console.log('NAJNOWSZY SKRYPCIK',data[data.length-1][`f${phase-1}`])
+            // console.log('NAJNOWSZY SKRYPCIK',data[data.length-1][`f${phase-1}`])
             wyswietlacz_2(data[data.length-1][`f${phase-1}`])
     
     
@@ -135,8 +135,8 @@ const ActivityIndicatro = styled.div`
 
 const Dots1 = styled.div`
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background-color: gray;
     animation: jumpingAnimation 1s 0.6s linear infinite ;
@@ -160,8 +160,8 @@ const Dots1 = styled.div`
 
 const Dots2 = styled.div`
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background-color: gray;
     animation: jumpingAnimation 1s 0.3s linear infinite;
@@ -185,8 +185,8 @@ const Dots2 = styled.div`
 
 const Dots3 = styled.div`
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background-color: gray;
     animation: jumpingAnimation 1s 0s linear infinite;

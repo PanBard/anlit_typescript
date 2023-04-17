@@ -10,14 +10,16 @@ type ChatCatProps = {
     script: any,
     cation: boolean,
     id?: any,
-    ready: boolean
+    ready: boolean,
+    refreshChat?: any
 }
 
 export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
     // script,
     cation,
     id,
-    ready
+    ready,
+    refreshChat
 }) =>{
 
     const [phase, setPhase] = useState<number>()
@@ -26,6 +28,12 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
     const [currentConversation,setCurrentConversation] = useState<any>()
 
     const refChat = useRef<any>(null);
+
+    const [seed, setSeed] = useState(1);
+
+    const reset = () => {
+        setSeed(Math.random())
+    }
 
 
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
@@ -66,10 +74,10 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
     if(currentConversation && phase){
         // refChat.current.scrollIntoView({ behavior: "smooth" })
          const key = Object.keys(currentConversation)
-         console.log('key',key)
+        //  console.log('key',key)
          return(
             key.map((obj,index)=>{
-        console.log('currentConversation[obj]', typeof currentConversation[obj])
+        // console.log('currentConversation[obj]', typeof currentConversation[obj])
        if(obj !== `f${phase-1}` && obj !== 'id' && typeof currentConversation[obj] !== 'object') {
         // refChat.current.scrollIntoView({ behavior: "smooth" })
        return(<ChatContainer key={index}>{currentConversation[obj]}</ChatContainer>)}
@@ -107,13 +115,17 @@ useMemo(async ()=>{
     if(ready) get_script()
 },[ready])
 
+useMemo(async ()=>{
+     reset()
+},[refreshChat])
+
   useMemo(async ()=>{
     if(typeof phase !== 'undefined'){console.log('cAT faza:',phase)}
 },[phase])
 
-useMemo(()=>{
+// useMemo(()=>{
         
-    },[script])
+//     },[script])
 
 
 
@@ -127,10 +139,10 @@ useMemo(()=>{
                 <ChatBody >
 
                     {show_conversation()}
-                    {ready && < Chat cation={cation} id ={id} script={script} phase={phase}/>  }
+                    {ready && < Chat key={seed} cation={cation} id ={id} script={script} phase={phase}/>  }
                     <div style={{clear: 'left'}}></div>
 
-                    <Container2 ref={refChat}><Container ><Speech/></Container></Container2>
+                    <Container2 ref={refChat}><Container >  <Speech/>  </Container></Container2>
                 </ChatBody>
             </ContainerF>
           
@@ -151,10 +163,7 @@ const ChatContainer = styled.div`
     
 `
 
-const Margin = styled.div`
-    
-    margin: 5px;
-`
+
 const ContainerF = styled.div`
 
    position: fixed;
@@ -177,7 +186,7 @@ const Container2 = styled.div`
 `
 
 const ChatHeader = styled.div`
-    border: 3px solid gray;
+    border: 2px solid gray;
     border-radius: 10px;
     justify-content: center;
     text-align: center;
@@ -189,7 +198,7 @@ const ChatHeader = styled.div`
 
 const ChatBody = styled.div`
     padding: 5px;
-    border: 3px solid gray;
+    border: 2px solid gray;
     border-radius: 10px;
     justify-content: center;
     width: 400px;

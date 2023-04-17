@@ -29,9 +29,10 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
             </LogoContainer>
 
             <LinkContainer>  
-            <BestButton onClick={()=>{choosenWeb('Analysis')}}> Analysis - manual </BestButton>
-            <BestButton onClick={()=>{choosenWeb('ObjDetect')}}> Analysis - Object detection </BestButton>
+            <BestButton onClick={()=>{choosenWeb('Analysis')}}> Analysis </BestButton>
+            {/* <BestButton onClick={()=>{choosenWeb('ObjDetect')}}> Analysis - Object detection </BestButton> */}
             <BestButton onClick={()=>{choosenWeb('DataBase')}}> DataBase </BestButton>
+            <BestButton onClick={()=>{choosenWeb('voice')}}> Voicerecognition </BestButton>
             </LinkContainer>
 
 

@@ -7,6 +7,7 @@ import { DataDashboard } from "lib/database/DataDashboard";
 import { TestowyDashboard } from "lib/new_concept/testowy/TestowyDashboard";
 import { Dashboard } from "lib/new_concept/Dashboard";
 import { WelcomePage } from "./WelcomePage";
+import { VoiceRecognition } from "lib/new_concept/testowy/VoiceRecognition";
 
 
 export const OneRouter: React.FunctionComponent = () => {
@@ -40,8 +41,9 @@ export const OneRouter: React.FunctionComponent = () => {
             <Container>
                 {webStatus=='Start' && <WelcomePage/>}
                 {webStatus=='DataBase' && <DataDashboard/>}
-                {webStatus=='ObjDetect' && <Dashboard/>}
+                {/* {webStatus=='ObjDetect' && <Dashboard/>} */}
                 {webStatus=='Analysis' && <TestowyDashboard/>}
+                {webStatus=='voice' && <VoiceRecognition/>}
             </Container>
 
             <Footer/>

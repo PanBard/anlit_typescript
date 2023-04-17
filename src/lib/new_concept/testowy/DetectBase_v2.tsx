@@ -12,16 +12,16 @@ type ColorProps = {
 }
 
 type DetectBaseProps = {
-  return_results_to_parent_component(params: any): any,
-  tensorr: any
+  return_results_to_parent_component(params: any): any
+  refreshChat(params: any): any
 }
 
 
 
 
-export const TestowyDetectBase: React.FunctionComponent<DetectBaseProps> = ({
+export const DetectBase_v2: React.FunctionComponent<DetectBaseProps> = ({
     return_results_to_parent_component,
-    tensorr
+    refreshChat
 }) => {
     
   const [functionReturn, setFunctionReturn] = useState<any>();
@@ -162,14 +162,13 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 const casted = resized.cast('int32')
                 const expanded = casted.expandDims(0)
                 const obj = await net.executeAsync(expanded)
-
-                console.log('obj((((((((((((((((((((((((((((((((((((((((((((',obj)
-                  
+        
+                
                 const boxes = await obj[4].array()
                 const classes = await obj[7].array()
                 const scores = await obj[5].array()
                 
-                if (boxes)  setRedOrBlack(true) //red border if ready
+                if (boxes)  {setRedOrBlack(true); refreshChat(true)} //red border if ready
     
                 if(boxes[0][0] && classes[0][0] && scores[0][0]>0.8){
 
@@ -220,13 +219,13 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
     
     }
     
-    useEffect(()=>{ if(show) DetectFunction(webcamRef,canvasRef)},[show])
+    useEffect(()=>{  DetectFunction(webcamRef,canvasRef)},[])
 
 
-    if(show){
+    
        return (
     <CenterContainer>
-       {!hideCamera  && <Dekoracja changeColor = {redOrBlack}>
+        <Dekoracja changeColor = {redOrBlack}>
              <Webcam
                         ref={webcamRef}
                         muted={true} 
@@ -244,7 +243,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                         }}
                       />
                 
-             </Dekoracja>}
+             </Dekoracja>
           
   
           {/* <canvas
@@ -267,10 +266,8 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
     </CenterContainer> 
     
   );
-    }
-    else {return(
-      <MojButton onClick={()=>{setShow(true) ;   console.log('---------------------------------------------- START : '+tf.memory().numTensors)}}>Rozpocznij analizę</MojButton>
-    )} 
+    
+    
  
 }
 

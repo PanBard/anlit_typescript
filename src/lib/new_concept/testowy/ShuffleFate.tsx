@@ -26,6 +26,7 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
 
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
     const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
+    const word = 'Mogą być: '
     
 
     useEffect(  ()  =>  {
@@ -176,8 +177,7 @@ useMemo(()=>{
                         // console.log('rightSymbol',rightSymbol)
                       return(
                         <ShuffleContainer ref={shuffleDiv}>
-                            Mogą być:
-                            
+                            {word}
                             {rightSymbol.map((obj: any,index:number)=>{ return(obj+' ')})}
                         </ShuffleContainer>
                         
@@ -208,10 +208,11 @@ const Container = styled.div`
     
 `
 const ShuffleContainer = styled.div`
-    border: 3px solid gray;
+    border: 2px solid gray;
     border-radius: 10px;
     justify-content: center;
     width: 400px;
+    padding: 5px;
     
 `
 
