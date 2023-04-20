@@ -2,6 +2,7 @@ import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs"
 import React, { useMemo, useRef, useState } from "react"
 import styled from "styled-components"
+import { Kropki } from "./Kropki"
 
 type ChatProps = {
     script: any,
@@ -73,7 +74,7 @@ useMemo(async ()=>{
     return(
             // <ChatContainer style={{display: script ? 'block' : 'none'}} ref={divowansko}></ChatContainer> 
             <div>
-                 {shown && <Containder ref={kropki}> <Dots1 /> <Dots2 /> <Dots3 /> </Containder>}
+                 {shown && <Kropki/>}
                 <ChatContainer  ref={divowansko}>   </ChatContainer> 
                 {/* {shown && <ActivityIndicatro style={{position: 'absolute', bottom: '0px'}}/>} */}
                
@@ -83,16 +84,7 @@ useMemo(async ()=>{
     )
 }
 
-const Containder = styled.div`
-    float: left; 
-    position: relative; 
-    bottom: 0px;
-    right: 10px; 
-    /* display: flex;
-    flex:1; */
-    padding: 1.5rem 0.8rem 0.8rem 0.8rem ;
-     
-`
+
 
 
 const ChatContainer = styled.div`
@@ -104,15 +96,6 @@ const ChatContainer = styled.div`
     margin: 5px;
     padding: 5px;
 
-`
-
-const ContainerP = styled.div`
-    color: ${({theme}) => theme.colors.typography};
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 1;
-    /* background-color: red; */
 `
 
 const ActivityIndicatro = styled.div`
@@ -131,79 +114,4 @@ const ActivityIndicatro = styled.div`
             width:50%
         }
     }
-`
-
-const Dots1 = styled.div`
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: gray;
-    animation: jumpingAnimation 1s 0.6s linear infinite ;
-    
-  @keyframes jumpingAnimation {
-    0% {
-    transform: translate(0, 0);
-  }
-  16% {
-    transform: translate(0, -10px);
-  }
-  33% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-`
-
-const Dots2 = styled.div`
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: gray;
-    animation: jumpingAnimation 1s 0.3s linear infinite;
-  
-  @keyframes jumpingAnimation {
-    0% {
-    transform: translate(0, 0);
-  }
-  16% {
-    transform: translate(0, -10px);
-  }
-  33% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-`
-
-const Dots3 = styled.div`
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: gray;
-    animation: jumpingAnimation 1s 0s linear infinite;
-    
-  @keyframes jumpingAnimation {
-    0% {
-    transform: translate(0, 0);
-  }
-  16% {
-    transform: translate(0, -10px);
-  }
-  33% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
 `

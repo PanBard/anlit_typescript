@@ -4,6 +4,7 @@ import { Chat } from "./Chat"
 import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs";
 import { Speech } from "./Speech";
+import { VoiceRecognition } from "./VoiceRecognition";
 
 
 type ChatCatProps = {
@@ -26,7 +27,7 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
     const [data, setData] = useState<any[]>([])
     const [script, setScript] = useState<string>()
     const [currentConversation,setCurrentConversation] = useState<any>()
-
+    const [nowTellSomething, setNowTellSomething] = useState<boolean>(false)
     const refChat = useRef<any>(null);
 
     const [seed, setSeed] = useState(1);
@@ -142,8 +143,13 @@ useMemo(async ()=>{
                     {ready && < Chat key={seed} cation={cation} id ={id} script={script} phase={phase}/>  }
                     <div style={{clear: 'left'}}></div>
 
-                    <Container2 ref={refChat}><Container >  <Speech/>  </Container></Container2>
+                    <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition grabSound={3}/>}   </Container></Container2>
                 </ChatBody>
+                <AnswerBox onClick={()=>{console.log('epic'); setNowTellSomething(!nowTellSomething)}} >
+                   <div>
+                    Wytłumacz
+                    </div> 
+                </AnswerBox>
             </ContainerF>
           
         </ContainerP>
@@ -168,21 +174,32 @@ const ContainerF = styled.div`
 
    position: fixed;
    overflow: hidden;
-
-
-   
    `
+
+const AnswerBox = styled.div`
+    border: 3px solid green;
+    display: flex;
+    justify-content: flex-end;
+    text-align: flex-end;
+    height: 30px;
+    width: 90px;
+    float: right;
+    margin: 10px;
+    cursor: pointer;
+`
 
 const Container = styled.div`
     
-    border: 3px solid gray;
+    border: 3px solid #626062;
     border-radius: 10px;
+    padding: 5px;
 `
 
 const Container2 = styled.div`
     /* width: 300px; */
     display: flex;
     justify-content: flex-end;
+ 
 `
 
 const ChatHeader = styled.div`

@@ -19,7 +19,7 @@ type DetectBaseProps = {
 
 
 
-export const DetectBase_v2: React.FunctionComponent<DetectBaseProps> = ({
+export const DetectBase_v2_detect: React.FunctionComponent<DetectBaseProps> = ({
     return_results_to_parent_component,
     refreshChat
 }) => {
@@ -34,7 +34,7 @@ export const DetectBase_v2: React.FunctionComponent<DetectBaseProps> = ({
   const [show, setShow] = useState<boolean>(false)
   
    useEffect(()=>{
-    if(functionReturn || functionReturn==0){
+    if(functionReturn){
 console.log('wyswietlamy rezultat funkcji',functionReturn)
     const obj = [functionReturn,detectedImage]
     // console.log('---------------------------------------------------- KONIEC : '+tf.memory().numTensors)
@@ -75,8 +75,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
         }
     
         const loadModelC = async () => { 
-            // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/nc/model.json')
-            const net =  tf.loadGraphModel('https://panbard.github.io/model_host/class2/model.json')
+            const net =  tf.loadGraphModel('https://panbard.github.io/model_host/detect_1/model.json')
             return net}
     
     
@@ -87,13 +86,17 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                   ){
                 
                 const img = tf.browser.fromPixels(video)
-                const resized = tf.image.resizeBilinear(img, [300,300])
+                const resized = tf.image.resizeBilinear(img, [320,320])
                 const casted = resized.cast('float32')
                 const expanded = casted.expandDims(0)
-                const obj = await net.execute(expanded)
-               
-                const all = await obj.array()
-    
+                const obj = await net.executeAsync(expanded)
+                console.log('przed all')
+                // const all = await obj.array()
+                
+                const all = await obj[4].array()
+                const classes = await obj[7].array()
+                const scores = await obj[5].array()
+                console.log('po all',all)    
                 if(all){
                     console.log('wsio result -------------------------------------------------------------------------------------',all[0])
                     const classes = all[0]

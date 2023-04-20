@@ -221,7 +221,7 @@ useMemo(()=>{
         const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
         Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: 'Taki wynik nie powinien się pojawić na tym etapie analizy.' }).then(res=>console.log(res)).then(rerender_chat).then(()=>{set_failed_end()})
         .then(()=>{Voice('Taki wynik nie powinien się pojawić na tym etapie analizy.')})
-        console.log('No nieciekawa sytiuacaja, bo normalnie nie ma dopasowano liczby...............................................................................')}
+        console.log('No nieciekawa sytiuacaja, bo normalnie nie ma dopasowano liczby')}
 },[foundIon])
 
 

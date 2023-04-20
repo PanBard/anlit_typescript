@@ -8,6 +8,7 @@ import { BestButton, ContainerP } from "lib/components/components_modules"
 import { LiveUpdate } from "./LiveUpdate"
 import { DetectBase } from "../DetectBase"
 import { DetectBase_v2 } from "./DetectBase_v2"
+import { DetectBase_v2_detect } from "./DetectBase_v2_detect"
 
 type AnalysisProps = {
     id: number,
@@ -36,13 +37,17 @@ export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
     const [bollena, setBoollena] = useState<boolean>(false)
 
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
-    const title = cation ? 'Identyfikacja kationu' : 'Identyfikacja anionu'
+    const title = cation ? ' Identyfikacja kationu ' : ' Identyfikacja anionu '
     
     const nice_names = ['brak osadu','biały osad', 'czarny osad', 'żółty osad', 'pomarańczowy osad', 'zielony osad', 'niebieski osad', 'niebiesko-różowy osad', 'cielisty osad', 'pomarańczowy płyn', 'fioletowy płyn', 'żółty płyn']
 
     const catchMessageFromChild = (message: any) => {
         if(message[0] !== '404' && typeof message[0] !== 'undefined') //w razie gdyby wybrano opcje choose image
         {
+            // console.log('!@# --> label:', message[0])
+            // console.log('!@# --> img:', message[1])
+            setTestowy_label(message[0]);
+            setImage(message[1]);
             setDataFromChildComponent(message)
             setEndDetect(!endDetect)
         }
@@ -77,7 +82,7 @@ export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
     const send_detection_results_to_db = async ()  => {
        await get_data()
        .then(e =>{
-        console.log('testowy label',testowy_label)
+        // console.log('testowy label',testowy_label)
         const current = data[data.length-1]
         if((current['end'] == 'new') && (phase !== 100)){
             if(current['f1'] == null && current['end'] !== 'end'){console.log('faza f1');quck_update(testowy_label,'img1','f1','new');return true}
@@ -109,10 +114,11 @@ export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
           <BestButton onClick={()=>{window.location.reload()}} > Zakończ </BestButton>
           </Container>
           <Container2>
-               {bollena && <DetectBase_v2 refreshChat={(e)=>{chatCanTellNow(e)}} return_results_to_parent_component={catchMessageFromChild} key={phase}/>}  
+               {bollena && <DetectBase_v2 refreshChat={(e)=>{chatCanTellNow(e)}} return_results_to_parent_component={e => {catchMessageFromChild(e)}} key={phase}/>}  
+               {/* {bollena && <DetectBase_v2_detect refreshChat={(e)=>{chatCanTellNow(e)}} return_results_to_parent_component={e => {catchMessageFromChild(e)}} key={phase}/>}   */}
             </Container2>
 
-{  !bollena &&         <Container>
+          {  !bollena &&  <Container>
 
                 <Container>
                     

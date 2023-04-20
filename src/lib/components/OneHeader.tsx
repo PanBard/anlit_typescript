@@ -33,6 +33,7 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
             {/* <BestButton onClick={()=>{choosenWeb('ObjDetect')}}> Analysis - Object detection </BestButton> */}
             <BestButton onClick={()=>{choosenWeb('DataBase')}}> DataBase </BestButton>
             <BestButton onClick={()=>{choosenWeb('voice')}}> Voicerecognition </BestButton>
+            <BestButton onClick={()=>{choosenWeb('detect')}}> Testdetect </BestButton>
             </LinkContainer>
 
 

@@ -17,7 +17,7 @@ export const Speech: React.FunctionComponent = () => {
 
     return(
         <section>
-            <div>elo momero</div>
+            <div>. . .</div>
             {/* <BestButton onClick={()=>SpeechRecognition.startListening({continuous:true,language:'pl-PL'})}>Start</BestButton>
             <BestButton onClick={SpeechRecognition.stopListening}>Stop</BestButton> */}
         </section>

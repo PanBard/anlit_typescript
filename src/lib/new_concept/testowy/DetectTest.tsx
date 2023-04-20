@@ -11,18 +11,12 @@ type ColorProps = {
   changeColor: boolean
 }
 
-type DetectBaseProps = {
-  return_results_to_parent_component(params: any): any
-  refreshChat(params: any): any
-}
 
 
 
 
-export const DetectBase_v2: React.FunctionComponent<DetectBaseProps> = ({
-    return_results_to_parent_component,
-    refreshChat
-}) => {
+
+export const DetectTest: React.FunctionComponent = ({}) => {
     
   const [functionReturn, setFunctionReturn] = useState<any>();
   const [redOrBlack, setRedOrBlack] = useState(false);
@@ -34,11 +28,11 @@ export const DetectBase_v2: React.FunctionComponent<DetectBaseProps> = ({
   const [show, setShow] = useState<boolean>(false)
   
    useEffect(()=>{
-    if(functionReturn || functionReturn==0){
+    if(functionReturn){
 console.log('wyswietlamy rezultat funkcji',functionReturn)
     const obj = [functionReturn,detectedImage]
     // console.log('---------------------------------------------------- KONIEC : '+tf.memory().numTensors)
-    return_results_to_parent_component(obj)
+
     }
     
    },[functionReturn])
@@ -75,8 +69,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
         }
     
         const loadModelC = async () => { 
-            // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/nc/model.json')
-            const net =  tf.loadGraphModel('https://panbard.github.io/model_host/class2/model.json')
+            const net =  tf.loadGraphModel('https://panbard.github.io/model_host/tfjsexport_3/model.json')
             return net}
     
     
@@ -86,17 +79,25 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                     video !== null 
                   ){
                 
-                const img = tf.browser.fromPixels(video)
-                const resized = tf.image.resizeBilinear(img, [300,300])
-                const casted = resized.cast('float32')
-                const expanded = casted.expandDims(0)
-                const obj = await net.execute(expanded)
+                    const img = tf.browser.fromPixels(video)
+                    const resized = tf.image.resizeBilinear(img, [640,480])
+                    const casted = resized.cast('int32')
+                    const expanded = casted.expandDims(0)
+                    const obj = await net.executeAsync(expanded)
+            
+                    
+                    const all = await obj[4].array()
+                    const classes = await obj[7].array()
+                    const scores = await obj[5].array()
+                
                
-                const all = await obj.array()
-    
+                console.log('po all',all)    
                 if(all){
                     console.log('wsio result -------------------------------------------------------------------------------------',all[0])
-                    const classes = all[0]
+                    console.log('all',all[0][0])
+                    console.log('classes',classes[0][0])
+                    console.log('scores',scores[0][0])
+                    // const classes = all[0]
                     const mapArray = [1,0,8,2,10,7,6,4,9,5,3,11]
                     const number_of_label = classes.indexOf(Math.max(...classes));
                     const label_after_amp = mapArray[number_of_label]
@@ -175,7 +176,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 const classes = await obj[7].array()
                 const scores = await obj[5].array()
                 
-                if (boxes)  {setRedOrBlack(true); refreshChat(true)} //red border if ready
+                if (boxes)  {setRedOrBlack(true);} //red border if ready
     
                 if(boxes[0][0] && classes[0][0] && scores[0][0]>0.8){
 

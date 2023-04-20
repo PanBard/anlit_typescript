@@ -53,7 +53,7 @@ export const DataDashboard: React.FunctionComponent = () => {
     const DropdownMenu_voicescript = () =>{
         return(
             <div className="dropdown">
-            <BestButton className="dropbtn">Dataflow</BestButton>
+            <BestButton className="dropbtn">VoiceScript</BestButton>
             <div className="dropdown-content">
             <a onClick={()=>{showComponent(<VoiceScript rout_name="anion_voice_script" key={seed}/>)}}> Anions - </a>
             <a onClick={()=>{showComponent(<VoiceScript rout_name="cation_voice_script" key={seed}/>)}}> Cations + </a>

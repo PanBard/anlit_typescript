@@ -3,7 +3,7 @@
 export const en_GB = {
     common: {
         autoTranslate: 'Auto ',
-        companyName: "Hogwart Academy"
+        companyName: "Hog Ademy"
     },
     components: {
         app: {
@@ -13,7 +13,7 @@ export const en_GB = {
         },
         header: {
             title: "CatChad",
-            diskord: "Diskord",
+            diskord: "Discord",
             github: "Github"
         },
         footer: {

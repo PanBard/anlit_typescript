@@ -68,7 +68,7 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
                 <table>
                                     <tbody >
                                         <Tr>{keys.map( (obj, i) => { return(<Th key={i}>{obj}</Th>) })}</Tr>
-                                        <tr key={seed+2}>{keys_f.map( (obj: any, i) => { return(<Td key={i}>{data[obj]}</Td>) })}</tr>
+                                        <tr key={seed+2}>{keys_f.map( (obj: any, i) => { return(<Td style={{maxWidth: '55px', overflow:'hidden'}} key={i}>{data[obj]}</Td>) })}</tr>
                                         <tr key={seed+1}>{keys_img.map( (obj: any, i) => { return(<Td_image key={i}><MyImage style={{display: data[obj]==null? 'none' : 'flex'}}  src={data[obj]}/></Td_image>) })}</tr>
                                     </tbody>
                                 </table>
