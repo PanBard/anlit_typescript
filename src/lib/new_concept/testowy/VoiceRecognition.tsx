@@ -3,11 +3,13 @@ import { Kropki } from "./Kropki";
 
 
 type VoiceRecognitionProps = {
-  grabSound: any
+  grabSound: any,
+  return_described_to_parent_component(params: any): any
 }
 
 export const VoiceRecognition: React.FunctionComponent<VoiceRecognitionProps> = ({
-  grabSound
+  grabSound,
+  return_described_to_parent_component
 }) => {
 
   const [word , setWord] = useState<string>()
@@ -43,8 +45,19 @@ recognition.onresult = (event: any) => {
   console.log(event.results[0][0].transcript)
   setWord(event.results[0][0].transcript) 
   if(event.results[0][0].transcript.search("bocie")!=-1){
-    console.log('no elo mejt!@!!!!!!!!!!!!!!!!!!!!!')
     Voice('Tak panie?')
+  }
+  if((event.results[0][0].transcript.search("brak")!=-1) || (event.results[0][0].transcript.search("nic")!=-1)){
+    console.log('wykryto brak')
+    return_described_to_parent_component(0)
+  }
+  if((event.results[0][0].transcript.search("biały")!=-1) || (event.results[0][0].transcript.search("białe")!=-1)){
+    console.log('wykryto bialego')
+    return_described_to_parent_component(1)
+  }
+  if((event.results[0][0].transcript.search("czarny")!=-1) || (event.results[0][0].transcript.search("ciemny")!=-1)){
+    console.log('wykryto czarnego')
+    return_described_to_parent_component(2)
   }
 }
 

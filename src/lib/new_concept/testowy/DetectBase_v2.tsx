@@ -76,7 +76,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
     
         const loadModelC = async () => { 
             // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/nc/model.json')
-            const net =  tf.loadGraphModel('https://panbard.github.io/model_host/class2/model.json')
+            const net =  tf.loadGraphModel('https://panbard.github.io/model_host/class4/model.json')
             return net}
     
     
@@ -95,12 +95,14 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 const all = await obj.array()
     
                 if(all){
-                    console.log('wsio result -------------------------------------------------------------------------------------',all[0])
+                    console.log('wsio result -------------------------------------------------------------------------------------',obj,all,all[0])
                     const classes = all[0]
-                    const mapArray = [1,0,8,2,10,7,6,4,9,5,3,11]
+                    const mapArray_small = [1,2,10,7,6,4,9,5,3,11]
+                    // const mapArray = [1,0,8,2,10,7,6,4,9,5,3,11]
                     const number_of_label = classes.indexOf(Math.max(...classes));
-                    const label_after_amp = mapArray[number_of_label]
-                    console.log('rezultat z modelu:',number_of_label )
+                    // const label_after_amp = mapArray[number_of_label]
+                    const label_after_amp = mapArray_small[number_of_label]
+                    console.log('rezultat z DetectBase_v2:',number_of_label )
                     console.log('rezultat po mapowaniu:',label_after_amp )
 
 
@@ -152,6 +154,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
 
                 // Get Video Properties
                 const video = webcamRef.current.video;
+                
                 const videoWidth = webcamRef.current.video.videoWidth;
                 const videoHeight = webcamRef.current.video.videoHeight;
         
@@ -195,7 +198,8 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                         tf.disposeVariables()
                         console.log('koniec detect')
                         // console.log('ZDHECIE-------------------',detected_image)
-                        return video
+                        const video2 = webcamRef.current.video;
+                        return video2
                 }
     
                 else{

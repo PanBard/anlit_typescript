@@ -16,7 +16,8 @@ type AnalysisProps = {
     back?(): void,
     rerender?(params: any): any,
     cation: boolean,
-    chatCanTellNow(params: any): any
+    chatCanTellNow(params: any): any,
+    result_from_voice_description?: any
 }
 
 export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
@@ -24,7 +25,8 @@ export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
     name,
     rerender,
     cation,
-    chatCanTellNow
+    chatCanTellNow,
+    result_from_voice_description
 }) => {
     const [data, setData] = useState<any[]>([])
     const[dataFromChildComponent , setDataFromChildComponent] = useState()
@@ -105,6 +107,11 @@ export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
         }
       },[dataFromChildComponent])
 
+      useMemo(()=>{
+        if(result_from_voice_description){
+          catchMessageFromChild([result_from_voice_description,''])
+        }
+      },[result_from_voice_description])
  
 
       return(

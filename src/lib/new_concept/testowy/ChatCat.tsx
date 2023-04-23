@@ -12,7 +12,8 @@ type ChatCatProps = {
     cation: boolean,
     id?: any,
     ready: boolean,
-    refreshChat?: any
+    refreshChat?: any,
+    return_results_to_parent_component(params: any): any
 }
 
 export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
@@ -20,7 +21,8 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
     cation,
     id,
     ready,
-    refreshChat
+    refreshChat,
+    return_results_to_parent_component
 }) =>{
 
     const [phase, setPhase] = useState<number>()
@@ -143,7 +145,7 @@ useMemo(async ()=>{
                     {ready && < Chat key={seed} cation={cation} id ={id} script={script} phase={phase}/>  }
                     <div style={{clear: 'left'}}></div>
 
-                    <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition grabSound={3}/>}   </Container></Container2>
+                    <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition return_described_to_parent_component={e => {return_results_to_parent_component(e)}} grabSound={3}/>}   </Container></Container2>
                 </ChatBody>
                 <AnswerBox onClick={()=>{console.log('epic'); setNowTellSomething(!nowTellSomething)}} >
                    <div>
@@ -186,6 +188,7 @@ const AnswerBox = styled.div`
     float: right;
     margin: 10px;
     cursor: pointer;
+    border-radius: 10px;
 `
 
 const Container = styled.div`

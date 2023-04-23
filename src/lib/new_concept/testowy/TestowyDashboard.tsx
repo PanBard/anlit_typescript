@@ -26,6 +26,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     const [ion_founded, setIonfounded] = useState<boolean>(false);
     const [conversation_chat, setConversation_chat] = useState<any[]>([])
     const [refreshChat, setRefreshChat] = useState<any>()
+    const [result_from_voice_describe, setResult_from_voice_describe] = useState<any>()
     
     console.log('ion_founded zewnatrz',ion_founded)
 
@@ -38,7 +39,12 @@ export const TestowyDashboard: React.FunctionComponent = () => {
         } 
     }
 
-  
+  useMemo(()=>{
+    if(result_from_voice_describe){
+        console.log('result_from_voice_describe in dashboard: ',result_from_voice_describe)
+    }
+    
+  },[result_from_voice_describe])
     
    const return_new_analysis_id = (data: any)=>  {
         const new_id = data[data.length-1]['id']+1
@@ -135,9 +141,9 @@ export const TestowyDashboard: React.FunctionComponent = () => {
                 return(
                 <ContainerP>
                         
-                        <AnalysisTestowy_2 chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={true}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
+                        <AnalysisTestowy_2 result_from_voice_description={result_from_voice_describe} chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={true}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
                         <Wyrocznia rerender_chat={()=>{setSeed_for_chat(true)}} ion_founded={()=>{setIonfounded(true)}} cation={true} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
-                       <ChatCat refreshChat={refreshChat} id={id} cation={true}  key={seed+9} script={script} ready={seed_for_chat}/>
+                       <ChatCat return_results_to_parent_component={e => {setResult_from_voice_describe(e)}} refreshChat={refreshChat} id={id} cation={true}  key={seed+9} script={script} ready={seed_for_chat}/>
                 </ContainerP>
             )
             }
@@ -145,9 +151,9 @@ export const TestowyDashboard: React.FunctionComponent = () => {
             if(current_analysis == 'anion'){
                 return(
                 <ContainerP>
-                       <AnalysisTestowy_2 chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={false}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
+                       <AnalysisTestowy_2 result_from_voice_description={result_from_voice_describe} chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={false}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
                        <Wyrocznia rerender_chat={()=>{setSeed_for_chat(true)}} ion_founded={()=>{setIonfounded(true)}} cation={false} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
-                       <ChatCat refreshChat={refreshChat} id={id} cation={false}  key={seed+9} script={script} ready={seed_for_chat}/>
+                       <ChatCat return_results_to_parent_component={e => {setResult_from_voice_describe(e)}} refreshChat={refreshChat} id={id} cation={false}  key={seed+9} script={script} ready={seed_for_chat}/>
                 </ContainerP>
             )
             }
