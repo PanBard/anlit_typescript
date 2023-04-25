@@ -59,6 +59,25 @@ recognition.onresult = (event: any) => {
     console.log('wykryto czarnego')
     return_described_to_parent_component(2)
   }
+
+  if((event.results[0][0].transcript.search("pomarańczowy")!=-1) || (event.results[0][0].transcript.search("pomarańczowym")!=-1)){
+    console.log('wykryto czarnego')
+    return_described_to_parent_component(9)
+  }
+
+  if((event.results[0][0].transcript.search("fioletowy")!=-1) || (event.results[0][0].transcript.search("fioletowym")!=-1)){
+    console.log('wykryto czarnego')
+    return_described_to_parent_component(10)
+  }
+
+  if((event.results[0][0].transcript.search("zółtym")!=-1) || (event.results[0][0].transcript.search("żółty")!=-1)){
+    console.log('wykryto czarnego')
+    return_described_to_parent_component(11)
+  }
+  if((event.results[0][0].transcript.search("zółtym")!=-1) || (event.results[0][0].transcript.search("żółty")!=-1)){
+    console.log('wykryto czarnego')
+    return_described_to_parent_component(11)
+  }
 }
 
 recognition.onend = () => {

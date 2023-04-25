@@ -40,11 +40,15 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     }
 
   useMemo(()=>{
-    if(result_from_voice_describe){
+    if( typeof result_from_voice_describe == 'number' || result_from_voice_describe == '0'){
         console.log('result_from_voice_describe in dashboard: ',result_from_voice_describe)
     }
     
   },[result_from_voice_describe])
+
+  const make_tetection = (e: any) => {
+    setResult_from_voice_describe(e)
+  }
     
    const return_new_analysis_id = (data: any)=>  {
         const new_id = data[data.length-1]['id']+1
@@ -143,7 +147,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
                         
                         <AnalysisTestowy_2 result_from_voice_description={result_from_voice_describe} chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={true}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
                         <Wyrocznia rerender_chat={()=>{setSeed_for_chat(true)}} ion_founded={()=>{setIonfounded(true)}} cation={true} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
-                       <ChatCat return_results_to_parent_component={e => {setResult_from_voice_describe(e)}} refreshChat={refreshChat} id={id} cation={true}  key={seed+9} script={script} ready={seed_for_chat}/>
+                       <ChatCat return_results_to_parent_component={e => {setResult_from_voice_describe(e), make_tetection(e), console.log('resultat jest w dashboard',e)}} refreshChat={refreshChat} id={id} cation={true}  key={seed+9} script={script} ready={seed_for_chat}/>
                 </ContainerP>
             )
             }

@@ -9,6 +9,8 @@ import { Dashboard } from "lib/new_concept/Dashboard";
 import { WelcomePage } from "./WelcomePage";
 import { VoiceRecognition } from "lib/new_concept/testowy/VoiceRecognition";
 import { DetectTest } from "lib/new_concept/testowy/DetectTest";
+import { CroppImageTest } from "lib/new_concept/testowy/CroppImageTest";
+import { ColorAverage } from "lib/new_concept/testowy/ColorAverage";
 
 
 export const OneRouter: React.FunctionComponent = () => {
@@ -44,8 +46,11 @@ export const OneRouter: React.FunctionComponent = () => {
                 {webStatus=='DataBase' && <DataDashboard/>}
                 {/* {webStatus=='ObjDetect' && <Dashboard/>} */}
                 {webStatus=='Analysis' && <TestowyDashboard/>}
-                {webStatus=='voice' && <VoiceRecognition/>}
-                {webStatus=='detect' && <DetectTest/>}
+                {/* {webStatus=='voice' && <VoiceRecognition/>} */}
+                {/* {webStatus=='detect' && <DetectTest/>} */}
+                {webStatus == 'Cropp' && <CroppImageTest/>}
+                {webStatus == 'ColorAverage' && <ColorAverage/>}
+                
             </Container>
 
             <Footer/>

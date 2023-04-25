@@ -145,7 +145,7 @@ useMemo(async ()=>{
                     {ready && < Chat key={seed} cation={cation} id ={id} script={script} phase={phase}/>  }
                     <div style={{clear: 'left'}}></div>
 
-                    <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition return_described_to_parent_component={e => {return_results_to_parent_component(e)}} grabSound={3}/>}   </Container></Container2>
+                    <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition return_described_to_parent_component={e => {return_results_to_parent_component(e); console.log('resultat jest w chatcat',e)}} grabSound={3}/>}   </Container></Container2>
                 </ChatBody>
                 <AnswerBox onClick={()=>{console.log('epic'); setNowTellSomething(!nowTellSomething)}} >
                    <div>
