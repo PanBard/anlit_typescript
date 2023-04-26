@@ -213,14 +213,15 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
 
                   // imageCanvasRef.current.width = 200;
                   // imageCanvasRef.current.height = 200;
-                  croppedImageCanvasRef.current.width = xmax-xmin;
-                  croppedImageCanvasRef.current.height = (xmax-xmin)*2;
-                  setx(`${(xmax-xmin)*3}`+'px')
-                  sety(`${(xmax-xmin)*5}`+'px')
+                  croppedImageCanvasRef.current.width = 90;
+                  croppedImageCanvasRef.current.height = 220;
+                  
+                  
                   // imageCanvasRef.current.width = webcamRef.current.video.width;
                   // imageCanvasRef.current.height = webcamRef.current.video.height;
                   // imageCanvasRef.current.getContext('2d').drawImage(webcamRef.current.video, 0, 0, webcamRef.current.video.width, webcamRef.current.video.height)
-                  croppedImageCanvasRef.current.getContext('2d').drawImage(webcamRef.current.video, xmin, ymin+220,200,200,0,0,200,200 )
+                  
+                  croppedImageCanvasRef.current.getContext('2d').drawImage(video, xmin-10, ymin+200, 90, 220, 0, 0,90,220 ) //wery gud
                   // ####################### cale zdj
                       wholeImageCanvasRef.current.width = 640;
                       wholeImageCanvasRef.current.height = 480;
@@ -388,7 +389,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 
              </Dekoracja>
                         <Container>
-                            <canvas style={{width: x, height: y}} ref={croppedImageCanvasRef}/>
+                            <canvas style={{width: 90, height: 220}} ref={croppedImageCanvasRef}/>
                             <canvas style={{width: 640, height: 480, margin: 5}} ref={wholeImageCanvasRef}/>
                         </Container>
                         
@@ -419,6 +420,8 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
 
 
         {/* <img src={detectedImage}></img> */}
+
+        <img src="/crop_image.jpg" width={100} height={100} ></img>
     </CenterContainer> 
     
   );

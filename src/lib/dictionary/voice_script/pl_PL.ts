@@ -53,6 +53,16 @@ export const pl_PL = {
                info: 'Powstanie osadu wskazuje na obecność w roztworze kationów pierwszej grupy analitycznej.',
                prepare: 'W celu dalszej analizy należy:'
             }
+   },
+
+   NEW_ANALYSIS : {
+            cation : {
+               faza1_info : 'Witaj w nowej analizie kationów! '
+            },
+
+            anion : {
+               faza1_info : 'Witaj w nowej analizie anionów! '
+            }
    }
 }
 

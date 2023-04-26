@@ -1,9 +1,7 @@
 // import { Voice } from "lib/features/voiceRecognition";
 import  Axios  from "axios";
 import { SERVER_ROUTS } from "lib/database/server_routs";
-import {  useTest_labels } from "lib/hooks/useDetectFlow";
 import { useVoiceScript } from "lib/hooks/useVoiceScript";
-import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
@@ -37,9 +35,9 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
     const db_voice_script_name = cation ? 'cation_voice_script' : 'anion_voice_script' 
     const db_text_name = cation ? 'c_analysis_texts' : 'a_analysis_texts' 
    
+    const T = useVoiceScript()
 
-
-
+    
  
 
 

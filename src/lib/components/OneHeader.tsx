@@ -34,6 +34,7 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
             <BestButton onClick={()=>{choosenWeb('DataBase')}}> DataBase </BestButton>
             <BestButton onClick={()=>{choosenWeb('Cropp')}}> CroppImage </BestButton>
             <BestButton onClick={()=>{choosenWeb('ColorAverage')}}> AverageColor </BestButton>
+            <BestButton onClick={()=>{choosenWeb('FaceRecognition')}}> FaceRecognition </BestButton>
             {/* <BestButton onClick={()=>{choosenWeb('voice')}}> Voicerecognition </BestButton> */}
             {/* <BestButton onClick={()=>{choosenWeb('detect')}}> Testdetect </BestButton> */}
             </LinkContainer>
