@@ -76,7 +76,8 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
     
         const loadModelC = async () => { 
             // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/nc/model.json')
-            const net =  tf.loadGraphModel('https://panbard.github.io/model_host/class4/model.json')
+            // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/class4/model.json')
+            const net =  tf.loadGraphModel('tfjsexport_3/model.json')
             return net}
     
     
@@ -138,7 +139,9 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
 
     
         const loadModel = async () => { 
-            const net =  tf.loadGraphModel('https://panbard.github.io/model_host/tfjsexport_3/model.json')
+            // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/tfjsexport_3/model.json')
+            // const net =  tf.loadGraphModel('tfjsexport_3/model.json')
+            const net =  tf.loadGraphModel('tfjs_2/model.json')
             return net}
     
         
@@ -177,6 +180,16 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 const boxes = await obj[4].array()
                 const classes = await obj[7].array()
                 const scores = await obj[5].array()
+                console.log('-------------------------------------------')
+                console.log('0',await obj[0].array())
+                console.log('1',await obj[1].array())
+                console.log('2',await obj[2].array())
+                console.log('3',await obj[3].array())
+                console.log('4',await obj[4].array())
+                console.log('5',await obj[5].array())
+                console.log('6',await obj[6].array())
+                console.log('7',await obj[7].array())
+
                 
                 if (boxes)  {setRedOrBlack(true); refreshChat(true)} //red border if ready
     

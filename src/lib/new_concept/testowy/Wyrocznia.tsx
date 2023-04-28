@@ -34,7 +34,7 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
     const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
     const db_voice_script_name = cation ? 'cation_voice_script' : 'anion_voice_script' 
     const db_text_name = cation ? 'c_analysis_texts' : 'a_analysis_texts' 
-   
+    const voice_script_for_custom_query = cation ? 'voice_script' : 'a_voice_script' 
     const T = useVoiceScript()
 
     
@@ -95,7 +95,7 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
     const shuffle = async () => {
 
         const current = data[data.length-1]
-            if(phase == 1 && typeof phase !== 'undefined'){Voice('Faza pierwsza!') }
+            if(phase == 1 && typeof phase !== 'undefined'){first_phase_setup() }
 
             if(phase !== 1 && typeof phase !== 'undefined'){
                 const prevoiusPhase = 'f'+(phase - 1)
@@ -188,6 +188,19 @@ const set_happy_end =async (id: any) => {
     }
         
 
+}
+
+const first_phase_setup = async () => {
+    if(phase){
+        const query = `SELECT script FROM ${voice_script_for_custom_query} WHERE id = 1`
+   await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
+   .then((response)=>{
+    const current = data[data.length-1]; 
+    const query = `UPDATE ${db_text_name} SET f0=? WHERE id=?`
+    Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: response.data[0].script }).then(res=>console.log(res)).then(rerender_chat)
+    console.log('z cutoma query: ',response.data[0]); Voice(response.data[0].script)})
+    }
+     
 }
 
 

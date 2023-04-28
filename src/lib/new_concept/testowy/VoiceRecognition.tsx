@@ -1,15 +1,23 @@
 import React, { useMemo, useState } from "react";
 import { Kropki } from "./Kropki";
+import  Axios  from "axios";
+import { SERVER_ROUTS } from "lib/database/server_routs";
 
 
 type VoiceRecognitionProps = {
   grabSound: any,
-  return_described_to_parent_component(params: any): any
+  return_described_to_parent_component(params: any): any,
+  cation: boolean,
+  id?: any,
+  phase?:any,
 }
 
 export const VoiceRecognition: React.FunctionComponent<VoiceRecognitionProps> = ({
   grabSound,
-  return_described_to_parent_component
+  return_described_to_parent_component,
+  cation,
+  id,
+  phase
 }) => {
 
   const [word , setWord] = useState<string>()
@@ -17,7 +25,8 @@ export const VoiceRecognition: React.FunctionComponent<VoiceRecognitionProps> = 
   
   
   const [show, setShow] = useState(true)
-
+  const db_text_name = cation ? 'c_analysis_texts' : 'a_analysis_texts' 
+  let slowa = ''
 
 let recognition = new SpeechRecognition()
 // let recognitionList = new SpeechGrammarList()
@@ -44,6 +53,7 @@ recognition.onresult = (event: any) => {
   setShow(true)
   console.log(event.results[0][0].transcript)
   setWord(event.results[0][0].transcript) 
+  slowa = event.results[0][0].transcript
   if(event.results[0][0].transcript.search("bocie")!=-1){
     Voice('Tak panie?')
   }
@@ -55,7 +65,7 @@ recognition.onresult = (event: any) => {
     console.log('wykryto bialego')
     return_described_to_parent_component(1)
   }
-  if((event.results[0][0].transcript.search("czarny")!=-1) || (event.results[0][0].transcript.search("ciemny")!=-1)){
+  if((event.results[0][0].transcript.search("czarny")!=-1) || (event.results[0][0].transcript.search("Czarny")!=-1) || (event.results[0][0].transcript.search("ciemny")!=-1)){
     console.log('wykryto czarnego')
     return_described_to_parent_component(2)
   }
@@ -80,8 +90,11 @@ recognition.onresult = (event: any) => {
   }
 }
 
-recognition.onend = () => {
+recognition.onend = (event) => {
+  console.log('ONEND::::',slowa)
   console.log("Speech recognition service disconnected");
+  const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
+  Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:id, query: query , script: slowa }).then(res=>console.log(res))
   setShow(false)
 };
 }

@@ -107,7 +107,7 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
 
   const get_script = async () => {
     await  Axios.get(SERVER_ROUTS[db_rout].get)
-    .then( (response: any)=>{console.log('WYROCZNIA db :)')
+    .then( (response: any)=>{console.log('chatCat db :)')
         const data = response.data
         console.log('wszystkie sktypTY',data[data.length -1])
         setCurrentConversation(data[data.length -1])
@@ -145,7 +145,7 @@ useMemo(async ()=>{
                     {ready && < Chat key={seed} cation={cation} id ={id} script={script} phase={phase}/>  }
                     <div style={{clear: 'left'}}></div>
 
-                    <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition return_described_to_parent_component={e => {return_results_to_parent_component(e); console.log('resultat jest w chatcat',e)}} grabSound={3}/>}   </Container></Container2>
+                    <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition cation={cation} id={id} phase={phase} return_described_to_parent_component={e => {return_results_to_parent_component(e); console.log('resultat jest w chatcat',e)}} grabSound={3}/>}   </Container></Container2>
                 </ChatBody>
                 <AnswerBox onClick={()=>{console.log('epic'); setNowTellSomething(!nowTellSomething)}} >
                    <div>

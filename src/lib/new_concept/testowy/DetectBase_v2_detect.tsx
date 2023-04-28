@@ -75,7 +75,8 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
         }
     
         const loadModelC = async () => { 
-            const net =  tf.loadGraphModel('https://panbard.github.io/model_host/detect_1/model.json')
+            // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/detect_1/model.json')
+            const net =  tf.loadGraphModel('tfjsexport_3/model.json')
             return net}
     
     
@@ -139,7 +140,8 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
 
     
         const loadModel = async () => { 
-            const net =  tf.loadGraphModel('https://panbard.github.io/model_host/tfjsexport_3/model.json')
+            // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/tfjsexport_3/model.json')
+            const net =  tf.loadGraphModel('tfjsexport_3/model.json')
             return net}
     
         
