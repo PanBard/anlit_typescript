@@ -48,19 +48,19 @@ export const SERVER_ROUTS = {
           
       },
 
-      "cation_analysis_texts" : {
-          "get" : "http://localhost:4001/api/get/cation_analysis_texts",
-          "post" : "http://localhost:4001/api/post/cation_analysis_texts",
-          "put" : "http://localhost:4001/api/put/cation_analysis_texts",
-          "delete" : "http://localhost:4001/api/delete/cation_analysis_texts",
-     },
+     //  "cation_analysis_texts" : {
+     //      "get" : "http://localhost:4001/api/get/cation_analysis_texts",
+     //      "post" : "http://localhost:4001/api/post/cation_analysis_texts",
+     //      "put" : "http://localhost:4001/api/put/cation_analysis_texts",
+     //      "delete" : "http://localhost:4001/api/delete/cation_analysis_texts",
+     // },
   
-     "anion_analysis_texts" : {
-          "get" : "http://localhost:4001/api/get/anion_analysis_texts",
-          "post" : "http://localhost:4001/api/post/anion_analysis_texts",
-          "put" : "http://localhost:4001/api/put/anion_analysis_texts",
-          "delete" : "http://localhost:4001/api/delete/anion_analysis_texts",
-      },
+     // "anion_analysis_texts" : {
+     //      "get" : "http://localhost:4001/api/get/anion_analysis_texts",
+     //      "post" : "http://localhost:4001/api/post/anion_analysis_texts",
+     //      "put" : "http://localhost:4001/api/put/anion_analysis_texts",
+     //      "delete" : "http://localhost:4001/api/delete/anion_analysis_texts",
+     //  },
 
 
 
@@ -88,6 +88,14 @@ export const SERVER_ROUTS = {
           "put" : "http://localhost:4001/api/put/test_images",
           "delete" : "http://localhost:4001/api/delete/test_images",
        },
+
+       "all_chat_messages" : {
+          "get_all" : "http://localhost:4001/api/get/all_chat_messages",
+          "get_one_conversation" : "http://localhost:4001/api/get/all_chat_messages",
+          "post" : "http://localhost:4001/api/post/all_chat_messages",
+          "delete" : "http://localhost:4001/api/delete/all_chat_messages",
+          "mark_message" : "http://localhost:4001/api/put/all_chat_messages",
+      },
 
 
 

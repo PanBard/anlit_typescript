@@ -6,6 +6,7 @@ import { VoiceScript } from "./db_component/VoiceScript"
 import { DataScript } from "./db_component/DataScript"
 import { ImagesTest } from "./db_component/ImagesTest"
 import { Analysis_text_chat } from "./db_component/Analysis_text_chat"
+import { ChatMessages } from "./db_component/ChatMessages"
 
 export const DataDashboard: React.FunctionComponent = () => {
     
@@ -63,17 +64,17 @@ export const DataDashboard: React.FunctionComponent = () => {
     }
 
 
-    const DropdownMenu_chatText = () =>{
-        return(
-            <div className="dropdown">
-            <BestButton className="dropbtn">Chat history</BestButton>
-            <div className="dropdown-content">
-            <a onClick={()=>{showComponent(<Analysis_text_chat rout_name="anion_analysis" key={seed}/>)}}> Anions - </a>
-            <a onClick={()=>{showComponent(<Analysis_text_chat rout_name="cation_analysis" key={seed}/>)}}> Cations + </a>
-            </div>
-          </div> 
-        )
-    }
+    // const DropdownMenu_chatText = () =>{
+    //     return(
+    //         <div className="dropdown">
+    //         <BestButton className="dropbtn">Chat history</BestButton>
+    //         <div className="dropdown-content">
+    //         <a onClick={()=>{showComponent(<Analysis_text_chat rout_name="anion_analysis" key={seed}/>)}}> Anions - </a>
+    //         <a onClick={()=>{showComponent(<Analysis_text_chat rout_name="cation_analysis" key={seed}/>)}}> Cations + </a>
+    //         </div>
+    //       </div> 
+    //     )
+    // }
 
     return(
         <Container>
@@ -82,8 +83,9 @@ export const DataDashboard: React.FunctionComponent = () => {
                 <DropdownMenu_analysis/>
                 <DropdownMenu_dataflow/>
                 <DropdownMenu_voicescript/>
-                < DropdownMenu_chatText/>
+                {/* < DropdownMenu_chatText/> */}
                 <BestButton onClick={()=>{showComponent(<ImagesTest key={seed}/>)}}> Test images </BestButton>
+                <BestButton onClick={()=>{showComponent(<ChatMessages key={seed}/>)}}> Chat messages </BestButton>
                 {/* <BestButton onClick={()=>{showComponent(<Analysis_text_chat rout_name="cation_voice_script" key={seed}/>)}}> ChatText </BestButton> */}
             </HeaderContainer>
             {showComponent2()}

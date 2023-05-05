@@ -29,15 +29,29 @@ export const Chat: React.FunctionComponent<ChatProps> = ({
 
 
     const get_script = async () => {
-        await  Axios.get(SERVER_ROUTS[db_rout].get)
-        .then( (response: any)=>{console.log('WYROCZNIA db :)')
+    //     await  Axios.get(SERVER_ROUTS[db_rout].get)
+    //     .then( (response: any)=>{console.log('WYROCZNIA db :)')
+    //         const data = response.data
+    //         // console.log('NAJNOWSZY SKRYPCIK',data[data.length-1][`f${phase-1}`])
+    //         wyswietlacz_2(data[data.length-1][`f${phase-1}`])
+    
+    
+    // })
+    //     .catch((err)=>{console.log('db WYROCZNIA status :(')})
+
+    await  Axios.get(SERVER_ROUTS.all_chat_messages.get_one_conversation+`/${id}`)
+        .then( (response: any)=>{
             const data = response.data
-            // console.log('NAJNOWSZY SKRYPCIK',data[data.length-1][`f${phase-1}`])
-            wyswietlacz_2(data[data.length-1][`f${phase-1}`])
-    
-    
-    })
-        .catch((err)=>{console.log('db WYROCZNIA status :(')})
+            if(data[data.length-1].mark != 'read'){
+                wyswietlacz_2(data[data.length-1].message)
+                Axios.put(SERVER_ROUTS.all_chat_messages.mark_message,{id:data[data.length-1].id, mark:'read'})
+                // .then((e)=>{console.log(e)})    
+            }
+            
+
+        })
+        .catch((err)=>{console.log('db Chat status :(')})
+
     }
 
  
@@ -46,7 +60,6 @@ const wyswietlacz_2 = (script: any)=> {
     if(typeof script !== 'undefined' && script.length > 0){
         const scrypt_copy =  script.slice();
         const script_slowa = scrypt_copy.split(" ");
-        console.log('widzisz')
         let index = 0
         setShown(true)
         const loop =  setInterval(()=>{
@@ -55,20 +68,35 @@ const wyswietlacz_2 = (script: any)=> {
                 // console.log(slowa)
                 
                 
-                   if(typeof script_slowa[index] !== 'undefined') {console.log('typeof script_slowa[index]',typeof script_slowa[index]),divowansko.current.append(script_slowa[index]+" ")}
-                   divowansko.current.scrollIntoView({ behavior: "smooth" }) //to scroll to bottom box after write
+                   if(typeof script_slowa[index] !== 'undefined' && script_slowa) {
+                    try{
+                       divowansko.current.append(script_slowa[index]+" ") 
+                    }
+                    catch (error) {
+                        () => {console.log('blad1')}
+                    }
+                    
+                }
+                    try {
+                        divowansko.current.scrollIntoView({ behavior: "smooth" }) //scroll to bottom box after write
+                    } catch (error) {
+                        () => {console.log('blad2')}
+                    }
+                  
                 //    kropki.current.updatePosition()
                    index = index + 1
                 }
                 else {setShown(false) ; clearTimeout(loop)} },350)
     }
-    return console.log('chat nie mowi')
+    
 }
 
 // wyswietlacz()
 
 useMemo(async ()=>{
-    if(typeof phase=='number'){console.log('FAZA Ccccccccccccccc ZACZTU: ',phase); await get_script()}
+    if(typeof phase=='number'){
+        // console.log('FAZA Ccccccccccccccc ZACZTU: ',phase); 
+        await get_script()}
     },[phase])
 
     return(

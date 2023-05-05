@@ -43,7 +43,7 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
     const db_type_name = cation ? 'script_flow' : 'a_script_flow' 
     const db_voice_script_name = cation ? 'cation_voice_script' : 'anion_voice_script' 
     const db_rout = cation ? 'cation_analysis_texts' : 'anion_analysis_texts'
-
+    const ion_type = cation ? 'cation' : 'anion'
 
     useEffect(  ()  =>  {
         get_data()  
@@ -54,7 +54,7 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
     
     const set_up_phase = async (data: any)  => {
         const current = data[data.length-1]
-        console.log('faza CAT')
+        // console.log('faza CAT')
        if(typeof current !== 'undefined'){
             if((current['end'] == 'new') && (phase !== 100)){
             if(current['f1'] == null){setPhase(1);return true}
@@ -68,22 +68,65 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
            
            if((current['end'] == 'new') && (current['f7'] !== null)){
                setPhase(8)
-               console.log('ustawiono fazę 8');
+            //    console.log('ustawiono fazę 8');
            }
        }
    }
 
-   const show_conversation = () => {
+//    const show_conversation = () => {
+//     if(currentConversation && phase){
+//         // refChat.current.scrollIntoView({ behavior: "smooth" })
+//          const key = Object.keys(currentConversation)
+//         //  console.log('key',key)
+//          return(
+//             key.map((obj,index)=>{
+//         // console.log('currentConversation[obj]', typeof currentConversation[obj])
+//        if(obj !== `f${phase-1}` && obj !== 'id' && typeof currentConversation[obj] !== 'object') {
+//         // refChat.current.scrollIntoView({ behavior: "smooth" })
+//        return(<ChatContainer key={index}>{currentConversation[obj]}</ChatContainer>)}
+//     })
+//          )
+    
+    
+//     }
+//     else{
+//         return (<div> brak wiadomości</div>)
+//     }
+   
+    
+//    }
+
+const show_conversation = () => {
     if(currentConversation && phase){
         // refChat.current.scrollIntoView({ behavior: "smooth" })
          const key = Object.keys(currentConversation)
         //  console.log('key',key)
          return(
             key.map((obj,index)=>{
-        // console.log('currentConversation[obj]', typeof currentConversation[obj])
-       if(obj !== `f${phase-1}` && obj !== 'id' && typeof currentConversation[obj] !== 'object') {
+            const date = currentConversation[obj].date.replace('T',' | ').slice(13,-8)
+        
+       if(currentConversation[obj] !== currentConversation[key.length-1] && currentConversation[obj].author == 'bot' && currentConversation[obj].ion == ion_type) {
         // refChat.current.scrollIntoView({ behavior: "smooth" })
-       return(<ChatContainer key={index}>{currentConversation[obj]}</ChatContainer>)}
+            
+            return(
+                <div key={index}>
+                    <ChatContainer_left key={index}>{currentConversation[obj].message} <div style={{marginLeft:'220px', marginTop:'20px' , fontSize:'11px', float:'left'}}>{date}</div></ChatContainer_left>
+                    
+                </div>
+            )
+        
+        }
+
+        if(currentConversation[obj] !== currentConversation[key.length-1] && currentConversation[obj].author == 'human' && currentConversation[obj].ion == ion_type) {
+            // refChat.current.scrollIntoView({ behavior: "smooth" })
+            return(
+                <div key={index}>
+                    <ChatContainer_right key={index}>{currentConversation[obj].message} <div style={{marginLeft:'220px', marginTop:'20px' , fontSize:'11px', float:'left'}}>{date}</div>  </ChatContainer_right>
+                </div>
+            )
+            
+        }
+
     })
          )
     
@@ -100,20 +143,35 @@ export const ChatCat: React.FunctionComponent<ChatCatProps> = ({
    const get_data = async () => {
       
     await  Axios.get(SERVER_ROUTS[db_type].get)
-    .then( (response: any)=>{console.log('CAT db :)');setData(response.data);set_up_phase(response.data)})
-    .catch((err)=>{console.log('db CAT status :(')})
+    .then( (response: any)=>{
+        // console.log('ChatCat db :)');
+        setData(response.data);set_up_phase(response.data)})
+    .catch((err)=>{console.log('db ChatCat status :(')})
     
   }
 
   const get_script = async () => {
-    await  Axios.get(SERVER_ROUTS[db_rout].get)
-    .then( (response: any)=>{console.log('chatCat db :)')
+//     await  Axios.get(SERVER_ROUTS[db_rout].get)
+//     .then( (response: any)=>{console.log('chatCat db :)')
+//         const data = response.data
+//         // console.log('wszystkie sktypTY',data[data.length -1])
+//         setCurrentConversation(data[data.length -1])
+// })
+//     .catch((err)=>{console.log('db status :(')})
+
+    await Axios.get(SERVER_ROUTS.all_chat_messages.get_one_conversation+`/${id}` )
+    .then( (response: any)=>{
+        // console.log('chatCat db :)')
         const data = response.data
-        console.log('wszystkie sktypTY',data[data.length -1])
-        setCurrentConversation(data[data.length -1])
-})
+        // console.log('wszystkie sktypTY',data)
+        setCurrentConversation(data)
+    })
     .catch((err)=>{console.log('db status :(')})
+
+
 }
+
+
 useMemo(async ()=>{
     if(ready) get_script()
 },[ready])
@@ -122,9 +180,9 @@ useMemo(async ()=>{
      reset()
 },[refreshChat])
 
-  useMemo(async ()=>{
-    if(typeof phase !== 'undefined'){console.log('cAT faza:',phase)}
-},[phase])
+//   useMemo(async ()=>{
+//     if(typeof phase !== 'undefined'){console.log('cAT faza:',phase)}
+// },[phase])
 
 // useMemo(()=>{
         
@@ -142,12 +200,14 @@ useMemo(async ()=>{
                 <ChatBody >
 
                     {show_conversation()}
+                    <div style={{clear: 'left'}}></div>
+                    <div style={{clear: 'right'}}></div>
                     {ready && < Chat key={seed} cation={cation} id ={id} script={script} phase={phase}/>  }
                     <div style={{clear: 'left'}}></div>
 
-                    <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition cation={cation} id={id} phase={phase} return_described_to_parent_component={e => {return_results_to_parent_component(e); console.log('resultat jest w chatcat',e)}} grabSound={3}/>}   </Container></Container2>
+                    <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition cation={cation} id={id} phase={phase} return_described_to_parent_component={e => {return_results_to_parent_component(e)}} grabSound={3}/>}   </Container></Container2>
                 </ChatBody>
-                <AnswerBox onClick={()=>{console.log('epic'); setNowTellSomething(!nowTellSomething)}} >
+                <AnswerBox onClick={()=>{ setNowTellSomething(!nowTellSomething)}} >
                    <div>
                     Wytłumacz
                     </div> 
@@ -159,7 +219,7 @@ useMemo(async ()=>{
 
 }
 
-const ChatContainer = styled.div`
+const ChatContainer_left = styled.div`
     border: 3px solid #626062;
     border-radius: 10px;
     justify-content: center;
@@ -167,8 +227,19 @@ const ChatContainer = styled.div`
     float: left;
     margin: 5px;
     padding: 5px;
-    float:none;
+    /* float:none; */
     
+`
+
+const ChatContainer_right = styled.div`
+    border: 3px solid #626062;
+    border-radius: 10px;
+    justify-content: center;
+    width: 270px;
+    float: right;
+    margin: 5px;
+    padding: 5px;
+    /* float:none; */    
 `
 
 

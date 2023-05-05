@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useMemo } from "react";
 import Webcam from "react-webcam";
 import styled from "styled-components";
 import * as tf from "@tensorflow/tfjs";
+import { AverageColorTest } from "./AverageColorTest";
 
 
 // import { runDetectLoop  } from "./function/detect";
@@ -30,7 +31,11 @@ export const DetectBase_v2: React.FunctionComponent<DetectBaseProps> = ({
   const [detectedImage, setDetectedImage] = useState();
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<any>(null);
-    
+
+  const wholeImageCanvasRef = useRef<any>(null);
+  const croppedImageCanvasRef = useRef<any>(null);
+  const doubleCroppedImageRef = useRef<any>(null);
+
   const [show, setShow] = useState<boolean>(false)
   
    useEffect(()=>{
@@ -38,7 +43,7 @@ export const DetectBase_v2: React.FunctionComponent<DetectBaseProps> = ({
 console.log('wyswietlamy rezultat funkcji',functionReturn)
     const obj = [functionReturn,detectedImage]
     // console.log('---------------------------------------------------- KONIEC : '+tf.memory().numTensors)
-    return_results_to_parent_component(obj)
+    // return_results_to_parent_component(obj)
     }
     
    },[functionReturn])
@@ -77,7 +82,8 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
         const loadModelC = async () => { 
             // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/nc/model.json')
             // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/class4/model.json')
-            const net =  tf.loadGraphModel('tfjsexport_3/model.json')
+            // const net =  tf.loadGraphModel('tfjsexport_3/model.json')
+            const net =  tf.loadGraphModel('tfjs_2/model.json')
             return net}
     
     
@@ -87,48 +93,100 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                     video !== null 
                   ){
                 
-                const img = tf.browser.fromPixels(video)
-                const resized = tf.image.resizeBilinear(img, [300,300])
-                const casted = resized.cast('float32')
-                const expanded = casted.expandDims(0)
-                const obj = await net.execute(expanded)
+                    const img = tf.browser.fromPixels(video)
+                    const resized = tf.image.resizeBilinear(img, [640,480])
+                    const casted = resized.cast('int32')
+                    const expanded = casted.expandDims(0)
+                    const obj = await net.executeAsync(expanded)
                
-                const all = await obj.array()
+                // const all = await obj.array()
+
+                if(obj){
+                  
+                  const boxes = await obj[3].array()
+                  const classes = await obj[1].array()
+                  const scores = await obj[7].array()
+
+                console.log('0',await obj[0].array())
+                console.log('1',await obj[1].array())
+                console.log('2',await obj[2].array())
+                console.log('3',await obj[3].array())
+                console.log('4',await obj[4].array())
+                console.log('5',await obj[5].array())
+                console.log('6',await obj[6].array())
+                console.log('7',await obj[7].array())
+
+
+                  console.log('boxes [3]',await boxes[0][0])
+                  console.log('scores [7]',await scores[0][0])
+                  console.log('classes [1]',await classes[0][0])
+
+                  const ymin =  parseInt((boxes[0][0][0]*220).toString())
+                  const xmin =  parseInt((boxes[0][0][1]*90).toString())
+                  const ymax =  parseInt((boxes[0][0][2]*220).toString())
+                  const xmax =  parseInt((boxes[0][0][3]*90).toString())
+
+                  console.log('ymin2: ',ymin )
+                  console.log('xmin2: ', xmin)
+                  console.log('ymax2: ',ymax )
+                  console.log('xmax2: ', xmax)
+                  console.log('roznicza2: ',xmax-xmin)
+                  console.log('roznicza22: ',ymax-ymin)
+                  
+                  const mapArray = [0,1,2,10,7,6,9,4,5,11,3]
+                  const wynik = mapArray[classes[0][0]]
+
+                   // ------ canvas magic ----------------------------------------------------------------
+                   //cropped image
+                   doubleCroppedImageRef.current.width = 90;
+                   doubleCroppedImageRef.current.height = 220;
+                  //  doubleCroppedImageRef.current.getContext('2d').drawImage(video, xmin, ymin, xmax-xmin, ymax-ymin, xmin, ymin,90, 220 ) //wery gud
+                  doubleCroppedImageRef.current.getContext('2d').drawImage(video,xmin,ymin ,xmax-xmin,ymax-ymin,xmin,ymin,xmax-xmin,ymax-ymin) //wery gud
+ 
+                   // ------ canvas magic ----------------------------------------------------------------
+ 
+
+
+
+                  return wynik
+                }
+                
+                
     
-                if(all){
-                    console.log('wsio result -------------------------------------------------------------------------------------',obj,all,all[0])
-                    const classes = all[0]
-                    const mapArray_small = [1,2,10,7,6,4,9,5,3,11]
-                    // const mapArray = [1,0,8,2,10,7,6,4,9,5,3,11]
-                    const number_of_label = classes.indexOf(Math.max(...classes));
-                    // const label_after_amp = mapArray[number_of_label]
-                    const label_after_amp = mapArray_small[number_of_label]
-                    console.log('rezultat z DetectBase_v2:',number_of_label )
-                    console.log('rezultat po mapowaniu:',label_after_amp )
+                // if(all){
+                //     console.log('wsio result -------------------------------------------------------------------------------------',obj,all,all[0])
+                //     const classes = all[0]
+                //     const mapArray_small = [1,2,10,7,6,4,9,5,3,11]
+                //     // const mapArray = [1,0,8,2,10,7,6,4,9,5,3,11]
+                //     const number_of_label = classes.indexOf(Math.max(...classes));
+                //     // const label_after_amp = mapArray[number_of_label]
+                //     const label_after_amp = mapArray_small[number_of_label]
+                //     console.log('rezultat z DetectBase_v2:',number_of_label )
+                //     console.log('rezultat po mapowaniu:',label_after_amp )
 
 
                  
-                    tf.dispose(img)
-                    tf.dispose(resized)
-                    tf.dispose(casted)
-                    tf.dispose(expanded)
-                    tf.dispose(obj)
-                    tf.dispose(net)
-                    tf.dispose(all)
-                    tf.dispose(classes)
-                    console.log(tf.memory().numTensors)
-                    tf.disposeVariables()
-                    console.log('koniec CLASIFY')
-                    console.log('tyle tensorów zostało:'+tf.memory().numTensors)
-                    return label_after_amp
-                }
+                //     tf.dispose(img)
+                //     tf.dispose(resized)
+                //     tf.dispose(casted)
+                //     tf.dispose(expanded)
+                //     tf.dispose(obj)
+                //     tf.dispose(net)
+                //     tf.dispose(all)
+                //     tf.dispose(classes)
+                //     console.log(tf.memory().numTensors)
+                //     tf.disposeVariables()
+                //     console.log('koniec CLASIFY')
+                //     console.log('tyle tensorów zostało:'+tf.memory().numTensors)
+                //     return label_after_amp
+                // }
     
                 tf.dispose(img)
                 tf.dispose(resized)
                 tf.dispose(casted)
                 tf.dispose(expanded)
                 tf.dispose(obj)
-                tf.dispose(all)
+                // tf.dispose(all)
                 
                 console.log(tf.memory().numTensors)
                 
@@ -140,8 +198,8 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
     
         const loadModel = async () => { 
             // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/tfjsexport_3/model.json')
-            // const net =  tf.loadGraphModel('tfjsexport_3/model.json')
-            const net =  tf.loadGraphModel('tfjs_2/model.json')
+            const net =  tf.loadGraphModel('tfjsexport_3/model.json')
+            // const net =  tf.loadGraphModel('tfjs_2/model.json')
             return net}
     
         
@@ -157,6 +215,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
 
                 // Get Video Properties
                 const video = webcamRef.current.video;
+                const video2 = webcamRef.current.video;
                 
                 const videoWidth = webcamRef.current.video.videoWidth;
                 const videoHeight = webcamRef.current.video.videoHeight;
@@ -180,21 +239,59 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 const boxes = await obj[4].array()
                 const classes = await obj[7].array()
                 const scores = await obj[5].array()
-                console.log('-------------------------------------------')
-                console.log('0',await obj[0].array())
-                console.log('1',await obj[1].array())
-                console.log('2',await obj[2].array())
-                console.log('3',await obj[3].array())
-                console.log('4',await obj[4].array())
-                console.log('5',await obj[5].array())
-                console.log('6',await obj[6].array())
-                console.log('7',await obj[7].array())
+               
+                // console.log('-------------------------------------------')
+                // console.log('0',await obj[0].array())
+                // console.log('1',await obj[1].array())
+                // console.log('2',await obj[2].array())
+                // console.log('3',await obj[3].array())
+                // console.log('4',await obj[4].array())
+                // console.log('5',await obj[5].array())
+                // console.log('6',await obj[6].array())
+                // console.log('7',await obj[7].array())
+                // console.log('boxes',await boxes[0][0])
+                // console.log('scores',await scores[0][0])
 
                 
-                if (boxes)  {setRedOrBlack(true); refreshChat(true)} //red border if ready
+                // if (boxes)  {setRedOrBlack(true); refreshChat(true)} //red border if ready
+                if (boxes)  {setRedOrBlack(true)} //red border if ready
     
-                if(boxes[0][0] && classes[0][0] && scores[0][0]>0.8){
+                if(boxes[0][0] && classes[0][0] && scores[0][0]>0.95){
 
+                  // ------ canvas magic ----------------------------------------------------------------
+                  setShow(true)
+                  const ymin =  parseInt((boxes[0][0][0]*videoHeight).toString())
+                  const xmin =  parseInt((boxes[0][0][1]*videoWidth).toString())
+                  const ymax =  parseInt((boxes[0][0][2]*videoWidth).toString())
+                  const xmax =  parseInt((boxes[0][0][3]*videoWidth).toString())
+
+                  console.log('ymin: ',ymin )
+                  console.log('xmin: ', xmin)
+                  console.log('ymax: ',ymax )
+                  console.log('xmax: ', xmax)
+                  console.log('roznicza: ',xmax-xmin)
+
+                  //cropped image
+                  croppedImageCanvasRef.current.width = 90;
+                  croppedImageCanvasRef.current.height = 220;
+                  croppedImageCanvasRef.current.getContext('2d').drawImage(video2, xmin-10, ymin+200, 90, 220, 0, 0,90,220 ) //wery gud
+
+                  // whole image
+                  wholeImageCanvasRef.current.width = 640;
+                  wholeImageCanvasRef.current.height = 480;
+                  wholeImageCanvasRef.current.getContext('2d').drawImage(video2, 0, 0, video2.width, video2.height )
+                  
+
+                  // new html img object for return to further detection
+                  var target = new Image(220,90);
+                  target.src = croppedImageCanvasRef.current.toDataURL();
+                  // console.log('target: ',target)
+
+                  // ------ canvas magic ----------------------------------------------------------------
+
+
+
+                  console.log('scores',scores[0][0])
                   console.log('tensor:++++++++++++++++',img)
                         tf.dispose(img)
                         tf.dispose(resized)
@@ -211,8 +308,8 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                         tf.disposeVariables()
                         console.log('koniec detect')
                         // console.log('ZDHECIE-------------------',detected_image)
-                        const video2 = webcamRef.current.video;
-                        return video2
+                        // const video2 = webcamRef.current.video;
+                        return target
                 }
     
                 else{
@@ -224,7 +321,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 tf.dispose(boxes)
                 tf.dispose(classes)
                 tf.dispose(scores)
-                console.log(tf.memory().numTensors)
+                // console.log(tf.memory().numTensors)
             } 
             tf.dispose(img)
             tf.dispose(resized)
@@ -234,7 +331,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
             tf.dispose(boxes)
             tf.dispose(classes)
             tf.dispose(scores)
-            console.log(tf.memory().numTensors)
+            // console.log(tf.memory().numTensors)
             }
             }
     
@@ -268,6 +365,14 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                       />
                 
              </Dekoracja>
+
+             <Container>
+                { show && <AverageColorTest canvas={croppedImageCanvasRef.current}/>}
+                <canvas style={{width: 90, height: 220, display: show ? 'block' : 'none'}} ref={croppedImageCanvasRef}/>
+                <canvas style={{width: 90, height: 220, display: show ? 'block' : 'none'}} ref={doubleCroppedImageRef}/>
+                <canvas style={{width: 640, height: 480, margin: 5,  display: show ? 'block' : 'none'}} ref={wholeImageCanvasRef}/>
+                
+            </Container>
           
   
           {/* <canvas
@@ -316,13 +421,7 @@ const CenterContainer = styled.div`
     justify-content: center;
 `
 
-
-
-const MojButton = styled.button`
-    padding: 10px 5px;
-    text-align: center;
-    border-radius: 8px; 
-    background-color: ${({theme})=> theme.colors.primary};
-    /* background-color: red; */
-    cursor: pointer;
+const Container = styled.div`
+  
 `
+

@@ -36,7 +36,9 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
       const get_data = async () => {
         let kontrol = false
       await  Axios.get(SERVER_ROUTS[db_type].get)
-        .then( (response: any)=>{console.log('shufle db :)');setData(response.data); kontrol=true ;setMode('start');set_up_phase(response.data)})
+        .then( (response: any)=>{
+            // console.log('shufle db :)');
+            setData(response.data); kontrol=true ;setMode('start');set_up_phase(response.data)})
         .catch((err)=>{console.log('db status :(')})
         if(kontrol) return 'ok'
       }
@@ -46,13 +48,13 @@ export const ShuffleFate: React.FunctionComponent<ShuffleFateProps> = ({
          
         if(typeof current !== 'undefined'){
              if((current['end'] == 'new') ){
-             if(current['f1'] == null){setPhase(1);console.log('SHUFFLE FAZA:',1);return true}
-             if(current['f2'] == null){setPhase(2);console.log('SHUFFLE FAZA:',2);return true}
-             if(current['f3'] == null){setPhase(3);console.log('SHUFFLE FAZA:',3);return true}
-             if(current['f4'] == null){setPhase(4);console.log('SHUFFLE FAZA:',4);return true}
-             if(current['f5'] == null){setPhase(5);console.log('SHUFFLE FAZA:',5);return true}
-             if(current['f6'] == null){setPhase(6);console.log('SHUFFLE FAZA:',6);return true}
-             if(current['f7'] == null){setPhase(7);console.log('SHUFFLE FAZA:',7);return true}
+             if(current['f1'] == null){setPhase(1);return true}
+             if(current['f2'] == null){setPhase(2);return true}
+             if(current['f3'] == null){setPhase(3);return true}
+             if(current['f4'] == null){setPhase(4);return true}
+             if(current['f5'] == null){setPhase(5);return true}
+             if(current['f6'] == null){setPhase(6);return true}
+             if(current['f7'] == null){setPhase(7);return true}
             }  
             
             if((current['end'] == 'end') && (phase !== 100)){

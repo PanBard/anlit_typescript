@@ -67,7 +67,9 @@ export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
       await  Axios.get(SERVER_ROUTS[db_type].get)
         .then( (response: any)=>{setData(response.data);
           Axios.get(SERVER_ROUTS.test_images.get)
-          .then( (response: any)=>{console.log('img --> :)');setImgFromDataBase(response.data) })
+          .then( (response: any)=>{
+            // console.log('img --> :)');
+          setImgFromDataBase(response.data) })
           .catch((err)=>{console.log('db status :(')})
         
         })
@@ -75,7 +77,7 @@ export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
       }
 
     const quck_update = async (label: any, img_index:string,f_index:string, end:string)=>{
-      console.log('labelMap[label]',labelMap[label])
+      // console.log('labelMap[label]',labelMap[label])
         await Axios.put(SERVER_ROUTS[db_type].put, {id:id,name:name,[f_index]: labelMap[label] ,[img_index]:image,end:end})
         // .then(p => console.log('update----------------------------------------------------------UP'))
         .then(rerender)
@@ -87,13 +89,13 @@ export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
         // console.log('testowy label',testowy_label)
         const current = data[data.length-1]
         if((current['end'] == 'new') && (phase !== 100)){
-            if(current['f1'] == null && current['end'] !== 'end'){console.log('faza f1');quck_update(testowy_label,'img1','f1','new');return true}
-            if(current['f2'] == null && current['end'] !== 'end'){console.log('faza f2');quck_update(testowy_label,'img2','f2','new');return true}
-            if(current['f3'] == null && current['end'] !== 'end'){console.log('faza f3');quck_update(testowy_label,'img3','f3','new');return true}
-            if(current['f4'] == null && current['end'] !== 'end'){console.log('faza f4');quck_update(testowy_label,'img4','f4','new');return true}
-            if(current['f5'] == null && current['end'] !== 'end'){console.log('faza f5');quck_update(testowy_label,'img5','f5','new');return true}
-            if(current['f6'] == null && current['end'] !== 'end'){console.log('faza f6');quck_update(testowy_label,'img6','f6','new');return true}
-            if(current['f7'] == null && current['end'] !== 'end'){console.log('faza f7');quck_update(testowy_label,'img7','f7','new');return true}
+            if(current['f1'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img1','f1','new');return true}
+            if(current['f2'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img2','f2','new');return true}
+            if(current['f3'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img3','f3','new');return true}
+            if(current['f4'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img4','f4','new');return true}
+            if(current['f5'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img5','f5','new');return true}
+            if(current['f6'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img6','f6','new');return true}
+            if(current['f7'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img7','f7','new');return true}
         }
         if((current['end'] == 'new') && (current['f7'] !== null)){
            rerender

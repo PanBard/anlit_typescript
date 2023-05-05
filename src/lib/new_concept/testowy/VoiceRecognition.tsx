@@ -94,7 +94,8 @@ recognition.onend = (event) => {
   console.log('ONEND::::',slowa)
   console.log("Speech recognition service disconnected");
   const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
-  Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:id, query: query , script: slowa }).then(res=>console.log(res))
+  // Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:id, query: query , script: slowa }).then(res=>console.log(res))
+  Axios.post(SERVER_ROUTS.all_chat_messages.post, {chat_id:id, message: slowa,author: 'human', ion: cation ? 'cation' : 'anion' }).then(res=>console.log('Messages db: ',res.data))
   setShow(false)
 };
 }

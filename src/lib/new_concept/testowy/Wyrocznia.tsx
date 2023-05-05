@@ -58,7 +58,7 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
 
     const Voice = (words: string) => {
         const msg = new SpeechSynthesisUtterance()
-        msg.lang = 'pl-PL'
+        msg.lang = "pl-PL" 
         msg.text =  words
         window.speechSynthesis.speak(msg)
 }
@@ -66,7 +66,7 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
       const get_data = async () => {
       
         await  Axios.get(SERVER_ROUTS[db_type].get)
-        .then( (response: any)=>{console.log('WYROCZNIA db :)');setData(response.data);set_up_phase(response.data)})
+        .then( (response: any)=>{setData(response.data);set_up_phase(response.data)})
         .catch((err)=>{console.log('db WYROCZNIA status :(')})
         
       }
@@ -87,7 +87,6 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
             
             if((current['end'] == 'new') && (current['f7'] !== null)){
                 setPhase(8)
-                console.log('ustawiono fazę 8');
             }
         }
     }
@@ -104,56 +103,46 @@ export const Wyrocznia: React.FunctionComponent<ShuffleFateProps> = ({
                 await Axios.put(SERVER_ROUTS.shuffle_match.get,{phase: (phase-1), label: prevoiusLabel, db_type:db_type_name})
                 .then((response)=>{
                     const data = response.data;
-                    console.log('Mapowanie w fazie',phase)
                     data.map((obj: any)=>{
 
                         if(phase==2){
                             if(obj.f1 == current.f1){
-                                console.log('szukanie w fazie 2')
                                 setRightSymbol(prevoius => [...prevoius, obj.id])
                             }}
 
                         if(phase==3){
                             if(obj.f1 == current.f1 && obj.f2 ==current.f2){
-                                console.log('szukanie w fazie 3')
                                 setRightSymbol(prevoius => [...prevoius, obj.id])
                             }}
 
                         if(phase==4){
-                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3  ){
-                                console.log('szukanie w fazie 4')
+                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3  ){                                
                                 setRightSymbol(prevoius => [...prevoius, obj.id])
                             }}
 
                         if(phase==5){
-                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  ){
-                                console.log('szukanie w fazie 5')
+                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  ){                            
                                 setRightSymbol(prevoius => [...prevoius, obj.id])
                             }}
 
                         if(phase==6){
-                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 ){
-                                console.log('szukanie w fazie 6')
+                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 ){                                
                                 setRightSymbol(prevoius => [...prevoius, obj.id])
                             }}
 
                         if(phase==7){
-                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 && obj.f6 == current.f6 ){
-                                console.log('szukanie w fazie 7')
+                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 && obj.f6 == current.f6 ){                                
                                 setRightSymbol(prevoius => [...prevoius, obj.id])
                             }}
 
                         if(phase==8){
-                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 && obj.f6 == current.f6  && obj.f7 == current.f7){
-                                console.log('szukanie w fazie 8')
+                            if(obj.f1 == current.f1 && obj.f2 == current.f2 && obj.f3 == current.f3 && obj.f4 == current.f4  && obj.f5 == current.f5 && obj.f6 == current.f6  && obj.f7 == current.f7){                            
                                 setRightSymbol(prevoius => [...prevoius, obj.id])
                             }
                         }
                     }
                     )
                     setfoundIon(true)
-                    
-
                 }
                 )
             }
@@ -163,30 +152,54 @@ const set_failed_end = async () => {
     const current = data[data.length-1]
     if(current.end !== 'end' && current.end !== 'fail' ){
         await Axios.put(SERVER_ROUTS[db_type].put, {id: current.id , end:'fail'})
-        .then(p => {console.log(p)})
+        // .then(p => {console.log(p)})
 }
 }
+
+// const set_happy_end =async (id: any) => {
+//         const current = data[data.length-1]
+//         console.log('happy_end -- id',current.id)
+//     if(current.end !== 'end'){
+//         await Axios.put(SERVER_ROUTS[db_type].put, {id: current.id , end:'end'})
+//             .then(p => {console.log(p);
+//                 const query = `SELECT symbol FROM ${db_type_name} WHERE id = ${id}`
+//                 Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
+//                 .then((response)=>{console.log('z cutoma query: ',response.data[0].symbol)
+//                     Axios.put(SERVER_ROUTS[db_type].set_result, {id: current.id , result:response.data[0].symbol})
+//                     // .then(()=>{
+//                     //     const query = `UPDATE ${db_text_name} SET f${phase}=? WHERE id=?`
+//                     //     Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: 'Analiza zakoczona powodzeniem!' }).then(res=>console.log(res)).then(rerender_chat)
+//                     // })
+//                         // .then(rerender())
+
+//                     })
+//         })
+//     }
+        
+
+// }
 
 const set_happy_end =async (id: any) => {
-        const current = data[data.length-1]
-        console.log('happy_end -- id',current.id)
-    if(current.end !== 'end'){
-        await Axios.put(SERVER_ROUTS[db_type].put, {id: current.id , end:'end'})
-            .then(p => {console.log(p);
-                const query = `SELECT symbol FROM ${db_type_name} WHERE id = ${id}`
-                Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
-                .then((response)=>{console.log('z cutoma query: ',response.data[0].symbol)
-                    Axios.put(SERVER_ROUTS[db_type].set_result, {id: current.id , result:response.data[0].symbol})
-                    // .then(()=>{
-                    //     const query = `UPDATE ${db_text_name} SET f${phase}=? WHERE id=?`
-                    //     Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: 'Analiza zakoczona powodzeniem!' }).then(res=>console.log(res)).then(rerender_chat)
-                    // })
-                        // .then(rerender())
+    const current = data[data.length-1]
+    // console.log('happy_end -- id',current.id)
+if(current.end !== 'end'){
+    await Axios.put(SERVER_ROUTS[db_type].put, {id: current.id , end:'end'})
+        .then(p => {
+            // console.log(p);
+            const query = `SELECT symbol FROM ${db_type_name} WHERE id = ${id}`
+            Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
+            .then((response)=>{
+                Axios.put(SERVER_ROUTS[db_type].set_result, {id: current.id , result:response.data[0].symbol})
+                // .then(()=>{
+                //     const query = `UPDATE ${db_text_name} SET f${phase}=? WHERE id=?`
+                //     Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: 'Analiza zakoczona powodzeniem!' }).then(res=>console.log(res)).then(rerender_chat)
+                // })
+                    // .then(rerender())
 
-                    })
-        })
-    }
-        
+                })
+    })
+}
+    
 
 }
 
@@ -196,9 +209,10 @@ const first_phase_setup = async () => {
    await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
    .then((response)=>{
     const current = data[data.length-1]; 
-    const query = `UPDATE ${db_text_name} SET f0=? WHERE id=?`
-    Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: response.data[0].script }).then(res=>console.log(res)).then(rerender_chat)
-    console.log('z cutoma query: ',response.data[0]); Voice(response.data[0].script)})
+    // const query = `UPDATE ${db_text_name} SET f0=? WHERE id=?`
+    // Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: response.data[0].script }).then(res=>console.log(res)).then(rerender_chat);Voice(response.data[0].script)
+    Axios.post(SERVER_ROUTS.all_chat_messages.post, {chat_id:current.id, message: response.data[0].script,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat);Voice(response.data[0].script)
+    })
     }
      
 }
@@ -207,13 +221,24 @@ const first_phase_setup = async () => {
 const get_script_from_db =async () => {
         if(phase)
     await Axios.put(SERVER_ROUTS[db_voice_script_name].get_required_script,{phase: phase, match_id: rightSymbol[0] })
-                .then((response)=>{console.log('powinien byc skrypt----->',response.data[0].script)
+                .then((response)=>{
                 const current = data[data.length-1];
                 const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
-                if(response.data[0].f7 !== 'end')Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: response.data[0].script }).then(res=>console.log(res)).then(rerender_chat)
-                if(response.data[0].f7 == 'end'){const text = response.data[0].script + ' Analiza zakoczona powodzeniem!'   ;Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: text}).then(res=>console.log(res)).then(rerender_chat)}
+                // if(response.data[0].f7 !== 'end')Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: response.data[0].script }).then(res=>console.log(res.data)).then(rerender_chat)
+                // if(response.data[0].f7 == 'end'){const text = response.data[0].script + ' Analiza zakoczona powodzeniem!'   ;Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: text}).then(res=>console.log(res.data)).then(rerender_chat)}
+                // if(response.data[0].f7 !== 'end') {Voice(response.data[0].script); return_script(response.data[0].script)}
+                // if(response.data[0].f7 == 'end'){ion_founded(); return_script(response.data[0].script);Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6)} 
+
+
+                if(response.data[0].f7 !== 'end')Axios.post(SERVER_ROUTS.all_chat_messages.post, {chat_id:current.id, message: response.data[0].script,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat)
+                if(response.data[0].f7 == 'end'){const text = response.data[0].script + ' Analiza zakoczona powodzeniem!'   ; Axios.post(SERVER_ROUTS.all_chat_messages.post, {chat_id:current.id, message: text,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat)}
                 if(response.data[0].f7 !== 'end') {Voice(response.data[0].script); return_script(response.data[0].script)}
                 if(response.data[0].f7 == 'end'){ion_founded(); return_script(response.data[0].script);Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6)} 
+
+                
+                
+
+
                 })
                 .catch((err)=>{console.log(err)})
 }
@@ -223,18 +248,29 @@ useMemo(()=>{
 },[phase])
 
 useMemo(()=>{
-    if(typeof phase !== 'undefined' && rightSymbol.length !== 0){console.log('włączamy poieranie skryptu'); get_script_from_db()}
+    if(typeof phase !== 'undefined' && rightSymbol.length !== 0){ get_script_from_db()}
 },[rightSymbol])
+
+// useMemo(()=>{
+//     if(typeof phase !== 'undefined' && phase!==1 && rightSymbol.length == 0 && foundIon==true){ 
+//         const current = data[data.length-1]
+//         const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
+//         Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: 'Taki wynik nie powinien się pojawić na tym etapie analizy.' }).then(res=>console.log(res)).then(rerender_chat).then(()=>{set_failed_end()})
+//         .then(()=>{Voice('Taki wynik nie powinien się pojawić na tym etapie analizy.')})
+//         console.log('No nieciekawa sytiuacaja, bo normalnie nie ma dopasowano liczby')}
+// },[foundIon])
+
 
 useMemo(()=>{
     if(typeof phase !== 'undefined' && phase!==1 && rightSymbol.length == 0 && foundIon==true){ 
         const current = data[data.length-1]
         const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
-        Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:current.id, query: query , script: 'Taki wynik nie powinien się pojawić na tym etapie analizy.' }).then(res=>console.log(res)).then(rerender_chat).then(()=>{set_failed_end()})
+        Axios.post(SERVER_ROUTS.all_chat_messages.post, {chat_id:current.id, message: 'Taki wynik nie powinien się pojawić na tym etapie analizy.',author: 'bot', ion: cation ? 'cation' : 'anion' })
+        .then(rerender_chat)
+        .then(()=>{set_failed_end()})
         .then(()=>{Voice('Taki wynik nie powinien się pojawić na tym etapie analizy.')})
-        console.log('No nieciekawa sytiuacaja, bo normalnie nie ma dopasowano liczby')}
+        }
 },[foundIon])
-
 
 return null
 }

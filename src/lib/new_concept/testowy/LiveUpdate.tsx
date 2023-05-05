@@ -42,7 +42,9 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
 
     const get_data_from_db = () => {
         Axios.get(SERVER_ROUTS[db_type].get)
-        .then( (response: any)=>{console.log(':)');const data = response.data;setData(data[data.length-1]);console.log('data[data.length-1]',data[data.length-1]) })
+        .then( (response: any)=>{const data = response.data;setData(data[data.length-1]);
+        // console.log('data[data.length-1]',data[data.length-1]) 
+    })
         .catch((err)=>{console.log('db status :(')})
     }
 

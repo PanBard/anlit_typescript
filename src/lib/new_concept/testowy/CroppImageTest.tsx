@@ -340,7 +340,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
     }
 
     
-    // useEffect(()=>{  DetectFunction(webcamRef,canvasRef)},[])
+    useEffect(()=>{  DetectFunction(webcamRef,canvasRef)},[])
 
     const loadModelC = async () => { 
       // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/tfjsexport_3/model.json')

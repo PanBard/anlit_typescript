@@ -28,12 +28,12 @@ export const TestowyDashboard: React.FunctionComponent = () => {
     const [refreshChat, setRefreshChat] = useState<any>()
     const [result_from_voice_describe, setResult_from_voice_describe] = useState<any>()
     
-    console.log('ion_founded zewnatrz',ion_founded)
+    // console.log('ion_founded zewnatrz',ion_founded)
 
     const reset = () => {
         setPhase(phase+1)
         setSeed(Math.random())
-        console.log('ion_founded',ion_founded)
+        // console.log('ion_founded',ion_founded)
         if(!ion_founded) {
             setScript(undefined)
         } 
@@ -41,7 +41,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
 
   useMemo(()=>{
     if( typeof result_from_voice_describe == 'number' || result_from_voice_describe == '0'){
-        console.log('result_from_voice_describe in dashboard: ',result_from_voice_describe)
+        // console.log('result_from_voice_describe in dashboard: ',result_from_voice_describe)
     }
     
   },[result_from_voice_describe])
@@ -58,14 +58,14 @@ export const TestowyDashboard: React.FunctionComponent = () => {
 
     const insert_to_db =async () => {
         if(data.length == 0){
-            console.log('New analysis id: ',1)
+            // console.log('New analysis id: ',1)
             await db_insert_new_id_and_status_analysis(1,analysis_name,current_analysis)
             .then(()=>setChoosen_mode('analiza'))
         }
 
         if(data[0]){
             
-            console.log('New analysis id: ',id)
+            // console.log('New analysis id: ',id)
             await db_insert_new_id_and_status_analysis(id,analysis_name,current_analysis)
             .then(()=>setChoosen_mode('analiza'))
         }
@@ -74,8 +74,10 @@ export const TestowyDashboard: React.FunctionComponent = () => {
 
     const get_data_from_db = (db: string) => {
         Axios.get(SERVER_ROUTS[db as keyof typeof SERVER_ROUTS].get)
-        .then( (response: any)=>{console.log(':)');setData(response.data);return_new_analysis_id(response.data) })
-        .catch((err)=>{console.log('db status :(', err)})
+        .then( (response: any)=>{
+            // console.log(':)');
+        setData(response.data);return_new_analysis_id(response.data) })
+        .catch((err)=>{console.log('db dashboard status :(', err)})
     }
       
 
@@ -147,7 +149,7 @@ export const TestowyDashboard: React.FunctionComponent = () => {
                         
                         <AnalysisTestowy_2 result_from_voice_description={result_from_voice_describe} chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={true}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
                         <Wyrocznia rerender_chat={()=>{setSeed_for_chat(true)}} ion_founded={()=>{setIonfounded(true)}} cation={true} key={seed+3} rerender={reset} return_script={(message)=>{setScript(message)}}/>
-                       <ChatCat return_results_to_parent_component={e => {setResult_from_voice_describe(e), make_tetection(e), console.log('resultat jest w dashboard',e)}} refreshChat={refreshChat} id={id} cation={true}  key={seed+9} script={script} ready={seed_for_chat}/>
+                       <ChatCat return_results_to_parent_component={e => {setResult_from_voice_describe(e), make_tetection(e)}} refreshChat={refreshChat} id={id} cation={true}  key={seed+9} script={script} ready={seed_for_chat}/>
                 </ContainerP>
             )
             }
