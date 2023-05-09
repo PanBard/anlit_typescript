@@ -7,6 +7,7 @@ import { DataScript } from "./db_component/DataScript"
 import { ImagesTest } from "./db_component/ImagesTest"
 import { Analysis_text_chat } from "./db_component/Analysis_text_chat"
 import { ChatMessages } from "./db_component/ChatMessages"
+import { ImagesStorage } from "./db_component/ImagesStorage"
 
 export const DataDashboard: React.FunctionComponent = () => {
     
@@ -85,6 +86,7 @@ export const DataDashboard: React.FunctionComponent = () => {
                 <DropdownMenu_voicescript/>
                 {/* < DropdownMenu_chatText/> */}
                 <BestButton onClick={()=>{showComponent(<ImagesTest key={seed}/>)}}> Test images </BestButton>
+                <BestButton onClick={()=>{showComponent(<ImagesStorage key={seed}/>)}}> Images storage </BestButton>
                 <BestButton onClick={()=>{showComponent(<ChatMessages key={seed}/>)}}> Chat messages </BestButton>
                 {/* <BestButton onClick={()=>{showComponent(<Analysis_text_chat rout_name="cation_voice_script" key={seed}/>)}}> ChatText </BestButton> */}
             </HeaderContainer>

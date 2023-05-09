@@ -37,6 +37,8 @@ export const DetectBase_v2: React.FunctionComponent<DetectBaseProps> = ({
   const doubleCroppedImageRef = useRef<any>(null);
 
   const [show, setShow] = useState<boolean>(false)
+
+  const classification_labels = ['pomaranczowy_plyn','fioletowy_plyn','zolty_plyn','bialy','czarny','zolty','pomaranczowy','zielony','niebieski','niebiesko_rozowy']
   
    useEffect(()=>{
     if(functionReturn || functionReturn==0){
@@ -70,6 +72,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                     console.log('classifyResult',classifyResult)
                     if(classifyResult || classifyResult==0){
                         console.log('koniec petli, zwracamy:',classifyResult)
+                        const classifyResult2 = await clasify(model2, detectResult) 
                           // console.log('totalny koniec: '+tf.memory().numTensors)
                         setFunctionReturn(classifyResult)
                         }
@@ -83,7 +86,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
             // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/nc/model.json')
             // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/class4/model.json')
             // const net =  tf.loadGraphModel('tfjsexport_3/model.json')
-            const net =  tf.loadGraphModel('tfjs_2/model.json')
+            const net =  tf.loadGraphModel('super10_imageclassifier_V5/model.json')
             return net}
     
     
@@ -94,62 +97,73 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                   ){
                 
                     const img = tf.browser.fromPixels(video)
-                    const resized = tf.image.resizeBilinear(img, [640,480])
-                    const casted = resized.cast('int32')
+                    const resized = tf.image.resizeBilinear(img, [220,90])
+                    const casted = resized.cast('float32')
                     const expanded = casted.expandDims(0)
                     const obj = await net.executeAsync(expanded)
                
                 // const all = await obj.array()
+                const scores = await obj.array()
+                console.log('obj',await scores)
+                console.log('obj',await scores[0])
 
-                if(obj){
-                  
-                  const boxes = await obj[3].array()
-                  const classes = await obj[1].array()
-                  const scores = await obj[7].array()
+                if(scores){
 
-                console.log('0',await obj[0].array())
-                console.log('1',await obj[1].array())
-                console.log('2',await obj[2].array())
-                console.log('3',await obj[3].array())
-                console.log('4',await obj[4].array())
-                console.log('5',await obj[5].array())
-                console.log('6',await obj[6].array())
-                console.log('7',await obj[7].array())
-
-
-                  console.log('boxes [3]',await boxes[0][0])
-                  console.log('scores [7]',await scores[0][0])
-                  console.log('classes [1]',await classes[0][0])
-
-                  const ymin =  parseInt((boxes[0][0][0]*220).toString())
-                  const xmin =  parseInt((boxes[0][0][1]*90).toString())
-                  const ymax =  parseInt((boxes[0][0][2]*220).toString())
-                  const xmax =  parseInt((boxes[0][0][3]*90).toString())
-
-                  console.log('ymin2: ',ymin )
-                  console.log('xmin2: ', xmin)
-                  console.log('ymax2: ',ymax )
-                  console.log('xmax2: ', xmax)
-                  console.log('roznicza2: ',xmax-xmin)
-                  console.log('roznicza22: ',ymax-ymin)
-                  
-                  const mapArray = [0,1,2,10,7,6,9,4,5,11,3]
-                  const wynik = mapArray[classes[0][0]]
-
-                   // ------ canvas magic ----------------------------------------------------------------
-                   //cropped image
-                   doubleCroppedImageRef.current.width = 90;
-                   doubleCroppedImageRef.current.height = 220;
-                  //  doubleCroppedImageRef.current.getContext('2d').drawImage(video, xmin, ymin, xmax-xmin, ymax-ymin, xmin, ymin,90, 220 ) //wery gud
-                  doubleCroppedImageRef.current.getContext('2d').drawImage(video,xmin,ymin ,xmax-xmin,ymax-ymin,xmin,ymin,xmax-xmin,ymax-ymin) //wery gud
- 
-                   // ------ canvas magic ----------------------------------------------------------------
- 
-
-
-
-                  return wynik
+                  const indexOfMaxValue = scores[0].reduce((iMax: any, x: any, i: any, arr: any) => x > arr[iMax] ? i : iMax, 0);
+          
+                console.log(`[${indexOfMaxValue}] - ${classification_labels[indexOfMaxValue]}`)
+                return indexOfMaxValue
                 }
+
+                // if(obj && scores){
+                  
+                //   const boxes = await obj[3].array()
+                //   const classes = await obj[1].array()
+                //   const scores = await obj[7].array()
+
+                // console.log('0',await obj[0].array())
+                // console.log('1',await obj[1].array())
+                // console.log('2',await obj[2].array())
+                // console.log('3',await obj[3].array())
+                // console.log('4',await obj[4].array())
+                // console.log('5',await obj[5].array())
+                // console.log('6',await obj[6].array())
+                // console.log('7',await obj[7].array())
+
+
+                //   console.log('boxes [3]',await boxes[0][0])
+                //   console.log('scores [7]',await scores[0][0])
+                //   console.log('classes [1]',await classes[0][0])
+
+                //   const ymin =  parseInt((boxes[0][0][0]*220).toString())
+                //   const xmin =  parseInt((boxes[0][0][1]*90).toString())
+                //   const ymax =  parseInt((boxes[0][0][2]*220).toString())
+                //   const xmax =  parseInt((boxes[0][0][3]*90).toString())
+
+                //   console.log('ymin2: ',ymin )
+                //   console.log('xmin2: ', xmin)
+                //   console.log('ymax2: ',ymax )
+                //   console.log('xmax2: ', xmax)
+                //   console.log('roznicza2: ',xmax-xmin)
+                //   console.log('roznicza22: ',ymax-ymin)
+                  
+                //   const mapArray = [0,1,2,10,7,6,9,4,5,11,3]
+                //   const wynik = mapArray[classes[0][0]]
+
+                //    // ------ canvas magic ----------------------------------------------------------------
+                //    //cropped image
+                //    doubleCroppedImageRef.current.width = 90;
+                //    doubleCroppedImageRef.current.height = 220;
+                //   //  doubleCroppedImageRef.current.getContext('2d').drawImage(video, xmin, ymin, xmax-xmin, ymax-ymin, xmin, ymin,90, 220 ) //wery gud
+                //   doubleCroppedImageRef.current.getContext('2d').drawImage(video,xmin,ymin ,xmax-xmin,ymax-ymin,xmin,ymin,xmax-xmin,ymax-ymin) //wery gud
+ 
+                //    // ------ canvas magic ----------------------------------------------------------------
+ 
+
+
+
+                //   return wynik
+                // }
                 
                 
     
@@ -283,7 +297,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                   
 
                   // new html img object for return to further detection
-                  var target = new Image(220,90);
+                  var target = new Image(90,220);
                   target.src = croppedImageCanvasRef.current.toDataURL();
                   // console.log('target: ',target)
 

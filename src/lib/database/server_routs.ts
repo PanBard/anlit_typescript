@@ -96,6 +96,12 @@ export const SERVER_ROUTS = {
           "delete" : "http://localhost:4001/api/delete/all_chat_messages",
           "mark_message" : "http://localhost:4001/api/put/all_chat_messages",
       },
+      "image_storage" : {
+          "get" : "http://localhost:4001/api/get/image_storage",
+          "post" : "http://localhost:4001/api/post/image_storage",
+          "put" : "http://localhost:4001/api/put/image_storage",
+          "delete" : "http://localhost:4001/api/delete/image_storage",
+      },
 
 
 

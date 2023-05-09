@@ -44,20 +44,20 @@ export const ImagesTest: React.FunctionComponent = ()=>{
 
 
     const update_data_in_db = (ajdi: any)=>{
-        Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, {id:ajdi,img:img,label:label})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-        .then(()=>{reset()})
-        .then(()=>{ setters.map((set)=>{set(undefined)}) })
-        .catch(err => {console.log(err)})
+        // Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, {id:ajdi,img:img,label:label})
+        // .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        // .then(()=>{reset()})
+        // .then(()=>{ setters.map((set)=>{set(undefined)}) })
+        // .catch(err => {console.log(err)})
     };
 
     const send_data_to_db = async ()=>{
-        Axios.post(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].post, {id:id,img:img,label:label})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-        .then(()=>{reset()} )
-        .then(()=>{ setters.map((set)=>{set(undefined)}) })
-        .catch(err => {console.log(err)})
-        setters.map((set)=>{set(undefined)})
+        // Axios.post(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].post, {id:id,img:img,label:label})
+        // .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        // .then(()=>{reset()} )
+        // .then(()=>{ setters.map((set)=>{set(undefined)}) })
+        // .catch(err => {console.log(err)})
+        // setters.map((set)=>{set(undefined)})
     };
 
     const delete_row_from_db = (id: number)=>{
