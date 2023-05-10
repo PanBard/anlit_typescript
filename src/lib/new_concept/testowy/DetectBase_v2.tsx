@@ -86,7 +86,7 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
             // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/nc/model.json')
             // const net =  tf.loadGraphModel('https://panbard.github.io/model_host/class4/model.json')
             // const net =  tf.loadGraphModel('tfjsexport_3/model.json')
-            const net =  tf.loadGraphModel('super10_imageclassifier_V5/model.json')
+            const net =  tf.loadGraphModel('super10_imageclassifier_V6/model.json')
             return net}
     
     

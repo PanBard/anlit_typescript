@@ -130,7 +130,7 @@ export const CroppImageTest: React.FunctionComponent = ({}) => {
       // const net =  tf.loadGraphModel('klasyfikator/model.json')
       // const net =  tf.loadGraphModel('custom_model/model.json')
       // const net =  tf.loadGraphModel('dla10/model.json')
-      const net =  tf.loadGraphModel('super10_imageclassifier_V5/model.json')
+      const net =  tf.loadGraphModel('super10_imageclassifier_V6/model.json')
       return net}
 
     const try_model_klasyfikatora = async () => {
