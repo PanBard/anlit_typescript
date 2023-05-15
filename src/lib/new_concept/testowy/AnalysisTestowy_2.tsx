@@ -17,7 +17,7 @@ type AnalysisProps = {
     rerender?(params: any): any,
     cation: boolean,
     chatCanTellNow(params: any): any,
-    result_from_voice_description?: any
+    result_from_voice_description: any
 }
 
 export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
@@ -110,7 +110,7 @@ export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
       },[dataFromChildComponent])
 
       useMemo(()=>{
-        if(result_from_voice_description){
+        if(typeof result_from_voice_description != 'undefined'){
           catchMessageFromChild([result_from_voice_description,''])
         }
       },[result_from_voice_description])

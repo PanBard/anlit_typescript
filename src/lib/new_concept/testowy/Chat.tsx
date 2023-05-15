@@ -42,7 +42,7 @@ export const Chat: React.FunctionComponent<ChatProps> = ({
     await  Axios.get(SERVER_ROUTS.all_chat_messages.get_one_conversation+`/${id}`)
         .then( (response: any)=>{
             const data = response.data
-            if(data[data.length-1].mark != 'read'){
+            if(data[data.length-1].mark != 'read' && data[data.length-1].author != 'human'){
                 wyswietlacz_2(data[data.length-1].message)
                 Axios.put(SERVER_ROUTS.all_chat_messages.mark_message,{id:data[data.length-1].id, mark:'read'})
                 // .then((e)=>{console.log(e)})    

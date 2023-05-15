@@ -58,3 +58,20 @@ export const test_labels= [
   "fioletowy_p",
   "zolty_p"
 ]
+
+export const test_labels_for_me= {
+  0 : "brak",
+  1 : "bialy", 
+  2 : "czarny",
+  3 : "zolty",
+  4 : "pomaranczowy",
+  5 : "zielony",
+  6 : "niebieski",
+  7 : "nieb_rozowy",
+  8 : "cielisty",
+  9 : "pomaranczowy_p",
+  10 : "fioletowy_p",
+  11 : "zolty_p"
+}
+
+

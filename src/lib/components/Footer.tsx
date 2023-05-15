@@ -14,10 +14,10 @@ export const Footer = () => {
             </CodemaskContainer>
             <LinkContainer>
                 <Link href={APP_CONFIG.FLAT_ICON_URL} target='_blank'>
-                    {T.components.footer.flaticons}
+                    {T.components.footer.github}
                 </Link>
                 <Link  href={APP_CONFIG.LIBRE_TRANSLATE_URL}  target='_blank'>
-                    {T.components.footer.libretranslate}
+                    {T.components.footer.models}
                 </Link>
             </LinkContainer>
         </FooterContainer>

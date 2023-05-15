@@ -39,12 +39,12 @@ export const TestowyDashboard: React.FunctionComponent = () => {
         } 
     }
 
-  useMemo(()=>{
-    if( typeof result_from_voice_describe == 'number' || result_from_voice_describe == '0'){
-        // console.log('result_from_voice_describe in dashboard: ',result_from_voice_describe)
-    }
+//   useMemo(()=>{
+//     if( typeof result_from_voice_describe == 'number' || result_from_voice_describe == '0'){
+//         // console.log('result_from_voice_describe in dashboard: ',result_from_voice_describe)
+//     }
     
-  },[result_from_voice_describe])
+//   },[result_from_voice_describe])
 
   const make_tetection = (e: any) => {
     setResult_from_voice_describe(e)

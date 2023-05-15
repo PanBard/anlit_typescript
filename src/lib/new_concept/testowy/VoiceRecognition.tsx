@@ -70,6 +70,11 @@ recognition.onresult = (event: any) => {
     return_described_to_parent_component(2)
   }
 
+  if((event.results[0][0].transcript.search("zółtym")!=-1) || (event.results[0][0].transcript.search("żółty")!=-1)){
+    console.log('wykryto czarnego')
+    return_described_to_parent_component(11)
+  }
+
   if((event.results[0][0].transcript.search("pomarańczowy")!=-1) || (event.results[0][0].transcript.search("pomarańczowym")!=-1)){
     console.log('wykryto czarnego')
     return_described_to_parent_component(9)
@@ -80,10 +85,7 @@ recognition.onresult = (event: any) => {
     return_described_to_parent_component(10)
   }
 
-  if((event.results[0][0].transcript.search("zółtym")!=-1) || (event.results[0][0].transcript.search("żółty")!=-1)){
-    console.log('wykryto czarnego')
-    return_described_to_parent_component(11)
-  }
+  
   if((event.results[0][0].transcript.search("zółtym")!=-1) || (event.results[0][0].transcript.search("żółty")!=-1)){
     console.log('wykryto czarnego')
     return_described_to_parent_component(11)
@@ -91,9 +93,10 @@ recognition.onresult = (event: any) => {
 }
 
 recognition.onend = (event) => {
-  console.log('ONEND::::',slowa)
-  console.log("Speech recognition service disconnected");
-  const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
+  
+  // console.log('ONEND::::',slowa)
+  // console.log("Speech recognition service disconnected");
+  // const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
   // Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:id, query: query , script: slowa }).then(res=>console.log(res))
   Axios.post(SERVER_ROUTS.all_chat_messages.post, {chat_id:id, message: slowa,author: 'human', ion: cation ? 'cation' : 'anion' }).then(res=>console.log('Messages db: ',res.data))
   setShow(false)

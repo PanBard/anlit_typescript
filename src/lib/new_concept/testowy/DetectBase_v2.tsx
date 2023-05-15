@@ -44,12 +44,22 @@ export const DetectBase_v2: React.FunctionComponent<DetectBaseProps> = ({
     if(functionReturn || functionReturn==0){
 console.log('wyswietlamy rezultat funkcji',functionReturn)
     const obj = [functionReturn,detectedImage]
-    // console.log('---------------------------------------------------- KONIEC : '+tf.memory().numTensors)
-    // return_results_to_parent_component(obj)
+    console.log('---------------------------------------------------- KONIEC : '+tf.memory().numTensors)
+    return_results_to_parent_component(obj)
     }
     
    },[functionReturn])
     
+  //  //---------------- TESTOWE - do usuniecia
+
+  //  useEffect(()=>{
+  //   setFunctionReturn(1)
+  //  },[])
+
+  //  //---------------- TESTOWE- do usuniecia
+
+
+
 
     const DetectFunction = (webcamRef: any, canvasRef: any) => {
     
@@ -73,8 +83,8 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                     if(classifyResult || classifyResult==0){
                         console.log('koniec petli, zwracamy:',classifyResult)
                         const classifyResult2 = await clasify(model2, detectResult) 
-                          // console.log('totalny koniec: '+tf.memory().numTensors)
-                        setFunctionReturn(classifyResult)
+                          console.log('totalny koniec: '+tf.memory().numTensors)
+                        setFunctionReturn(classifyResult2)
                         }
                 }
                 else setTimeout(()=>{repeatingFunction(webcamRef,model1,model2,canvasRef)}, 500);
@@ -110,9 +120,11 @@ console.log('wyswietlamy rezultat funkcji',functionReturn)
                 if(scores){
 
                   const indexOfMaxValue = scores[0].reduce((iMax: any, x: any, i: any, arr: any) => x > arr[iMax] ? i : iMax, 0);
-          
+                  const mapping_index_from_model_to_result =  [9,10,11,1,2,3,4,5,6,7]
                 console.log(`[${indexOfMaxValue}] - ${classification_labels[indexOfMaxValue]}`)
-                return indexOfMaxValue
+                console.log(`[${mapping_index_from_model_to_result[indexOfMaxValue]}] <- return value`)
+
+                return mapping_index_from_model_to_result[indexOfMaxValue]
                 }
 
                 // if(obj && scores){

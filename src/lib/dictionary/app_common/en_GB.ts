@@ -12,13 +12,15 @@ export const en_GB = {
             loading: 'Fetching supported languages...'
         },
         header: {
-            title: "CatChad",
+            title: "ChatChad",
             diskord: "Discord",
             github: "Github"
         },
         footer: {
             flaticons: "FlatIcons",
-            libretranslate: "LibreTranslate"
+            libretranslate: "LibreTranslate",
+            github: "GitHub",
+            models: "Models"
         },
         message:{
             tryAgain: 'Try again',   

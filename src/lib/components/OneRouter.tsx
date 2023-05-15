@@ -12,6 +12,7 @@ import { DetectTest } from "lib/new_concept/testowy/DetectTest";
 import { CroppImageTest } from "lib/new_concept/testowy/CroppImageTest";
 import { ColorAverage } from "lib/new_concept/testowy/ColorAverage";
 import { FaceRecognition } from "lib/new_concept/face_recognition/FaceRecognition";
+import { WebcamScreenshot } from "lib/new_concept/testowy/WebcamScreenshot";
 
 
 export const OneRouter: React.FunctionComponent = () => {
@@ -52,6 +53,7 @@ export const OneRouter: React.FunctionComponent = () => {
                 {webStatus == 'Cropp' && <CroppImageTest/>}
                 {webStatus == 'ColorAverage' && <ColorAverage/>}
                 {webStatus == 'FaceRecognition' && <FaceRecognition/>}
+                {webStatus == 'Screenshot' && <WebcamScreenshot/>}
                 
             </Container>
 
