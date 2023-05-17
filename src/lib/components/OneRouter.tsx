@@ -7,18 +7,18 @@ import { DataDashboard } from "lib/database/DataDashboard";
 import { TestowyDashboard } from "lib/new_concept/testowy/TestowyDashboard";
 import { Dashboard } from "lib/new_concept/Dashboard";
 import { WelcomePage } from "./WelcomePage";
-import { VoiceRecognition } from "lib/new_concept/testowy/VoiceRecognition";
-import { DetectTest } from "lib/new_concept/testowy/DetectTest";
 import { CroppImageTest } from "lib/new_concept/testowy/CroppImageTest";
 import { ColorAverage } from "lib/new_concept/testowy/ColorAverage";
 import { FaceRecognition } from "lib/new_concept/face_recognition/FaceRecognition";
 import { WebcamScreenshot } from "lib/new_concept/testowy/WebcamScreenshot";
+import { BeforeLogin } from "./BeforeLogin";
+import { RegistrationForm } from "./RegistrationForm";
 
 
 export const OneRouter: React.FunctionComponent = () => {
 
     const [webStatus, setWebStatus] = useState('Start')
-
+    const [loginStatus,setLoginStatus] = useState('Start')
     const [component, setComponent] = useState()
     const [seed, setSeed] = useState(1);
 
@@ -40,8 +40,9 @@ export const OneRouter: React.FunctionComponent = () => {
 
 
     return(
-        <MojDIV>
-            <OneHeader choosenWeb={e => setWebStatus(e)}/> {/*this bar is working outside routes, so is working in all moduls */}
+        <div>
+             {loginStatus=='Login' && <MojDIV>
+            <OneHeader choosenWeb={e => {setWebStatus(e)}}/> {/*this bar is working outside routes, so is working in all moduls */}
 
             <Container>
                 {webStatus=='Start' && <WelcomePage/>}
@@ -59,7 +60,21 @@ export const OneRouter: React.FunctionComponent = () => {
 
             <Footer/>
      
-        </MojDIV>
+        </MojDIV>}
+
+        {loginStatus=='Start' && 
+                <BeforeLogin choosenWeb={e => {setLoginStatus(e)}} />
+        }
+
+        {/* {loginStatus=='Register' && 
+            <div>
+                <RegistrationForm/>
+            </div>
+        } */}
+
+
+        </div>
+       
        
     )
 }

@@ -28,13 +28,16 @@ export const Footer = () => {
 
 
 const FooterContainer = styled.div`
-    height: 60px;
-    background-color: ${({theme}) => theme.colors.foreground };
-    padding: 0 15px;
+  padding: 0 15px;
+    margin: 5px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    position: absolute;
+    top: 95%;
+    z-index: 400;
+    width: 100%;
 `
 
 const CodemaskContainer = styled.div`

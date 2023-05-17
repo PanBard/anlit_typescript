@@ -3,7 +3,7 @@ import { APP_CONFIG } from "lib/config"
 import { useCommons } from "lib/hooks/useCommons" 
 import styled from "styled-components"
 import { BestButton } from './components_modules';
-import { useState } from 'react';
+
 
 
 type OneHeaderProps = {
@@ -25,28 +25,29 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
                     <Title>
                         {T.components.header.title}
                     </Title>
-                </Linkos>                
+                </Linkos>  
+                <img src="/logo.svg" alt=""  height={25} width={25}/>              
             </LogoContainer>
 
             <LinkContainer>  
-            <BestButton onClick={()=>{choosenWeb('Analysis')}}> Analysis </BestButton>
+            {/* <BestButton onClick={()=>{choosenWeb('Analysis')}}> Analysis </BestButton> */}
             {/* <BestButton onClick={()=>{choosenWeb('ObjDetect')}}> Analysis - Object detection </BestButton> */}
-            <BestButton onClick={()=>{choosenWeb('DataBase')}}> DataBase </BestButton>
-            <BestButton onClick={()=>{choosenWeb('Cropp')}}> CroppImage </BestButton>
-            <BestButton onClick={()=>{choosenWeb('ColorAverage')}}> AverageColor </BestButton>
-            <BestButton onClick={()=>{choosenWeb('FaceRecognition')}}> FaceRecognition </BestButton>
-            <BestButton onClick={()=>{choosenWeb('Screenshot')}}> Screenshot </BestButton>
+            <BestButton style={{background: 'transparent'}} onClick={()=>{choosenWeb('DataBase')}}> About project </BestButton>
+            {/* <BestButton onClick={()=>{choosenWeb('Cropp')}}> CroppImage </BestButton> */}
+            {/* <BestButton onClick={()=>{choosenWeb('ColorAverage')}}> AverageColor </BestButton> */}
+            {/* <BestButton onClick={()=>{choosenWeb('FaceRecognition')}}> FaceRecognition </BestButton> */}
+            {/* <BestButton onClick={()=>{choosenWeb('Screenshot')}}> Screenshot </BestButton> */}
             {/* <BestButton onClick={()=>{choosenWeb('voice')}}> Voicerecognition </BestButton> */}
             {/* <BestButton onClick={()=>{choosenWeb('detect')}}> Testdetect </BestButton> */}
             </LinkContainer>
 
 
             <LinkContainer>
-                 <Linkos href={APP_CONFIG.GITHUB_URL} target='_blank'>  {/* target='_blank' eby otwierao sié w nowym oknie */}
-                    User
+                 <Linkos  href={APP_CONFIG.GITHUB_URL} target='_blank'>  {/* target='_blank' eby otwierao sié w nowym oknie */}
+                    Sign in
                 </Linkos>
-                <Linkos href={APP_CONFIG.DISCORD_URL} target='_blank'>
-                    {T.components.header.diskord}
+                <Linkos onClick={()=>{choosenWeb('Register'); console.log('Register')}} target='_blank'>
+                    Sign up
                 </Linkos>
             </LinkContainer>
 
@@ -57,13 +58,18 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
 
 
 const HeaderContainer = styled.div`
-    height: 60px;
-    background-color: ${({theme}) => theme.colors.foreground };
+    /* height: 60px; */
+    /* background-color: ${({theme}) => theme.colors.foreground }; */
+    /* background: transparent; */
     padding: 0 15px;
+    margin: 5px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    position: absolute;
+    z-index: 4;
+    width: 100%;
 `
 
 const LogoContainer = styled.div`
@@ -95,6 +101,8 @@ const Linkos = styled.a`
       cursor: pointer; 
       padding: 0 10px;
       text-decoration: none;
+      :hover{text-decoration: underline};
+      font-size: large;
 `
 
 
