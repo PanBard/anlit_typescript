@@ -8,9 +8,10 @@ export const BestButton = styled.button`
     border-radius: 8px; 
     border: 1px solid gray;
     color: ${({theme}) => theme.colors.typography};
-    background-color: ${({theme}) => theme.colors.foreground };
+    /* background-color: ${({theme}) => theme.colors.foreground }; */
+    background: transparent;
     cursor: pointer;
-    &:hover {background-color: ${({theme}) => theme.colors.button_hover}}; 
+    &:hover {background-color: ${({theme}) => theme.colors.foreground}}; 
 `
 export const TableContainer = styled.div`
     height: 350px;

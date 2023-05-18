@@ -116,7 +116,8 @@ useMemo(async ()=>{
 
 
 const ChatContainer = styled.div`
-    border: 3px solid #626062;
+      border: 1px solid;
+    border-color: rgba(255,255,255,.35);
     border-radius: 10px;
     justify-content: center;
     width: 270px;

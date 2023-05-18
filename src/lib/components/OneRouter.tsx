@@ -13,6 +13,7 @@ import { FaceRecognition } from "lib/new_concept/face_recognition/FaceRecognitio
 import { WebcamScreenshot } from "lib/new_concept/testowy/WebcamScreenshot";
 import { BeforeLogin } from "./BeforeLogin";
 import { RegistrationForm } from "./RegistrationForm";
+import { OneHeaderWork } from "./OneHeaderWork";
 
 
 export const OneRouter: React.FunctionComponent = () => {
@@ -42,7 +43,7 @@ export const OneRouter: React.FunctionComponent = () => {
     return(
         <div>
              {loginStatus=='Login' && <MojDIV>
-            <OneHeader choosenWeb={e => {setWebStatus(e)}}/> {/*this bar is working outside routes, so is working in all moduls */}
+            <OneHeaderWork choosenWeb={e => {setWebStatus(e)}}/> {/*this bar is working outside routes, so is working in all moduls */}
 
             <Container>
                 {webStatus=='Start' && <WelcomePage/>}
@@ -66,13 +67,6 @@ export const OneRouter: React.FunctionComponent = () => {
                 <BeforeLogin choosenWeb={e => {setLoginStatus(e)}} />
         }
 
-        {/* {loginStatus=='Register' && 
-            <div>
-                <RegistrationForm/>
-            </div>
-        } */}
-
-
         </div>
        
        
@@ -86,7 +80,8 @@ const Container = styled.div`
 const MojDIV = styled.div`
 width: 100%;
 height: 100vh;
-background-color: ${ ({theme}) => theme.colors.background };
+/* background-color: ${ ({theme}) => theme.colors.background }; */
+background-color: #0d1117;
 color: ${({theme}) => theme.colors.typography};
 display: flex;
 flex-direction: column;

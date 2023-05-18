@@ -5,27 +5,21 @@ import  Axios  from 'axios';
 import { SERVER_ROUTS } from 'lib/database/server_routs';
 
 
-type RegistrationFormProps = {
+type LoginFormProps = {
     result(params: any): any
 }
 
-export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = ({
+export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
     result
 }) => {
     
-    const [firstName, setFirstName] = useState<any>('');
-    const [lastName, setLastName] = useState<any>('');
+
     const [username, setUsername] = useState<any>('');
-    const [email, setEmail] = useState<any>('');
     const [password,setPassword] = useState<any>('');
-    const [confirmPassword,setConfirmPassword] = useState<any>('');
-    const [dataFromDataBase, setDataFromDataBase] = useState([])
-    const [goodCredensials, setGoodCredensials] = useState<boolean>(true);
-    const [triggerVariable, setTriggerVariable] = useState<any>('wait');
+    const [errorType, setErrorType] = useState<any>('');
 
     // States for checking the errors
     const [submitted, setSubmitted] = useState(false);
-    const [errorType, setErrorType] = useState<any>('');
 
 
     const handleInputChange = (e: any) => {
@@ -39,77 +33,69 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
         if(id === "username"){
             setUsername(value)
         }
-        if(id === "email"){
-            setEmail(value);
-        }
+        // if(id === "email"){
+        //     setEmail(value);
+        // }
         if(id === "password"){
             setPassword(value);
         }
-        if(id === "confirmPassword"){
-            setConfirmPassword(value);
-        }
+        // if(id === "confirmPassword"){
+        //     setConfirmPassword(value);
+        // }
 
     }
 
-     const validate_credencials = async ( ) =>{
-        const query = `select username from account_credentials where username='${username}'`
+
+
+    const validate_password = async ( ) =>{
+         const query = `select password from account_credentials where username='${username}'`
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
-            .then((response)=>{ 
-                console.log( response.data[0])
+            .then((response)=>{
                 if(typeof response.data[0] != 'undefined'){
-                    const username_from_db = response.data[0]['username']
-                    if(username_from_db == username) {
-                        console.log(username_from_db,' = ', username)
-                        setErrorType('wrongUsername')
-                        setSubmitted(false)
-                    }
-                    else console.log('strange')
-                }
-                else{
-                    console.log('Ok', response.data[0])
-                    if(password==confirmPassword){
-                        send_data_to_db()
+                    const passw_from_db = response.data[0]['password']
+                    if(passw_from_db == password) {
+                        console.log(passw_from_db,' = ', password)
+                        setSubmitted(true)
+                        setErrorType('none')
+                        result('Login')
                     }
                     else{
+                        console.log(`Nieprawidłowe hasło: ${password} dla takiego konta: ${username}`)
                         setErrorType('wrongPassword')
                         setSubmitted(false)
-                    }
-                    
-                }})
-     }
-
-
-
-     const send_data_to_db = async () => {
-            console.log(' przeszło ')
-          
-        const query = `INSERT INTO account_credentials (username, password, date) VALUES ('${username}','${password}',now()) `
-        await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
-            .then((response)=>{console.log('new user created') ; console.log(response.data)})
-            .then(  result('Login'))
+                }
+                }
+                else{
+                    console.log('Zła nazwa użytkownika', response.data[0])
+                    setErrorType('wrongUsername');
+                    setSubmitted(false)
+                }
+                
+               })
+            // .then(  result('Login'))
             .catch((err)=>{console.log('send status :(')})
-     }
+    }
 
 
 
-  
-       // Showing success message
-       const successMessage = () => {
+
+    // Showing success message
+    const successMessage = () => {
         return (
             <div style={{ display: submitted ? '' : 'none',}}>
-                <h1>User {username} successfully registered!</h1>
+                <h1>Welcome!</h1>
             </div>
             );
     };
 
     // Showing error message if error is true
     const errorMessage = () => {
-    return (
-       <div >
-           <div style={{ display: errorType =='wrongPassword' ? '' : 'none',}}>    <h3>Password does not match </h3>   </div>
-           <div style={{ display: errorType =='wrongUsername' ? '' : 'none',}}>    <h3>Username is already taken</h3>   </div>
-       </div>
-    )
+             return (
+                <div >
+                    <div style={{ display: errorType =='wrongPassword' ? '' : 'none',}}>    <h3>Wrong password</h3>   </div>
+                    <div style={{ display: errorType =='wrongUsername' ? '' : 'none',}}>    <h3>Wrong Username</h3>   </div>
+                </div>
+        )
     };
 
 
@@ -119,13 +105,13 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
             <TableContainer >
 
                 <Cell >
-                    <h1>Sign up</h1>
+                    <h1>Sign in</h1>
                     
                 </Cell>
 
                  <Cell >
                     <label>Username </label>
-                    <Input style={{borderColor: errorType == 'wrongUsername' ? 'red' : ''}}  type="text" id='username' onChange = {(e) => handleInputChange(e)} placeholder="Username"/>
+                    <Input style={{borderColor: errorType == 'wrongUsername' ? 'red' : ''}} type="text" id='username' onChange = {(e) => handleInputChange(e)} placeholder="Username"/>
                 </Cell>
 
                 {/* <Cell >
@@ -148,14 +134,14 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
                     <Input style={{borderColor: errorType == 'wrongPassword' ? 'red' : ''}} className="form__input" type="password" id='password' onChange = {(e) => handleInputChange(e)} placeholder="Password"/>
                 </Cell>
 
-                <Cell >
+                {/* <Cell >
                     <label  >Confirm Password </label>
-                    <Input style={{borderColor: errorType == 'wrongPassword' ? 'red' : ''}} className="form__input" type="password"  id='confirmPassword'  onChange = {(e) => handleInputChange(e)} placeholder="Confirm Password"/>
-                </Cell>
+                    <Input className="form__input" type="password"  id='confirmPassword'  onChange = {(e) => handleInputChange(e)} placeholder="Confirm Password"/>
+                </Cell> */}
                 {errorMessage()}
                 {successMessage()}
                 <div >
-                    <BestButton onClick={()=>validate_credencials()} type="submit" >Register</BestButton>
+                    <BestButton onClick={()=>validate_password()} type="submit" >Log in</BestButton>
                 </div>
 
                    </TableContainer>
@@ -173,7 +159,7 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center; 
-    position: absolute;
+    position: absolute; 
     top: 20%;
     
     z-index: 4;

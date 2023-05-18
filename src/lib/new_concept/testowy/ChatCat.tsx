@@ -208,9 +208,7 @@ useMemo(async ()=>{
                     <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition cation={cation} id={id} phase={phase} return_described_to_parent_component={e => {return_results_to_parent_component(e)}} grabSound={3}/>}   </Container></Container2>
                 </ChatBody>
                 <AnswerBox onClick={()=>{ setNowTellSomething(!nowTellSomething)}} >
-                   <div>
-                    Wytłumacz
-                    </div> 
+                   <img style={{cursor:'pointer', backgroundColor: 'rgb(200, 214, 229)' , borderRadius: '5px', margin: '5px'}} src="/micro.svg" alt=""  height={25} width={25}/>    
                 </AnswerBox>
             </ContainerF>
           
@@ -220,7 +218,8 @@ useMemo(async ()=>{
 }
 
 const ChatContainer_left = styled.div`
-    border: 3px solid #626062;
+      border: 1px solid;
+    border-color: rgba(255,255,255,.35);
     border-radius: 10px;
     justify-content: center;
     width: 270px;
@@ -232,7 +231,8 @@ const ChatContainer_left = styled.div`
 `
 
 const ChatContainer_right = styled.div`
-    border: 3px solid #626062;
+      border: 1px solid;
+    border-color: rgba(255,255,255,.35);
     border-radius: 10px;
     justify-content: center;
     width: 270px;
@@ -245,26 +245,29 @@ const ChatContainer_right = styled.div`
 
 const ContainerF = styled.div`
 
-   position: fixed;
+   /* position: fixed; */
    overflow: hidden;
    `
 
 const AnswerBox = styled.div`
-    border: 3px solid green;
-    display: flex;
-    justify-content: flex-end;
-    text-align: flex-end;
-    height: 30px;
-    width: 90px;
+      /* border: 1px solid;
+    border-color: rgba(255,255,255,.35); */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* text-align: flex-end; */
+    height: 50px;
+    width: 50px;
     float: right;
-    margin: 10px;
+
+    /* margin: 10px; */
     cursor: pointer;
-    border-radius: 10px;
+    /* border-radius: 10px; */
 `
 
 const Container = styled.div`
     
-    border: 3px solid #626062;
+    border: 1px solid;
+    border-color: rgba(255,255,255,.35);
     border-radius: 10px;
     padding: 5px;
 `
@@ -277,7 +280,8 @@ const Container2 = styled.div`
 `
 
 const ChatHeader = styled.div`
-    border: 2px solid gray;
+     border: 1px solid;
+    border-color: rgba(255,255,255,.35);
     border-radius: 10px;
     justify-content: center;
     text-align: center;
@@ -289,10 +293,11 @@ const ChatHeader = styled.div`
 
 const ChatBody = styled.div`
     padding: 5px;
-    border: 2px solid gray;
+    border: 1px solid;
+    border-color: rgba(255,255,255,.35);
     border-radius: 10px;
     justify-content: center;
-    width: 400px;
+    /* width: 400px; */
     height: 350px;
     max-height: 350px;
     color: ${({theme}) => theme.colors.typography};

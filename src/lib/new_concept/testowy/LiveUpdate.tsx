@@ -91,7 +91,8 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
 
 
 const Th = styled.th`
-    border: 1px solid gray;
+      border: 1px solid;
+    border-color: rgba(255,255,255,.35);
     justify-content: center;
 `
 
@@ -104,7 +105,8 @@ const Tr = styled.tr`
 `
 
 const TableContainer = styled.div`
-    border: 2px solid gray;
+      border: 1px solid;
+    border-color: rgba(255,255,255,.35);
     border-radius: 10px;
     justify-content: center;
     align-items: center;
@@ -113,7 +115,8 @@ const TableContainer = styled.div`
 `
 
 const Td = styled.td`
-    border: 1px solid gray;
+      border: 1px solid;
+    border-color: rgba(255,255,255,.35);
     justify-content: center;
     text-align:center; 
 `

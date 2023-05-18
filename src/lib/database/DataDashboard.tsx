@@ -98,14 +98,27 @@ export const DataDashboard: React.FunctionComponent = () => {
 
 
 const Container = styled.div`
+    position: absolute;
+    width: 100%;
+    top: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    border: 1px solid;
+    border-color: rgba(255,255,255,.15);
 `
 
 const HeaderContainer = styled.div`
     height: 60px;
-    background-color: ${({theme}) => theme.colors.foreground };
+    /* background-color: ${({theme}) => theme.colors.foreground }; */
+    background-color:#161b22;
     padding: 0 15px;
     display: flex;
     flex-direction: row;
     align-items: center;
+    border: 1px solid;
+    border-color: rgba(255,255,255,.15);
+  
 `
 

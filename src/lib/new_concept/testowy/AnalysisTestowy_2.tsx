@@ -120,8 +120,13 @@ export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
         <ContainerP>
           
           <Container>
-          <BestButton onClick={()=>{window.location.reload()}} > Zakończ </BestButton>
+            <BestButton onClick={()=>{window.location.reload()}} > Zakończ </BestButton>
           </Container>
+
+          <Container style={{width: '150px' , margin: '50px'}}>
+            <ShuffleFate cation={cation} />
+          </Container>
+
           <Container2>
                {bollena && <DetectBase_v2 refreshChat={(e)=>{chatCanTellNow(e)}} return_results_to_parent_component={e => {catchMessageFromChild(e)}} key={phase}/>}  
                {/* {bollena && <DetectBase_v2_detect refreshChat={(e)=>{chatCanTellNow(e)}} return_results_to_parent_component={e => {catchMessageFromChild(e)}} key={phase}/>}   */}
@@ -152,9 +157,7 @@ export const AnalysisTestowy_2: React.FunctionComponent<AnalysisProps> = ({
 
                    
                    
-                    <Container>
-                      <ShuffleFate cation={cation} />
-                    </Container>
+                    
                 
 
                 

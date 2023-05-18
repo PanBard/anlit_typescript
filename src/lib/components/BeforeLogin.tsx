@@ -5,6 +5,7 @@ import { BestButton } from "./components_modules"
 import { OneHeader } from "./OneHeader"
 import { Footer } from "./Footer"
 import { RegistrationForm } from "./RegistrationForm"
+import { LoginForm } from "./LoginForm"
 
 type BeforeLoginProps = {
     choosenWeb(params: any): any
@@ -19,7 +20,7 @@ export const BeforeLogin: React.FunctionComponent<BeforeLoginProps> = ({
 
     return(
         <Container>
-            <OneHeader choosenWeb={e=>{console.log(e); setLoginStatus(e)}}/>
+            <OneHeader insideChoice={(e)=>{setLoginStatus(e)}} choosenWeb={e=>{ choosenWeb(e)}}/>
 
             <div className="circles" style={{position: 'absolute'}}>
                         <div></div>
@@ -35,7 +36,11 @@ export const BeforeLogin: React.FunctionComponent<BeforeLoginProps> = ({
             </div>
 
             {loginStatus=='Register'&&
-                <RegistrationForm/>
+                <RegistrationForm result={(e)=>{if(e == 'Login') choosenWeb('Login')}}/>
+            }
+
+            {loginStatus=='Login'&&
+                <LoginForm result={(e)=>{if(e == 'Login') choosenWeb('Login')}}/>
             }
 
            <Footer/>

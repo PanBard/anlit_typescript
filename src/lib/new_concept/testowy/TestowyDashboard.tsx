@@ -181,11 +181,16 @@ export const TestowyDashboard: React.FunctionComponent = () => {
 
 
 const Container = styled.div`
-    /* color: ${({theme}) => theme.colors.typography};
+    position: absolute;
+    width: 100%;
+    top: 20%;
     display: flex;
     flex-direction: column;
-    flex: 1; */
-    
+    align-items: center;
+    justify-content: center; 
+    border: 1px solid;
+    border-color: rgba(255,255,255,.15);
+     background-color:#161b22;
 `
 
 const ContainerP = styled.div`
@@ -195,6 +200,8 @@ const ContainerP = styled.div`
     justify-content: center;
     flex: 1;
     /* background-color: grey; */
+    
+    
     
 `
 

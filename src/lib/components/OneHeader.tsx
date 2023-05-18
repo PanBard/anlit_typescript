@@ -7,13 +7,15 @@ import { BestButton } from './components_modules';
 
 
 type OneHeaderProps = {
-    choosenWeb(params: any): any
+    choosenWeb(params: any): any,
+    insideChoice(params: any): any
 }
 
 
 
 export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
-    choosenWeb
+    choosenWeb,
+    insideChoice
 }) => {
     const T = useCommons()
 
@@ -32,7 +34,7 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
             <LinkContainer>  
             {/* <BestButton onClick={()=>{choosenWeb('Analysis')}}> Analysis </BestButton> */}
             {/* <BestButton onClick={()=>{choosenWeb('ObjDetect')}}> Analysis - Object detection </BestButton> */}
-            <BestButton style={{background: 'transparent'}} onClick={()=>{choosenWeb('DataBase')}}> About project </BestButton>
+            <BestButton style={{background: 'transparent'}} onClick={()=>{choosenWeb('Login')}}> About project </BestButton>
             {/* <BestButton onClick={()=>{choosenWeb('Cropp')}}> CroppImage </BestButton> */}
             {/* <BestButton onClick={()=>{choosenWeb('ColorAverage')}}> AverageColor </BestButton> */}
             {/* <BestButton onClick={()=>{choosenWeb('FaceRecognition')}}> FaceRecognition </BestButton> */}
@@ -43,10 +45,10 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
 
 
             <LinkContainer>
-                 <Linkos  href={APP_CONFIG.GITHUB_URL} target='_blank'>  {/* target='_blank' eby otwierao sié w nowym oknie */}
+                 <Linkos  onClick={()=>{insideChoice('Login'); console.log('Login')}} >  {/* target='_blank' eby otwierao sié w nowym oknie */}
                     Sign in
                 </Linkos>
-                <Linkos onClick={()=>{choosenWeb('Register'); console.log('Register')}} target='_blank'>
+                <Linkos onClick={()=>{insideChoice('Register'); console.log('Register')}} >
                     Sign up
                 </Linkos>
             </LinkContainer>
@@ -70,6 +72,7 @@ const HeaderContainer = styled.div`
     position: absolute;
     z-index: 4;
     width: 100%;
+    
 `
 
 const LogoContainer = styled.div`
