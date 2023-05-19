@@ -3,6 +3,7 @@ import { APP_CONFIG } from "lib/config"
 import { useCommons } from "lib/hooks/useCommons" 
 import styled from "styled-components"
 import { BestButton } from './components_modules';
+import { useState } from "react";
 
 
 
@@ -18,7 +19,7 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
     insideChoice
 }) => {
     const T = useCommons()
-
+    
   
     return(
         <HeaderContainer>
@@ -34,7 +35,7 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
             <LinkContainer>  
             {/* <BestButton onClick={()=>{choosenWeb('Analysis')}}> Analysis </BestButton> */}
             {/* <BestButton onClick={()=>{choosenWeb('ObjDetect')}}> Analysis - Object detection </BestButton> */}
-            <BestButton style={{background: 'transparent'}} onClick={()=>{choosenWeb('Login')}}> About project </BestButton>
+            <BestButton style={{background: 'transparent'}} onClick={()=>{choosenWeb({result:'Login'})}}> About project </BestButton>
             {/* <BestButton onClick={()=>{choosenWeb('Cropp')}}> CroppImage </BestButton> */}
             {/* <BestButton onClick={()=>{choosenWeb('ColorAverage')}}> AverageColor </BestButton> */}
             {/* <BestButton onClick={()=>{choosenWeb('FaceRecognition')}}> FaceRecognition </BestButton> */}

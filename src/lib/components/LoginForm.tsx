@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BestButton, ContainerP } from './components_modules';
 import  Axios  from 'axios';
 import { SERVER_ROUTS } from 'lib/database/server_routs';
+import { LoginFaceRecognition } from 'lib/new_concept/face_recognition/LoginFaceRecognition';
 
 
 type LoginFormProps = {
@@ -14,9 +15,9 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
 }) => {
     
 
-    const [username, setUsername] = useState<any>('');
-    const [password,setPassword] = useState<any>('');
-    const [errorType, setErrorType] = useState<any>('');
+    const [username, setUsername] = useState<any>('limon');
+    const [password,setPassword] = useState<any>('limon');
+    const [errorType, setErrorType] = useState<any>('limon');
 
     // States for checking the errors
     const [submitted, setSubmitted] = useState(false);
@@ -48,16 +49,15 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
 
 
     const validate_password = async ( ) =>{
-         const query = `select password from account_credentials where username='${username}'`
+         const query = `select password, username from account_credentials where username='${username}'`
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
             .then((response)=>{
                 if(typeof response.data[0] != 'undefined'){
-                    const passw_from_db = response.data[0]['password']
-                    if(passw_from_db == password) {
-                        console.log(passw_from_db,' = ', password)
+                    if(response.data[0]['password'] == password && response.data[0]['username'] == username) {
+                        console.log(response.data[0]['password'],' = ', password)
                         setSubmitted(true)
                         setErrorType('none')
-                        result('Login')
+                        result({result: 'Login', userName : response.data[0]['username']})
                     }
                     else{
                         console.log(`Nieprawidłowe hasło: ${password} dla takiego konta: ${username}`)
@@ -143,6 +143,10 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
                 <div >
                     <BestButton onClick={()=>validate_password()} type="submit" >Log in</BestButton>
                 </div>
+                {/* <div >
+                    <BestButton onClick={()=>validate_password()} >Webcam</BestButton>
+                </div> */}
+                <LoginFaceRecognition />
 
                    </TableContainer>
              </ContainerP>

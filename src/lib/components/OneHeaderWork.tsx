@@ -7,13 +7,15 @@ import { useState } from 'react';
 
 
 type OneHeaderWorkProps = {
-    choosenWeb(params: any): any
+    choosenWeb(params: any): any,
+    userName: any
 }
 
 
 
 export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
-    choosenWeb
+    choosenWeb,
+    userName
 }) => {
     const T = useCommons()
 
@@ -25,7 +27,7 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
             {/* <BestButton className="dropbtn">Analysis</BestButton> */}
             <div className="dropdown-content-user">
               <a >Your profile</a>
-              <a >Your repositories</a>
+              <a onClick={()=> choosenWeb('FaceRecognition')} >Make webcam login</a>
               <a >Your organizations</a>
               <a >Your projects</a>
               <a >Upgrade</a>
@@ -67,7 +69,7 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
             <LinkContainer>
                 <DropdownMenu_analysis />
                
-                <div>User: </div>
+                <div>User id: {userName}</div>
                 {/* <Linkos href={APP_CONFIG.GITHUB_URL} target='_blank'>  {/* target='_blank' eby otwierao sié w nowym oknie */}
                   {/*  User
                 </Linkos>

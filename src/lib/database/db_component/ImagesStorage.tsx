@@ -110,7 +110,7 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
           const keys_p = Object.keys(dataFromDataBase[0])
             return( 
                 <Container>
-                    <Container>{header_name}voice script </Container>
+                    <Container>{header_name}  </Container>
                     <TableContainer key={seed}>
                         <table >
                             <tbody >

@@ -19,9 +19,6 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
     const [email, setEmail] = useState<any>('');
     const [password,setPassword] = useState<any>('');
     const [confirmPassword,setConfirmPassword] = useState<any>('');
-    const [dataFromDataBase, setDataFromDataBase] = useState([])
-    const [goodCredensials, setGoodCredensials] = useState<boolean>(true);
-    const [triggerVariable, setTriggerVariable] = useState<any>('wait');
 
     // States for checking the errors
     const [submitted, setSubmitted] = useState(false);
@@ -86,7 +83,7 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
         const query = `INSERT INTO account_credentials (username, password, date) VALUES ('${username}','${password}',now()) `
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
             .then((response)=>{console.log('new user created') ; console.log(response.data)})
-            .then(  result('Login'))
+            .then(  result({result: 'Login', userName : username}))
             .catch((err)=>{console.log('send status :(')})
      }
 

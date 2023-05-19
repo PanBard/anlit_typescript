@@ -2,7 +2,7 @@ import  Axios  from "axios"
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
-import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image } from "lib/components/components_modules"
+import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules"
 
 type AnalysysProps = {
     rout_name: string,
@@ -72,10 +72,10 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                     <TableContainer key={seed}>
                         <table >
                         <tbody >
-                            <Tr>
+                            <Tr_sticky_row>
                                 {input_name.map( (obj, i) => { return(<Th key={i}>{obj}</Th>) })}
 
-                            </Tr>
+                            </Tr_sticky_row>
                             {dataFromDataBase.map((data: any, index)=>{
                                 return (
                                     <tr key={index}>  

@@ -36,11 +36,11 @@ export const BeforeLogin: React.FunctionComponent<BeforeLoginProps> = ({
             </div>
 
             {loginStatus=='Register'&&
-                <RegistrationForm result={(e)=>{if(e == 'Login') choosenWeb('Login')}}/>
+                <RegistrationForm result={(e)=>{ choosenWeb(e)}}/>
             }
 
             {loginStatus=='Login'&&
-                <LoginForm result={(e)=>{if(e == 'Login') choosenWeb('Login')}}/>
+                <LoginForm result={(e)=>{choosenWeb(e)}}/>
             }
 
            <Footer/>

@@ -73,7 +73,7 @@ export const ImagesTest: React.FunctionComponent = ()=>{
         if(choosen_mode=='start'){
             return( 
                 <Container>
-                    <Container>{header_name}voice script </Container>
+                    <Container>{header_name}  </Container>
                     <TableContainer key={seed}>
                         <table >
                             <tbody >

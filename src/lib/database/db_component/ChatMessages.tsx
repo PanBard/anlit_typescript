@@ -2,7 +2,7 @@ import  Axios  from "axios"
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
-import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image } from "lib/components/components_modules"
+import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules"
 
 type ChatMessagesProps = {
     rout_name?: string,
@@ -98,9 +98,9 @@ export const ChatMessages: React.FunctionComponent<ChatMessagesProps> = ({
                     <TableContainer key={seed}>
                         <table >
                             <tbody >
-                                <Tr>
+                                <Tr_sticky_row>
                                     {generate_labels()}
-                                </Tr>
+                                </Tr_sticky_row>
                                 {generate_table_content()}
                             </tbody>
                         </table>

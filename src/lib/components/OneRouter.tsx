@@ -22,6 +22,8 @@ export const OneRouter: React.FunctionComponent = () => {
     const [loginStatus,setLoginStatus] = useState('Start')
     const [component, setComponent] = useState()
     const [seed, setSeed] = useState(1);
+    const [userName, setUserName] = useState<any>()
+
 
     const reset = () => {
          setSeed(Math.random())
@@ -43,7 +45,7 @@ export const OneRouter: React.FunctionComponent = () => {
     return(
         <div>
              {loginStatus=='Login' && <MojDIV>
-            <OneHeaderWork choosenWeb={e => {setWebStatus(e)}}/> {/*this bar is working outside routes, so is working in all moduls */}
+            <OneHeaderWork userName={userName} choosenWeb={e => {setWebStatus(e)}}/> {/*this bar is working outside routes, so is working in all moduls */}
 
             <Container>
                 {webStatus=='Start' && <WelcomePage/>}
@@ -54,7 +56,7 @@ export const OneRouter: React.FunctionComponent = () => {
                 {/* {webStatus=='detect' && <DetectTest/>} */}
                 {webStatus == 'Cropp' && <CroppImageTest/>}
                 {webStatus == 'ColorAverage' && <ColorAverage/>}
-                {webStatus == 'FaceRecognition' && <FaceRecognition/>}
+                {webStatus == 'FaceRecognition' && <FaceRecognition  userName={userName} />}
                 {webStatus == 'Screenshot' && <WebcamScreenshot/>}
                 
             </Container>
@@ -64,7 +66,7 @@ export const OneRouter: React.FunctionComponent = () => {
         </MojDIV>}
 
         {loginStatus=='Start' && 
-                <BeforeLogin choosenWeb={e => {setLoginStatus(e)}} />
+                <BeforeLogin choosenWeb={e => {setUserName(e['userName']) ; setLoginStatus(e['result']) }} />
         }
 
         </div>
