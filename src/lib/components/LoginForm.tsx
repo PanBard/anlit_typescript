@@ -146,7 +146,7 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
                 {/* <div >
                     <BestButton onClick={()=>validate_password()} >Webcam</BestButton>
                 </div> */}
-                <LoginFaceRecognition />
+                <LoginFaceRecognition returnResult={(e)=>{result(e)}}/>
 
                    </TableContainer>
              </ContainerP>

@@ -8,11 +8,12 @@ import { SERVER_ROUTS } from "lib/database/server_routs";
 
 
 type LoginFaceRecognitionProps = {
-  // userName: any
+  returnResult(params: any): any
+
 }
 
 export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionProps> = ({
-  // userName
+  returnResult
 }) => {
   const [modelsLoaded, setModelsLoaded] = useState<boolean>(false);
   const [captureVideo, setCaptureVideo] = useState<boolean>(false);
@@ -133,8 +134,16 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
                     results.forEach(async (result , i)=>{
                       const box = resizedDetections[i].detection.box
                       const drawBox = new faceapi.draw.DrawBox(box, {label: result} )
-                      console.log( 'Result: ' , await drawBox['options']['label']['_label'])
-
+                   
+                      const keys = Object.keys(data);
+                      keys.map(async (obj: any)=>{
+                         if (data[obj]['name'] == await drawBox['options']['label']['_label']){
+                          console.log('w mapowaniu')
+                            console.log( 'Result: ' , await drawBox['options']['label']['_label'])
+                            returnResult({result: 'Login', userName : data[obj]['name']})
+                         }
+                      })
+                     
                       drawBox.draw(canvasRef.current)
                     })
                   }

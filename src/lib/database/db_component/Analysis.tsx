@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules"
+import { Attention } from "lib/components/Attention"
 
 type AnalysysProps = {
     rout_name: string,
@@ -16,6 +17,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
     const [hide, setHide] =  useState<boolean>(false)
     const [showModyf, setTesto] = useState(false)
     const [seed, setSeed] = useState(1);
+    const [component, setComponent] = useState<any>()
 
     const reset = () => {
          setSeed(Math.random())
@@ -59,6 +61,19 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
        
     }
 
+
+
+    
+
+    const showFullImage = (source: any)=>{
+        setComponent( <Attention  > <img width={420} height={340} src={source} /> </Attention>)
+        reset()
+     }
+     
+     const showComponent = ()=>{
+        return component
+     }
+
     return(
         <ContainerP>
 
@@ -70,6 +85,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                 <Container>
                     <Container>{header_name} analysis </Container>
                     <TableContainer key={seed}>
+                        {showComponent()} 
                         <table >
                         <tbody >
                             <Tr_sticky_row>
@@ -80,7 +96,8 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                                 return (
                                     <tr key={index}>  
                                         {keys_f.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
-                                        {keys_img.map( (obj, i) => { return( <Td_image key={i}><MyImage style={{display: data[obj]==null? 'none' : 'flex'}}  src={data[obj]}/></Td_image>) })}
+                                        {/* {keys_img.map( (obj, i) => {  return( <Td_image key={i}>  <MyImage style={{display: data[obj]==null? 'none' : 'flex'}}  src={data[obj]}/></Td_image>) })} */}
+                                        {keys_img.map( (obj, i) => { if( data[obj]!=null) {return(  <Td_image key={i} onClick={()=>{showFullImage(data[obj])}}>  <MyImage onClick={()=>{showFullImage(data[obj])}}   src={data[obj]}/></Td_image>)} else { return(<Td_image key={i} style={{cursor:'auto'}}/> ) } })}
                                         {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='end' ? '#618685' : data[obj]=='fail' ? `#c44569` : 'none'}} key={i}>{data[obj]}</Td>) })}
                                         {!hide && <Td_container style={{cursor:'pointer'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>}
                                         {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container>  }
@@ -112,26 +129,13 @@ const Td_container = styled.td`
     text-align:center;     
 `
 
-const Td_del_button = styled.td`
-    border: 1px solid gray;
-    cursor: pointer;
-    background-color: #f7786b;
-    padding: 5px;
-    border-radius: 10px;
-`
 
 const Th = styled.th`
     border: 1px solid gray;
     justify-content: center;
 `
 
-const Tr = styled.tr`
-    position: -webkit-sticky; // this is for all Safari (Desktop & iOS), not for Chrome
-    position: sticky;
-    top: 0;
-    z-index: 1; // any positive value, layer order is global
-    background-color: gray;
-`
+
 const Container = styled.div` `
 
 

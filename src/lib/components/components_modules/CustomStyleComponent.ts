@@ -45,17 +45,20 @@ export const Td_image = styled.td`
      background-color:#161b22;
     border-radius: 10px;
     width: 50px;
-    height: 50px;
+    height: 50px; 
+    cursor: pointer;
 `
 export const MyImage = styled.img`
+ 
     width: 50px;
     height: 50px;
     border: 1px solid;
     border-color: rgba(255,255,255,.15);
-     background-color:#161b22;
+    background-color:#161b22;
     justify-content: center;
     border-radius: 10px;
-    &:hover {height:200px;width:200px;}; 
+    /* &:hover {height:200px;width:200px;};  */
+   
 `
 
 export const Tr_sticky_row = styled.tr`
