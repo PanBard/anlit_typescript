@@ -14,6 +14,9 @@ import { WebcamScreenshot } from "lib/new_concept/testowy/WebcamScreenshot";
 import { BeforeLogin } from "./BeforeLogin";
 import { RegistrationForm } from "./RegistrationForm";
 import { OneHeaderWork } from "./OneHeaderWork";
+import { PHAnalyser } from "lib/new_concept/testowy/PHAnalyser";
+import { FaceRecognitionDemo } from "lib/new_concept/face_recognition/FaceRecognitionDemo";
+
 
 
 export const OneRouter: React.FunctionComponent = () => {
@@ -54,9 +57,10 @@ export const OneRouter: React.FunctionComponent = () => {
                 {webStatus=='Analysis' && <TestowyDashboard/>}
                 {/* {webStatus=='voice' && <VoiceRecognition/>} */}
                 {/* {webStatus=='detect' && <DetectTest/>} */}
-                {webStatus == 'Cropp' && <CroppImageTest/>}
-                {webStatus == 'ColorAverage' && <ColorAverage/>}
-                {webStatus == 'FaceRecognition' && <FaceRecognition  userName={userName} />}
+                {/* {webStatus == 'Cropp' && <CroppImageTest/>} */}
+                {webStatus == 'pH' && <PHAnalyser/>}
+                {/* {webStatus == 'ColorAverage' && <ColorAverage/>} */}
+                {webStatus == 'FaceRecognition' && <FaceRecognitionDemo  returnResult={e => console.log()} />}
                 {webStatus == 'Screenshot' && <WebcamScreenshot/>}
                 
             </Container>

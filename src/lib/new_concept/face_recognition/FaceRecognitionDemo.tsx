@@ -12,7 +12,7 @@ type LoginFaceRecognitionProps = {
 
 }
 
-export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionProps> = ({
+export const FaceRecognitionDemo: React.FunctionComponent<LoginFaceRecognitionProps> = ({
   returnResult
 }) => {
   const [modelsLoaded, setModelsLoaded] = useState<boolean>(false);
@@ -28,8 +28,8 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
   const imgRef = useRef<any>()
 
   const videoRef = useRef<Webcam>(null);
-  const videoHeight = 240;
-  const videoWidth = 320;
+  const videoHeight = 340;
+  const videoWidth = 520;
   const canvasRef = useRef<any>(null);
   const wholeImageCanvasRef = useRef<any>(null);
 
@@ -134,15 +134,15 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
                     results.forEach(async (result , i)=>{
                       const box = resizedDetections[i].detection.box
                       const drawBox = new faceapi.draw.DrawBox(box, {label: result} )
-                   
-                      const keys = Object.keys(data);
-                      keys.map(async (obj: any)=>{
-                         if (data[obj]['name'] == await drawBox['options']['label']['_label']){
-                          console.log('w mapowaniu')
-                            console.log( 'Result: ' , await drawBox['options']['label']['_label'])
-                            returnResult({result: 'Login', userName : data[obj]['name']})
-                         }
-                      })
+                      console.log( 'Result: ' , await drawBox['options']['label']['_label'])
+                      // const keys = Object.keys(data);
+                      // keys.map(async (obj: any)=>{
+                      //    if (data[obj]['name'] == await drawBox['options']['label']['_label']){
+                      //     console.log('w mapowaniu')
+                      //       console.log( 'Result: ' , await drawBox['options']['label']['_label'])
+                      //       returnResult({result: 'Login', userName : data[obj]['name']})
+                      //    }
+                      // })
                      
                       drawBox.draw(canvasRef.current)
                     })
@@ -176,7 +176,7 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
 
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column'}}>
+    <ContainerC >
 
       
 
@@ -191,11 +191,11 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
       {captureVideo ? modelsLoaded ?
             <div>
               <Container >
-                <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
+                {/* <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}> */}
                   {/* <Webcam ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} /> */}
-                  <Webcam ref={videoRef} height={videoHeight} width={videoWidth}  style={{ borderRadius: '10px' }} />
-                  <canvas ref={canvasRef} style={{ position: 'absolute' }} />
-                  </div>
+                  <Webcam ref={videoRef} height={videoHeight} width={videoWidth}  style={{display:'block',position: 'fixed', right:'30%',  borderRadius: '10px' }} />
+                  <canvas ref={canvasRef} style={{ display:'block',position: 'fixed', right:'30%'}} />
+                  {/* </div> */}
               </Container>
 
             </div>
@@ -204,15 +204,27 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
 
         <canvas style={{width: 640, height: 480, margin: 5, display: 'none'}} ref={wholeImageCanvasRef} />
 
-    </div>
+    </ContainerC>
   );
 
 }
 
 
 const Container = styled.div`
-  position: absolute;
+  position: relative;
   top: 20%;
   z-index: 5;
   justify-content: center;
+`
+
+const ContainerC = styled.div`
+    position: absolute;
+    width: 100%;
+    top: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    border: 1px solid;
+    border-color: rgba(255,255,255,.15);
 `

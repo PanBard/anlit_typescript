@@ -57,8 +57,8 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
             <BestButton onClick={()=>{choosenWeb('Analysis')}}>Make new analysis </BestButton>
             {/* <BestButton onClick={()=>{choosenWeb('ObjDetect')}}> Analysis - Object detection </BestButton> */}
             <BestButton onClick={()=>{choosenWeb('DataBase')}}> DataBase </BestButton>
-            <BestButton onClick={()=>{choosenWeb('Cropp')}}> CroppImage </BestButton>
-            <BestButton onClick={()=>{choosenWeb('ColorAverage')}}> AverageColor </BestButton>
+            <BestButton onClick={()=>{choosenWeb('pH')}}> pH </BestButton>
+            {/* <BestButton onClick={()=>{choosenWeb('ColorAverage')}}> AverageColor </BestButton> */}
             <BestButton onClick={()=>{choosenWeb('FaceRecognition')}}> FaceRecognition </BestButton>
             <BestButton onClick={()=>{choosenWeb('Screenshot')}}> Screenshot </BestButton>
             {/* <BestButton onClick={()=>{choosenWeb('voice')}}> Voicerecognition </BestButton> */}

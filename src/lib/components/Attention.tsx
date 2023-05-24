@@ -58,7 +58,7 @@ const Modal = styled.div`
     display: none;
     position: fixed;
     z-index: 101;
-    top: center;
+    top: 10%;
     left: center;
     /* width: 50%; */
     

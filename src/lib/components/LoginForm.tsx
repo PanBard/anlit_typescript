@@ -25,24 +25,14 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
 
     const handleInputChange = (e: any) => {
         const {id , value} = e.target;
-        // if(id === "firstName"){
-        //     setFirstName(value);
-        // }
-        // if(id === "lastName"){
-        //     setLastName(value);
-        // }
+       
         if(id === "username"){
             setUsername(value)
         }
-        // if(id === "email"){
-        //     setEmail(value);
-        // }
+     
         if(id === "password"){
             setPassword(value);
         }
-        // if(id === "confirmPassword"){
-        //     setConfirmPassword(value);
-        // }
 
     }
 

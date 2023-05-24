@@ -1,8 +1,9 @@
 import  Axios  from "axios";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { SERVER_ROUTS } from "lib/database/server_routs";
-import { MyImage, Td_image } from "lib/components/components_modules";
+import { BestButton, MyImage, Td_image } from "lib/components/components_modules";
+import { Attention } from "lib/components/Attention";
 
 type LiveUpdateProps = {
     cation: boolean
@@ -15,7 +16,16 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
 
     const [data, setData] = useState<any[]>([])
     const [seed, setSeed] = useState(1);
+    const [component, setComponent] = useState<any>()
+    const ShadeRef = useRef<any>(null);
+    const ModalRef = useRef<any>(null);
 
+
+    const close = () =>{
+        ShadeRef.current.style.display = ModalRef.current.style.display = 'none';
+    
+    }
+    
     const db_type = cation ? 'cation_analysis' : 'anion_analysis' 
     
 
@@ -28,33 +38,35 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
         get_data_from_db()
     },[])
 
-    useMemo(()=>{
-      
-        // if(data[0]){
-        //     input_name =Object.keys(data[0])
-        // }
-
-    },[data])
-
- 
-
-    
+   
 
     const get_data_from_db = () => {
         Axios.get(SERVER_ROUTS[db_type].get)
         .then( (response: any)=>{const data = response.data;setData(data[data.length-1]);
-        // console.log('data[data.length-1]',data[data.length-1]) 
     })
         .catch((err)=>{console.log('db status :(')})
     }
 
-    // const delete_row_from_db = async (id: number)  =>{
-    //   await  Axios.delete(SERVER_ROUTS[db_type].delete+`/${id}`)
-    //     .then((response: any)=>{get_data_from_db(),console.log(response.data)})
-    //     .then(()=>{reset()} )
-    //     .catch(err => {console.log(err)})
+  
+    const showFullImage = (source: any)=>{
+        setComponent( 
+        <div>
+            <Shade ref={ShadeRef} ></Shade>
+            <Modal ref={ModalRef}> 
+                <img width={540} height={380} src={source}  />
+            <BestButton style={{float:'right', backgroundColor:'black'}} onClick={close} id="close">Close</BestButton>
+            </Modal>
+        </div>)
+        ShadeRef.current.style.display = ModalRef.current.style.display = 'block'
+       
         
-    // }; 
+      
+     }
+     
+     const showComponent = ()=>{
+        return component
+     }
+
 
 
     const viewPoint = () =>{
@@ -66,14 +78,16 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
             return (
 
                 <TableContainer  key={seed}>
+                    {showComponent()}
                 POSTĘP ANALIZY
-                <table>
+                    <table>
                                     <tbody >
+                                    
                                         <Tr>{keys.map( (obj, i) => { return(<Th key={i}>{obj}</Th>) })}</Tr>
                                         <tr key={seed+2}>{keys_f.map( (obj: any, i) => { return(<Td style={{maxWidth: '55px', overflow:'hidden'}} key={i}>{data[obj]}</Td>) })}</tr>
-                                        <tr key={seed+1}>{keys_img.map( (obj: any, i) => { return(<Td_image key={i}><MyImage style={{display: data[obj]==null? 'none' : 'flex'}}  src={data[obj]}/></Td_image>) })}</tr>
+                                        <tr key={seed+1}>{keys_img.map( (obj: any, i) => { return(<Td_image key={i}><MyImage onClick={()=>{showFullImage(data[obj])}} style={{display: data[obj]==null? 'none' : 'flex'}}  src={data[obj]}/></Td_image>) })}</tr>
                                     </tbody>
-                                </table>
+                    </table>
 
                 </TableContainer>
                
@@ -139,4 +153,25 @@ const Container12 = styled.div`
     /* background-color: grey; */
     
 `
- 
+const Shade = styled.div`
+display: block;
+position: fixed;
+z-index: 100;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: silver;
+opacity: 0.5;
+filter: alpha(opacity=50);
+`
+
+
+const Modal = styled.div`
+display: block;
+position: fixed;
+z-index: 101;
+top: 10%;
+left: center;
+/* width: 50%; */
+`

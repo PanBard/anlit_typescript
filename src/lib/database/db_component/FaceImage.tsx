@@ -2,14 +2,15 @@ import  Axios  from "axios"
 import { useEffect, useMemo, useRef, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
-import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
+import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules"
 import { image } from "@tensorflow/tfjs"
+import { Attention } from "lib/components/Attention"
 
 
 export const FaceImage: React.FunctionComponent = ()=>{
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
-
+    const [component, setComponent] = useState<any>()
 
 
     const [seed, setSeed] = useState(1);
@@ -43,6 +44,15 @@ export const FaceImage: React.FunctionComponent = ()=>{
         .catch(err => {console.log(err)})
     }; 
 
+    
+    const showFullImage = (source: any)=>{
+        setComponent( <Attention  > <img width={640} height={480} src={source} /> </Attention>)
+        reset()
+     }
+     
+     const showComponent2 = ()=>{
+        return component
+     }
 
     const showComponent = ()=>{
 
@@ -52,6 +62,7 @@ export const FaceImage: React.FunctionComponent = ()=>{
                 <Container>
                     <Container>{header_name} </Container>
                     <TableContainer key={seed}>
+                        {showComponent2()}
                         <table >
                             <tbody >
                                 <Tr_sticky_row>
@@ -63,9 +74,9 @@ export const FaceImage: React.FunctionComponent = ()=>{
                                     return (
                                         <tr key={data.id}>
                                              <Td>{data.id} </Td>
-                                            <Td><MyImage style={{height: '150px', width:'150px' }}  src={data.img1}/></Td>
-                                            <Td><MyImage style={{height: '150px', width:'150px' }}  src={data.img2}/></Td>
-                                            <Td><MyImage style={{height: '150px', width:'150px' }}  src={data.img3}/></Td>
+                                            <Td_image><MyImage onClick={()=>{showFullImage(data.img1)}} style={{height: '150px', width:'150px' }}  src={data.img1}/></Td_image>
+                                            <Td_image><MyImage  onClick={()=>{showFullImage(data.img1)}} style={{height: '150px', width:'150px' }}  src={data.img2}/></Td_image>
+                                            <Td_image><MyImage  onClick={()=>{showFullImage(data.img1)}} style={{height: '150px', width:'150px' }}  src={data.img3}/></Td_image>
                                             <Td>{data.name} </Td>
                                             <Td>{data.password} </Td>
                                             <Td>{data.date} </Td>
