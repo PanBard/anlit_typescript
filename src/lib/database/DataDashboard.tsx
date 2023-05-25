@@ -10,6 +10,7 @@ import { ChatMessages } from "./db_component/ChatMessages"
 import { ImagesStorage } from "./db_component/ImagesStorage"
 import { FaceImage } from "./db_component/FaceImage"
 import { Users } from "./db_component/Users"
+import { PhAnalysis } from "./db_component/PhAnalysis"
 
 export const DataDashboard: React.FunctionComponent = () => {
     
@@ -33,7 +34,7 @@ export const DataDashboard: React.FunctionComponent = () => {
      const DropdownMenu_analysis = () =>{
         return(
             <div className="dropdown">
-            <BestButton className="dropbtn">Analysis</BestButton>
+            <BestButton className="dropbtn">Ion analysis</BestButton>
             <div className="dropdown-content">
               <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="anion_analysis"/>)}}>Anions -</a>
               <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="cation_analysis"/>)}} >Cations +</a>
@@ -105,6 +106,7 @@ export const DataDashboard: React.FunctionComponent = () => {
                 <BestButton onClick={()=>{showComponent(<ImagesStorage key={seed}/>)}}> Images storage </BestButton> */}
                 <BestButton onClick={()=>{showComponent(<ChatMessages key={seed}/>)}}> Chat messages </BestButton>
                 <BestButton onClick={()=>{showComponent(<Users key={seed}/>)}}> Users </BestButton>
+                <BestButton onClick={()=>{showComponent(<PhAnalysis key={seed}/>)}}> pH analysis </BestButton>
                 {/* <BestButton onClick={()=>{showComponent(<Analysis_text_chat rout_name="cation_voice_script" key={seed}/>)}}> ChatText </BestButton> */}
             </HeaderContainer>
             {showComponent2()}

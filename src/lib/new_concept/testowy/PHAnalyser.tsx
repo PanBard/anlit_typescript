@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import Webcam from "react-webcam";
 import styled from "styled-components";
-import { BestButton } from "lib/components/components_modules";
+import { BestButton, MyImage, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules";
+import  Axios  from "axios";
+import { SERVER_ROUTS } from "lib/database/server_routs";
 
 export const PHAnalyser: React.FunctionComponent = ({}) => {
 
@@ -13,51 +15,53 @@ export const PHAnalyser: React.FunctionComponent = ({}) => {
 
 
   const [source,setSource] = useState<any>();
-  const [rgb,setRgb] = useState<String>();
+  const [rgbString,setRgbString] = useState<String>();
   const [show,setShow] = useState<boolean>(false);
   const [firstPosition,setFirstPosition] = useState<any>();
   const [isDown, setIsDown] = useState<boolean>(false);
   const [rect,setRect] = useState<any>();
   const [dimension,setDimension] = useState<any>();
-  const [cuttedImagesURLs, setCuttedImagesURLs] = useState<any[]>([]);
+  const [objectToDatabase, setObjectToDatabase] = useState<any[]>([]);
   const [componentForDisplay,setComponentForDisplay] = useState<any>();
   const [PHvalue, setPHvalue] = useState<any>();
   const [seed, setSeed] = useState(1);
   const [showLabelForm,setShowLabelForm] = useState<any>(false);
+  const [labeling, setLabeling] = useState<boolean>(false);
+  const [status,setStatus] = useState<any>('panel')
+  const [takenImage, setTakenImage] = useState<any>();
+  const [sendFlag, setSendFlag] = useState<any>();
+  const [rgb, setRgb] = useState<any>();
+  const [ rgbForDiv,setRgbForDiv] = useState<any>();
+  const [analysis_name, setAnalysis_name] = useState<string>('Default')
+  const [foregoingAnalysis ,setForegoingAnalysis] = useState([])
+  const [choosenAnalysis,setChoosenAnalysis] = useState<any>()
+  const [currentSetAnalysis,setCurrentSetAnalysis] = useState([])
 
 
   const reset = () => {
     setSeed(Math.random()+1)
 }
-  useEffect(()=>{
-    if(WholeImageCanvasRef.current) {setRect(WholeImageCanvasRef.current.getBoundingClientRect())
-      // console.log(WholeImageCanvasRef.current.getBoundingClientRect())
-    }
 
-   
-  },[])
-  
   const  getFirstMousePos = ( evt:any) => {
     var rect = WholeImageCanvasRef.current.getBoundingClientRect();
     WholeImageCanvasRef.current.onMouseMove
-    // console.log('evt.clientX',evt.clientX,'evt.clientY',evt.clientY)
-    // console.log('rect.left',rect.left,'rect.top',rect.top)
     const position = {x: evt.clientX - rect.left, y: evt.clientY - rect.top}
     setFirstPosition(position)
-    console.log('first position:',position)
+    // console.log('first position:',position)
     setIsDown(true)
   }
 
+  // console.log('konspekt:',takenImage)
 
 const getSecondMousePos = async (evt: any) =>{
  
     const canvas = DrawImageCanvasRef.current
     WholeImageCanvasRef.current.onMouseMove
     const position = {x: evt.clientX , y: evt.clientY-dimension?.height}
-    console.log('endposition:',position)
+    // console.log('endposition:',position)
 
-    console.log('start point: x=',firstPosition?.x,' y=',firstPosition?.y)
-    console.log('width: ',dimension?.width,' height: ',dimension?.height)
+    // console.log('start point: x=',firstPosition?.x,' y=',firstPosition?.y)
+    // console.log('width: ',dimension?.width,' height: ',dimension?.height)
 
     var ctx=canvas.getContext("2d");
     ctx.fillStyle = "#9ea7b8";
@@ -75,10 +79,8 @@ const handleMouseMove = (evt: any) =>{
 
   // if we're not dragging, just return
   if(!isDown){return;}
-  // console.log('move')
  
   const canvas = DrawImageCanvasRef.current
-  // console.log('rect.left',rect.left,'rect.top',rect.top)
   let mouseX=evt.clientX - rect.left;
   let mouseY=evt.clientY - rect.top;
   var ctx=canvas.getContext("2d");
@@ -89,21 +91,18 @@ const handleMouseMove = (evt: any) =>{
 
   //strokeRect(x, y, width, height)
   ctx.strokeRect(firstPosition?.x,firstPosition?.y,width,height);
+  imageCanvasRef.current.getContext('2d').drawImage(WholeImageCanvasRef.current, firstPosition.x, firstPosition.y,width,height,0,0,Math.abs(width) ,Math.abs(height))
 }
 
 const cutImage = async () =>{
-
-
+  // console.log('dimension',dimension)
   imageCanvasRef.current.width = Math.abs(dimension.width);
   imageCanvasRef.current.height =Math.abs(dimension.height) ;
   imageCanvasRef.current.getContext('2d').drawImage(WholeImageCanvasRef.current, firstPosition.x, firstPosition.y,dimension.width,dimension.height,0,0,Math.abs(dimension.width) ,Math.abs(dimension.height))
   await makeRGBAnalysis()
-  
-
 }
 
 const  getAverageRGB = (img: any) =>{
-  
   var blockSize = 5, // only visit every 5 pixels
       defaultRGB = {r:12,g:12,b:12}, // for non-supporting envs
       canvas = document.createElement('canvas'),
@@ -114,9 +113,7 @@ const  getAverageRGB = (img: any) =>{
       rgb = {r:10,g:10,b:10},
       count = 0;
       
-  if (!context) {
-      return defaultRGB;
-  }
+  if (!context) {return defaultRGB;}
   
   height = canvas.height = img.naturalHeight || img.offsetHeight || img.height;
   width = canvas.width = img.naturalWidth || img.offsetWidth || img.width;
@@ -143,41 +140,67 @@ const  getAverageRGB = (img: any) =>{
   rgb.g = ~~(rgb.g/count);
   rgb.b = ~~(rgb.b/count);
   return rgb;
-  
 }
 
 
-const setCanvas = () => {
+
+const setWholeImage = async () => {
   if(webcamRef.current){
-    WholeImageCanvasRef.current.width = 640
-    WholeImageCanvasRef.current.height = 480
-    DrawImageCanvasRef.current.width = 640
-    DrawImageCanvasRef.current.height = 480
-    WholeImageCanvasRef.current.getContext('2d').drawImage(webcamRef.current.video, 0, 0, 640, 480)
-    setShow(false)
+    const detected_image = webcamRef.current.getScreenshot();
+    if(detected_image){
+      const image = new Image(540,380)
+      image.src = detected_image;
+      setTakenImage(image)
+      await smallFunction()
+      .then( ()=> { setCanvas(image) } )
+      
+    }
   }
 }
 
+const setCanvas = (image: any) => {
+    
+    WholeImageCanvasRef.current.width = 540
+    WholeImageCanvasRef.current.height = 380
+    DrawImageCanvasRef.current.width = 540
+    DrawImageCanvasRef.current.height = 380
+    WholeImageCanvasRef.current.getContext('2d').drawImage(image, 0, 0, 540, 380)
+    setRect(WholeImageCanvasRef.current.getBoundingClientRect())
+}
+
 const onNewLabelHandle = () => {
+  if(PHvalue){
   const img = imageCanvasRef.current.toDataURL()
-  const obj = {value: PHvalue, img: img}
-  setCuttedImagesURLs(preVImg => [...preVImg, obj])
-  console.log('lista img: ',cuttedImagesURLs)
+  const obj = {value: PHvalue, img: img, rgb:rgb, rgbForDiv: rgbForDiv}
+  console.log('caly objekt: ', obj)
+  setObjectToDatabase(preVImg => [...preVImg, obj])
+  console.log('lista img: ',objectToDatabase)
   reset()
   setShowLabelForm(false)
   const canvas = DrawImageCanvasRef.current
   var ctx=canvas.getContext("2d");
   ctx.clearRect(0,0,canvas.width,canvas.height);
+  setSendFlag('no')
+  }
+  else console.log('mie weszlo')
+  
 }
+
+useMemo(()=>{
+  if(sendFlag == 'ok')
+  onNewLabelHandle()
+},[sendFlag])
  
 const insertLabelComponent = (position: any) =>{
   setComponentForDisplay(
-    <LabelComponent  key={seed+1} style={{ top: `${(position.y )+ 'px'}`, left: `${position.x + 'px'}`}} x={position.x} y={position.y}>
+    <LabelComponent  key={seed+1} style={{ top: `${(position.y )+ 'px'}`, left: `${position.x + 'px'}`}} >
       <input type="text" placeholder="Wprowadź stopień pH"  onChange = {(e) => {setPHvalue(e.target.value);console.log(e.target.value)}} />
-      <BestButton onClick={onNewLabelHandle}>OK</BestButton>
+      <BestButton onClick={()=>{setSendFlag('ok')}}>OK</BestButton>
     </LabelComponent>
   )
 }
+
+
 
 const diplayComponent = () => {
   return componentForDisplay
@@ -185,39 +208,266 @@ const diplayComponent = () => {
 
 const makeRGBAnalysis = () => {
   let rgb = getAverageRGB(imageCanvasRef.current)
-  console.log('cyferki:','rgb('+rgb.r+','+rgb.g+','+rgb.b+')')
+  // console.log('cyferki:','rgb('+rgb.r+','+rgb.g+','+rgb.b+')')
   divRef.current.style.backgroundColor = 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')';
-  setRgb('RGB ['+rgb.r+' , '+rgb.g+' , '+rgb.b+']')
-  // console.log( rgb)
+  // console.log('rgb',rgb)
+  setRgbForDiv('rgb('+rgb.r+','+rgb.g+','+rgb.b+')')
+  setRgb(rgb)
+  setRgbString('RGB ['+rgb.r+' , '+rgb.g+' , '+rgb.b+']')
 }
 
-       return (
-    <CenterContainer>
+ 
+
+  const smallFunction = async () => {
+     setStatus('labellinngPh')
+  }
+
+  const send_data_to_db = async () => {
+    const keys = Object.keys(objectToDatabase)
+    let name = analysis_name
+
+    if(analysis_name =='Default') {
+        const date = new Date()
+        name = 'Default' +  date.toISOString().toString()
+      }
+      
+     
+   
+        const wholeImage = WholeImageCanvasRef.current.toDataURL()
+        const queryONE = `INSERT INTO ph_analysis (username, img, ph, rgb, date, analysis_name) VALUES ('test','${wholeImage}','prime','-',now(), '${name}') `
+        Axios.post(SERVER_ROUTS.custom_query.get, {query: queryONE})
+        .then((response)=>{console.log('data sent') ; console.log(response.data)})
+        .then( ()=>{
+           keys.map((nr: any)=>{
+            const query = `INSERT INTO ph_analysis (username, img, ph, rgb, date, analysis_name,R,G,B) VALUES ('test','${objectToDatabase[nr]['img']}','${objectToDatabase[nr]['value']}','${objectToDatabase[nr]['rgbForDiv']}',now(), '${name}',${objectToDatabase[nr]['rgb']['r']},${objectToDatabase[nr]['rgb']['g']},${objectToDatabase[nr]['rgb']['b']}) `
+            Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
+            .then((response)=>{console.log('data sent') ; console.log(response.data)})
+            .then( )
+            .catch((err)=>{console.log('send status :(')})
+        })
+        } )
+        .then(()=>{ console.log('---------- Dokonao się dla :',name); setStatus('panel')})
+        .catch((err)=>{console.log('send status :(')})
+    }
+  
+   
+  const getDataFromDb = () => {
+    const query = 'SELECT DISTINCT analysis_name FROM ph_analysis'
+    Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
+    .then((response)=>{console.log('data sent') ; console.log(response.data); setForegoingAnalysis(response.data)})
+    .then( )
+    .catch((err)=>{console.log('send status :(')})
+  }
+
+  const getSpecificAnalysis = (analysisName: any) => {
+    const query = `SELECT * FROM ph_analysis WHERE analysis_name = '${analysisName}' `
+    Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
+    .then((response)=>{console.log('data getSpecificAnalysis') ; console.log(response.data); setCurrentSetAnalysis(response.data)})
+    .then( )
+    .catch((err)=>{console.log('send status :(')})
+  }
+
+  const returnComponent = () => {
+
+    if(status == 'panel'){
+      return(
+        <CenterContainer >
+        <Container>
+        <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('takeImg')}}> Nowa analiza pH  </BestButton>
+        <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('choose');getDataFromDb()}}> Sprawdz pH </BestButton>
+        </Container>
+      </CenterContainer>
+      )
+    }
+
+    if(status == 'choose'){
+      
+      return(
+        <CenterContainer >
+        <Container>
+          Zapisane ph: 
+        <TableContainer>
+                   <table >
+                        <tbody >
+                           { foregoingAnalysis.map((obj:any, index)=>{
+                             return( 
+                              <tr key={index}> 
+                                {<Td style={{cursor:'pointer'}} onClick={()=>{setChoosenAnalysis(obj.analysis_name);getSpecificAnalysis(obj.analysis_name) ;setStatus('makeComparison')}} >{obj.analysis_name}</Td>}
+                              </tr>
+                             )
+                             }) }
+                        </tbody>
+                    </table>
+                     
+                   </TableContainer>
+        </Container>
+      </CenterContainer>
+      )
+    }
+
+    if(status == 'makeComparison'){
+
+      return(
+        <OrderContainer>
+          
+            {showLabelForm && diplayComponent()}
+
+            <SpaceBetweenContainer>
+              <h3>preview:</h3>
+              <div>
+                <canvas  ref={imageCanvasRef} style={{height: `${dimension ? dimension.height+'px' : '0px'}`,width: `${dimension ? dimension.width+'px' : '0px'}` }}/>
+              
+              </div>
+              <div>
+                <div style={{marginTop: '10px',width: '100px', height: '100px', zIndex: '100'}} ref={divRef}> <h6>{rgbString}</h6>  </div>
+              </div>
+            </SpaceBetweenContainer>
+
+
+
+            <div style={{margin:'10px',position:'relative',width: 'auto', height: 'auto',}}>
+            <Canvas   ref={WholeImageCanvasRef}/>
+            <DrawCanvas  onMouseMove={(e)=>{handleMouseMove(e)}}  onMouseUp={(e)=>{getSecondMousePos(e)}} onMouseDown={(e)=>{getFirstMousePos(e)}}  ref={DrawImageCanvasRef}/>
+            </div>
+
+
+
+            <SavedContainer style={{overflowY:'hidden'}} key={seed+100}>
+              <div >
+                <h3>pH table:</h3>
+                <BestButton style={{float:'right'}} onClick={()=>{send_data_to_db()}}>Save</BestButton>
+                <TableContainer>
+                <table >
+                      <tbody >
+                        <Tr_sticky_row>
+                                <Th key={100}> pH</Th>
+                                <Th key={300}>color</Th>
+                                <Th key={400}>rgb</Th>
+                        </Tr_sticky_row>
+                      
+                      
+                        { currentSetAnalysis.map((obj:any, index)=>{
+                          return( 
+                            <tr key={index}> 
+                              {<Td>{obj.ph}</Td>}
+                              {<Td style={{backgroundColor:`${obj.rgb}`}} ></Td>}
+                              {<Td style={{fontSize:'small'}} >[{obj.rgb}]</Td>}
+                            </tr>
+                          )
+                          }) }
+                      </tbody>
+                  </table>
+                  
+                </TableContainer>
+              
+              </div>
+              <div></div>
+            </SavedContainer>
+
         
-             {show && <Webcam
+
+      </OrderContainer>
+      )
+    }
+
+    if(status == 'start'){
+      return(
+        <CenterContainer >
+          <Container>
+             Nazwa nowej analizy pH:
+            <input style={{backgroundColor: 'gray'}} type="text"  onChange={ (e)=>{setAnalysis_name(e.target.value)} }/>
+          <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('takeImg')}}> Rozpocznij  </BestButton>
+          </Container>
+        </CenterContainer>
+      )
+    }
+
+    // const date = new Date()
+    // setAnalysis_name('Default' + date.getDate().toString())
+
+    if(status == 'takeImg'){
+      return(
+        <CenterContainer>
+          <Webcam
                 ref={webcamRef}
                 muted={true} 
                 screenshotFormat="image/jpeg"
                 style={{margin: 10, width: 540, height: 380}}
-              />    }
+              /> 
+            <Container>
+              <BestButton style={{width:'150px',height:'50px'}} onClick={ ()=>{ setWholeImage(); } } >Pobierz próbkę zdjęcia</BestButton>
+            </Container> 
+        </CenterContainer>
+      )
+    }
 
-              {show &&  <Container>
-                <BestButton onClick={ ()=>{ setCanvas(); } } >Pobierz próbkę zdjęcia</BestButton>
-              </Container>  }
+    if(status == 'labellinngPh'){
+      const keys = Object.keys(objectToDatabase)
+      return(
+        <OrderContainer>
+              {showLabelForm && diplayComponent()}
+              <SpaceBetweenContainer>
+                <h3>preview:</h3>
+                <div>
+                  <canvas  ref={imageCanvasRef} style={{height: `${dimension ? dimension.height+'px' : '0px'}`,width: `${dimension ? dimension.width+'px' : '0px'}` }}/>
+                 
+                </div>
+                <div>
+                  <div style={{marginTop: '10px',width: '100px', height: '100px', zIndex: '100'}} ref={divRef}> <h6>{rgbString}</h6>  </div>
+                </div>
+              </SpaceBetweenContainer>
 
-             
-                 { !show &&  <BestButton style={{width:'auto',height:'50px'}}  onClick={()=>{setShow(true)}}> Rozpocznij nową analizę pH </BestButton>}
+              <div style={{margin:'10px',position:'relative',width: 'auto', height: 'auto',}}>
+              <Canvas   ref={WholeImageCanvasRef}/>
+              <DrawCanvas  onMouseMove={(e)=>{handleMouseMove(e)}}  onMouseUp={(e)=>{getSecondMousePos(e)}} onMouseDown={(e)=>{getFirstMousePos(e)}}  ref={DrawImageCanvasRef}/>
+              </div>
 
-                 { showLabelForm && diplayComponent()}
-                 <div style={{position: 'relative'}}>
-                  <Canvas show={show}  ref={WholeImageCanvasRef}/>
-                  <DrawCanvas onMouseMove={(e)=>{handleMouseMove(e)}}  show={show} onMouseUp={(e)=>{getSecondMousePos(e)}} onMouseDown={(e)=>{getFirstMousePos(e)}}  ref={DrawImageCanvasRef}/>
-                   <canvas  ref={imageCanvasRef}/> 
-                   <div style={{marginTop: '10px',width: '200px', height: '200px', zIndex: '100'}} ref={divRef}> {rgb} </div>
-                   </div>
-                  
-                       
-    </CenterContainer> 
+              <SavedContainer style={{overflowY:'hidden'}} key={seed+100}>
+                <div >
+                   <h3>pH table:</h3>
+                   <BestButton style={{float:'right'}} onClick={()=>{send_data_to_db()}}>Save</BestButton>
+                   <TableContainer>
+                   <table >
+                        <tbody >
+                          <Tr_sticky_row>
+                                  <Th key={100}> pH</Th>
+                                  <Th key={200}>img</Th>
+                                  <Th key={300}>color</Th>
+                                  <Th key={400}>rgb</Th>
+                          </Tr_sticky_row>
+                        
+                        
+                           { keys.map((obj:any, index)=>{
+                             return( 
+                              <tr key={index}> 
+                                {<Td>{objectToDatabase[obj]['value']}</Td>}
+                               { <Td_image >  <MyImage2    src={objectToDatabase[obj]['img']}/></Td_image>}
+                                {<Td style={{backgroundColor:`${objectToDatabase[obj]['rgbForDiv']}`}} ></Td>}
+                                {<Td style={{fontSize:'small'}} >[{objectToDatabase[obj]['rgb']['r']}-{objectToDatabase[obj]['rgb']['g']}-{objectToDatabase[obj]['rgb']['b']}]</Td>}
+                              </tr>
+                             )
+                             }) }
+                        </tbody>
+                    </table>
+                     
+                   </TableContainer>
+                 
+                </div>
+                <div></div>
+              </SavedContainer>
+
+              
+
+        </OrderContainer>
+      )
+    }
+  }
+
+
+  return (
+    <MainContainer>
+      {returnComponent()}           
+    </MainContainer> 
     
   );
     
@@ -226,42 +476,92 @@ const makeRGBAnalysis = () => {
 }
 
 
-const CenterContainer = styled.div`
+const MainContainer = styled.div`
     position: absolute;
-    width: 100%;  
+    width: 100%;
     top: 20%;
     display: flex;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid;
+    border-color: rgba(255,255,255,.15);
+     background-color:#161b22;
+`
+const CenterContainer = styled.div`
+    color: ${({theme}) => theme.colors.typography};
+    display: flex;
+    flex-direction: row;
+    flex: 1;
     justify-content: center;
-    flex-direction: column;
+    
+`
+const OrderContainer = styled.div`
+    color: ${({theme}) => theme.colors.typography};
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-between;
 `
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  z-index: 2;
+  width: 200px;
+  max-width: 200px;
+  /* min-width: 200px; */
+  overflow: hidden;
+  padding: 10px;
+  margin-left: 30px;
+  margin-right: 30px;
+  border: 1px solid;
+  border-color: rgba(255,255,255,.15);    border: 1px solid;
+  border-color: rgba(255,255,255,.15);
 
 `
-type Props = {
-  show?: any,
-  x?: any,
-  y?: any
-}
 
-const Canvas = styled.canvas<Props>`
-  width: 640px;
-  height: 480px;
-  display: ${show => show ? 'block' : 'none'};
-  position: absolute;
-  right: 20%;
+const SpaceBetweenContainer = styled(Container)`
+   justify-content: space-between;
+`
+
+const SavedContainer = styled(SpaceBetweenContainer)`
+  width: 350px;
+  max-width: 350px;
+
+`
+
+const Canvas = styled.canvas`
+  width: 540px;
+  height: 380px;
+  z-index:3;
 `
 
 const DrawCanvas = styled(Canvas)`
-
+  position: absolute;
+  z-index:5;
+  top: 0;
+  right: 0;
 `
 
-const LabelComponent = styled.div<Props>`
+const LabelComponent = styled.div`
   position: fixed;
   z-index: 100;
-  /* background-color: gray; */
   height: auto;
+`
+const Th = styled.th`
+    border: 1px solid gray;
+    justify-content: center;
+`
+const Td = styled.td`
+    border: 1px solid gray;
+    justify-content: center;
+    text-align:center; 
+`
+
+const MyImage2 = styled(MyImage)`
+    width: 20;
+    height: 20;
 `
