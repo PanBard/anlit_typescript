@@ -27,6 +27,7 @@ export const VoiceRecognition: React.FunctionComponent<VoiceRecognitionProps> = 
   const [show, setShow] = useState(true)
   const db_text_name = cation ? 'c_analysis_texts' : 'a_analysis_texts' 
   let slowa = ''
+  let detected: any;
 
 let recognition = new SpeechRecognition()
 // let recognitionList = new SpeechGrammarList()
@@ -59,37 +60,38 @@ recognition.onresult = (event: any) => {
   }
   if((event.results[0][0].transcript.search("brak")!=-1) || (event.results[0][0].transcript.search("nic")!=-1)){
     console.log('wykryto brak')
-    return_described_to_parent_component(0)
+    // return_described_to_parent_component(0)
+    detected=0
   }
   if((event.results[0][0].transcript.search("biały")!=-1) || (event.results[0][0].transcript.search("białe")!=-1)){
     console.log('wykryto bialego')
-    return_described_to_parent_component(1)
+    // return_described_to_parent_component(1)
+    detected=1
   }
   if((event.results[0][0].transcript.search("czarny")!=-1) || (event.results[0][0].transcript.search("Czarny")!=-1) || (event.results[0][0].transcript.search("ciemny")!=-1)){
     console.log('wykryto czarnego')
-    return_described_to_parent_component(2)
-  }
-
-  if((event.results[0][0].transcript.search("zółtym")!=-1) || (event.results[0][0].transcript.search("żółty")!=-1)){
-    console.log('wykryto czarnego')
-    return_described_to_parent_component(11)
+    // return_described_to_parent_component(2)
+    detected=2
   }
 
   if((event.results[0][0].transcript.search("pomarańczowy")!=-1) || (event.results[0][0].transcript.search("pomarańczowym")!=-1)){
     console.log('wykryto czarnego')
-    return_described_to_parent_component(9)
+    // return_described_to_parent_component(9)
+    detected=9
   }
 
   if((event.results[0][0].transcript.search("fioletowy")!=-1) || (event.results[0][0].transcript.search("fioletowym")!=-1)){
     console.log('wykryto czarnego')
-    return_described_to_parent_component(10)
+    // return_described_to_parent_component(10)
+    detected=10
   }
 
-  
   if((event.results[0][0].transcript.search("zółtym")!=-1) || (event.results[0][0].transcript.search("żółty")!=-1)){
     console.log('wykryto czarnego')
-    return_described_to_parent_component(11)
+    // return_described_to_parent_component(11)
+    detected=11
   }
+  
 }
 
 recognition.onend = (event) => {
@@ -99,6 +101,11 @@ recognition.onend = (event) => {
   // const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
   // Axios.put(SERVER_ROUTS.cation_analysis_texts.put, {id:id, query: query , script: slowa }).then(res=>console.log(res))
   Axios.post(SERVER_ROUTS.all_chat_messages.post, {chat_id:id, message: slowa,author: 'human', ion: cation ? 'cation' : 'anion' }).then(res=>console.log('Messages db: ',res.data))
+  .then(()=>{
+    if(typeof detected != 'undefined'){
+      return_described_to_parent_component(detected)
+    }
+  })
   setShow(false)
 };
 }

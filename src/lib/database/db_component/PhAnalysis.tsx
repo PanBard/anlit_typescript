@@ -23,7 +23,7 @@ export const PhAnalysis: React.FunctionComponent = ()=>{
     const header_name =   'ph analysis'
     const keys_f = ['id','username','analysis_name']
     const keys_img = ['img']
-    const keys_end = ['ph',"rgb",'date','R','G','B'] 
+    const keys_end = ['ph',"rgb",'date','R','G','B','ph_number'] 
     const input_name = keys_f.concat(keys_img.concat(keys_end))
     
    //get data
@@ -32,7 +32,7 @@ export const PhAnalysis: React.FunctionComponent = ()=>{
     },[])
 
     const get_data_from_db = () => {
-        const query = `SELECT id, CONVERT(img USING utf8) as img, username, ph, rgb, date, analysis_name,R,G,B FROM ph_analysis `
+        const query = `SELECT id, CONVERT(img USING utf8) as img, username, ph, rgb, date, analysis_name,R,G,B,ph_number FROM ph_analysis `
         Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
         .then( (response: any)=>{console.log(':)');setDataFromDataBase(response.data) })
         .then(()=>{reset()})
@@ -47,17 +47,17 @@ export const PhAnalysis: React.FunctionComponent = ()=>{
         .catch(err => {console.log(err)})
     }; 
 
-    // const delete_all_data = () => {
-    //     if(confirm("Na pewno chcesz usunąć całą historię?")){
-    //          const QUERY = `DELETE FROM ${db_name}`
-    //     Axios.post(SERVER_ROUTS.custom_query.get, {query: QUERY})
-    //     .then( ()=>{console.log('data deleted') })
-    //     .then(()=>{get_data_from_db()})
-    //     .then(()=>{reset()})
-    //     .catch((err)=>{console.log('db status :(')})
-    //     } 
+    const delete_all_data = () => {
+        if(confirm("Na pewno chcesz usunąć wszystkie zapisane kalibracje?")){
+             const QUERY = `DELETE FROM ph_analysis`
+        Axios.post(SERVER_ROUTS.custom_query.get, {query: QUERY})
+        .then( ()=>{console.log('data deleted') })
+        .then(()=>{get_data_from_db()})
+        .then(()=>{reset()})
+        .catch((err)=>{console.log('db status :(')})
+        } 
        
-    // }
+    }
 
 
  
@@ -75,9 +75,9 @@ export const PhAnalysis: React.FunctionComponent = ()=>{
     return(
         <ContainerP>
 
-            {/* <Container>
+            <Container>
                   <BestButton onClick={delete_all_data}>Clear all</BestButton>
-            </Container> */}
+            </Container>
 
             {!showModyf &&  <Container>
                 <Container>

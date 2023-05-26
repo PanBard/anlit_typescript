@@ -31,13 +31,14 @@ export const PHAnalyser: React.FunctionComponent = ({}) => {
   const [takenImage, setTakenImage] = useState<any>();
   const [sendFlag, setSendFlag] = useState<any>();
   const [rgb, setRgb] = useState<any>();
-  const [ rgbForDiv,setRgbForDiv] = useState<any>();
+  const [rgbForDiv,setRgbForDiv] = useState<any>();
   const [analysis_name, setAnalysis_name] = useState<string>('Default')
   const [foregoingAnalysis ,setForegoingAnalysis] = useState([])
   const [choosenAnalysis,setChoosenAnalysis] = useState<any>()
   const [currentSetAnalysis,setCurrentSetAnalysis] = useState([])
-
-
+  const [status2, setStatus2] = useState<any>('start')
+  const [oryginalImage,setOryginalImage] = useState<any>()
+  const [bestResult,setBestResult] = useState()
   const reset = () => {
     setSeed(Math.random()+1)
 }
@@ -58,11 +59,6 @@ const getSecondMousePos = async (evt: any) =>{
     const canvas = DrawImageCanvasRef.current
     WholeImageCanvasRef.current.onMouseMove
     const position = {x: evt.clientX , y: evt.clientY-dimension?.height}
-    // console.log('endposition:',position)
-
-    // console.log('start point: x=',firstPosition?.x,' y=',firstPosition?.y)
-    // console.log('width: ',dimension?.width,' height: ',dimension?.height)
-
     var ctx=canvas.getContext("2d");
     ctx.fillStyle = "#9ea7b8";
     ctx.fillRect(firstPosition?.x,firstPosition?.y,dimension?.width,dimension?.height);
@@ -158,6 +154,20 @@ const setWholeImage = async () => {
   }
 }
 
+const setImageToComparison = async () => {
+  if(webcamRef.current){
+    const detected_image = webcamRef.current.getScreenshot();
+    if(detected_image){
+      const image = new Image(540,380)
+      image.src = detected_image;
+      setTakenImage(image)
+      await smallFunction2()
+      .then( ()=> { setCanvas(image) } )
+      
+    }
+  }
+}
+
 const setCanvas = (image: any) => {
     
     WholeImageCanvasRef.current.width = 540
@@ -186,21 +196,104 @@ const onNewLabelHandle = () => {
   
 }
 
+const getNewRgbValue = async () => {
+  setShowLabelForm(false)
+  const canvas = DrawImageCanvasRef.current
+  var ctx=canvas.getContext("2d");
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  setSendFlag('no') 
+  console.log(rgb)
+  let R_difference =0
+  let G_difference =0
+  let B_difference =0
+  let R_averageError =0
+  let G_averageError =0
+  let B_averageError =0
+  let sum = 1000
+  let sumErr = 0
+  let bestResult = 10000;
+  let bestPhName = '';
+  await currentSetAnalysis.map((obj:any, index)=>{
+
+    if(obj.R != null){
+    R_difference = Math.abs(obj.R-rgb.r) 
+    G_difference = Math.abs(obj.G-rgb.g) 
+    B_difference = Math.abs(obj.B-rgb.b) 
+    R_averageError = (R_difference/rgb.r)
+    G_averageError = (G_difference/rgb.g)
+    B_averageError = (B_difference/rgb.b)
+    sum = R_difference+G_difference+B_difference
+    sumErr = R_averageError+G_averageError+B_averageError
+    console.log('rgb',obj.R+' - '+obj.G+' - '+obj.B)
+    console.log(index,'->',R_difference+' - '+G_difference+' - '+B_difference+'sum:'+sum)
+    console.log(index,'sredni->',sumErr)
+      if(sum <= bestResult){
+        bestResult = sum
+        setBestResult(obj.ph)
+      }
+  }
+  })
+  
+}
+
 useMemo(()=>{
-  if(sendFlag == 'ok')
-  onNewLabelHandle()
+  if(sendFlag == 'ok' && status=='labellinngPh') onNewLabelHandle()
+  if(sendFlag == 'ok' && status=='makeComparison') getNewRgbValue()
 },[sendFlag])
  
 const insertLabelComponent = (position: any) =>{
-  setComponentForDisplay(
-    <LabelComponent  key={seed+1} style={{ top: `${(position.y )+ 'px'}`, left: `${position.x + 'px'}`}} >
-      <input type="text" placeholder="Wprowadź stopień pH"  onChange = {(e) => {setPHvalue(e.target.value);console.log(e.target.value)}} />
-      <BestButton onClick={()=>{setSendFlag('ok')}}>OK</BestButton>
-    </LabelComponent>
-  )
+  if(status=='labellinngPh'){
+    setComponentForDisplay(
+        <LabelComponent  key={seed+1} style={{ top: `${(position.y )+ 'px'}`, left: `${position.x + 'px'}`}} >
+          <input type="text" placeholder="Wprowadź stopień pH"  onChange = {(e) => {setPHvalue(e.target.value);console.log(e.target.value)}} />
+          <BestButton onClick={()=>{setSendFlag('ok')}}>OK</BestButton>
+        </LabelComponent>
+      )
+  }
+  
+  if(status=='makeComparison'){
+    setComponentForDisplay(
+        <LabelComponent  key={seed+1} style={{ top: `${(position.y )+ 'px'}`, left: `${position.x + 'px'}`}} >
+          {/* <input type="text" placeholder="Wprowadź stopień pH"  onChange = {(e) => {setPHvalue(e.target.value);console.log(e.target.value)}} /> */}
+          <BestButton onClick={()=>{ setSendFlag('ok')}}>OK</BestButton>
+        </LabelComponent>
+      )
+  }
 }
 
+const makeScreenToComparison = ( ) =>{
 
+   if(status2=='makeScreenToComparison'){return(
+        <CenterContainer>
+          <Webcam
+                ref={webcamRef}
+                muted={true} 
+                screenshotFormat="image/jpeg"
+                style={{margin: 10, width: 540, height: 380}}
+              /> 
+            <Container>
+              <BestButton style={{width:'150px',height:'50px'}} onClick={ ()=>{ setImageToComparison()} } >Pobierz próbkę zdjęcia</BestButton>
+            </Container> 
+        </CenterContainer>
+      )}
+}
+
+const defaultDisplay = () => {
+  if(status2=='start'){
+    return(
+    <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus2('makeScreenToComparison')}}> Make screenshot  </BestButton>
+    )
+  }
+
+  if(status2=='imageTaken'){
+    return(
+      <div>
+        <Canvas   ref={WholeImageCanvasRef}/>
+        <DrawCanvas  onMouseMove={(e)=>{handleMouseMove(e)}}  onMouseUp={(e)=>{getSecondMousePos(e)}} onMouseDown={(e)=>{getFirstMousePos(e)}}  ref={DrawImageCanvasRef}/> 
+      </div>        
+    )
+  }
+}
 
 const diplayComponent = () => {
   return componentForDisplay
@@ -222,6 +315,10 @@ const makeRGBAnalysis = () => {
      setStatus('labellinngPh')
   }
 
+  const smallFunction2 = async () => {
+    setStatus2('imageTaken')
+ }
+
   const send_data_to_db = async () => {
     const keys = Object.keys(objectToDatabase)
     let name = analysis_name
@@ -239,7 +336,7 @@ const makeRGBAnalysis = () => {
         .then((response)=>{console.log('data sent') ; console.log(response.data)})
         .then( ()=>{
            keys.map((nr: any)=>{
-            const query = `INSERT INTO ph_analysis (username, img, ph, rgb, date, analysis_name,R,G,B) VALUES ('test','${objectToDatabase[nr]['img']}','${objectToDatabase[nr]['value']}','${objectToDatabase[nr]['rgbForDiv']}',now(), '${name}',${objectToDatabase[nr]['rgb']['r']},${objectToDatabase[nr]['rgb']['g']},${objectToDatabase[nr]['rgb']['b']}) `
+            const query = `INSERT INTO ph_analysis (username, img, ph, rgb, date, analysis_name,R,G,B,ph_number) VALUES ('test','${objectToDatabase[nr]['img']}','${objectToDatabase[nr]['value']}','${objectToDatabase[nr]['rgbForDiv']}',now(), '${name}',${objectToDatabase[nr]['rgb']['r']},${objectToDatabase[nr]['rgb']['g']},${objectToDatabase[nr]['rgb']['b']},${objectToDatabase[nr]['value']}) `
             Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
             .then((response)=>{console.log('data sent') ; console.log(response.data)})
             .then( )
@@ -260,10 +357,14 @@ const makeRGBAnalysis = () => {
   }
 
   const getSpecificAnalysis = (analysisName: any) => {
-    const query = `SELECT * FROM ph_analysis WHERE analysis_name = '${analysisName}' `
+    const query = `SELECT * FROM ph_analysis WHERE analysis_name = '${analysisName}' ORDER BY ph_number `
     Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
     .then((response)=>{console.log('data getSpecificAnalysis') ; console.log(response.data); setCurrentSetAnalysis(response.data)})
-    .then( )
+    .then( ()=>{
+      const query2 = `SELECT CONVERT(img USING utf8) as img FROM ph_analysis WHERE analysis_name = '${analysisName}' AND ph = 'prime' `
+      Axios.post(SERVER_ROUTS.custom_query.get, {query: query2})
+      .then((response)=>{console.log('data poj zdj::') ; console.log(response.data); setOryginalImage(response.data)})
+    } )
     .catch((err)=>{console.log('send status :(')})
   }
 
@@ -273,7 +374,7 @@ const makeRGBAnalysis = () => {
       return(
         <CenterContainer >
         <Container>
-        <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('takeImg')}}> Nowa analiza pH  </BestButton>
+        <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('start')}}> Nowa kalibracja pH  </BestButton>
         <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('choose');getDataFromDb()}}> Sprawdz pH </BestButton>
         </Container>
       </CenterContainer>
@@ -285,7 +386,7 @@ const makeRGBAnalysis = () => {
       return(
         <CenterContainer >
         <Container>
-          Zapisane ph: 
+          Zapisane kalibracje ph: 
         <TableContainer>
                    <table >
                         <tbody >
@@ -312,31 +413,13 @@ const makeRGBAnalysis = () => {
           
             {showLabelForm && diplayComponent()}
 
-            <SpaceBetweenContainer>
-              <h3>preview:</h3>
-              <div>
-                <canvas  ref={imageCanvasRef} style={{height: `${dimension ? dimension.height+'px' : '0px'}`,width: `${dimension ? dimension.width+'px' : '0px'}` }}/>
-              
-              </div>
-              <div>
-                <div style={{marginTop: '10px',width: '100px', height: '100px', zIndex: '100'}} ref={divRef}> <h6>{rgbString}</h6>  </div>
-              </div>
-            </SpaceBetweenContainer>
-
-
-
-            <div style={{margin:'10px',position:'relative',width: 'auto', height: 'auto',}}>
-            <Canvas   ref={WholeImageCanvasRef}/>
-            <DrawCanvas  onMouseMove={(e)=>{handleMouseMove(e)}}  onMouseUp={(e)=>{getSecondMousePos(e)}} onMouseDown={(e)=>{getFirstMousePos(e)}}  ref={DrawImageCanvasRef}/>
-            </div>
-
-
-
-            <SavedContainer style={{overflowY:'hidden'}} key={seed+100}>
+          
+            <SavedContainer style={{overflowY:'hidden', width:'250px'}} key={seed+100}>
               <div >
                 <h3>pH table:</h3>
-                <BestButton style={{float:'right'}} onClick={()=>{send_data_to_db()}}>Save</BestButton>
-                <TableContainer>
+                {/* <BestButton style={{float:'right'}} onClick={()=>{send_data_to_db()}}>Save</BestButton> */}
+                { oryginalImage &&  <img style={{width:'220px', height:'100px'}} src={oryginalImage[0]['img']} alt="" />}
+                <TableContainer style={{height:'200px'}}>
                 <table >
                       <tbody >
                         <Tr_sticky_row>
@@ -349,7 +432,7 @@ const makeRGBAnalysis = () => {
                         { currentSetAnalysis.map((obj:any, index)=>{
                           return( 
                             <tr key={index}> 
-                              {<Td>{obj.ph}</Td>}
+                              {<Td>{obj.ph_number}</Td>}
                               {<Td style={{backgroundColor:`${obj.rgb}`}} ></Td>}
                               {<Td style={{fontSize:'small'}} >[{obj.rgb}]</Td>}
                             </tr>
@@ -360,9 +443,37 @@ const makeRGBAnalysis = () => {
                   
                 </TableContainer>
               
+
               </div>
               <div></div>
             </SavedContainer>
+
+
+            <div style={{margin:'10px',position:'relative',width: 'auto', height: 'auto',}}>
+            {makeScreenToComparison()}
+            {defaultDisplay()}
+            
+            </div>
+
+
+          <SpaceBetweenContainer style={{width:'300px'}}>
+            <h3>preview:</h3>
+            <Container  style={{marginLeft:'0px', marginRight: '0px', width:'auto'}}>
+              <div>
+                <canvas  ref={imageCanvasRef} style={{height: `${dimension ? dimension.height+'px' : '0px'}`,width: `${dimension ? dimension.width+'px' : '0px'}` }}/>
+              
+              </div>
+              <div>
+                <div style={{marginTop: '10px',width: '100px', height: '100px', zIndex: '100'}} ref={divRef}> <h6>{rgbString}</h6>  </div>
+              </div>
+            </Container>
+            
+            <Container style={{marginLeft:'0px', marginRight: '0px', width:'auto'}}>
+              Result: {bestResult}
+            </Container>
+              
+            </SpaceBetweenContainer>
+            
 
         
 
@@ -373,8 +484,8 @@ const makeRGBAnalysis = () => {
     if(status == 'start'){
       return(
         <CenterContainer >
-          <Container>
-             Nazwa nowej analizy pH:
+          <Container style={{width:'250px' , maxWidth:'300px'}}>
+             Nazwa nowej kalibracji pH:
             <input style={{backgroundColor: 'gray'}} type="text"  onChange={ (e)=>{setAnalysis_name(e.target.value)} }/>
           <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('takeImg')}}> Rozpocznij  </BestButton>
           </Container>
