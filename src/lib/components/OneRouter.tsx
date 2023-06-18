@@ -1,92 +1,50 @@
 import React, { useState } from "react"
-// import { BrowserRouter as BrowserRouter, Route, Routes} from 'react-router-dom';
 import { Footer } from "./Footer";
-import { OneHeader } from "./OneHeader";
 import styled from "styled-components";
 import { DataDashboard } from "lib/database/DataDashboard";
-import { TestowyDashboard } from "lib/new_concept/testowy/TestowyDashboard";
-import { Dashboard } from "lib/new_concept/Dashboard";
+import { AnalysisDashboard } from "lib/features/analysis/AnalysisDashboard";
 import { WelcomePage } from "./WelcomePage";
-import { CroppImageTest } from "lib/new_concept/testowy/CroppImageTest";
-import { ColorAverage } from "lib/new_concept/testowy/ColorAverage";
-import { FaceRecognition } from "lib/new_concept/face_recognition/FaceRecognition";
-import { WebcamScreenshot } from "lib/new_concept/testowy/WebcamScreenshot";
-import { BeforeLogin } from "./BeforeLogin";
-import { RegistrationForm } from "./RegistrationForm";
+import { WebcamScreenshot } from "lib/features/webcam_screenshot/WebcamScreenshot";
+import { StartPage } from "./StartPage";
 import { OneHeaderWork } from "./OneHeaderWork";
-import { PHAnalyser } from "lib/new_concept/testowy/PHAnalyser";
-import { FaceRecognitionDemo } from "lib/new_concept/face_recognition/FaceRecognitionDemo";
-
-
+import { PHAnalyser } from "lib/features/ph_analyzer/PHAnalyser";
+import { FaceRecognitionDemo } from "lib/features/face_recognition/FaceRecognitionDemo";
+import { RegisterFaceRecognition } from "lib/features/face_recognition/RegisterFaceRecognition";
 
 export const OneRouter: React.FunctionComponent = () => {
 
     const [webStatus, setWebStatus] = useState('Start')
     const [loginStatus,setLoginStatus] = useState('Start')
-    const [component, setComponent] = useState()
-    const [seed, setSeed] = useState(1);
     const [userName, setUserName] = useState<any>()
 
-
-    const reset = () => {
-         setSeed(Math.random())
-     }
-
-     const showComponent = (component: any)=>{
-        setComponent(component)
-        reset()
-     }
-     
-     const showComponent2 = ()=>{
-        return component
-     }
-
-
-   
-
-
     return(
-        <div>
-             {loginStatus=='Login' && <MojDIV>
-            <OneHeaderWork userName={userName} choosenWeb={e => {setWebStatus(e)}}/> {/*this bar is working outside routes, so is working in all moduls */}
+        <Container>
+             {loginStatus=='Login' && 
+             
+             <MojDIV>
+                <OneHeaderWork userName={userName} choosenWeb={e => {setWebStatus(e)}}/> {/*this bar is working outside routes, so is working in all moduls */}
+                <Container>
+                    {webStatus=='Start' && <WelcomePage/>}
+                    {webStatus=='DataBase' && <DataDashboard/>}                
+                    {webStatus=='Analysis' && <AnalysisDashboard/>}                                                
+                    {webStatus == 'pH' && <PHAnalyser/>}                
+                    {webStatus == 'FaceRecognition' && <FaceRecognitionDemo  />}
+                    {webStatus == 'RegisterFaceRecognition' && <RegisterFaceRecognition  userName={userName} />}
+                    {webStatus == 'Screenshot' && <WebcamScreenshot/>}                
+                </Container>
+                <Footer/>
+            </MojDIV>}
 
-            <Container>
-                {webStatus=='Start' && <WelcomePage/>}
-                {webStatus=='DataBase' && <DataDashboard/>}
-                {/* {webStatus=='ObjDetect' && <Dashboard/>} */}
-                {webStatus=='Analysis' && <TestowyDashboard/>}
-                {/* {webStatus=='voice' && <VoiceRecognition/>} */}
-                {/* {webStatus=='detect' && <DetectTest/>} */}
-                {/* {webStatus == 'Cropp' && <CroppImageTest/>} */}
-                {webStatus == 'pH' && <PHAnalyser/>}
-                {/* {webStatus == 'ColorAverage' && <ColorAverage/>} */}
-                {webStatus == 'FaceRecognition' && <FaceRecognitionDemo  returnResult={e => console.log()} />}
-                {webStatus == 'Screenshot' && <WebcamScreenshot/>}
-                
-            </Container>
-
-            <Footer/>
-     
-        </MojDIV>}
-
-        {loginStatus=='Start' && 
-                <BeforeLogin choosenWeb={e => {setUserName(e['userName']) ; setLoginStatus(e['result']) }} />
-        }
-
-        </div>
-       
-       
+            {loginStatus=='Start' &&   <StartPage choosenWeb={e => {setUserName(e['userName']) ; setLoginStatus(e['result']) }} />}
+        </Container>              
     )
 }
 
-const Container = styled.div`
-    
+const Container = styled.div`   
 `
-
 const MojDIV = styled.div`
 width: 100%;
 height: 100vh;
-/* background-color: ${ ({theme}) => theme.colors.background }; */
 background-color: #0d1117;
 color: ${({theme}) => theme.colors.typography};
 display: flex;

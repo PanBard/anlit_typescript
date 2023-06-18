@@ -1,30 +1,49 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { Attention } from "./Attention"
-
-
 
 export const WelcomePage: React.FunctionComponent = () => {
 
-    const [show,setShow] = useState<boolean>(false);
-
-    const showAttention = () => {
-        setShow(true)
-    }
-
     return(
-        <CenterContainer>
-          <Imagee src="/galaxy.jpg"></Imagee>
-        </CenterContainer>
+        <ContainerMain>
+            <Container>
+                <h1>Let’s build from here</h1>
+                <H2s>Our AI-powered platform drives  innovation with tools that boost developer velocity.</H2s>
+                <H2s>GitHub Codespaces offers a complete dev environment in seconds, so you can code, build, test, and open pull requests from any repo anywhere.</H2s>
+            </Container>
+            <Container>
+                <Imagee src="/galaxy.jpg"></Imagee>
+            </Container>
+        </ContainerMain>
+      
     )
 }
 
+const H2s = styled.h2`
+    width:40%;
+`
+
 const Imagee = styled.img`
-    /* width: 1200px;
-    height: 480px; */
     border-radius: 10px;
 `
-const CenterContainer = styled.div`
+const ContainerMain = styled.div`
+    position: absolute;
+    width: 90%;
+    top: 20%;
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; 
+    border: 1px solid;
+    border-color: rgba(255,255,255,.15);
+     background-color:#161b22;
+`
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    border: 1px solid;
+    border-color: rgba(255,255,255,.15);
+     background-color:#161b22;
 `

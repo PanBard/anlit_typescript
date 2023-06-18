@@ -23,10 +23,10 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
          setSeed(Math.random())
          
      }
-     const db_name = (rout_name == 'cation_analysis') ? 'ultimate_analysis' : 'anion_analysis'
-    const header_name =  (rout_name=='cation_analysis') ? 'Cation' : 'Anion'
-    const keys_f = (rout_name=='cation_analysis') ? ['id','name','f1',"f2","f3",'f4','f5','f6','f7'] : ['id','name','f1',"f2","f3",'f4']
-    const keys_img = (rout_name=='cation_analysis') ? ['img1','img2','img3','img4','img5','img6','img7'] : ['img1','img2','img3','img4'] 
+     const db_name = (rout_name == 'cation_analysis_result') ? 'cation_analysis_result' : 'anion_analysis_result'
+    const header_name =  (rout_name=='cation_analysis_result') ? 'Cation' : 'Anion'
+    const keys_f = (rout_name=='cation_analysis_result') ? ['id','name','f1',"f2","f3",'f4','f5','f6','f7'] : ['id','name','f1',"f2","f3",'f4']
+    const keys_img = (rout_name=='cation_analysis_result') ? ['img1','img2','img3','img4','img5','img6','img7'] : ['img1','img2','img3','img4'] 
     const keys_end = ['end','result'] 
     const input_name = keys_f.concat(keys_img.concat(keys_end))
     
@@ -37,14 +37,14 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
 
     const get_data_from_db = () => {
         Axios.get(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].get)
-        .then( (response: any)=>{console.log(':)');setDataFromDataBase(response.data) })
+        .then( (response: any)=>{setDataFromDataBase(response.data) })
         .then(()=>{reset()})
-        .catch((err)=>{console.log('db status :(')})
+        .catch((err)=>{console.log('db status :(',err)})
     }
 
       const delete_row_from_db = (id: number)=>{
         Axios.delete(  SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].delete+`/${id}`  )
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then((response: any)=>{get_data_from_db()})
         .then(()=>{reset()} )
         .catch(err => {console.log(err)})
     }; 
@@ -53,10 +53,9 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
         if(confirm("Na pewno chcesz usunąć całą historię?")){
              const QUERY = `DELETE FROM ${db_name}`
         Axios.post(SERVER_ROUTS.custom_query.get, {query: QUERY})
-        .then( ()=>{console.log('data deleted') })
         .then(()=>{get_data_from_db()})
         .then(()=>{reset()})
-        .catch((err)=>{console.log('db status :(')})
+        .catch((err)=>{console.log('db status :(',err)})
         } 
        
     }
@@ -101,7 +100,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                                         {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='end' ? '#618685' : data[obj]=='fail' ? `#c44569` : 'none'}} key={i}>{data[obj]}</Td>) })}
                                         {!hide && <Td_container style={{cursor:'pointer'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>}
                                         {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container>  }
-                                        <Td onClick={()=>{console.log('wykorzystać:',data.end)}} style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
+                                        {/* <Td style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td> */}
                                     </tr>
                                 )
                                 })}

@@ -51,19 +51,16 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
      const validate_credencials = async ( ) =>{
         const query = `select username from account_credentials where username='${username}'`
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
-            .then((response)=>{ 
-                console.log( response.data[0])
+            .then((response)=>{                 
                 if(typeof response.data[0] != 'undefined'){
                     const username_from_db = response.data[0]['username']
-                    if(username_from_db == username) {
-                        console.log(username_from_db,' = ', username)
+                    if(username_from_db == username) {                        
                         setErrorType('wrongUsername')
                         setSubmitted(false)
                     }
-                    else console.log('strange')
+                    
                 }
-                else{
-                    console.log('Ok', response.data[0])
+                else{                  
                     if(password==confirmPassword){
                         send_data_to_db()
                     }
@@ -75,21 +72,14 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
                 }})
      }
 
-
-
-     const send_data_to_db = async () => {
-            console.log(' przeszło ')
+     const send_data_to_db = async () => {            
           
         const query = `INSERT INTO account_credentials (username, password, date) VALUES ('${username}','${password}',now()) `
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
-            .then((response)=>{console.log('new user created') ; console.log(response.data)})
             .then(  result({result: 'Login', userName : username}))
-            .catch((err)=>{console.log('send status :(')})
+            .catch((err)=>{console.log('send status :(',err)})
      }
 
-
-
-  
        // Showing success message
        const successMessage = () => {
         return (
@@ -108,7 +98,6 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
        </div>
     )
     };
-
 
     return(
         <Container className="form" >
@@ -164,7 +153,6 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
 
 const Container = styled.div`
   padding: 0 15px;
-  /* width: 100px; */
     margin: 5px;
     display: flex;
     flex-direction: column;
@@ -175,7 +163,6 @@ const Container = styled.div`
     
     z-index: 4;
     width: 100%;    
-    /* background-color: gray; */
 `
 
 const Input = styled.input`
@@ -190,8 +177,6 @@ const Input = styled.input`
 `
 
 const TableContainer = styled.div`
-    /* height: 150px; */
-    /* overflow-y: scroll; */
     border: 1px solid ;
     border-color: rgba(255,255,255,.55);
     border-radius: 10px;

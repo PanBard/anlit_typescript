@@ -5,7 +5,6 @@ import { Analysis } from "./db_component/Analysis"
 import { VoiceScript } from "./db_component/VoiceScript"
 import { DataScript } from "./db_component/DataScript"
 import { ImagesTest } from "./db_component/ImagesTest"
-import { Analysis_text_chat } from "./db_component/Analysis_text_chat"
 import { ChatMessages } from "./db_component/ChatMessages"
 import { ImagesStorage } from "./db_component/ImagesStorage"
 import { FaceImage } from "./db_component/FaceImage"
@@ -36,8 +35,8 @@ export const DataDashboard: React.FunctionComponent = () => {
             <div className="dropdown">
             <BestButton className="dropbtn">Ion analysis</BestButton>
             <div className="dropdown-content">
-              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="anion_analysis"/>)}}>Anions -</a>
-              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="cation_analysis"/>)}} >Cations +</a>
+              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="anion_analysis_result"/>)}}>Anions -</a>
+              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="cation_analysis_result"/>)}} >Cations +</a>
             </div>
           </div> 
         )
@@ -81,33 +80,17 @@ export const DataDashboard: React.FunctionComponent = () => {
     }
 
 
-    // const DropdownMenu_chatText = () =>{
-    //     return(
-    //         <div className="dropdown">
-    //         <BestButton className="dropbtn">Chat history</BestButton>
-    //         <div className="dropdown-content">
-    //         <a onClick={()=>{showComponent(<Analysis_text_chat rout_name="anion_analysis" key={seed}/>)}}> Anions - </a>
-    //         <a onClick={()=>{showComponent(<Analysis_text_chat rout_name="cation_analysis" key={seed}/>)}}> Cations + </a>
-    //         </div>
-    //       </div> 
-    //     )
-    // }
 
     return(
         <Container>
             <HeaderContainer>
-                {/* <BestButton onClick={reset}> Back</BestButton> */}
                 <DropdownMenu_analysis/>
                 <DropdownMenu_dataflow/>
                 <DropdownMenu_voicescript/>
                 <DropdownMenu_images/>
-                {/* < DropdownMenu_chatText/> */}
-                {/* <BestButton onClick={()=>{showComponent(<ImagesTest key={seed}/>)}}> Test images </BestButton>
-                <BestButton onClick={()=>{showComponent(<ImagesStorage key={seed}/>)}}> Images storage </BestButton> */}
                 <BestButton onClick={()=>{showComponent(<ChatMessages key={seed}/>)}}> Chat messages </BestButton>
                 <BestButton onClick={()=>{showComponent(<Users key={seed}/>)}}> Users </BestButton>
-                <BestButton onClick={()=>{showComponent(<PhAnalysis key={seed}/>)}}> pH analysis </BestButton>
-                {/* <BestButton onClick={()=>{showComponent(<Analysis_text_chat rout_name="cation_voice_script" key={seed}/>)}}> ChatText </BestButton> */}
+                <BestButton onClick={()=>{showComponent(<PhAnalysis key={seed}/>)}}> pH analysis </BestButton>               
             </HeaderContainer>
             {showComponent2()}
         </Container>

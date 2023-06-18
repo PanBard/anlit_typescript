@@ -5,7 +5,5 @@ import './index.css'
 import 'regenerator-runtime/runtime'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-
     <App />
-
 )

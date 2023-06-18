@@ -29,8 +29,8 @@ export const Users: React.FunctionComponent = ()=>{
 
         const query = 'SELECT * FROM account_credentials'
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
-        .then( (response: any)=>{console.log(':)');setDataFromDataBase(response.data); console.log(response.data) })
-        .catch((err)=>{console.log('db status :(')})
+        .then( (response: any)=>{setDataFromDataBase(response.data) })
+        .catch((err)=>{console.log('db status :(',err)})
     }
 
 
@@ -38,7 +38,7 @@ export const Users: React.FunctionComponent = ()=>{
 
         const query = `DELETE FROM account_credentials WHERE id=${id}`
         Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then((response: any)=>{get_data_from_db()})
         .then(()=>{reset()} )
         .catch(err => {console.log(err)})
     }; 

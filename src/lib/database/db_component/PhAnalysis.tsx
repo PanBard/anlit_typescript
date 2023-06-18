@@ -34,15 +34,15 @@ export const PhAnalysis: React.FunctionComponent = ()=>{
     const get_data_from_db = () => {
         const query = `SELECT id, CONVERT(img USING utf8) as img, username, ph, rgb, date, analysis_name,R,G,B,ph_number FROM ph_analysis `
         Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
-        .then( (response: any)=>{console.log(':)');setDataFromDataBase(response.data) })
+        .then( (response: any)=>{setDataFromDataBase(response.data) })
         .then(()=>{reset()})
-        .catch((err)=>{console.log('db status :(')})
+        .catch((err)=>{console.log('db status :(',err)})
     }
 
     const delete_row_from_db = (id: number)=>{
         const query = `DELETE FROM ph_analysis WHERE id=${id}`
         Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then((response: any)=>{get_data_from_db()})
         .then(()=>{reset()} )
         .catch(err => {console.log(err)})
     }; 
@@ -51,7 +51,6 @@ export const PhAnalysis: React.FunctionComponent = ()=>{
         if(confirm("Na pewno chcesz usunąć wszystkie zapisane kalibracje?")){
              const QUERY = `DELETE FROM ph_analysis`
         Axios.post(SERVER_ROUTS.custom_query.get, {query: QUERY})
-        .then( ()=>{console.log('data deleted') })
         .then(()=>{get_data_from_db()})
         .then(()=>{reset()})
         .catch((err)=>{console.log('db status :(')})
@@ -99,7 +98,7 @@ export const PhAnalysis: React.FunctionComponent = ()=>{
                                         {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='end' ? '#618685' : data[obj]=='fail' ? `#c44569` : 'none'}} key={i}>{data[obj]}</Td>) })}
                                         {!hide && <Td_container style={{cursor:'pointer'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>}
                                         {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container>  }
-                                        <Td onClick={()=>{console.log('wykorzystać:',data.end)}} style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
+                                        <Td style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
                                     </tr>
                                 )
                                 })}

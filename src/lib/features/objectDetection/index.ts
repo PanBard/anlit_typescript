@@ -1,1 +1,0 @@
-export {ObjDetect} from './ObjDetect'

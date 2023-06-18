@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
-import { image } from "@tensorflow/tfjs"
+
 
 
 export const ImagesStorage: React.FunctionComponent = ()=>{
@@ -19,7 +19,6 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
     const [seed, setSeed] = useState(1);
     const [choosen_mode, setChoosen_mode] = useState('start')
     const [sendImage, setSendImage] = useState<boolean>(false);
-    const wholeImageCanvasRef = useRef<any>(null);
     const reset = () => {
          setSeed(Math.random())
      }
@@ -34,16 +33,13 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
 
     const get_data_from_db = async () => {
         await  Axios.get(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].get)
-        .then( (response: any)=>{console.log(':)');setDataFromDataBase(response.data); console.log(console.log(dataFromDataBase.findIndex(x => x['id'] == '73'))) })
-        .catch((err)=>{console.log('db status :(')})
+        .then( (response: any)=>{setDataFromDataBase(response.data) })
+        .catch((err)=>{console.log('db status :(',err)})
     }
 
     const setuj =async ( id: any) => {
-        console.log(dataFromDataBase.findIndex(x => x['id'] === '45'))
 
         const data = dataFromDataBase[id]
-        console.log("data",data)
-        console.log("data['label']",data['label'])
         setLabel(data['label'])
         setImg(data['img'])
         // setters.map((set,index)=>{set(data[input_name[index]])})
@@ -53,7 +49,7 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
 
     const update_data_in_db = (ajdi: any)=>{
         Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, {id:ajdi,img:img,label:label})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then((response: any)=>{get_data_from_db()})
         .then(()=>{reset()})
         .then(()=>{ setters.map((set)=>{set(undefined)}) })
         .catch(err => {console.log(err)})
@@ -70,7 +66,7 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
 
     const send_data_to_db_many_times = async (name:string,img:any)=>{
         Axios.post(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].post, {id:id,img:img,label:name})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then((response: any)=>{get_data_from_db()})
         .then(()=>{reset()} )
         .then(()=>{ setters.map((set)=>{set(undefined)}); setImg(undefined) })
         .catch(err => {console.log(err)})
@@ -79,14 +75,13 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
 
     const delete_row_from_db = (id: number)=>{
         Axios.delete(  SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].delete+`/${id}`  )
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then((response: any)=>{get_data_from_db()})
         .then(()=>{reset()} )
         .catch(err => {console.log(err)})
     }; 
 
     useMemo(async ()=>{
         if(sendImage && allFiles){
-            console.log('typeof label',typeof label)
             const keys = Object.keys(allFiles)
             keys.map((key)=>{
                 const name = allFiles[key].name
@@ -145,7 +140,7 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
                         {input_name.map( (obj,i)=>{return(
                         <Container key={i}>
                             <label>{input_name[i]}</label>
-                            <input style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value);console.log(e.target.value)} }/>
+                            <input style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value)} }/>
                         </Container>
                         )})}
 
@@ -155,11 +150,8 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
                                 multiple={true}
                                 onChange={(event: any) => {
                                     const f = event.target.files
-                                    setAllFiles(f)
-                                    console.log('wsio',f)
-                                    const name = event.target.files[0].name.slice(0, -4)
-                                    console.log(name)
-                                    
+                                    setAllFiles(f)                                  
+                                    const name = event.target.files[0].name.slice(0, -4)                                                               
                                 }}
                             />
 

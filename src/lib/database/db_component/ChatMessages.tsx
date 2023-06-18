@@ -33,37 +33,33 @@ export const ChatMessages: React.FunctionComponent<ChatMessagesProps> = ({
 
     const delete_all_history = () => {
         if(confirm("Na pewno chcesz usunąć całą historię czatu?")){
-                const QUERY = `DELETE FROM all_chat_messages`
-        Axios.post(SERVER_ROUTS.custom_query.get, {query: QUERY})
-        .then( ()=>{console.log('data deleted') })
+                const QUERY = `DELETE FROM chat_messages`
+        Axios.post(SERVER_ROUTS.custom_query.get, {query: QUERY})        
         .then(()=>{get_data_from_db()})
         .then(()=>{reset()})
-        .catch((err)=>{console.log('db status :(')})
+        .catch((err)=>{console.log('db status :(',err)})
         }
     
     }
 
     const get_data_from_db = async () => {
         
-       await Axios.get(SERVER_ROUTS.all_chat_messages.get_all)
-        .then( (response: any)=>{console.log(':)', response.data);setDataFromDataBase(response.data) })
+       await Axios.get(SERVER_ROUTS.chat_messages.get_all)
+        .then( (response: any)=>{setDataFromDataBase(response.data) })
         .then(()=>{reset()})
-        .then(()=>{console.log('co jest?')})
-        .catch((err)=>{console.log('db status :(')})
+        .catch((err)=>{console.log('db status :(',err)})
     }
 
       const delete_row_from_db = (id: number)=>{
         Axios.delete(  SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].delete+`/${id}`  )
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then((response: any)=>{get_data_from_db()})
         .then(()=>{reset()} )
         .catch(err => {console.log(err)})
     }; 
 
     const generate_labels = () => {
         if(dataFromDataBase[0]){
-            const keys_p = Object.keys(dataFromDataBase[0])
-            console.log(keys_p)
-        console.log('keys',keys_p)
+            const keys_p = Object.keys(dataFromDataBase[0])           
         return( keys_p.map( (obj, i) => { return(<Th  key={i}>{obj}</Th>) }))
         }
         
@@ -78,7 +74,7 @@ export const ChatMessages: React.FunctionComponent<ChatMessagesProps> = ({
                                     {keys_q.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
                                     {!hide && <Td_container style={{cursor:'pointer'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>}
                                     {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container>  }
-                                    <Td onClick={()=>{console.log('wykorzystać:',data.end)}} style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
+                                    <Td style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
                                 </tr>)
                         }
                     )

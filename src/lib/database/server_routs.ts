@@ -29,41 +29,24 @@ export const SERVER_ROUTS = {
           "get_required_script" : "http://localhost:4001/api/get/required_anion_voice_script"
        },
 
-     "cation_analysis" : {
-          "get" : "http://localhost:4001/api/get/cation_analysis",
-          "post" : "http://localhost:4001/api/post/cation_analysis",
-          "put" : "http://localhost:4001/api/put/cation_analysis",
-          "delete" : "http://localhost:4001/api/delete/cation_analysis",
-          "set_end" : "http://localhost:4001/api/put/cation_analysis/set_end",
-          "set_result" : "http://localhost:4001/api/put/cation_analysis/set_result"
+     "cation_analysis_result" : {
+          "get" : "http://localhost:4001/api/get/cation_analysis_result",
+          "post" : "http://localhost:4001/api/post/cation_analysis_result",
+          "put" : "http://localhost:4001/api/put/cation_analysis_result",
+          "delete" : "http://localhost:4001/api/delete/cation_analysis_result",
+          "set_end" : "http://localhost:4001/api/put/cation_analysis_result/set_end",
+          "set_result" : "http://localhost:4001/api/put/cation_analysis_result/set_result"
      },
 
-     "anion_analysis" : {
-          "get" : "http://localhost:4001/api/get/anion_analysis",
-          "post" : "http://localhost:4001/api/post/anion_analysis",
-          "put" : "http://localhost:4001/api/put/anion_analysis",
-          "delete" : "http://localhost:4001/api/delete/anion_analysis",
-          "set_end" : "http://localhost:4001/api/put/anion_analysis/set_end",
-          "set_result" : "http://localhost:4001/api/put/anion_analysis/set_result"
+     "anion_analysis_result" : {
+          "get" : "http://localhost:4001/api/get/anion_analysis_result",
+          "post" : "http://localhost:4001/api/post/anion_analysis_result",
+          "put" : "http://localhost:4001/api/put/anion_analysis_result",
+          "delete" : "http://localhost:4001/api/delete/anion_analysis_result",
+          "set_end" : "http://localhost:4001/api/put/anion_analysis_result/set_end",
+          "set_result" : "http://localhost:4001/api/put/anion_analysis_result/set_result"
           
       },
-
-     //  "cation_analysis_texts" : {
-     //      "get" : "http://localhost:4001/api/get/cation_analysis_texts",
-     //      "post" : "http://localhost:4001/api/post/cation_analysis_texts",
-     //      "put" : "http://localhost:4001/api/put/cation_analysis_texts",
-     //      "delete" : "http://localhost:4001/api/delete/cation_analysis_texts",
-     // },
-  
-     // "anion_analysis_texts" : {
-     //      "get" : "http://localhost:4001/api/get/anion_analysis_texts",
-     //      "post" : "http://localhost:4001/api/post/anion_analysis_texts",
-     //      "put" : "http://localhost:4001/api/put/anion_analysis_texts",
-     //      "delete" : "http://localhost:4001/api/delete/anion_analysis_texts",
-     //  },
-
-
-
 
 
      "shuffle_match" : {
@@ -89,12 +72,12 @@ export const SERVER_ROUTS = {
           "delete" : "http://localhost:4001/api/delete/test_images",
        },
 
-       "all_chat_messages" : {
-          "get_all" : "http://localhost:4001/api/get/all_chat_messages",
-          "get_one_conversation" : "http://localhost:4001/api/get/all_chat_messages",
-          "post" : "http://localhost:4001/api/post/all_chat_messages",
-          "delete" : "http://localhost:4001/api/delete/all_chat_messages",
-          "mark_message" : "http://localhost:4001/api/put/all_chat_messages",
+       "chat_messages" : {
+          "get_all" : "http://localhost:4001/api/get/chat_messages",
+          "get_one_conversation" : "http://localhost:4001/api/get/chat_messages",
+          "post" : "http://localhost:4001/api/post/chat_messages",
+          "delete" : "http://localhost:4001/api/delete/chat_messages",
+          "mark_message" : "http://localhost:4001/api/put/chat_messages",
       },
       "image_storage" : {
           "get" : "http://localhost:4001/api/get/image_storage",

@@ -39,8 +39,8 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
 
     const get_data_from_db = async () => {
         await  Axios.get(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].get)
-        .then( (response: any)=>{console.log(':)');setDataFromDataBase(response.data) })
-        .catch((err)=>{console.log('db status :(')})
+        .then( (response: any)=>{setDataFromDataBase(response.data) })
+        .catch((err)=>{console.log('db status :(',err)})
     }
 
     const setuj =async ( id: any) => {
@@ -52,7 +52,7 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
 
     const update_data_in_db = (ajdi: any)=>{
         Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, {id:ajdi,phase:phase,script:script,f6:f6,f7:f7,match_id:match_id})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then((response: any)=>{get_data_from_db()})
         .then(()=>{reset()})
         .then(()=>{ setters.map((set)=>{set(undefined)}) })
         .catch(err => {console.log(err)})
@@ -60,7 +60,7 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
 
     const send_data_to_db = async ()=>{
         Axios.post(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].post, {id:id,phase:phase,script:script,f6:f6,f7:f7,match_id:match_id})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then((response: any)=>{get_data_from_db()})
         .then(()=>{reset()} )
         .then(()=>{ setters.map((set)=>{set(undefined)}) })
         .catch(err => {console.log(err)})
@@ -69,7 +69,7 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
 
     const delete_row_from_db = (id: number)=>{
         // Axios.delete(  SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].delete+`/${id}`  )
-        // .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        // .then((response: any)=>{get_data_from_db()})
         // .then(()=>{reset()} )
         // .catch(err => {console.log(err)})
     }; 
@@ -110,7 +110,7 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
                         {input_name.map( (obj,i)=>{return(
                         <Container key={i}>
                             <label>{input_name[i]}</label>
-                            <input style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value);console.log(e.target.value)} }/>
+                            <input style={{backgroundColor: 'gray'}} type="text" name={input_name[i]}  onChange={ (e)=>{setters[i](e.target.value)} }/>
                         </Container>
                         )})}
                     </Container>

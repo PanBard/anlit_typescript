@@ -28,10 +28,10 @@ export const FaceImage: React.FunctionComponent = ()=>{
 
     const get_data_from_db = async () => {
 
-        const query = 'SELECT id, CONVERT(img1 USING utf8) as img1, CONVERT(img2 USING utf8) as img2, CONVERT(img3 USING utf8) as img3, name, password, date FROM face_img_storage'
+        const query = 'SELECT id, CONVERT(img1 USING utf8) as img1, CONVERT(img2 USING utf8) as img2, CONVERT(img3 USING utf8) as img3, username, password, date FROM face_img_storage'
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
-        .then( (response: any)=>{console.log(':)');setDataFromDataBase(response.data); console.log(response.data) })
-        .catch((err)=>{console.log('db status :(')})
+        .then( (response: any)=>{setDataFromDataBase(response.data) })
+        .catch((err)=>{console.log('db status :(',err)})
     }
 
 
@@ -39,7 +39,7 @@ export const FaceImage: React.FunctionComponent = ()=>{
 
         const query = `DELETE FROM face_img_storage WHERE id=${id}`
         Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
-        .then((response: any)=>{get_data_from_db(),console.log(response.data)})
+        .then((response: any)=>{get_data_from_db()})
         .then(()=>{reset()} )
         .catch(err => {console.log(err)})
     }; 
@@ -77,7 +77,7 @@ export const FaceImage: React.FunctionComponent = ()=>{
                                             <Td_image><MyImage onClick={()=>{showFullImage(data.img1)}} style={{height: '150px', width:'150px' }}  src={data.img1}/></Td_image>
                                             <Td_image><MyImage  onClick={()=>{showFullImage(data.img1)}} style={{height: '150px', width:'150px' }}  src={data.img2}/></Td_image>
                                             <Td_image><MyImage  onClick={()=>{showFullImage(data.img1)}} style={{height: '150px', width:'150px' }}  src={data.img3}/></Td_image>
-                                            <Td>{data.name} </Td>
+                                            <Td>{data.username} </Td>
                                             <Td>{data.password} </Td>
                                             <Td>{data.date} </Td>
                                             <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>

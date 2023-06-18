@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BestButton, ContainerP } from './components_modules';
 import  Axios  from 'axios';
 import { SERVER_ROUTS } from 'lib/database/server_routs';
-import { LoginFaceRecognition } from 'lib/new_concept/face_recognition/LoginFaceRecognition';
+import { LoginFaceRecognition } from 'lib/features/face_recognition/LoginFaceRecognition';
 
 
 type LoginFormProps = {
@@ -18,22 +18,13 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
     const [username, setUsername] = useState<any>('limon');
     const [password,setPassword] = useState<any>('limon');
     const [errorType, setErrorType] = useState<any>('limon');
-
-    // States for checking the errors
     const [submitted, setSubmitted] = useState(false);
 
 
     const handleInputChange = (e: any) => {
         const {id , value} = e.target;
-       
-        if(id === "username"){
-            setUsername(value)
-        }
-     
-        if(id === "password"){
-            setPassword(value);
-        }
-
+        if(id === "username"){setUsername(value)}
+        if(id === "password"){setPassword(value)}
     }
 
 
@@ -43,27 +34,23 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
             .then((response)=>{
                 if(typeof response.data[0] != 'undefined'){
-                    if(response.data[0]['password'] == password && response.data[0]['username'] == username) {
-                        console.log(response.data[0]['password'],' = ', password)
+                    if(response.data[0]['password'] == password && response.data[0]['username'] == username) {                        
                         setSubmitted(true)
                         setErrorType('none')
                         result({result: 'Login', userName : response.data[0]['username']})
                     }
-                    else{
-                        console.log(`Nieprawidłowe hasło: ${password} dla takiego konta: ${username}`)
+                    else{                        
                         setErrorType('wrongPassword')
                         setSubmitted(false)
                 }
                 }
-                else{
-                    console.log('Zła nazwa użytkownika', response.data[0])
+                else{                    
                     setErrorType('wrongUsername');
                     setSubmitted(false)
                 }
                 
                })
-            // .then(  result('Login'))
-            .catch((err)=>{console.log('send status :(')})
+            .catch((err)=>{console.log('send status :(',err)})
     }
 
 
@@ -78,7 +65,7 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
             );
     };
 
-    // Showing error message if error is true
+    // Showing error message
     const errorMessage = () => {
              return (
                 <div >
@@ -104,38 +91,19 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
                     <Input style={{borderColor: errorType == 'wrongUsername' ? 'red' : ''}} type="text" id='username' onChange = {(e) => handleInputChange(e)} placeholder="Username"/>
                 </Cell>
 
-                {/* <Cell >
-                    <label>First Name </label>
-                    <Input  type="text"  onChange = {(e) => handleInputChange(e)} placeholder="First Name"/>
-                </Cell>
-
-                <Cell  >
-                    <label>Last Name </label>
-                    <Input  type="text" name=""  onChange = {(e) => handleInputChange(e)} placeholder="LastName"/>
-                </Cell> */}
-
-                {/* <Cell >
-                    <label >Email </label>
-                    <Input  type="email" id="email"   onChange = {(e) => handleInputChange(e)} placeholder="Email"/>
-                </Cell> */}
 
                 <Cell>
                     <label >Password </label>
                     <Input style={{borderColor: errorType == 'wrongPassword' ? 'red' : ''}} className="form__input" type="password" id='password' onChange = {(e) => handleInputChange(e)} placeholder="Password"/>
                 </Cell>
 
-                {/* <Cell >
-                    <label  >Confirm Password </label>
-                    <Input className="form__input" type="password"  id='confirmPassword'  onChange = {(e) => handleInputChange(e)} placeholder="Confirm Password"/>
-                </Cell> */}
+       
                 {errorMessage()}
                 {successMessage()}
                 <div >
                     <BestButton onClick={()=>validate_password()} type="submit" >Log in</BestButton>
                 </div>
-                {/* <div >
-                    <BestButton onClick={()=>validate_password()} >Webcam</BestButton>
-                </div> */}
+
                 <LoginFaceRecognition returnResult={(e)=>{result(e)}}/>
 
                    </TableContainer>
@@ -147,7 +115,6 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
 
 const Container = styled.div`
   padding: 0 15px;
-  /* width: 100px; */
     margin: 5px;
     display: flex;
     flex-direction: column;
@@ -155,10 +122,8 @@ const Container = styled.div`
     justify-content: center; 
     position: absolute; 
     top: 20%;
-    
     z-index: 4;
     width: 100%;    
-    /* background-color: gray; */
 `
 
 const Input = styled.input`
@@ -173,8 +138,6 @@ const Input = styled.input`
 `
 
 const TableContainer = styled.div`
-    /* height: 150px; */
-    /* overflow-y: scroll; */
     border: 1px solid ;
     border-color: rgba(255,255,255,.55);
     border-radius: 10px;
