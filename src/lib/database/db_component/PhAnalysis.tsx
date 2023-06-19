@@ -4,11 +4,13 @@ import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules"
 import { Attention } from "lib/components/Attention"
+import { useTranslations } from "lib/hooks"
 
 
 
 export const PhAnalysis: React.FunctionComponent = ()=>{
 
+    const T = useTranslations()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
     const [hide, setHide] =  useState<boolean>(false)
     const [showModyf, setTesto] = useState(false)
@@ -75,12 +77,12 @@ export const PhAnalysis: React.FunctionComponent = ()=>{
         <ContainerP>
 
             <Container>
-                  <BestButton onClick={delete_all_data}>Clear all</BestButton>
+                  <BestButton onClick={delete_all_data}>{T.databse.clear_all_bt}</BestButton>
             </Container>
 
             {!showModyf &&  <Container>
                 <Container>
-                    <Container>{header_name} analysis </Container>
+                    <Container>{header_name} </Container>
                     <TableContainer key={seed}>
                         {showComponent()} 
                         <table >
@@ -97,7 +99,7 @@ export const PhAnalysis: React.FunctionComponent = ()=>{
                                         {keys_img.map( (obj, i) => { if( data[obj]!=null) {return(  <Td_image key={i} >  <MyImage onClick={()=>{showFullImage(data[obj])}}   src={data[obj]}/></Td_image>)} else { return(<Td_image key={i} style={{cursor:'auto'}}/> ) } })}
                                         {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='end' ? '#618685' : data[obj]=='fail' ? `#c44569` : 'none'}} key={i}>{data[obj]}</Td>) })}
                                         {!hide && <Td_container style={{cursor:'pointer'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>}
-                                        {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container>  }
+                                        {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container>  }
                                         <Td style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
                                     </tr>
                                 )

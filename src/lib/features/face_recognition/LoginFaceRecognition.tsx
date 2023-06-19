@@ -5,6 +5,7 @@ import styled from "styled-components"
 import * as faceapi from '@vladmandic/face-api';
 import  Axios  from "axios";
 import { SERVER_ROUTS } from "lib/database/server_routs";
+import { useTranslations } from "lib/hooks/useTranslations";
 
 
 type LoginFaceRecognitionProps = {
@@ -15,6 +16,7 @@ type LoginFaceRecognitionProps = {
 export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionProps> = ({
   returnResult
 }) => {
+  const T = useTranslations();
   const [modelsLoaded, setModelsLoaded] = useState<boolean>(false);
   const [captureVideo, setCaptureVideo] = useState<boolean>(false);
   const [data,setData] = useState<any>([])
@@ -153,15 +155,15 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
                       <canvas ref={canvasRef} style={{ position: 'absolute' }} />
                       </div>
               </Container>
-              <BestButton style={{float:'right', backgroundColor:'black'}} onClick={()=>{setComponent('')}} id="close">Close</BestButton>
+              <BestButton style={{float:'right', backgroundColor:'black'}} onClick={()=>{setComponent('')}} id="close">{T.common.close}</BestButton>
           </Modal>
       </div>)
    }
 
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>      
-      <div style={{ textAlign: 'center', padding: '10px' }}>       
-      <BestButton onClick={()=>{startVideo() ;showFullImage()}} style={{cursor: 'pointer', display: data[0] ? 'block' : 'none'}}>Rozpocznij skan</BestButton>    
+      <div style={{ textAlign: 'center' }}>       
+      <BestButton onClick={()=>{startVideo() ;showFullImage()}} style={{cursor: 'pointer', display: data[0] ? 'block' : 'none'}}>{T.login_form.button_scan}</BestButton>    
       </div>
       
       {captureVideo ? modelsLoaded ?

@@ -6,6 +6,7 @@ import React from "react";
 import Webcam from "react-webcam";
 import { saveAs } from "file-saver";
 import styled from "styled-components";
+import { BestButton } from "lib/components/components_modules";
 
 export  const WebcamScreenshot = () => {
 
@@ -42,9 +43,9 @@ export  const WebcamScreenshot = () => {
     return (
       <section style={{display:'flex',flexDirection:'row'}}>
         <Container>
-             <button style={{margin: '10px'}} onClick={screenshot}>Zapisz aktualny obraz z kamery</button>
+             <BestButton style={{margin: '10px'}} onClick={screenshot}>Zapisz aktualny obraz z kamery</BestButton>
             <input onChange={(e)=>{setNumber_of_image(e.target.value)}} ></input>
-            <button onClick={multiple_screenshot}>Multiple shot</button>
+            <BestButton onClick={multiple_screenshot}>Multiple shot</BestButton>
         </Container>
      
         <Container>

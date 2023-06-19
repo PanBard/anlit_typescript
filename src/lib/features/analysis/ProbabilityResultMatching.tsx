@@ -2,6 +2,7 @@ import  Axios  from "axios";
 import { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { SERVER_ROUTS } from "lib/database/server_routs";
+import { useTranslations } from "lib/hooks";
 
 type ShuffleFateProps = {
     id?: any,
@@ -14,6 +15,7 @@ type ShuffleFateProps = {
 export const ProbabilityResultMatching: React.FunctionComponent<ShuffleFateProps> = ({
     cation
 }) => {
+    const T = useTranslations()
     const [phase, setPhase] = useState<number>()
     const [data, setData] = useState<any[]>([])
     const [rightSymbol, setRightSymbol] = useState<any[]>([])
@@ -22,7 +24,7 @@ export const ProbabilityResultMatching: React.FunctionComponent<ShuffleFateProps
 
     const db_type = cation ? 'cation_analysis_result' : 'anion_analysis_result' 
     const db_type_name = cation ? 'cation_script_flow' : 'anion_script_flow' 
-    const word = 'Mogą być:        .'
+    const word = T.analysis.propability
     
 
     useEffect(  ()  =>  {
@@ -137,7 +139,7 @@ useMemo(()=>{
             if(typeof foundIon !== 'undefined'){
                 return(
                     <Container>
-                        Znaleziono! = {foundIon}
+                        {T.analysis.ion_found}{foundIon}                    
                     </Container>
                     )
             }
@@ -147,14 +149,14 @@ useMemo(()=>{
                     if(current.end == 'end' && current.f7 !== 'brak'){
                         return(
                             <Container>
-                               Zakończono analizę.
+                              {T.analysis.end_analysis}
                             </Container>
                             )
                     }
                    
                     return(
                         <Container>
-                            Taki wynik nie powinien się pojawić na tym etapie analizy.
+                            {T.analysis.wrong_result}
                         </Container>
                         )
                 }
@@ -179,10 +181,6 @@ useMemo(()=>{
         </Container>
     )
 }
-
-
-
-
 
 
 const Container = styled.div`    

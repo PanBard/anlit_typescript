@@ -1,6 +1,7 @@
-import { useCommons } from "lib/hooks/useCommons" 
 import styled from "styled-components"
 import { BestButton } from './components_modules';
+import { useTranslations } from "lib/hooks/useTranslations";
+import { APP_CONFIG } from "lib/config";
 
 type OneHeaderProps = {
     choosenWeb(params: any): any,
@@ -11,7 +12,7 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
     choosenWeb,
     insideChoice
 }) => {
-    const T = useCommons()
+    const T = useTranslations()
     
     return(
         <HeaderContainer>
@@ -22,19 +23,19 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
                         {T.components.header.title} 
                     </Title>
                 </Linkos>  
-                <img src="/logo.svg" alt=""  height={25} width={25}/>              
+                <img src={APP_CONFIG.LOGO_URL}alt=""  height={25} width={25}/>              
             </LogoContainer>
 
             <LinkContainer>                     
-                <BestButton style={{background: 'transparent'}} onClick={()=>{choosenWeb({result:'Login'})}}> About project </BestButton>                                                                       
+                <BestButton style={{background: 'transparent'}} onClick={()=>{choosenWeb({result:'Login'})}}> {T.start_page.button_about} </BestButton>                                                                       
             </LinkContainer>
 
             <LinkContainer>
                  <Linkos  onClick={()=>{insideChoice('Login')}} >  {/* target='_blank' eby otwierao sié w nowym oknie */}
-                    Sign in
+                    {T.start_page.button_sign_in}
                 </Linkos>
                 <Linkos onClick={()=>{insideChoice('Register')}} >
-                    Sign up
+                {T.start_page.button_sign_up}
                 </Linkos>
             </LinkContainer>
 

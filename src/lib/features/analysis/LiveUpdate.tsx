@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { SERVER_ROUTS } from "lib/database/server_routs";
 import { BestButton, MyImage, Td_image } from "lib/components/components_modules";
+import { useTranslations } from "lib/hooks";
 
 
 type LiveUpdateProps = {
@@ -13,7 +14,7 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
     cation
 }) => {
 
-
+    const T = useTranslations()
     const [data, setData] = useState<any[]>([])
     const [seed, setSeed] = useState(1);
     const [component, setComponent] = useState<any>()
@@ -54,7 +55,7 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
             <Shade ref={ShadeRef} ></Shade>
             <Modal ref={ModalRef}> 
                 <img width={540} height={380} src={source}  />
-            <BestButton style={{float:'right', backgroundColor:'black'}} onClick={closeImagePreview} id="close">Close</BestButton>
+            <BestButton style={{float:'right', backgroundColor:'black'}} onClick={closeImagePreview} id="close">{T.common.close}</BestButton>
             </Modal>
         </div>)
         ShadeRef.current.style.display = ModalRef.current.style.display = 'block'
@@ -79,7 +80,7 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
 
                 <TableContainer  key={seed}>
                     {showComponent()}
-                POSTĘP ANALIZY
+                {T.analysis.analysis_progress}
                     <table>
                                     <tbody >
                                     

@@ -5,6 +5,7 @@ import styled from "styled-components"
 import * as faceapi from '@vladmandic/face-api';
 import  Axios  from "axios";
 import { SERVER_ROUTS } from "lib/database/server_routs";
+import { useTranslations } from "lib/hooks";
 
 
 type RegisterFaceRecognitionProps = {
@@ -14,6 +15,8 @@ type RegisterFaceRecognitionProps = {
 export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecognitionProps> = ({
   userName
 }) => {
+
+  const T = useTranslations()
   const [modelsLoaded, setModelsLoaded] = useState<boolean>(false);
   const [captureVideo, setCaptureVideo] = useState<boolean>(false);
   const [name,setName] = useState<any>()
@@ -128,7 +131,7 @@ export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecogn
           </div>
 
           <SpaceBetweenContainer>
-              {captureVideo && modelsLoaded ? <BestButton onClick={closeWebcam} > Close Webcam </BestButton> : <BestButton onClick={startVideo} > Open Webcam </BestButton> }
+              {captureVideo && modelsLoaded ? <BestButton onClick={closeWebcam} > {T.face_recognition.close_webcam} </BestButton> : <BestButton onClick={startVideo} > {T.face_recognition.open_webcam} </BestButton> }
               {captureVideo ? 
                 modelsLoaded ?
                   <div>
@@ -144,7 +147,7 @@ export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecogn
           </SpaceBetweenContainer>
 
           <Container>
-              {captureVideo && !buttonDisplay && <BestButton onClick={()=>{rightInFace(); setProcessIndicator(true) ; setButtonDisplay(true)}} style={{cursor: 'pointer'}}>Rozpocznij skan</BestButton>}
+              {captureVideo && !buttonDisplay && <BestButton onClick={()=>{rightInFace(); setProcessIndicator(true) ; setButtonDisplay(true)}} style={{cursor: 'pointer'}}>{T.face_recognition.start_scan}</BestButton>}
               {images[0] && images.map((img,index)=>{
               return(
               <Image key={index} src={img}></Image>

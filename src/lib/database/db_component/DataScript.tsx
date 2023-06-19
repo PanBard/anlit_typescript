@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
+import { useTranslations } from "lib/hooks"
 
 type DataScriptProps = {
     rout_name: string,
@@ -11,6 +12,7 @@ type DataScriptProps = {
 export const DataScript: React.FunctionComponent<DataScriptProps> = ({
     rout_name
 })=>{
+    const T = useTranslations()
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
 
@@ -26,14 +28,13 @@ export const DataScript: React.FunctionComponent<DataScriptProps> = ({
     const [f5,set5] = useState<any>()
     const [f6,set6] = useState<any>()
     const [f7,set7] = useState<any>()
-    const [match_id,setMatch_id] = useState<any>()
     const [seed, setSeed] = useState(1);
     const [choosen_mode, setChoosen_mode] = useState('start')
 
     const reset = () => {
          setSeed(Math.random())
      }
-    const header_name =  (rout_name=='cation_script_flow') ? 'Cation ' : 'Anion '
+    const header_name =  (rout_name=='cation_script_flow') ? T.databse.cation_scriptflow : T.databse.anion_scriptflow
     const input_name = (rout_name=='cation_script_flow') ? ['id','symbol','f1','f2','f3','f4','f5','f6','f7'] : ['id','symbol','f1','f2','f3','f4']
     const setters = (rout_name=='cation_script_flow') ? [setID,setSymbol,set1,set2,set3,set4,set5,set6,set7] : [setID,setSymbol,set1,set2,set3,set4]
     
@@ -55,11 +56,11 @@ export const DataScript: React.FunctionComponent<DataScriptProps> = ({
 
 
     const update_data_in_db = (ajdi: any)=>{
-        Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, (rout_name=='cation_script_flow') ? {id:id,symbol:symbol,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7} : {id:id,symbol:symbol,f1:f1,f2:f2,f3:f3,f4:f4} )
-        .then((response: any)=>{get_data_from_db()})
-        .then(()=>{reset()})
-        .then(()=>{ setters.map((set)=>{set(undefined)}) })
-        .catch(err => {console.log(err)})
+        // Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, (rout_name=='cation_script_flow') ? {id:id,symbol:symbol,f1:f1,f2:f2,f3:f3,f4:f4,f5:f5,f6:f6,f7:f7} : {id:id,symbol:symbol,f1:f1,f2:f2,f3:f3,f4:f4} )
+        // .then((response: any)=>{get_data_from_db()})
+        // .then(()=>{reset()})
+        // .then(()=>{ setters.map((set)=>{set(undefined)}) })
+        // .catch(err => {console.log(err)})
         
     
     };
@@ -87,7 +88,7 @@ export const DataScript: React.FunctionComponent<DataScriptProps> = ({
         if(choosen_mode=='start'){
             return( 
                 <Container>
-                    <Container>{header_name}sript flow </Container>
+                    <Container>{header_name} </Container>
                     <TableContainer key={seed}>
                         <table >
                             <tbody >
@@ -99,8 +100,8 @@ export const DataScript: React.FunctionComponent<DataScriptProps> = ({
                                         <tr key={data.id}>
                                             {input_name.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
                                             <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>
-                                            <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { setTesto(true);setuj(data.id);setChoosen_mode('modify')}} ><ModifyButton>Mod</ModifyButton></Td_container> 
-                                            <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container> 
+                                            <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { setTesto(true);setuj(data.id);setChoosen_mode('modify')}} ><ModifyButton>{T.databse.mod_bt}</ModifyButton></Td_container> 
+                                            <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> 
  
                                         </tr>)})}
                             </tbody>
@@ -122,8 +123,8 @@ export const DataScript: React.FunctionComponent<DataScriptProps> = ({
                         </Container>
                         )})}
                     </Container>
-                    <button onClick={()=>{send_data_to_db();setChoosen_mode('start')}}>Submit data to database</button>
-                    <button onClick={()=>{setChoosen_mode('start')}}>back</button>
+                    <BestButton onClick={()=>{send_data_to_db();setChoosen_mode('start')}}>{T.databse.submit_bt}</BestButton>
+                    <BestButton onClick={()=>{setChoosen_mode('start')}}>{T.common.back}</BestButton>
                 </Container>
             )
         }
@@ -132,7 +133,8 @@ export const DataScript: React.FunctionComponent<DataScriptProps> = ({
         if(choosen_mode=='modify'){
             if(modification){ 
                  return(  
-                    <Container >Modyfikacja wersetu nr: {modification} 
+                    
+                    <Container >{T.databse.entry_modification} {modification} 
                         <Container >
                         {input_name.map( (obj,i)=>{return(
                             <Container key={i}>
@@ -141,8 +143,8 @@ export const DataScript: React.FunctionComponent<DataScriptProps> = ({
                             </Container>
                             )})} 
                         </Container>
-                        <button onClick={()=>{setTesto(!showModyf); update_data_in_db(modification); reset();setChoosen_mode('start')}}>Update data</button>
-                        <button onClick={()=>{setTesto(!showModyf);setChoosen_mode('start')}}>Back</button>
+                        <BestButton onClick={()=>{setTesto(!showModyf); update_data_in_db(modification); reset();setChoosen_mode('start')}}>{T.databse.update_data}</BestButton>
+                        <BestButton onClick={()=>{setTesto(!showModyf);setChoosen_mode('start')}}>{T.common.back}</BestButton>
                     </Container >
             )}
         }
@@ -151,8 +153,8 @@ export const DataScript: React.FunctionComponent<DataScriptProps> = ({
     return(
         <ContainerP key={seed}>
             <Container>
-                <BestButton style={{display: choosen_mode=='start' ? 'block' :'none' }} onClick={()=>{setChoosen_mode('add')}}>Add new</BestButton>
-                <BestButton style={{display: choosen_mode=='start' ? 'none' : 'block'}} onClick={()=>{setChoosen_mode('start')}}>Table</BestButton>
+                <BestButton style={{display: choosen_mode=='start' ? 'block' :'none' }} onClick={()=>{setChoosen_mode('add')}}>{T.databse.add_new}</BestButton>
+                {/* <BestButton style={{display: choosen_mode=='start' ? 'none' : 'block'}} onClick={()=>{setChoosen_mode('start')}}>Table</BestButton> */}
             </Container>
             {showComponent()}
         </ContainerP>

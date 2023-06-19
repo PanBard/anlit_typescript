@@ -3,10 +3,13 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
+import { useTranslations } from "lib/hooks"
 
 
 
 export const ImagesStorage: React.FunctionComponent = ()=>{
+
+    const T = useTranslations()
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
     const [allFiles,setAllFiles] =  useState<any>()
@@ -122,8 +125,8 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
                                             <Td>{data.label} </Td>
                                             <Td>{date1} </Td>
                                             <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>
-                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container> 
-                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { setTesto(true);setuj(index);setChoosen_mode('modify')}} ><ModifyButton>Mod</ModifyButton></Td_container>  
+                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> 
+                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { setTesto(true);setuj(index);setChoosen_mode('modify')}} ><ModifyButton>{T.databse.mod_bt}</ModifyButton></Td_container>  
                                         </tr>)})}
                             </tbody>
                         </table>
@@ -156,8 +159,8 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
                             />
 
                     </Container>
-                    <button onClick={()=>{setSendImage(true);setChoosen_mode('start')}}>Submit data to database</button>
-                    <button onClick={()=>{setChoosen_mode('start')}}>back</button>
+                    <BestButton onClick={()=>{setSendImage(true);setChoosen_mode('start')}}>Submit data to database</BestButton>
+                    <BestButton onClick={()=>{setChoosen_mode('start')}}>back</BestButton>
                     {img && <img height={100} width={100} src={img} alt="" />}
                 </Container>
             )

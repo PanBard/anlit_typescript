@@ -10,9 +10,11 @@ import { ImagesStorage } from "./db_component/ImagesStorage"
 import { FaceImage } from "./db_component/FaceImage"
 import { Users } from "./db_component/Users"
 import { PhAnalysis } from "./db_component/PhAnalysis"
+import { useTranslations } from "lib/hooks"
 
 export const DataDashboard: React.FunctionComponent = () => {
     
+    const T = useTranslations()
     const [component, setComponent] = useState()
     const [seed, setSeed] = useState(1);
 
@@ -33,10 +35,10 @@ export const DataDashboard: React.FunctionComponent = () => {
      const DropdownMenu_analysis = () =>{
         return(
             <div className="dropdown">
-            <BestButton className="dropbtn">Ion analysis</BestButton>
+            <BestButton className="dropbtn">{T.database_buttons.ion_analysis}</BestButton>
             <div className="dropdown-content">
-              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="anion_analysis_result"/>)}}>Anions -</a>
-              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="cation_analysis_result"/>)}} >Cations +</a>
+              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="anion_analysis_result"/>)}}> {T.database_buttons.anion} </a>
+              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="cation_analysis_result"/>)}} > {T.database_buttons.cation} </a>
             </div>
           </div> 
         )
@@ -45,10 +47,10 @@ export const DataDashboard: React.FunctionComponent = () => {
     const DropdownMenu_dataflow = () =>{
         return(
             <div className="dropdown">
-            <BestButton className="dropbtn">Dataflow</BestButton>
+            <BestButton className="dropbtn">{T.database_buttons.dataflow}</BestButton>
             <div className="dropdown-content">
-            <a onClick={()=>{showComponent(<DataScript key={seed} rout_name="anion_script_flow"/>)}}> Anions - </a>
-            <a onClick={()=>{showComponent(<DataScript key={seed} rout_name="cation_script_flow"/>)}}> Cations + </a>
+            <a onClick={()=>{showComponent(<DataScript key={seed} rout_name="anion_script_flow"/>)}}> {T.database_buttons.anion} </a>
+            <a onClick={()=>{showComponent(<DataScript key={seed} rout_name="cation_script_flow"/>)}}> {T.database_buttons.cation} </a>
             </div>
           </div> 
         )
@@ -57,10 +59,10 @@ export const DataDashboard: React.FunctionComponent = () => {
     const DropdownMenu_voicescript = () =>{
         return(
             <div className="dropdown">
-            <BestButton className="dropbtn">VoiceScript</BestButton>
+            <BestButton className="dropbtn">{T.database_buttons.voicescript}</BestButton>
             <div className="dropdown-content">
-            <a onClick={()=>{showComponent(<VoiceScript rout_name="anion_voice_script" key={seed}/>)}}> Anions - </a>
-            <a onClick={()=>{showComponent(<VoiceScript rout_name="cation_voice_script" key={seed}/>)}}> Cations + </a>
+            <a onClick={()=>{showComponent(<VoiceScript rout_name="anion_voice_script" key={seed}/>)}}> {T.database_buttons.anion} </a>
+            <a onClick={()=>{showComponent(<VoiceScript rout_name="cation_voice_script" key={seed}/>)}}> {T.database_buttons.cation} </a>
             </div>
           </div> 
         )
@@ -69,11 +71,11 @@ export const DataDashboard: React.FunctionComponent = () => {
     const DropdownMenu_images = () =>{
         return(
             <div className="dropdown">
-            <BestButton className="dropbtn">Images</BestButton>
+            <BestButton className="dropbtn">{T.database_buttons.images}</BestButton>
             <div className="dropdown-content">
-            <a onClick={()=>{showComponent(<ImagesTest key={seed}/>)}}> Test images </a>
-            <a onClick={()=>{showComponent(<ImagesStorage key={seed}/>)}}> Images storage </a>
-            <a  onClick={()=>{showComponent(<FaceImage key={seed}/>)}}> Face images </a>
+            <a onClick={()=>{showComponent(<ImagesTest key={seed}/>)}}> {T.database_buttons.img_1} </a>
+            <a onClick={()=>{showComponent(<ImagesStorage key={seed}/>)}}> {T.database_buttons.img_2} </a>
+            <a  onClick={()=>{showComponent(<FaceImage key={seed}/>)}}> {T.database_buttons.img_3} </a>
             </div>
           </div> 
         )
@@ -88,9 +90,9 @@ export const DataDashboard: React.FunctionComponent = () => {
                 <DropdownMenu_dataflow/>
                 <DropdownMenu_voicescript/>
                 <DropdownMenu_images/>
-                <BestButton onClick={()=>{showComponent(<ChatMessages key={seed}/>)}}> Chat messages </BestButton>
-                <BestButton onClick={()=>{showComponent(<Users key={seed}/>)}}> Users </BestButton>
-                <BestButton onClick={()=>{showComponent(<PhAnalysis key={seed}/>)}}> pH analysis </BestButton>               
+                <BestButton onClick={()=>{showComponent(<ChatMessages key={seed}/>)}}> {T.database_buttons.chat} </BestButton>
+                <BestButton onClick={()=>{showComponent(<Users key={seed}/>)}}> {T.database_buttons.users} </BestButton>
+                <BestButton onClick={()=>{showComponent(<PhAnalysis key={seed}/>)}}> {T.database_buttons.ph} </BestButton>               
             </HeaderContainer>
             {showComponent2()}
         </Container>

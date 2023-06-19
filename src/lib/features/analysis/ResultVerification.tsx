@@ -28,9 +28,11 @@ export const ResultVerification: React.FunctionComponent<ShuffleFateProps> = ({
     
     const db_type = cation ? 'cation_analysis_result' : 'anion_analysis_result' 
     const db_type_name = cation ? 'cation_script_flow' : 'anion_script_flow' 
-    const db_cation_voice_script_name = cation ? 'cation_voice_script' : 'anion_voice_script' 
+    // const db_cation_voice_script_name = cation ? 'cation_voice_script' : 'anion_voice_script' 
+    const db_cation_voice_script_name = cation ? 'cation_voice_script_en' : 'anion_voice_script_en' 
     const db_text_name = cation ? 'c_analysis_texts' : 'a_analysis_texts' 
-    const cation_voice_script_for_custom_query = cation ? 'cation_voice_script' : 'anion_voice_script' 
+    // const cation_voice_script_for_custom_query = cation ? 'cation_voice_script' : 'anion_voice_script' 
+    const cation_voice_script_for_custom_query = cation ? 'cation_voice_script_en' : 'anion_voice_script_en' 
 
     const script_detected= {
         "brak": 'Wykryto próbówkę bez osadu!',
@@ -49,7 +51,8 @@ export const ResultVerification: React.FunctionComponent<ShuffleFateProps> = ({
 
     const Voice = (words: string) => {
         const msg = new SpeechSynthesisUtterance()
-        msg.lang = "pl-PL" 
+        // msg.lang = "pl-PL" 
+        msg.lang = "en-US" 
         msg.text =  words
         window.speechSynthesis.speak(msg)
 }
@@ -182,9 +185,11 @@ const get_script_from_db =async () => {
                 const current = data[data.length-1];
                 const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`                
                 if(response.data[0].f7 !== 'end')Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: response.data[0].script,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat)
-                if(response.data[0].f7 == 'end'){const text = response.data[0].script + ' Analiza zakoczona powodzeniem!'   ; Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: text,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat)}
+                // if(response.data[0].f7 == 'end'){const text = response.data[0].script + ' Analiza zakoczona powodzeniem!'   ; Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: text,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat)}
+                if(response.data[0].f7 == 'end'){const text = response.data[0].script + 'Congratulations, analysis completed successfully!'   ; Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: text,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat)}
                 if(response.data[0].f7 !== 'end') {Voice(response.data[0].script); return_script(response.data[0].script)}
-                if(response.data[0].f7 == 'end'){ion_founded(); return_script(response.data[0].script);Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6)} 
+                // if(response.data[0].f7 == 'end'){ion_founded(); return_script(response.data[0].script);Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6)} 
+                if(response.data[0].f7 == 'end'){ion_founded(); return_script(response.data[0].script);Voice(response.data[0].script); Voice('Congratulations, analysis completed successfully!');set_happy_end(response.data[0].f6)} 
                 })
                 .catch((err)=>{console.log(err)})
 }
@@ -202,10 +207,15 @@ useMemo(()=>{
     if(typeof phase !== 'undefined' && phase!==1 && rightSymbol.length == 0 && foundIon==true){ 
         const current = data[data.length-1]
         const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
-        Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: 'Taki wynik nie powinien się pojawić na tym etapie analizy.',author: 'bot', ion: cation ? 'cation' : 'anion' })
+        // Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: 'Taki wynik nie powinien się pojawić na tym etapie analizy.',author: 'bot', ion: cation ? 'cation' : 'anion' })
+        // .then(rerender_chat)
+        // .then(()=>{set_failed_end()})
+        // .then(()=>{Voice('Taki wynik nie powinien się pojawić na tym etapie analizy.')})
+
+        Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: 'Such a result should not appear at this stage of the analysis.',author: 'bot', ion: cation ? 'cation' : 'anion' })
         .then(rerender_chat)
         .then(()=>{set_failed_end()})
-        .then(()=>{Voice('Taki wynik nie powinien się pojawić na tym etapie analizy.')})
+        .then(()=>{Voice('Such a result should not appear at this stage of the analysis.')})
         }
 },[foundIon])
 

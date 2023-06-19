@@ -4,6 +4,7 @@ import { GptDisplayStyleChat } from "./GptDisplayStyleChat"
 import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs";
 import { VoiceRecognition } from "../voice_recognition/VoiceRecognition";
+import { useTranslations } from "lib/hooks";
 
 
 type ChatCatProps = {
@@ -23,6 +24,7 @@ export const Chat: React.FunctionComponent<ChatCatProps> = ({
     return_results_to_parent_component
 }) =>{
 
+    const T = useTranslations()
     const [phase, setPhase] = useState<number>()
     const [data, setData] = useState<any[]>([])
     const [script, setScript] = useState<string>()
@@ -95,7 +97,7 @@ const show_conversation = () => {
     
     }
     else{
-        return (<div> brak wiadomości</div>)
+        return (<div>{T.analysis.default_message}</div>)
     }
    }
 
@@ -130,7 +132,7 @@ useMemo(async ()=>{
             
             <ContainerF>
                 <ChatHeader>
-                 <b>CatChat</b> 
+                 <b>{T.analysis.chat_name}</b> 
                 </ChatHeader>
                 <ChatBody >
 

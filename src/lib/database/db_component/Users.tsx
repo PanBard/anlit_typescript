@@ -4,9 +4,12 @@ import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
 import { image } from "@tensorflow/tfjs"
+import { useTranslations } from "lib/hooks"
 
 
 export const Users: React.FunctionComponent = ()=>{
+
+    const T = useTranslations()
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
 
@@ -19,7 +22,7 @@ export const Users: React.FunctionComponent = ()=>{
          setSeed(Math.random())
      }
  
-    const header_name =  'face images '
+    const header_name =  'User table '
     
     useEffect(  ()  =>  {
         get_data_from_db()
@@ -73,7 +76,7 @@ export const Users: React.FunctionComponent = ()=>{
                                             <Td>{data.password} </Td>
                                             <Td>{date1} </Td>
                                             <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>
-                                            <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container> 
+                                            <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> 
                                         </tr>)})}
                             </tbody>
                         </table>
@@ -89,7 +92,7 @@ export const Users: React.FunctionComponent = ()=>{
     return(
         <ContainerP key={seed}>
             <Container>
-                <BestButton style={{display: choosen_mode=='start' ? 'none' : 'block'}} onClick={()=>{setChoosen_mode('start')}}>Table</BestButton>
+                {/* <BestButton style={{display: choosen_mode=='start' ? 'none' : 'block'}} onClick={()=>{setChoosen_mode('start')}}>Table</BestButton> */}
             </Container>
             {showComponent()}
         </ContainerP>

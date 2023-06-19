@@ -4,9 +4,12 @@ import styled from "styled-components";
 import { BestButton, MyImage, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules";
 import  Axios  from "axios";
 import { SERVER_ROUTS } from "lib/database/server_routs";
+import { useTranslations } from "lib/hooks";
 
 export const PHAnalyser: React.FunctionComponent = ({}) => {
 
+
+  const T = useTranslations();
   const webcamRef = useRef<Webcam>(null);
   const divRef = useRef<any>(null);
   const imageCanvasRef = useRef<any>(null);
@@ -237,7 +240,7 @@ const insertLabelComponent = (position: any) =>{
   if(status=='labellinngPh'){
     setComponentForDisplay(
         <LabelComponent  key={seed+1} style={{ top: `${(position.y )+ 'px'}`, left: `${position.x + 'px'}`}} >
-          <input type="text" placeholder="Wprowadź stopień pH"  onChange = {(e) => {setPHvalue(e.target.value)}} />
+          <input type="text" placeholder={T.ph.p_value}  onChange = {(e) => {setPHvalue(e.target.value)}} />
           <BestButton onClick={()=>{setSendFlag('ok')}}>OK</BestButton>
         </LabelComponent>
       )
@@ -245,8 +248,7 @@ const insertLabelComponent = (position: any) =>{
   
   if(status=='makeComparison'){
     setComponentForDisplay(
-        <LabelComponent  key={seed+1} style={{ top: `${(position.y )+ 'px'}`, left: `${position.x + 'px'}`}} >
-          {/* <input type="text" placeholder="Wprowadź stopień pH"  onChange = {(e) => {setPHvalue(e.target.value)}} /> */}
+        <LabelComponent  key={seed+1} style={{ top: `${(position.y )+ 'px'}`, left: `${position.x + 'px'}`}} >          
           <BestButton onClick={()=>{ setSendFlag('ok')}}>OK</BestButton>
         </LabelComponent>
       )
@@ -264,7 +266,7 @@ const makeScreenToComparison = ( ) =>{
                 style={{margin: 10, width: 540, height: 380}}
               /> 
             <Container>
-              <BestButton style={{width:'150px',height:'50px'}} onClick={ ()=>{ setImageToComparison()} } >Pobierz próbkę zdjęcia</BestButton>
+              <BestButton style={{width:'150px',height:'50px'}} onClick={ ()=>{ setImageToComparison()} } > {T.ph.take_screenshot} </BestButton>
             </Container> 
         </CenterContainer>
       )}
@@ -286,8 +288,8 @@ const makeScreenToComparison = ( ) =>{
 const defaultDisplay = () => {
   if(status2=='start'){
     return(
-    <div><BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus2('makeScreenToComparison')}}> Make screenshot  </BestButton>
-    <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus2('getFileFromDevice')}}> Get file from device  </BestButton></div>
+    <div><BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus2('makeScreenToComparison')}}> {T.ph.take_screenshot}  </BestButton>
+    <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus2('getFileFromDevice')}}> {T.ph.file_from_device}  </BestButton></div>
     )
   }
 
@@ -374,8 +376,8 @@ const makeRGBAnalysis = () => {
       return(
         <CenterContainer >
         <Container>
-        <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('start')}}> Nowa kalibracja pH  </BestButton>
-        <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('choose');getDataFromDb()}}> Sprawdz pH </BestButton>
+        <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('start')}}> {T.ph.new_calibrations}  </BestButton>
+        <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('choose');getDataFromDb()}}> {T.ph.prevoius_calibrations} </BestButton>
         </Container>
       </CenterContainer>
       )
@@ -386,7 +388,7 @@ const makeRGBAnalysis = () => {
       return(
         <CenterContainer >
         <Container>
-          Zapisane kalibracje ph: 
+        {T.ph.saved_cal}
         <TableContainer>
                    <table >
                         <tbody >
@@ -453,7 +455,7 @@ const makeRGBAnalysis = () => {
             </div>
 
           <SpaceBetweenContainer style={{width:'300px'}}>
-            <h3>preview:</h3>
+            <h3>{T.ph.preview}</h3>
             <Container  style={{marginLeft:'0px', marginRight: '0px', width:'auto'}}>
               <div>
                 <canvas  ref={imageCanvasRef} style={{height: `${dimension ? dimension.height+'px' : '0px'}`,width: `${dimension ? dimension.width+'px' : '0px'}` }}/>
@@ -465,7 +467,7 @@ const makeRGBAnalysis = () => {
             </Container>
             
             <Container style={{marginLeft:'0px', marginRight: '0px', width:'auto'}}>
-              Result: {bestResult}
+            {T.ph.result} {bestResult}
             </Container>
               
             </SpaceBetweenContainer>
@@ -478,9 +480,9 @@ const makeRGBAnalysis = () => {
       return(
         <CenterContainer >
           <Container style={{width:'250px' , maxWidth:'300px'}}>
-             Nazwa nowej kalibracji pH:
+          {T.ph.cal_name}
             <input style={{backgroundColor: 'gray'}} type="text"  onChange={ (e)=>{setAnalysis_name(e.target.value)} }/>
-          <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('takeImg')}}> Rozpocznij  </BestButton>
+          <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus('takeImg')}}> {T.common.begin}  </BestButton>
           </Container>
         </CenterContainer>
       )
@@ -496,7 +498,7 @@ const makeRGBAnalysis = () => {
                 style={{margin: 10, width: 540, height: 380}}
               /> 
             <Container>
-              <BestButton style={{width:'150px',height:'50px'}} onClick={ ()=>{ setWholeImage(); } } >Pobierz próbkę zdjęcia</BestButton>
+              <BestButton style={{width:'150px',height:'50px'}} onClick={ ()=>{ setWholeImage(); } } >{T.ph.take_screenshot}</BestButton>
             </Container> 
         </CenterContainer>
       )
@@ -508,7 +510,7 @@ const makeRGBAnalysis = () => {
         <OrderContainer>
               {showLabelForm && diplayComponent()}
               <SpaceBetweenContainer>
-                <h3>preview:</h3>
+                <h3>{T.ph.preview}</h3>
                 <div>
                   <canvas  ref={imageCanvasRef} style={{height: `${dimension ? dimension.height+'px' : '0px'}`,width: `${dimension ? dimension.width+'px' : '0px'}` }}/>
                  
@@ -525,7 +527,7 @@ const makeRGBAnalysis = () => {
 
               <SavedContainer style={{overflowY:'hidden'}} key={seed+100}>
                 <div >
-                   <h3>pH table:</h3>
+                   <h3>{T.ph.ph_table}</h3>
                    <BestButton style={{float:'right'}} onClick={()=>{send_data_to_db()}}>Save</BestButton>
                    <TableContainer>
                    <table >

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules"
+import { useTranslations } from "lib/hooks"
 
 type ChatMessagesProps = {
     rout_name?: string,
@@ -12,6 +13,7 @@ export const ChatMessages: React.FunctionComponent<ChatMessagesProps> = ({
     rout_name
 })=>{
 
+    const T = useTranslations()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
     const [hide, setHide] =  useState<boolean>(false)
     const [showModyf, setTesto] = useState(false)
@@ -32,7 +34,7 @@ export const ChatMessages: React.FunctionComponent<ChatMessagesProps> = ({
     },[])
 
     const delete_all_history = () => {
-        if(confirm("Na pewno chcesz usunąć całą historię czatu?")){
+        if(confirm(T.databse.all_data_del_confirm)){
                 const QUERY = `DELETE FROM chat_messages`
         Axios.post(SERVER_ROUTS.custom_query.get, {query: QUERY})        
         .then(()=>{get_data_from_db()})
@@ -61,8 +63,7 @@ export const ChatMessages: React.FunctionComponent<ChatMessagesProps> = ({
         if(dataFromDataBase[0]){
             const keys_p = Object.keys(dataFromDataBase[0])           
         return( keys_p.map( (obj, i) => { return(<Th  key={i}>{obj}</Th>) }))
-        }
-        
+        }        
     }
 
     const generate_table_content = () => {
@@ -73,7 +74,7 @@ export const ChatMessages: React.FunctionComponent<ChatMessagesProps> = ({
                                 <tr key={index}>  
                                     {keys_q.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
                                     {!hide && <Td_container style={{cursor:'pointer'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>}
-                                    {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container>  }
+                                    {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container>  }
                                     <Td style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
                                 </tr>)
                         }

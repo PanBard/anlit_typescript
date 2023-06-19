@@ -1,10 +1,10 @@
 import { APP_CONFIG } from "lib/config"
-import { useCommons } from '../hooks/useCommons'
 import styled from "styled-components"
+import { useTranslations } from "lib/hooks/useTranslations"
 
 
 export const Footer = () => {
-    const T = useCommons()
+    const T = useTranslations()
     const year = new Date().getFullYear() //pobiera aktualny rok
 
     return(

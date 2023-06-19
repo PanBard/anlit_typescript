@@ -3,9 +3,11 @@ import { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
+import { useTranslations } from "lib/hooks"
 
 
 export const ImagesTest: React.FunctionComponent = ()=>{
+    const T = useTranslations()
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
 
@@ -87,8 +89,8 @@ export const ImagesTest: React.FunctionComponent = ()=>{
                                             <Td><MyImage style={{height: '150px', width:'150px' }}  src={data.img}/></Td>
                                             <Td>{data.label} </Td>
                                             <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>
-                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container> 
-                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { setTesto(true);setuj(data.id);setChoosen_mode('modify')}} ><ModifyButton>Mod</ModifyButton></Td_container>  
+                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> 
+                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { setTesto(true);setuj(data.id);setChoosen_mode('modify')}} ><ModifyButton>{T.databse.mod_bt}</ModifyButton></Td_container>  
                                         </tr>)})}
                             </tbody>
                         </table>
@@ -109,8 +111,8 @@ export const ImagesTest: React.FunctionComponent = ()=>{
                         </Container>
                         )})}
                     </Container>
-                    <button onClick={()=>{send_data_to_db();setChoosen_mode('start')}}>Submit data to database</button>
-                    <button onClick={()=>{setChoosen_mode('start')}}>back</button>
+                    <button onClick={()=>{send_data_to_db();setChoosen_mode('start')}}>{T.databse.submit_bt}</button>
+                    <button onClick={()=>{setChoosen_mode('start')}}>{T.common.back}</button>
                 </Container>
             )
         }

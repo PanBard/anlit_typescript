@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
+import { useTranslations } from "lib/hooks"
 
 type VoiceScriptProps = {
     rout_name: string,
@@ -11,6 +12,7 @@ type VoiceScriptProps = {
 export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
     rout_name
 })=>{
+    const T = useTranslations()
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
 
@@ -29,7 +31,7 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
     const reset = () => {
          setSeed(Math.random())
      }
-    const header_name =  (rout_name=='cation_voice_script') ? 'Cation ' : 'Anion '
+    const header_name =  (rout_name=='cation_voice_script') ? T.databse.cation_voicescript : T.databse.anion_voicescript
     const input_name = ['id','phase','f6','f7','match_id','script']
     const setters = [setID,setPhase,set6,set7,setMatch_id,setScript]
     
@@ -51,11 +53,11 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
 
 
     const update_data_in_db = (ajdi: any)=>{
-        Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, {id:ajdi,phase:phase,script:script,f6:f6,f7:f7,match_id:match_id})
-        .then((response: any)=>{get_data_from_db()})
-        .then(()=>{reset()})
-        .then(()=>{ setters.map((set)=>{set(undefined)}) })
-        .catch(err => {console.log(err)})
+        // Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, {id:ajdi,phase:phase,script:script,f6:f6,f7:f7,match_id:match_id})
+        // .then((response: any)=>{get_data_from_db()})
+        // .then(()=>{reset()})
+        // .then(()=>{ setters.map((set)=>{set(undefined)}) })
+        // .catch(err => {console.log(err)})
     };
 
     const send_data_to_db = async ()=>{
@@ -80,7 +82,7 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
         if(choosen_mode=='start'){
             return( 
                 <Container>
-                    <Container>{header_name}voice script </Container>
+                    <Container>{header_name}</Container>
                     <TableContainer key={seed}>
                         <table >
                             <tbody >
@@ -92,8 +94,8 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
                                         <tr key={data.id}>
                                             {input_name.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
                                             <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>
-                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container> 
-                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { setTesto(true);setuj(data.id);setChoosen_mode('modify')}} ><ModifyButton>Mod</ModifyButton></Td_container>  
+                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> 
+                                                <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { setTesto(true);setuj(data.id);setChoosen_mode('modify')}} ><ModifyButton>{T.databse.mod_bt}</ModifyButton></Td_container>  
                                         </tr>)})}
                             </tbody>
                         </table>
@@ -114,8 +116,8 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
                         </Container>
                         )})}
                     </Container>
-                    <button onClick={()=>{send_data_to_db();setChoosen_mode('start')}}>Submit data to database</button>
-                    <button onClick={()=>{setChoosen_mode('start')}}>back</button>
+                    <BestButton onClick={()=>{send_data_to_db();setChoosen_mode('start')}}>{T.databse.submit_bt}</BestButton>
+                    <BestButton onClick={()=>{setChoosen_mode('start')}}>{T.common.back}</BestButton>
                 </Container>
             )
         }
@@ -124,7 +126,7 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
         if(choosen_mode=='modify'){
             if(modification){ 
                  return(  
-                    <Container >Modyfikacja wersetu nr: {modification} 
+                    <Container >{T.databse.entry_modification} {modification} 
                         <Container >
                         {input_name.map( (obj,i)=>{return(
                             <Container key={i}>
@@ -133,8 +135,8 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
                             </Container>
                             )})} 
                         </Container>
-                        <button onClick={()=>{setTesto(!showModyf); update_data_in_db(modification); reset();setChoosen_mode('start')}}>Update data</button>
-                        <button onClick={()=>{setTesto(!showModyf);setChoosen_mode('start')}}>Back</button>
+                        <BestButton onClick={()=>{setTesto(!showModyf); update_data_in_db(modification); reset();setChoosen_mode('start')}}>{T.databse.update_data}</BestButton>
+                        <BestButton onClick={()=>{setTesto(!showModyf);setChoosen_mode('start')}}>{T.common.back}</BestButton>
                     </Container >
             )}
         }
@@ -143,8 +145,8 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
     return(
         <ContainerP key={seed}>
             <Container>
-                <BestButton style={{display: choosen_mode=='start' ? 'block' :'none' }} onClick={()=>{setChoosen_mode('add')}}>Add new</BestButton>
-                <BestButton style={{display: choosen_mode=='start' ? 'none' : 'block'}} onClick={()=>{setChoosen_mode('start')}}>Table</BestButton>
+                <BestButton style={{display: choosen_mode=='start' ? 'block' :'none' }} onClick={()=>{setChoosen_mode('add')}}>{T.databse.add_new}</BestButton>
+                {/* <BestButton style={{display: choosen_mode=='start' ? 'none' : 'block'}} onClick={()=>{setChoosen_mode('start')}}>Table</BestButton> */}
             </Container>
             {showComponent()}
         </ContainerP>

@@ -4,6 +4,7 @@ import { BestButton, ContainerP } from './components_modules';
 import  Axios  from 'axios';
 import { SERVER_ROUTS } from 'lib/database/server_routs';
 import { LoginFaceRecognition } from 'lib/features/face_recognition/LoginFaceRecognition';
+import { useTranslations } from 'lib/hooks/useTranslations';
 
 
 type LoginFormProps = {
@@ -14,7 +15,7 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
     result
 }) => {
     
-
+    const T = useTranslations()
     const [username, setUsername] = useState<any>('limon');
     const [password,setPassword] = useState<any>('limon');
     const [errorType, setErrorType] = useState<any>('limon');
@@ -60,7 +61,7 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
     const successMessage = () => {
         return (
             <div style={{ display: submitted ? '' : 'none',}}>
-                <h1>Welcome!</h1>
+                <h1>{T.login_form.succes_login}</h1>
             </div>
             );
     };
@@ -69,8 +70,8 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
     const errorMessage = () => {
              return (
                 <div >
-                    <div style={{ display: errorType =='wrongPassword' ? '' : 'none',}}>    <h3>Wrong password</h3>   </div>
-                    <div style={{ display: errorType =='wrongUsername' ? '' : 'none',}}>    <h3>Wrong Username</h3>   </div>
+                    <div style={{ display: errorType =='wrongPassword' ? '' : 'none',}}>    <h3>{T.login_form.warn_wrong_pass}</h3>   </div>
+                    <div style={{ display: errorType =='wrongUsername' ? '' : 'none',}}>    <h3>{T.login_form.warn_wrong_username}</h3>   </div>
                 </div>
         )
     };
@@ -82,26 +83,26 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
             <TableContainer >
 
                 <Cell >
-                    <h1>Sign in</h1>
+                    <h1>{T.login_form.header}</h1>
                     
                 </Cell>
 
                  <Cell >
-                    <label>Username </label>
-                    <Input style={{borderColor: errorType == 'wrongUsername' ? 'red' : ''}} type="text" id='username' onChange = {(e) => handleInputChange(e)} placeholder="Username"/>
+                    <label>{T.login_form.username} </label>
+                    <Input style={{borderColor: errorType == 'wrongUsername' ? 'red' : ''}} type="text" id='username' onChange = {(e) => handleInputChange(e)} placeholder={T.login_form.username}/>
                 </Cell>
 
 
                 <Cell>
-                    <label >Password </label>
-                    <Input style={{borderColor: errorType == 'wrongPassword' ? 'red' : ''}} className="form__input" type="password" id='password' onChange = {(e) => handleInputChange(e)} placeholder="Password"/>
+                    <label >{T.login_form.password}</label>
+                    <Input style={{borderColor: errorType == 'wrongPassword' ? 'red' : ''}} className="form__input" type="password" id='password' onChange = {(e) => handleInputChange(e)} placeholder={T.login_form.password}/>
                 </Cell>
 
        
                 {errorMessage()}
                 {successMessage()}
                 <div >
-                    <BestButton onClick={()=>validate_password()} type="submit" >Log in</BestButton>
+                    <BestButton onClick={()=>validate_password()} type="submit" >{T.login_form.button_sign_in}</BestButton>
                 </div>
 
                 <LoginFaceRecognition returnResult={(e)=>{result(e)}}/>

@@ -7,6 +7,8 @@ import { useTest_labels } from "lib/hooks/useDetectFlow";
 import { BestButton, ContainerP } from "lib/components/components_modules"
 import { LiveUpdate } from "../analysis/LiveUpdate"
 import { DetectEngine } from "./DetectEngine"
+import { useTranslations } from "lib/hooks"
+
 
 type AnalysisProps = {
     id: number,
@@ -26,6 +28,7 @@ export const ObjectDetectionDashboard: React.FunctionComponent<AnalysisProps> = 
     chatCanTellNow,
     result_from_voice_description
 }) => {
+    const T = useTranslations();
     const [data, setData] = useState<any[]>([])
     const[dataFromChildComponent , setDataFromChildComponent] = useState()
     const [phase, setPhase] = useState(1)
@@ -38,19 +41,18 @@ export const ObjectDetectionDashboard: React.FunctionComponent<AnalysisProps> = 
     const [showFakeDetection,setShowFakeDetection] = useState<boolean>(false);
 
     const db_type = cation ? 'cation_analysis_result' : 'anion_analysis_result' 
-    const title = cation ? ' Identyfikacja kationu ' : ' Identyfikacja anionu '
+    const title = cation ? T.analysis.cation_identification : T.analysis.anion_identification
     
     const nice_names = ['brak osadu','biały osad', 'czarny osad', 'żółty osad', 'pomarańczowy osad', 'zielony osad', 'niebieski osad', 'niebiesko-różowy osad', 'cielisty osad', 'pomarańczowy płyn', 'fioletowy płyn', 'żółty płyn']
 
     const catchMessageFromChild = (message: any) => {
-        if(message[0] !== '404' && typeof message[0] !== 'undefined') //w razie gdyby wybrano opcje choose image
+        if(message[0] !== '404' && typeof message[0] !== 'undefined') //in case if choose option choose image
         {            
             setTestowy_label(message[0]);
             setImage(message[1]);
             setDataFromChildComponent(message)
             setEndDetect(!endDetect)
         }
-        
       }; 
 
       useEffect(()=>{
@@ -107,10 +109,10 @@ export const ObjectDetectionDashboard: React.FunctionComponent<AnalysisProps> = 
  
 
       return(
-        <ContainerP>
+        <ContainerP style={{margin:'10px'}}>
           
           <Container>
-            <BestButton onClick={()=>{window.location.reload()}} > Zakończ </BestButton>
+            <BestButton onClick={()=>{window.location.reload()}} > {T.common.end} </BestButton>
           </Container>
 
           <Container style={{width: '150px' , margin: '50px'}}>
@@ -125,27 +127,27 @@ export const ObjectDetectionDashboard: React.FunctionComponent<AnalysisProps> = 
 
                 <Container>
                     
-                    <h4>[{title}]</h4>
-                    <h2>  Nazwa analizy: {name} </h2>
+                    <h4>[ {title} ]</h4>
+                    <h2>  {T.analysis.analysis_name} {name} </h2>
                     <h3>ID: {id}</h3>
                 </Container>
 
                 { !showFakeDetection && <BestButton onClick={()=>{setShowFakeDetection(!showFakeDetection)}}>. . .</BestButton>}
                     { showFakeDetection && <Container>
-                        <label>Wybierz</label>
+                        <label>{T.analysis.choose_img }</label>
                         <select name="op" id="op" onChange={(obj)=>{ 
                           setTestowy_label(obj.target.value);
                           setImage(imgFromDataBase[obj.target.value].img );
                           }}>
-                        <option key={89} value={404}> CHOOSE IMAGE </option>
+                        <option key={89} value={404}>  {T.analysis.test_image} </option>
                         {imgFromDataBase.map((obj: any,index: number)=>{
                         return(  <option key={index} value={index}> {nice_names[index]} </option>  )})}
                         </select>
-                        <BestButton onClick={()=>{catchMessageFromChild([testowy_label,image])}} > Fake detection</BestButton>
+                        <BestButton onClick={()=>{catchMessageFromChild([testowy_label,image])}} > {T.analysis.fake_analysis}</BestButton>
                       
                     </Container>}
 
-                     <BestButton onClick={()=>{setBoollena(!bollena)}} > Webcam detection </BestButton>
+                     <BestButton onClick={()=>{setBoollena(!bollena)}} >  {T.analysis.webcam_detection} </BestButton>
                 
                   <LiveUpdate cation={cation}/>
                 

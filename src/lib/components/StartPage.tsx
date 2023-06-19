@@ -6,6 +6,7 @@ import { OneHeader } from "./OneHeader"
 import { Footer } from "./Footer"
 import { RegistrationForm } from "./RegistrationForm"
 import { LoginForm } from "./LoginForm"
+import { useTranslations } from "lib/hooks/useTranslations"
 
 type BeforeLoginProps = {
     choosenWeb(params: any): any
@@ -16,7 +17,7 @@ export const StartPage: React.FunctionComponent<BeforeLoginProps> = ({
 }) => {
 
     const [loginStatus,setLoginStatus] = useState('Start')
-
+    const T = useTranslations();
 
     return(
         <Container>
@@ -24,9 +25,9 @@ export const StartPage: React.FunctionComponent<BeforeLoginProps> = ({
             
            { loginStatus =='Start' && <ContainerMain>
         <Containerr>
-          <h1>Hi there!</h1>
-          <H2s>Our AI-powered platform drives  innovation with tools that boost developer velocity.</H2s>
-          <H2s>GitHub Codespaces offers a complete dev environment in seconds, so you can code, build, test, and open pull requests from any repo anywhere.</H2s>
+          <h1>{T.start_page.welcome_text_1}</h1>
+          <H2s>{T.start_page.welcome_text_2}</H2s>
+          <H2s>{T.start_page.welcome_text_3}</H2s>
         </Containerr>
         <Containerr>
         </Containerr>

@@ -8,11 +8,13 @@ import { db_insert_new_id_and_status_analysis } from "./MakeNewAnalysis"
 import { ResultVerification } from "./ResultVerification"
 import { BestButton } from "lib/components/components_modules"
 import { Chat } from "../chat/Chat"
+import { useTranslations } from "lib/hooks/useTranslations"
 
 
 
 export const AnalysisDashboard: React.FunctionComponent = () => {
     
+    const T = useTranslations()
     const [phase, setPhase] = useState(1)
     const [choosen_mode, setChoosen_mode] = useState('start')
     const [current_analysis, setCurrent_analysis] = useState('unknown')
@@ -71,8 +73,8 @@ export const AnalysisDashboard: React.FunctionComponent = () => {
         if(choosen_mode=='start'){
             return(
             <ContainerP>
-                <BestButton onClick={()=>{ setChoosen_mode('choose_ion') }} > Nowa analiza</BestButton>
-                <BestButton onClick={()=>{ setChoosen_mode('stara') }} > Kontynyuj poprzednie</BestButton>
+                <BestButton onClick={()=>{ setChoosen_mode('choose_ion') }} > {T.analysis.new_analysis}</BestButton>
+                <BestButton onClick={()=>{ setChoosen_mode('stara') }} > {T.analysis.continue_analysis}</BestButton>
                 
             </ContainerP>
             )
@@ -81,8 +83,8 @@ export const AnalysisDashboard: React.FunctionComponent = () => {
         if(choosen_mode=='choose_ion'){
             return(
                 <ContainerP>
-                    <BestButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('cation'); get_data_from_db('cation_analysis_result') }} > Analiza kationów </BestButton>
-                    <BestButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('anion'); get_data_from_db('anion_analysis_result')   }} > Analiza anionów </BestButton>
+                    <BestButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('cation'); get_data_from_db('cation_analysis_result') }} > {T.analysis.cation_analysis} </BestButton>
+                    <BestButton onClick={()=>{ setChoosen_mode('new_analysis'); setCurrent_analysis('anion'); get_data_from_db('anion_analysis_result')   }} > {T.analysis.anion_analysis} </BestButton>
                 </ContainerP>
                 )
         }
@@ -94,16 +96,16 @@ export const AnalysisDashboard: React.FunctionComponent = () => {
                     <Container>
 
                         <ContainerP>
-                            <BestButton onClick={()=>{ setChoosen_mode('start') }} > Cofnij </BestButton>
+                            <BestButton onClick={()=>{ setChoosen_mode('start') }} > {T.common.back} </BestButton>
                         </ContainerP>
              
                        
                         <ContainerW>
-                        Wpisz nazwę nowej analizy:
+                        {T.analysis.analysis_name}
                         <input style={{backgroundColor: 'gray'}} type="text"  onChange={ (e)=>{setAnalysis_name(e.target.value)} }/>
                         </ContainerW>
                         <ContainerP>
-                            <BestButton onClick={()=>{ insert_to_db() }} > Rozpocznij analizę </BestButton>
+                            <BestButton onClick={()=>{ insert_to_db() }} > {T.analysis.analysis_begin} </BestButton>
                         </ContainerP>
                     
                     </Container>
@@ -117,7 +119,7 @@ export const AnalysisDashboard: React.FunctionComponent = () => {
             return(
                 <Container>
                     <Container>
-                    <BestButton onClick={()=>{ setChoosen_mode('start') }} > Cofnij </BestButton>
+                    <BestButton onClick={()=>{ setChoosen_mode('start') }} > {T.common.back} </BestButton>
                     </Container>
                     <div>
                        <ReturnToOldAnalysis />
@@ -130,8 +132,7 @@ export const AnalysisDashboard: React.FunctionComponent = () => {
 
             if(current_analysis == 'cation'){
                 return(
-                <ContainerP>
-                        
+                <ContainerP>                        
                         <ObjectDetectionDashboard result_from_voice_description={result_from_voice_describe} chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={true}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
                         <ResultVerification rerender_chat={()=>{setSeed_for_chat(true)}} ion_founded={()=>{setIonfounded(true)}} cation={true} key={seed+3}  return_script={(message)=>{setScript(message)}}/>
                        <Chat return_results_to_parent_component={e => {setResult_from_voice_describe(e), make_tetection(e)}} refreshChat={refreshChat} id={id} cation={true}  key={seed+9} script={script} ready={seed_for_chat}/>
@@ -147,10 +148,8 @@ export const AnalysisDashboard: React.FunctionComponent = () => {
                        <Chat return_results_to_parent_component={e => {setResult_from_voice_describe(e), make_tetection(e)}} refreshChat={refreshChat} id={id} cation={false}  key={seed+9} script={script} ready={seed_for_chat}/>
                 </ContainerP>
             )
-            }
-            
+            }            
         }
-
       }
 
     return(

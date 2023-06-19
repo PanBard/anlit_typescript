@@ -1,9 +1,10 @@
-// import { BrowserRouter as  Link, NavLink } from 'react-router-dom';
 import { APP_CONFIG } from "lib/config"
-import { useCommons } from "lib/hooks/useCommons" 
 import styled from "styled-components"
 import { BestButton } from './components_modules';
-import { useState } from 'react';
+import { useTranslations } from "lib/hooks/useTranslations";
+import  Axios  from "axios";
+import { SERVER_ROUTS } from "lib/database/server_routs";
+import { useEffect, useState } from "react";
 
 
 type OneHeaderWorkProps = {
@@ -15,27 +16,37 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
     choosenWeb,
     userName
 }) => {
-    const T = useCommons()
+    const T = useTranslations()
+    const [userImage,setUserImage] = useState()
+
+    useEffect(()=>{
+        getUserImage()
+    },[])
+
+    const getUserImage = async ()=> {
+        const query = `select CONVERT(img1 USING utf8) as img1 from face_img_storage where username='${userName}'`
+        await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
+            .then((response)=>{ setUserImage(response.data[0].img1)  })
+            .catch((err)=>{console.log('send status :(',err)})
+    }
 
 
     const DropdownMenu_analysis = () =>{
         return(
             <div className="dropdown">
-            <img className="dropbtn" style={{cursor:'pointer', backgroundColor: 'rgb(200, 214, 229)' , borderRadius: '15px', margin: '10px'}} src="/user_icon.svg" alt=""  height={25} width={25}/>    
+            <UserImage className="dropbtn"  src={APP_CONFIG.USER_IMG_URL} alt=""  />    
             <div className="dropdown-content-user">
-              <a >Your profile</a>
-              <a onClick={()=> choosenWeb('RegisterFaceRecognition')} >Make webcam login</a>
-              <a >Your organizations</a>
-              <a >Your projects</a>
-              <a >Upgrade</a>
-              <a >Help</a>
-              <a >Settings</a>
-              <a >Sign out</a>
+              <a >{T.dashboard_header.dropdown_profile}</a>
+              <a onClick={()=> choosenWeb('RegisterFaceRecognition')} >{T.dashboard_header.dropdown_faceid}</a>
+              <a >{T.dashboard_header.dropdown_ion}</a>
+              <a >{T.dashboard_header.dropdown_ph}</a>              
+              <a >{T.dashboard_header.dropdown_help}</a>
+              <a >{T.dashboard_header.dropdown_Settings}</a>
+              <a >{T.dashboard_header.dropdown_signout}</a>
             </div>
           </div> 
         )
     }
-
   
     return(
         <HeaderContainer>
@@ -45,26 +56,24 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
                         {T.components.header.title}
                     </Title>
                 </Linkos>  
-                <img src="/logo.svg" alt=""  height={25} width={25}/>              
+                <img src={APP_CONFIG.LOGO_URL} alt=""  height={25} width={25}/>              
             </LogoContainer>
 
             <LinkContainer>  
-            <BestButton onClick={()=>{choosenWeb('Analysis')}}>Make new analysis </BestButton>            
-            <BestButton onClick={()=>{choosenWeb('DataBase')}}> DataBase </BestButton>
-            <BestButton onClick={()=>{choosenWeb('pH')}}> pH </BestButton>            
-            <BestButton onClick={()=>{choosenWeb('FaceRecognition')}}> FaceRecognition </BestButton>
-            <BestButton onClick={()=>{choosenWeb('Screenshot')}}> Screenshot </BestButton>
+            <BestButton onClick={()=>{choosenWeb('Analysis')}}>{T.dashboard_header.analysis} </BestButton>            
+            <BestButton onClick={()=>{choosenWeb('DataBase')}}> {T.dashboard_header.database}  </BestButton>
+            <BestButton onClick={()=>{choosenWeb('pH')}}> {T.dashboard_header.ph}  </BestButton>            
+            <BestButton onClick={()=>{choosenWeb('FaceRecognition')}}> {T.dashboard_header.face_recognition}  </BestButton>
+            <BestButton onClick={()=>{choosenWeb('Screenshot')}}> {T.dashboard_header.others}  </BestButton>
             </LinkContainer>
-
 
             <LinkContainer>
                 <DropdownMenu_analysis />
-                <div>User id: {userName}</div>
+                <div>{T.dashboard_header.user_id} {userName}</div>
             </LinkContainer>
         </HeaderContainer>
     )
 }
-
 
 const HeaderContainer = styled.div`
     height: 60px;
@@ -101,4 +110,11 @@ const Linkos = styled.a`
       text-decoration: none;
 `
 
-
+const UserImage = styled.img`
+    cursor: pointer;
+    background-color:rgb(200, 214, 229);
+    border-radius: 15px;
+    margin: 10px;
+    height:25px;
+    width:25px;
+`

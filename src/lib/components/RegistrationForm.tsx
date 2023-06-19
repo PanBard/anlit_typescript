@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BestButton, ContainerP } from './components_modules';
 import  Axios  from 'axios';
 import { SERVER_ROUTS } from 'lib/database/server_routs';
+import { useTranslations } from 'lib/hooks/useTranslations';
 
 
 type RegistrationFormProps = {
@@ -12,7 +13,7 @@ type RegistrationFormProps = {
 export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = ({
     result
 }) => {
-    
+    const T = useTranslations()
     const [firstName, setFirstName] = useState<any>('');
     const [lastName, setLastName] = useState<any>('');
     const [username, setUsername] = useState<any>('');
@@ -49,19 +50,28 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
     }
 
      const validate_credencials = async ( ) =>{
+        if(username == ''){
+            setErrorType('enterUsername')
+            return null
+        }
+       
+
         const query = `select username from account_credentials where username='${username}'`
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
             .then((response)=>{                 
                 if(typeof response.data[0] != 'undefined'){
                     const username_from_db = response.data[0]['username']
-                    if(username_from_db == username) {                        
+                    if(username_from_db == username) {                    
                         setErrorType('wrongUsername')
                         setSubmitted(false)
-                    }
-                    
+                    }                    
                 }
-                else{                  
+                else{                    
                     if(password==confirmPassword){
+                        if(password == ''){
+                            setErrorType('enterPassword')
+                            return null
+                        }
                         send_data_to_db()
                     }
                     else{
@@ -72,10 +82,11 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
                 }})
      }
 
+
+
      const send_data_to_db = async () => {            
-          
         const query = `INSERT INTO account_credentials (username, password, date) VALUES ('${username}','${password}',now()) `
-        await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
+        await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})            
             .then(  result({result: 'Login', userName : username}))
             .catch((err)=>{console.log('send status :(',err)})
      }
@@ -84,7 +95,7 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
        const successMessage = () => {
         return (
             <div style={{ display: submitted ? '' : 'none',}}>
-                <h1>User {username} successfully registered!</h1>
+                <h1>{T.registration_form.succes_register_1} {username} {T.registration_form.succes_register_2}</h1>
             </div>
             );
     };
@@ -93,11 +104,14 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
     const errorMessage = () => {
     return (
        <div >
-           <div style={{ display: errorType =='wrongPassword' ? '' : 'none',}}>    <h3>Password does not match </h3>   </div>
-           <div style={{ display: errorType =='wrongUsername' ? '' : 'none',}}>    <h3>Username is already taken</h3>   </div>
+           <div style={{ display: errorType =='wrongPassword' ? '' : 'none',}}>    <h3>{T.registration_form.warn_pass_not_match} </h3>   </div>
+           <div style={{ display: errorType =='wrongUsername' ? '' : 'none',}}>    <h3>{T.registration_form.warn_username_taken}</h3>   </div>
+           <div style={{ display: errorType =='enterUsername' ? '' : 'none',}}>    <h3>{T.registration_form.warn_username_empty}</h3>   </div>
+           <div style={{ display: errorType =='enterPassword' ? '' : 'none',}}>    <h3>{T.registration_form.warn_pass_empty}</h3>   </div>
        </div>
     )
     };
+
 
     return(
         <Container className="form" >
@@ -105,13 +119,13 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
             <TableContainer >
 
                 <Cell >
-                    <h1>Sign up</h1>
+                    <h1>{T.registration_form.header}</h1>
                     
                 </Cell>
 
                  <Cell >
-                    <label>Username </label>
-                    <Input style={{borderColor: errorType == 'wrongUsername' ? 'red' : ''}}  type="text" id='username' onChange = {(e) => handleInputChange(e)} placeholder="Username"/>
+                    <label>{T.registration_form.username}</label>
+                    <Input style={{borderColor: errorType == 'wrongUsername' ? 'red' : ''}}  type="text" id='username' onChange = {(e) => handleInputChange(e)} placeholder={T.registration_form.username}/>
                 </Cell>
 
                 {/* <Cell >
@@ -130,18 +144,18 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
                 </Cell> */}
 
                 <Cell>
-                    <label >Password </label>
-                    <Input style={{borderColor: errorType == 'wrongPassword' ? 'red' : ''}} className="form__input" type="password" id='password' onChange = {(e) => handleInputChange(e)} placeholder="Password"/>
+                    <label >{T.registration_form.password} </label>
+                    <Input style={{borderColor: errorType == 'wrongPassword' ? 'red' : ''}} className="form__input" type="password" id='password' onChange = {(e) => handleInputChange(e)} placeholder={T.registration_form.password}/>
                 </Cell>
 
                 <Cell >
-                    <label  >Confirm Password </label>
-                    <Input style={{borderColor: errorType == 'wrongPassword' ? 'red' : ''}} className="form__input" type="password"  id='confirmPassword'  onChange = {(e) => handleInputChange(e)} placeholder="Confirm Password"/>
+                    <label  >{T.registration_form.confirm_password} </label>
+                    <Input style={{borderColor: errorType == 'wrongPassword' ? 'red' : ''}} className="form__input" type="password"  id='confirmPassword'  onChange = {(e) => handleInputChange(e)} placeholder={T.registration_form.confirm_password}/>
                 </Cell>
                 {errorMessage()}
                 {successMessage()}
                 <div >
-                    <BestButton onClick={()=>validate_credencials()} type="submit" >Register</BestButton>
+                    <BestButton onClick={()=>validate_credencials()} type="submit" >{T.registration_form.button_register}</BestButton>
                 </div>
 
                    </TableContainer>

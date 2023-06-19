@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules"
 import { Attention } from "lib/components/Attention"
+import { useTranslations } from "lib/hooks"
 
 type AnalysysProps = {
     rout_name: string,
@@ -13,6 +14,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
     rout_name
 })=>{
 
+    const T = useTranslations()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
     const [hide, setHide] =  useState<boolean>(false)
     const [showModyf, setTesto] = useState(false)
@@ -24,7 +26,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
          
      }
      const db_name = (rout_name == 'cation_analysis_result') ? 'cation_analysis_result' : 'anion_analysis_result'
-    const header_name =  (rout_name=='cation_analysis_result') ? 'Cation' : 'Anion'
+    const header_name =  (rout_name=='cation_analysis_result') ? T.databse.cation_analysis : T.databse.anion_analisys
     const keys_f = (rout_name=='cation_analysis_result') ? ['id','name','f1',"f2","f3",'f4','f5','f6','f7'] : ['id','name','f1',"f2","f3",'f4']
     const keys_img = (rout_name=='cation_analysis_result') ? ['img1','img2','img3','img4','img5','img6','img7'] : ['img1','img2','img3','img4'] 
     const keys_end = ['end','result'] 
@@ -50,7 +52,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
     }; 
 
     const delete_all_data = () => {
-        if(confirm("Na pewno chcesz usunąć całą historię?")){
+        if(confirm(T.databse.all_data_del_confirm)){
              const QUERY = `DELETE FROM ${db_name}`
         Axios.post(SERVER_ROUTS.custom_query.get, {query: QUERY})
         .then(()=>{get_data_from_db()})
@@ -59,10 +61,6 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
         } 
        
     }
-
-
- 
-    
 
     const showFullImage = (source: any)=>{
         setComponent( <Attention  > <img width={640} height={480} src={source} /> </Attention>)
@@ -77,12 +75,12 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
         <ContainerP>
 
             <Container>
-                  <BestButton onClick={delete_all_data}>Clear all</BestButton>
+                  <BestButton onClick={delete_all_data}>{T.databse.clear_all_bt}</BestButton>
             </Container>
 
             {!showModyf &&  <Container>
                 <Container>
-                    <Container>{header_name} analysis </Container>
+                    <Container>{header_name} </Container>
                     <TableContainer key={seed}>
                         {showComponent()} 
                         <table >
@@ -99,7 +97,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                                         {keys_img.map( (obj, i) => { if( data[obj]!=null) {return(  <Td_image key={i} >  <MyImage onClick={()=>{showFullImage(data[obj])}}   src={data[obj]}/></Td_image>)} else { return(<Td_image key={i} style={{cursor:'auto'}}/> ) } })}
                                         {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='end' ? '#618685' : data[obj]=='fail' ? `#c44569` : 'none'}} key={i}>{data[obj]}</Td>) })}
                                         {!hide && <Td_container style={{cursor:'pointer'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>}
-                                        {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>Usuń</DeleteButton></Td_container>  }
+                                        {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container>  }
                                         {/* <Td style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td> */}
                                     </tr>
                                 )

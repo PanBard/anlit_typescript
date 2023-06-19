@@ -21,12 +21,28 @@ export const SERVER_ROUTS = {
           "get_required_script" : "http://localhost:4001/api/get/required_cation_voice_script"
           },
 
+          "cation_voice_script_en" : {
+               "get" : "http://localhost:4001/api/get/cation_voice_script_en",
+               "post" : "http://localhost:4001/api/post/cation_voice_script_en",
+               "put" : "http://localhost:4001/api/put/cation_voice_script_en",
+               "delete" : "http://localhost:4001/api/delete/cation_voice_script_en",
+               "get_required_script" : "http://localhost:4001/api/get/required_cation_voice_script_en"
+               },
+
      "anion_voice_script" : {
           "get" : "http://localhost:4001/api/get/anion_voice_script",
           "post" : "http://localhost:4001/api/post/anion_voice_script",
           "put" : "http://localhost:4001/api/put/anion_voice_script",
           "delete" : "http://localhost:4001/api/delete/anion_voice_script",
           "get_required_script" : "http://localhost:4001/api/get/required_anion_voice_script"
+       },
+
+       "anion_voice_script_en" : {
+          "get" : "http://localhost:4001/api/get/anion_voice_script_en",
+          "post" : "http://localhost:4001/api/post/anion_voice_script_en",
+          "put" : "http://localhost:4001/api/put/anion_voice_script_en",
+          "delete" : "http://localhost:4001/api/delete/anion_voice_script_en",
+          "get_required_script" : "http://localhost:4001/api/get/required_anion_voice_script_en"
        },
 
      "cation_analysis_result" : {

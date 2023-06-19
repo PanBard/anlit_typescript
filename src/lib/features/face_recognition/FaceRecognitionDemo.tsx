@@ -5,8 +5,11 @@ import styled from "styled-components"
 import * as faceapi from '@vladmandic/face-api';
 import  Axios  from "axios";
 import { SERVER_ROUTS } from "lib/database/server_routs";
+import { useTranslations } from "lib/hooks";
 
 export const FaceRecognitionDemo: React.FunctionComponent= () => {
+
+  const T = useTranslations()
   const [modelsLoaded, setModelsLoaded] = useState<boolean>(false);
   const [captureVideo, setCaptureVideo] = useState<boolean>(false);
   const [showVideo, setShowVideo] = useState<boolean>(false);
@@ -139,7 +142,7 @@ export const FaceRecognitionDemo: React.FunctionComponent= () => {
     <ContainerC >
       
       <div style={{ textAlign: 'center', padding: '10px' }}>
-    {!showVideo &&  <BestButton onClick={startVideo} style={{cursor: 'pointer', display: data[0] ? 'block' : 'none'}}>Open webcam</BestButton>}
+    {!showVideo &&  <BestButton onClick={startVideo} style={{cursor: 'pointer', display: data[0] ? 'block' : 'none'}}>{T.face_recognition.open_webcam}</BestButton>}
       </div>
       
       {captureVideo ? modelsLoaded ?
@@ -154,9 +157,9 @@ export const FaceRecognitionDemo: React.FunctionComponent= () => {
         }
 
       {captureVideo && modelsLoaded && <ContainerC2>
-        <ContainerLabel>WIEK: {age}</ContainerLabel>
-        <ContainerLabel>PŁEĆ: {gender}</ContainerLabel>
-        <ContainerLabel>NASTRÓJ: {expression}</ContainerLabel>
+        <ContainerLabel>{T.face_recognition.age} {age}</ContainerLabel>
+        <ContainerLabel>{T.face_recognition.gender} {gender}</ContainerLabel>
+        <ContainerLabel>{T.face_recognition.expression} {expression}</ContainerLabel>
       </ContainerC2>}
         <canvas style={{width: 640, height: 480, margin: 5, display: 'none'}} ref={wholeImageCanvasRef} />
     </ContainerC>
