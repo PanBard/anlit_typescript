@@ -9,14 +9,16 @@ import { useEffect, useState } from "react";
 
 type OneHeaderWorkProps = {
     choosenWeb(params: any): any,
-    userName: any
+    userName: any,
+    lang: string
 }
 
 export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
     choosenWeb,
-    userName
+    userName,
+    lang
 }) => {
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [userImage,setUserImage] = useState()
 
     useEffect(()=>{
@@ -30,11 +32,12 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
             .catch((err)=>{console.log('send status :(',err)})
     }
 
+  
 
     const DropdownMenu_analysis = () =>{
         return(
             <div className="dropdown">
-            <UserImage className="dropbtn"  src={APP_CONFIG.USER_IMG_URL} alt=""  />    
+           <UserImage className="dropbtn"  src={userImage ? userImage : APP_CONFIG.USER_IMG_URL}  alt=""  />      {/* take img from db or set default img as avatar*/}
             <div className="dropdown-content-user">
               <a >{T.dashboard_header.dropdown_profile}</a>
               <a onClick={()=> choosenWeb('RegisterFaceRecognition')} >{T.dashboard_header.dropdown_faceid}</a>

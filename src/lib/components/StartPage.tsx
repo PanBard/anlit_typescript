@@ -10,18 +10,21 @@ import { useTranslations } from "lib/hooks/useTranslations"
 
 type BeforeLoginProps = {
     choosenWeb(params: any): any
+    language(params: any):any
 }
 
 export const StartPage: React.FunctionComponent<BeforeLoginProps> = ({
-    choosenWeb
+    choosenWeb,
+    language
 }) => {
 
     const [loginStatus,setLoginStatus] = useState('Start')
-    const T = useTranslations();
+    const [lang,setlang] = useState<string>('en')
+    const T = useTranslations(lang);
 
     return(
         <Container>
-            <OneHeader insideChoice={(e)=>{setLoginStatus(e)}} choosenWeb={e=>{ choosenWeb(e)}}/>
+            <OneHeader language={(e)=>{language(e);setlang(e)}} insideChoice={(e)=>{setLoginStatus(e)}} choosenWeb={e=>{ choosenWeb(e)}}/>
             
            { loginStatus =='Start' && <ContainerMain>
         <Containerr>
@@ -48,11 +51,11 @@ export const StartPage: React.FunctionComponent<BeforeLoginProps> = ({
             </div>
 
             {loginStatus=='Register'&&
-                <RegistrationForm result={(e)=>{ choosenWeb(e)}}/>
+                <RegistrationForm lang={lang} result={(e)=>{ choosenWeb(e)}}/>
             }
 
             {loginStatus=='Login'&&
-                <LoginForm result={(e)=>{choosenWeb(e)}}/>
+                <LoginForm lang={lang} result={(e)=>{choosenWeb(e)}}/>
             }
 
            <Footer/>
@@ -71,6 +74,7 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
     z-index:1;
+    overflow-wrap:normal;
 `
 
 

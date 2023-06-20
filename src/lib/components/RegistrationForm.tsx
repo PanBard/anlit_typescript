@@ -8,12 +8,14 @@ import { useTranslations } from 'lib/hooks/useTranslations';
 
 type RegistrationFormProps = {
     result(params: any): any
+    lang: string
 }
 
 export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = ({
-    result
+    result,
+    lang
 }) => {
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [firstName, setFirstName] = useState<any>('');
     const [lastName, setLastName] = useState<any>('');
     const [username, setUsername] = useState<any>('');

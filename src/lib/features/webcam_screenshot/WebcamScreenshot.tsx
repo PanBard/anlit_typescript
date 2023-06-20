@@ -8,7 +8,13 @@ import { saveAs } from "file-saver";
 import styled from "styled-components";
 import { BestButton } from "lib/components/components_modules";
 
-export  const WebcamScreenshot = () => {
+type WebcamScreenshotProps = {
+  lang: string
+}
+
+export  const WebcamScreenshot: React.FunctionComponent<WebcamScreenshotProps> = ({
+  lang
+}) => {
 
     const [img, setImg] = useState<any>(null);
     const [number_of_image, setNumber_of_image] = useState<any>(1);

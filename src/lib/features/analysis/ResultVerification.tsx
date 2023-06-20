@@ -7,18 +7,21 @@ type ShuffleFateProps = {
     id?: any,
     data?:any,
     phase?:any,
+    lang: string
     
     cation: boolean,
     return_script(params: any): any,
     ion_founded(): any,
     rerender_chat?():any,
+
 }
 
 export const ResultVerification: React.FunctionComponent<ShuffleFateProps> = ({
     cation,
     return_script,
     ion_founded,
-    rerender_chat
+    rerender_chat,
+    lang
 }) => {
 
     const [phase, setPhase] = useState<number>()
@@ -29,10 +32,10 @@ export const ResultVerification: React.FunctionComponent<ShuffleFateProps> = ({
     const db_type = cation ? 'cation_analysis_result' : 'anion_analysis_result' 
     const db_type_name = cation ? 'cation_script_flow' : 'anion_script_flow' 
     // const db_cation_voice_script_name = cation ? 'cation_voice_script' : 'anion_voice_script' 
-    const db_cation_voice_script_name = cation ? 'cation_voice_script_en' : 'anion_voice_script_en' 
+    const db_cation_voice_script_name = lang=='EN' ? (cation ? 'cation_voice_script_en' : 'anion_voice_script_en') : (cation ? 'cation_voice_script' : 'anion_voice_script') 
     const db_text_name = cation ? 'c_analysis_texts' : 'a_analysis_texts' 
     // const cation_voice_script_for_custom_query = cation ? 'cation_voice_script' : 'anion_voice_script' 
-    const cation_voice_script_for_custom_query = cation ? 'cation_voice_script_en' : 'anion_voice_script_en' 
+    const cation_voice_script_for_custom_query = lang=='EN' ? (cation ? 'cation_voice_script_en' : 'anion_voice_script_en') : (cation ? 'cation_voice_script' : 'anion_voice_script') 
 
     const script_detected= {
         "brak": 'Wykryto próbówkę bez osadu!',
@@ -52,7 +55,7 @@ export const ResultVerification: React.FunctionComponent<ShuffleFateProps> = ({
     const Voice = (words: string) => {
         const msg = new SpeechSynthesisUtterance()
         // msg.lang = "pl-PL" 
-        msg.lang = "en-US" 
+        msg.lang = lang=='EN' ? "en-US" : "pl-PL" 
         msg.text =  words
         window.speechSynthesis.speak(msg)
 }

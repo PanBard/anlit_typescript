@@ -1,8 +1,17 @@
+import { APP_CONFIG } from "lib/config"
+import { useTranslations } from "lib/hooks"
 import React, { useState } from "react"
 import styled from "styled-components"
 
-export const WelcomePage: React.FunctionComponent = () => {
+type WelcomePageProps = {
+    lang: string
+}
 
+export const WelcomePage: React.FunctionComponent<WelcomePageProps> = ({
+    lang
+}) => {
+
+    const T = useTranslations(lang);
     return(
         <ContainerMain>
             <Container>
@@ -11,7 +20,7 @@ export const WelcomePage: React.FunctionComponent = () => {
                 <H2s>GitHub Codespaces offers a complete dev environment in seconds, so you can code, build, test, and open pull requests from any repo anywhere.</H2s>
             </Container>
             <Container>
-                <Imagee src="/galaxy.jpg"></Imagee>
+                <Imagee src={APP_CONFIG.PROBE_GALAXY_URL}></Imagee>
             </Container>
         </ContainerMain>
       

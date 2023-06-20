@@ -1,4 +1,6 @@
-export const en_US = {
+import { Dictionary } from "lib/types/dictionary";
+
+export const en_US: Dictionary = {
     common: {
         autoTranslate: 'Auto ',
         companyName: "Hog Ademy",
@@ -8,6 +10,11 @@ export const en_US = {
         begin: "Begin",
         save: "save",
     },
+
+    supported_languages:{
+        en:'EN',
+        pl:'PL'
+    },
     components: {
         app: {
             error: 'Something went wrong',
@@ -15,7 +22,7 @@ export const en_US = {
             loading: 'Fetching supported languages...'
         },
         header: {
-            title: "ChatChad",
+            title: "AnalysisAI",
             diskord: "Discord",
             github: "Github"
         },
@@ -60,7 +67,7 @@ export const en_US = {
     registration_form: {
         succes_register_1: "User ",
         succes_register_2: " successfully registered!",
-        header: "Sign up",
+        header: "Create a new user",
         username: "Username",
         password: "Password",
         confirm_password: "Confirm Password",
@@ -77,7 +84,7 @@ export const en_US = {
         ph: "pH analysis",
         face_recognition: "Face recognition",
         others:"Other",
-        user_id: "Username ",
+        user_id: "User: ",
         dropdown_profile: "Your profile",
         dropdown_faceid: "Your Face ID",
         dropdown_ion: "Your ion analysis",
@@ -132,7 +139,7 @@ export const en_US = {
         clear_all_bt: "Clear all",
         remove_bt:"Remove",
         mod_bt:"Mod",
-        entry_modification:"modification of entry number ", //Modyfikacja wersetu nr:
+        entry_modification:"Modification of entry number ", //Modyfikacja wersetu nr:
         anion_analisys: "Anion analysis",
         cation_analysis: "Cation analysis",
         anion_scriptflow: "Anion scriptflow",

@@ -12,9 +12,16 @@ import { Users } from "./db_component/Users"
 import { PhAnalysis } from "./db_component/PhAnalysis"
 import { useTranslations } from "lib/hooks"
 
-export const DataDashboard: React.FunctionComponent = () => {
+type DataDashboard = {
+    lang: string
+}
+
+
+export const DataDashboard: React.FunctionComponent<DataDashboard> = ({
+    lang
+}) => {
     
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [component, setComponent] = useState()
     const [seed, setSeed] = useState(1);
 

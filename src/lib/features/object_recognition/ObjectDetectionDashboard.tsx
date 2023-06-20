@@ -17,7 +17,8 @@ type AnalysisProps = {
     rerender?(params: any): any,
     cation: boolean,
     chatCanTellNow(params: any): any,
-    result_from_voice_description: any
+    result_from_voice_description: any,
+    lang: string
 }
 
 export const ObjectDetectionDashboard: React.FunctionComponent<AnalysisProps> = ({
@@ -26,9 +27,10 @@ export const ObjectDetectionDashboard: React.FunctionComponent<AnalysisProps> = 
     rerender,
     cation,
     chatCanTellNow,
-    result_from_voice_description
+    result_from_voice_description,
+    lang
 }) => {
-    const T = useTranslations();
+    const T = useTranslations(lang);
     const [data, setData] = useState<any[]>([])
     const[dataFromChildComponent , setDataFromChildComponent] = useState()
     const [phase, setPhase] = useState(1)
@@ -116,7 +118,7 @@ export const ObjectDetectionDashboard: React.FunctionComponent<AnalysisProps> = 
           </Container>
 
           <Container style={{width: '150px' , margin: '50px'}}>
-            <ProbabilityResultMatching cation={cation} />
+            <ProbabilityResultMatching lang={lang} cation={cation} />
           </Container>
 
           <Container2>
@@ -149,7 +151,7 @@ export const ObjectDetectionDashboard: React.FunctionComponent<AnalysisProps> = 
 
                      <BestButton onClick={()=>{setBoollena(!bollena)}} >  {T.analysis.webcam_detection} </BestButton>
                 
-                  <LiveUpdate cation={cation}/>
+                  <LiveUpdate lang={lang} cation={cation}/>
                 
             </Container>}
         </ContainerP>

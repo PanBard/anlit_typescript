@@ -9,13 +9,15 @@ import { useTranslations } from 'lib/hooks/useTranslations';
 
 type LoginFormProps = {
     result(params: any): any
+    lang: string
 }
 
 export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
-    result
+    result,
+    lang
 }) => {
     
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [username, setUsername] = useState<any>('limon');
     const [password,setPassword] = useState<any>('limon');
     const [errorType, setErrorType] = useState<any>('limon');

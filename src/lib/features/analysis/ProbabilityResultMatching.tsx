@@ -9,13 +9,15 @@ type ShuffleFateProps = {
     data?:any,
     phase?:any,
     label?:any,
-    cation: boolean
+    cation: boolean,
+    lang: string
 }
 
 export const ProbabilityResultMatching: React.FunctionComponent<ShuffleFateProps> = ({
-    cation
+    cation,
+    lang
 }) => {
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [phase, setPhase] = useState<number>()
     const [data, setData] = useState<any[]>([])
     const [rightSymbol, setRightSymbol] = useState<any[]>([])

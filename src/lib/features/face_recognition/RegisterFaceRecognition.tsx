@@ -10,10 +10,12 @@ import { useTranslations } from "lib/hooks";
 
 type RegisterFaceRecognitionProps = {
   userName: any
+  lang: string
 }
 
 export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecognitionProps> = ({
-  userName
+  userName,
+  lang
 }) => {
 
   const T = useTranslations()

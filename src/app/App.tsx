@@ -15,11 +15,13 @@ export const App = () => {
 }     
 
 const MojDIV = styled.div`
-    width: 100%;
-    height: 100vh;
+    /* width: 100%;
+    height: 100vh; */
     background-color: ${ ({theme}) => theme.colors.background };
     color: ${({theme}) => theme.colors.typography};
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; */
 `
+
+

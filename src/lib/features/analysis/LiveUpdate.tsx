@@ -8,13 +8,15 @@ import { useTranslations } from "lib/hooks";
 
 type LiveUpdateProps = {
     cation: boolean
+    lang: string
 }
 
 export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
-    cation
+    cation,
+    lang
 }) => {
 
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [data, setData] = useState<any[]>([])
     const [seed, setSeed] = useState(1);
     const [component, setComponent] = useState<any>()

@@ -1,4 +1,7 @@
-export const pl_PL = {
+import { Dictionary } from "lib/types/dictionary";
+
+export const pl_PL: Dictionary = {
+
     common: {
         autoTranslate: 'Auto ',
         companyName: "Hog Ademy",
@@ -8,6 +11,11 @@ export const pl_PL = {
         begin: "Rozpocznij",
         save: "Zapisz",
     },
+
+    supported_languages:{
+        en:'EN',
+        pl:'PL'
+    },
     components: {
         app: {
             error: 'Something went wrong',
@@ -15,7 +23,7 @@ export const pl_PL = {
             loading: 'Fetching supported languages...'
         },
         header: {
-            title: "ChatChad",
+            title: "AnalysisAI",
             diskord: "Discord",
             github: "Github"
         },
@@ -41,13 +49,14 @@ export const pl_PL = {
     start_page: {
         button_about: "O projekcie",
         button_sign_in: "Zaloguj",
-        button_sign_up: "Utwórz nowe konto",
+        button_sign_up: "Rejestracja",
         welcome_text_1: "Witaj!",
         welcome_text_2: "Nasza platforma oparta na sztucznej inteligencji napędza innowacje dzięki narzędziom, które przyspieszają pracę programistów.",
         welcome_text_3: "GitHub Codespaces oferuje kompletne środowisko deweloperskie w ciągu kilku sekund, dzięki czemu możesz kodować, budować, testować i otwierać żądania ściągania z dowolnego repozytorium w dowolnym miejscu."
     },
 
     login_form: {
+        succes_login: "Witaj!",
         header: "Zaloguj się",
         username: "Nazwa użytkownika",
         password: "Hasło",
@@ -57,15 +66,17 @@ export const pl_PL = {
         warn_wrong_pass: "Złe hasło"
     },
     registration_form: {
+        succes_register_1: "Użytkownik ",
+        succes_register_2: " zalogowany poprawnie!",
         header: "Zarejestruj się",
         username: "Nazwa użytkownika",
         password: "Hasło",
         confirm_password: "Potwierdź hasło",
-        button_register: "Zarejestruj się",
+        button_register: "Utwórz nowe konto",
         warn_pass_not_match: "Hasła się nie zgadzają",
         warn_username_taken: "Użytkownik o takiej nazwie już istnieje",
-        warn_pass_empty: "Wpisz nazwę użytkownika",
-        warn_username_empty: "Wpisz hasło",
+        warn_pass_empty: "Wpisz hasło",
+        warn_username_empty: "Wpisz nazwę użytkownika",
     },
     dashboard_header: {
         analysis: "Analiza jonów",
@@ -73,7 +84,7 @@ export const pl_PL = {
         ph: "Analiza pH",
         face_recognition: "Rozpoznawanie twarzy",
         others:"Inne",
-        user_id: "Użytkownik ",
+        user_id: "Użytkownik: ",
         dropdown_profile: "Twój profil",
         dropdown_faceid: "Logowanie twarzą",
         dropdown_ion: "Analizy jonów",
@@ -89,7 +100,7 @@ export const pl_PL = {
         anion_analysis: "Analiza anionów",
         enter_analysis_name: "Nazwa nowej analizy",
         analysis_begin: "Rozpocznij analizę",
-        propability: "Prawdopodobieństwo: ",
+        propability: "Mogą wystąpić: ",
         webcam_detection: "Wykryj automatycznie",
         anion_identification: "Identyfikacja kationu",
         cation_identification: "Identyfikacja kationu",
@@ -110,25 +121,43 @@ export const pl_PL = {
     },
 
     database_buttons: {
-        ion_analysis:"Ion analysis",
-        dataflow:"Dataflow",
-        anion: "Anions -",
-        cation: "Cations +",
-        voicescript: "VoiceScript",
-        images: "Images",
-        img_1:"Test images",
-        img_2:"Images storage",
-        img_3:"Face images",
-        chat: "Chat messages",
-        users: "Users",
-        ph: "pH analysis",
+        ion_analysis:"Analizy jonów",
+        dataflow:"Baza wiedzy",
+        anion: "Aniony -",
+        cation: "Kationy +",
+        voicescript: "Skrypty głosowe",
+        images: "Zdjęcia",
+        img_1:"Testowe",
+        img_2:"Bank zdjęć",
+        img_3:"Rozpoznawanie twarzy",
+        chat: "Wiadomości czatu",
+        users: "Użytkownicy",
+        ph: "Analizy pH",
+    },
+
+    databse: {
+        clear_all_bt: "Usuń wszystkie",
+        remove_bt:"Usuń",
+        mod_bt:"Mod",
+        entry_modification:"Modyfikacja wersetu nr: ", 
+        anion_analisys: "Analizy anionów",
+        cation_analysis: "Analizy kationów",
+        anion_scriptflow: "Baza wiedzy anionów",
+        cation_scriptflow: "Baza wiedzy kationów",
+        anion_voicescript: "Skrypt głosowy Anionów",
+        cation_voicescript: "Skrypt głosowy Kationów",
+        update_data: "Zmień",
+        add_new: "Dodaj nowy",
+        submit_bt:"Prześlij dane",
+        all_data_del_confirm: "Na pewno chcesz usunąć całą historię?",
     },
 
     ph:{
         new_calibrations: "Nowa kalibracja",
         prevoius_calibrations: "Wcześniejsze kalibracje",
         saved_cal: "Zapisane kalibracje: ",
-        cal_name: "Nazwa nowej kalibracji pH: ",        
+        cal_name: "Nazwa nowej kalibracji pH: ", 
+        cal_begin: "Rozpocznij",       
         take_screenshot: "Pobierz próbkę zdjęcia",
         preview: "Podgląd: ",
         result: "Wynik: ",
@@ -138,12 +167,12 @@ export const pl_PL = {
     },
     
     face_recognition: {
-        start_scan: "Start scan",
-        open_webcam:"Open Webcam",
-        close_webcam: "Close Webcam",
-        age:"Age: ",
-        gender:"Gender: ",
-        expression: "Expression: "
+        start_scan: "Wykonaj skan twarzy",
+        open_webcam:"Otwórz kamerę",
+        close_webcam: "Zamknij kamerę",
+        age:"Wiek: ",
+        gender:"Płeć: ",
+        expression: "Nastrój: "
     }
 
 

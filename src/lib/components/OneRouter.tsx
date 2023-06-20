@@ -16,26 +16,27 @@ export const OneRouter: React.FunctionComponent = () => {
     const [webStatus, setWebStatus] = useState('Start')
     const [loginStatus,setLoginStatus] = useState('Start')
     const [userName, setUserName] = useState<any>()
+    const [language, setLanguage] = useState<string>("EN")
 
     return(
         <Container>
              {loginStatus=='Login' && 
              
              <MojDIV>
-                <OneHeaderWork userName={userName} choosenWeb={e => {setWebStatus(e)}}/> {/*this bar is working outside routes, so is working in all moduls */}
+                <OneHeaderWork lang={language} userName={userName} choosenWeb={e => {setWebStatus(e)}}/> {/*this bar is working outside routes, so is working in all moduls */}
                 <Container>
-                    {webStatus=='Start' && <WelcomePage/>}
-                    {webStatus=='DataBase' && <DataDashboard/>}                
-                    {webStatus=='Analysis' && <AnalysisDashboard/>}                                                
-                    {webStatus == 'pH' && <PHAnalyser/>}                
-                    {webStatus == 'FaceRecognition' && <FaceRecognitionDemo  />}
-                    {webStatus == 'RegisterFaceRecognition' && <RegisterFaceRecognition  userName={userName} />}
-                    {webStatus == 'Screenshot' && <WebcamScreenshot/>}                
+                    {webStatus=='Start' && <WelcomePage lang={language}/>}
+                    {webStatus=='DataBase' && <DataDashboard lang={language}/>}                
+                    {webStatus=='Analysis' && <AnalysisDashboard lang={language}/>}                                                
+                    {webStatus == 'pH' && <PHAnalyser lang={language}/>}                
+                    {webStatus == 'FaceRecognition' && <FaceRecognitionDemo lang={language} />}
+                    {webStatus == 'RegisterFaceRecognition' && <RegisterFaceRecognition lang={language} userName={userName} />}
+                    {webStatus == 'Screenshot' && <WebcamScreenshot lang={language}/>}                
                 </Container>
                 <Footer/>
             </MojDIV>}
 
-            {loginStatus=='Start' &&   <StartPage choosenWeb={e => {setUserName(e['userName']) ; setLoginStatus(e['result']) }} />}
+            {loginStatus=='Start' &&   <StartPage language={(e)=>{setLanguage(e)}} choosenWeb={e => {setUserName(e['userName']) ; setLoginStatus(e['result']) }} />}
         </Container>              
     )
 }
@@ -43,8 +44,8 @@ export const OneRouter: React.FunctionComponent = () => {
 const Container = styled.div`   
 `
 const MojDIV = styled.div`
-width: 100%;
-height: 100vh;
+/* width: 100%;
+height: 100vh; */
 background-color: #0d1117;
 color: ${({theme}) => theme.colors.typography};
 display: flex;

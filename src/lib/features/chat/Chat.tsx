@@ -13,7 +13,8 @@ type ChatCatProps = {
     id?: any,
     ready: boolean,
     refreshChat?: any,
-    return_results_to_parent_component(params: any): any
+    return_results_to_parent_component(params: any): any,
+    lang: string
 }
 
 export const Chat: React.FunctionComponent<ChatCatProps> = ({
@@ -21,10 +22,11 @@ export const Chat: React.FunctionComponent<ChatCatProps> = ({
     id,
     ready,
     refreshChat,
-    return_results_to_parent_component
+    return_results_to_parent_component,
+    lang
 }) =>{
 
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [phase, setPhase] = useState<number>()
     const [data, setData] = useState<any[]>([])
     const [script, setScript] = useState<string>()

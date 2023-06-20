@@ -29,7 +29,7 @@ export const FaceImage: React.FunctionComponent = ()=>{
 
     const get_data_from_db = async () => {
 
-        const query = 'SELECT id, CONVERT(img1 USING utf8) as img1, CONVERT(img2 USING utf8) as img2, CONVERT(img3 USING utf8) as img3, username, password, date FROM face_img_storage'
+        const query = 'SELECT id, CONVERT(img1 USING utf8) as img1, CONVERT(img2 USING utf8) as img2, CONVERT(img3 USING utf8) as img3, username, date FROM face_img_storage'
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
         .then( (response: any)=>{setDataFromDataBase(response.data) })
         .catch((err)=>{console.log('db status :(',err)})

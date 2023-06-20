@@ -6,10 +6,17 @@ import  Axios  from "axios";
 import { SERVER_ROUTS } from "lib/database/server_routs";
 import { useTranslations } from "lib/hooks";
 
-export const PHAnalyser: React.FunctionComponent = ({}) => {
+type PHAnalyserProps = {
+  lang: string
+}
 
 
-  const T = useTranslations();
+export const PHAnalyser: React.FunctionComponent<PHAnalyserProps> = ({
+  lang
+}) => {
+
+
+  const T = useTranslations(lang);
   const webcamRef = useRef<Webcam>(null);
   const divRef = useRef<any>(null);
   const imageCanvasRef = useRef<any>(null);

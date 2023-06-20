@@ -89,7 +89,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                                 {input_name.map( (obj, i) => { return(<Th key={i}>{obj}</Th>) })}
 
                             </Tr_sticky_row>
-                            {dataFromDataBase.map((data: any, index)=>{
+                            {dataFromDataBase.slice(0).reverse().map((data: any, index)=>{
                                 return (
                                     <tr key={index}>  
                                         {keys_f.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
@@ -113,9 +113,6 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
 
 }
 
-
-
-
 const Td = styled.td`
     border: 1px solid gray;
     justify-content: center;
@@ -126,12 +123,10 @@ const Td_container = styled.td`
     text-align:center;     
 `
 
-
 const Th = styled.th`
     border: 1px solid gray;
     justify-content: center;
 `
-
 
 const Container = styled.div` `
 

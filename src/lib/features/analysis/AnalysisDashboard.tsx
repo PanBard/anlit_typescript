@@ -10,11 +10,15 @@ import { BestButton } from "lib/components/components_modules"
 import { Chat } from "../chat/Chat"
 import { useTranslations } from "lib/hooks/useTranslations"
 
+type AnalysisDashboardProps = {
+    lang: string
+}
 
-
-export const AnalysisDashboard: React.FunctionComponent = () => {
+export const AnalysisDashboard: React.FunctionComponent<AnalysisDashboardProps> = ({
+    lang
+}) => {
     
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [phase, setPhase] = useState(1)
     const [choosen_mode, setChoosen_mode] = useState('start')
     const [current_analysis, setCurrent_analysis] = useState('unknown')
@@ -133,9 +137,9 @@ export const AnalysisDashboard: React.FunctionComponent = () => {
             if(current_analysis == 'cation'){
                 return(
                 <ContainerP>                        
-                        <ObjectDetectionDashboard result_from_voice_description={result_from_voice_describe} chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={true}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
-                        <ResultVerification rerender_chat={()=>{setSeed_for_chat(true)}} ion_founded={()=>{setIonfounded(true)}} cation={true} key={seed+3}  return_script={(message)=>{setScript(message)}}/>
-                       <Chat return_results_to_parent_component={e => {setResult_from_voice_describe(e), make_tetection(e)}} refreshChat={refreshChat} id={id} cation={true}  key={seed+9} script={script} ready={seed_for_chat}/>
+                        <ObjectDetectionDashboard lang={lang} result_from_voice_description={result_from_voice_describe} chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={true}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
+                        <ResultVerification lang={lang} rerender_chat={()=>{setSeed_for_chat(true)}} ion_founded={()=>{setIonfounded(true)}} cation={true} key={seed+3}  return_script={(message)=>{setScript(message)}}/>
+                       <Chat lang={lang} return_results_to_parent_component={e => {setResult_from_voice_describe(e), make_tetection(e)}} refreshChat={refreshChat} id={id} cation={true}  key={seed+9} script={script} ready={seed_for_chat}/>
                 </ContainerP>
             )
             }
@@ -143,9 +147,9 @@ export const AnalysisDashboard: React.FunctionComponent = () => {
             if(current_analysis == 'anion'){
                 return(
                 <ContainerP>
-                       <ObjectDetectionDashboard result_from_voice_description={result_from_voice_describe} chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={false}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
-                       <ResultVerification rerender_chat={()=>{setSeed_for_chat(true)}} ion_founded={()=>{setIonfounded(true)}} cation={false} key={seed+3}  return_script={(message)=>{setScript(message)}}/>
-                       <Chat return_results_to_parent_component={e => {setResult_from_voice_describe(e), make_tetection(e)}} refreshChat={refreshChat} id={id} cation={false}  key={seed+9} script={script} ready={seed_for_chat}/>
+                       <ObjectDetectionDashboard lang={lang} result_from_voice_description={result_from_voice_describe} chatCanTellNow={()=>{setRefreshChat(refreshChat+1)}} cation={false}  rerender={()=>{setSeed_for_chat(false);reset()}} key={seed} name={analysis_name} id={id} back={()=>{setChoosen_mode('start'); }}/>
+                       <ResultVerification lang={lang} rerender_chat={()=>{setSeed_for_chat(true)}} ion_founded={()=>{setIonfounded(true)}} cation={false} key={seed+3}  return_script={(message)=>{setScript(message)}}/>
+                       <Chat lang={lang} return_results_to_parent_component={e => {setResult_from_voice_describe(e), make_tetection(e)}} refreshChat={refreshChat} id={id} cation={false}  key={seed+9} script={script} ready={seed_for_chat}/>
                 </ContainerP>
             )
             }            
