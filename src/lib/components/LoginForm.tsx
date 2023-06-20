@@ -107,7 +107,7 @@ export const LoginForm: React.FunctionComponent<LoginFormProps> = ({
                     <BestButton onClick={()=>validate_password()} type="submit" >{T.login_form.button_sign_in}</BestButton>
                 </div>
 
-                <LoginFaceRecognition returnResult={(e)=>{result(e)}}/>
+                <LoginFaceRecognition lang={lang} returnResult={(e)=>{result(e)}}/>
 
                    </TableContainer>
              </ContainerP>

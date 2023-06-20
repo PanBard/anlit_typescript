@@ -18,7 +18,7 @@ export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecogn
   lang
 }) => {
 
-  const T = useTranslations()
+  const T = useTranslations(lang)
   const [modelsLoaded, setModelsLoaded] = useState<boolean>(false);
   const [captureVideo, setCaptureVideo] = useState<boolean>(false);
   const [name,setName] = useState<any>()

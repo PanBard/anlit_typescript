@@ -1,15 +1,10 @@
 import React, { useState } from "react"
-import { Footer } from "./Footer";
 import styled from "styled-components";
+import {WelcomePage, Footer, StartPage, OneHeaderWork } from "./";
 import { DataDashboard } from "lib/database/DataDashboard";
-import { AnalysisDashboard } from "lib/features/analysis/AnalysisDashboard";
-import { WelcomePage } from "./WelcomePage";
-import { WebcamScreenshot } from "lib/features/webcam_screenshot/WebcamScreenshot";
-import { StartPage } from "./StartPage";
-import { OneHeaderWork } from "./OneHeaderWork";
-import { PHAnalyser } from "lib/features/ph_analyzer/PHAnalyser";
-import { FaceRecognitionDemo } from "lib/features/face_recognition/FaceRecognitionDemo";
-import { RegisterFaceRecognition } from "lib/features/face_recognition/RegisterFaceRecognition";
+import { AnalysisDashboard, WebcamScreenshot, PHAnalyser, FaceRecognitionDemo, RegisterFaceRecognition} from "lib/features";
+import { UserSettings, UserProfile, UserIonAnalysis, UserPhAnalysis, UserHelp} from "./user_utils";
+
 
 export const OneRouter: React.FunctionComponent = () => {
 
@@ -31,9 +26,14 @@ export const OneRouter: React.FunctionComponent = () => {
                     {webStatus == 'pH' && <PHAnalyser lang={language}/>}                
                     {webStatus == 'FaceRecognition' && <FaceRecognitionDemo lang={language} />}
                     {webStatus == 'RegisterFaceRecognition' && <RegisterFaceRecognition lang={language} userName={userName} />}
-                    {webStatus == 'Screenshot' && <WebcamScreenshot lang={language}/>}                
+                    {webStatus == 'Screenshot' && <WebcamScreenshot lang={language}/>}      
+                    {webStatus == 'UserSettings' && <UserSettings lang={language}/>}     
+                    {webStatus == 'UserProfile' && <UserProfile lang={language}/>}        
+                    {webStatus == 'UserIonAnalysis' && <UserIonAnalysis lang={language}/>}      
+                    {webStatus == 'UserPHAnalysis' && <UserPhAnalysis lang={language}/>}  
+                    {webStatus == 'UserHelp' && <UserHelp lang={language}/>}  
                 </Container>
-                <Footer/>
+                <Footer lang={language}/>
             </MojDIV>}
 
             {loginStatus=='Start' &&   <StartPage language={(e)=>{setLanguage(e)}} choosenWeb={e => {setUserName(e['userName']) ; setLoginStatus(e['result']) }} />}

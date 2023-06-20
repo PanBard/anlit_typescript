@@ -7,6 +7,7 @@ export type Dictionary =  {
         end: string,
         begin: string,
         save: string,
+        or:string
     },
     supported_languages:{
         en:string,
@@ -111,6 +112,7 @@ export type Dictionary =  {
         
         end_analysis: string,
         wrong_result: string,
+        end_of_analysis: string,
         ion_found: string,
        
         chat_name: string,

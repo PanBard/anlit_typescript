@@ -1,5 +1,6 @@
 import  Axios  from "axios";
 import { SERVER_ROUTS } from "lib/database/server_routs";
+import { useTranslations } from "lib/hooks";
 import { useEffect, useMemo, useState } from "react";
 
 
@@ -23,6 +24,8 @@ export const ResultVerification: React.FunctionComponent<ShuffleFateProps> = ({
     rerender_chat,
     lang
 }) => {
+
+    const T = useTranslations(lang)
 
     const [phase, setPhase] = useState<number>()
     const [data, setData] = useState<any[]>([])
@@ -187,12 +190,10 @@ const get_script_from_db =async () => {
                 .then((response)=>{
                 const current = data[data.length-1];
                 const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`                
-                if(response.data[0].f7 !== 'end')Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: response.data[0].script,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat)
-                // if(response.data[0].f7 == 'end'){const text = response.data[0].script + ' Analiza zakoczona powodzeniem!'   ; Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: text,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat)}
-                if(response.data[0].f7 == 'end'){const text = response.data[0].script + 'Congratulations, analysis completed successfully!'   ; Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: text,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat)}
-                if(response.data[0].f7 !== 'end') {Voice(response.data[0].script); return_script(response.data[0].script)}
-                // if(response.data[0].f7 == 'end'){ion_founded(); return_script(response.data[0].script);Voice(response.data[0].script); Voice('Analiza zakończona powodzeniem!');set_happy_end(response.data[0].f6)} 
-                if(response.data[0].f7 == 'end'){ion_founded(); return_script(response.data[0].script);Voice(response.data[0].script); Voice('Congratulations, analysis completed successfully!');set_happy_end(response.data[0].f6)} 
+                if(response.data[0].f7 !== 'end')Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: response.data[0].script,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat)                
+                if(response.data[0].f7 == 'end'){const text = response.data[0].script + T.analysis.end_of_analysis  ; Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: text,author: 'bot', ion: cation ? 'cation' : 'anion' }).then(rerender_chat)}
+                if(response.data[0].f7 !== 'end') {Voice(response.data[0].script); return_script(response.data[0].script)}                
+                if(response.data[0].f7 == 'end'){ion_founded(); return_script(response.data[0].script);Voice(response.data[0].script); Voice(T.analysis.end_of_analysis );set_happy_end(response.data[0].f6)} 
                 })
                 .catch((err)=>{console.log(err)})
 }
@@ -209,16 +210,11 @@ useMemo(()=>{
 useMemo(()=>{
     if(typeof phase !== 'undefined' && phase!==1 && rightSymbol.length == 0 && foundIon==true){ 
         const current = data[data.length-1]
-        const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`
-        // Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: 'Taki wynik nie powinien się pojawić na tym etapie analizy.',author: 'bot', ion: cation ? 'cation' : 'anion' })
-        // .then(rerender_chat)
-        // .then(()=>{set_failed_end()})
-        // .then(()=>{Voice('Taki wynik nie powinien się pojawić na tym etapie analizy.')})
-
-        Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: 'Such a result should not appear at this stage of the analysis.',author: 'bot', ion: cation ? 'cation' : 'anion' })
+        const query = `UPDATE ${db_text_name} SET f${phase-1}=? WHERE id=?`      
+        Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:current.id, message: T.analysis.wrong_result ,author: 'bot', ion: cation ? 'cation' : 'anion' })
         .then(rerender_chat)
         .then(()=>{set_failed_end()})
-        .then(()=>{Voice('Such a result should not appear at this stage of the analysis.')})
+        .then(()=>{Voice(T.analysis.wrong_result )})
         }
 },[foundIon])
 

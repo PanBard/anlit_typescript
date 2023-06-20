@@ -10,13 +10,15 @@ import { useTranslations } from "lib/hooks/useTranslations";
 
 type LoginFaceRecognitionProps = {
   returnResult(params: any): any
+  lang: string
 
 }
 
 export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionProps> = ({
-  returnResult
+  returnResult,
+  lang
 }) => {
-  const T = useTranslations();
+  const T = useTranslations(lang);
   const [modelsLoaded, setModelsLoaded] = useState<boolean>(false);
   const [captureVideo, setCaptureVideo] = useState<boolean>(false);
   const [data,setData] = useState<any>([])
@@ -130,13 +132,11 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
       } 
   }
 
-  useMemo(()=>{
-    let condition = true;
+  useMemo(()=>{    
     if(captureVideo){
       const interval =  setInterval(()=>{
     if(typeof videoRef.current !== "undefined" && videoRef.current !== null && videoRef.current.video ){
-      clearInterval(interval);
-      condition = false
+      clearInterval(interval);      
        rightInFace()
     }
     },100)
@@ -162,8 +162,9 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
 
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>      
-      <div style={{ textAlign: 'center' }}>       
-      <BestButton onClick={()=>{startVideo() ;showFullImage()}} style={{cursor: 'pointer', display: data[0] ? 'block' : 'none'}}>{T.login_form.button_scan}</BestButton>    
+      <div style={{ textAlign: 'center',display: data[0] ? 'flex' : 'none' ,justifyItems:'center', flexDirection:'column'}}>   
+      {T.common.or}    
+      <BestButton onClick={()=>{startVideo() ;showFullImage()}} >{T.login_form.button_scan}</BestButton>    
       </div>
       
       {captureVideo ? modelsLoaded ?

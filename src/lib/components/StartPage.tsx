@@ -58,7 +58,7 @@ export const StartPage: React.FunctionComponent<BeforeLoginProps> = ({
                 <LoginForm lang={lang} result={(e)=>{choosenWeb(e)}}/>
             }
 
-           <Footer/>
+           <Footer lang={lang}/>
       
         </Container>
     )

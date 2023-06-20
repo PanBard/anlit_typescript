@@ -32,20 +32,19 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
             .catch((err)=>{console.log('send status :(',err)})
     }
 
-  
 
     const DropdownMenu_analysis = () =>{
         return(
             <div className="dropdown">
            <UserImage className="dropbtn"  src={userImage ? userImage : APP_CONFIG.USER_IMG_URL}  alt=""  />      {/* take img from db or set default img as avatar*/}
             <div className="dropdown-content-user">
-              <a >{T.dashboard_header.dropdown_profile}</a>
+              <a onClick={()=>{choosenWeb('UserProfile')}}>{T.dashboard_header.dropdown_profile}</a>
               <a onClick={()=> choosenWeb('RegisterFaceRecognition')} >{T.dashboard_header.dropdown_faceid}</a>
-              <a >{T.dashboard_header.dropdown_ion}</a>
-              <a >{T.dashboard_header.dropdown_ph}</a>              
-              <a >{T.dashboard_header.dropdown_help}</a>
-              <a >{T.dashboard_header.dropdown_Settings}</a>
-              <a >{T.dashboard_header.dropdown_signout}</a>
+              <a onClick={()=>{choosenWeb('UserIonAnalysis')}} >{T.dashboard_header.dropdown_ion}</a>
+              <a onClick={()=>{choosenWeb('UserPHAnalysis')}}>{T.dashboard_header.dropdown_ph}</a>              
+              <a onClick={()=>{choosenWeb('UserHelp')}}>{T.dashboard_header.dropdown_help}</a>
+              <a onClick={()=>{choosenWeb('UserSettings')}} >{T.dashboard_header.dropdown_Settings}</a>
+              <a onClick={()=>{location.reload()}} >{T.dashboard_header.dropdown_signout}</a>
             </div>
           </div> 
         )

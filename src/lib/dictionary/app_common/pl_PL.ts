@@ -10,6 +10,7 @@ export const pl_PL: Dictionary = {
         end: "Zakończ",
         begin: "Rozpocznij",
         save: "Zapisz",
+        or:"LUB"
     },
 
     supported_languages:{
@@ -113,7 +114,8 @@ export const pl_PL: Dictionary = {
         
         end_analysis: "Analiza została zakończona",
         wrong_result: "Taki wynik nie powinien się pojawić na tym etapie analizy.",
-        ion_found: "Znaleziono jon!",
+        end_of_analysis: "Analiza zakoczona powodzeniem!",
+        ion_found: "Znaleziony jon: ",
        
         chat_name: "Chat",
         default_message:"Brak wiadomości"

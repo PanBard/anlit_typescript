@@ -2,9 +2,14 @@ import { APP_CONFIG } from "lib/config"
 import styled from "styled-components"
 import { useTranslations } from "lib/hooks/useTranslations"
 
+type FooterProps = {
+    lang: string
+}
 
-export const Footer = () => {
-    const T = useTranslations()
+export const Footer: React.FunctionComponent<FooterProps> = ({
+    lang
+}) => {
+    const T = useTranslations(lang)
     const year = new Date().getFullYear() //pobiera aktualny rok
 
     return(

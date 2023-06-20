@@ -9,6 +9,7 @@ export const en_US: Dictionary = {
         end: "End",
         begin: "Begin",
         save: "save",
+        or:"OR"
     },
 
     supported_languages:{
@@ -112,8 +113,9 @@ export const en_US: Dictionary = {
         test_image: "TEST IMAGES",
         
         end_analysis: "Analysis completed",
+        end_of_analysis: "Congratulations, analysis completed successfully!",
         wrong_result: "Such a result should not appear at this stage of the analysis.",
-        ion_found: "The ion was found!",
+        ion_found: "Found ion: ",
        
         chat_name: "Chat",
         default_message:"No messages"
