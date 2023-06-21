@@ -55,7 +55,7 @@ export const AnalysisDashboard: React.FunctionComponent<AnalysisDashboardProps> 
 
     const insert_to_db =async () => {
         if(data.length == 0){
-            await db_insert_new_id_and_status_analysis(1,analysis_name,current_analysis,userName)
+            await db_insert_new_id_and_status_analysis(1,analysis_name,current_analysis,userName) 
             .then(()=>setChoosen_mode('analiza'))
         }
 

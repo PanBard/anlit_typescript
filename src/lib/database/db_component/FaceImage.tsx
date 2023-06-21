@@ -8,9 +8,15 @@ import { useTranslations } from "lib/hooks"
 
 type FaceImageProps = {
     lang: string
-}
+    user?: boolean
+    userName?: string
+} 
 
-export const FaceImage: React.FunctionComponent<FaceImageProps> = ({lang})=>{
+export const FaceImage: React.FunctionComponent<FaceImageProps> = ({
+    lang,
+    user,
+    userName
+})=>{
     const T = useTranslations(lang)
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
@@ -84,8 +90,8 @@ export const FaceImage: React.FunctionComponent<FaceImageProps> = ({lang})=>{
                                             <Td>{data.username} </Td>
                                             <Td>{data.password} </Td>
                                             <Td>{data.date} </Td>
-                                            <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>
-                                            <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> 
+                                            {!user && <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>}
+                                            {!user && <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> }
                                         </tr>)})}
                             </tbody>
                         </table>

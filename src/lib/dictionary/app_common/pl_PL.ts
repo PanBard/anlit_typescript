@@ -189,6 +189,18 @@ export const pl_PL: Dictionary = {
         text_1: "Zacznijmy!",
         text_2: "Aby rozpocząć analizę chemiczną jonów w roztworach, wybierz przycisk Analiza jonów w górnym pasku.",
         text_3: "Wybierz Analiza pH, aby rozpocząć porównywanie skali kwasowości i zasadowości roztworów wodnych.",
+    },
+    user_profile: {
+        data_header: "Informacje o koncie:",
+        image_header: "Zdjęcie twarzy:",
+        username: "Nazwa użytkownika:",
+        first_name: "Imię:",
+        last_name: "Nazwisko:",
+        emial: "Email:",
+        phone: "Telefon:",
+        auth: "Authcode:",
+        password: "Hasło:",
+        date: "Data rejestracji:"
     }
 
 

@@ -16,15 +16,20 @@ type UserIonAnalysisProps = {
   }) => {
 
     const [ion, setion]=useState<string>()
+    const [seed, setSeed] = useState(1);
+
+    const reset = () => {
+      setSeed(Math.random())
+  }
     
   return (
-    <MainContainer>
+    <MainContainer> 
       <Container>
-        <BestButton onClick={()=>{setion('anion_analysis_result')}}>Anion</BestButton>
-        <BestButton  onClick={()=>{setion('cation_analysis_result')}}>Cation</BestButton>
+        <BestButton onClick={()=>{setion('anion_analysis_result');reset()}}>Anion</BestButton>
+        <BestButton  onClick={()=>{setion('cation_analysis_result');reset()}}>Cation</BestButton>
       </Container>
       
-    { ion && <Analysis lang={lang}  rout_name={ion} user={true} userName={userName}/>}
+    { ion && <Analysis key={seed}  lang={lang}  rout_name={ion} user={true} userName={userName}/>}
     </MainContainer> 
   ); 
 

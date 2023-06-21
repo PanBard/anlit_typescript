@@ -189,6 +189,18 @@ export const en_US: Dictionary = {
         text_1: "let's get started!",
         text_2: "To start chemical analysis of ions in solutions, select the Ion Analysis button in the top bar.",
         text_3: "Select pH Analysis to start comparing the acidity and alkalinity scales of aqueous solutions."
+    },
+    user_profile: {
+        data_header: "Account information:",
+        image_header: "Face photo:",
+        username: "Username:",
+        first_name: "Name:",
+        last_name: "Surname:",
+        emial: "Email:",
+        phone: "Phone:",
+        auth: "Authcode:",
+        password: "Password:",
+        date: "Registered at:"
     }
 
 

@@ -1,34 +1,91 @@
-import { FaceImage } from "lib/database/db_component/FaceImage";
-import { Users } from "lib/database/db_component/Users";
+import Axios  from "axios";
+import { APP_CONFIG } from "lib/config";
+import { SERVER_ROUTS } from "lib/database/server_routs";
+import { useTranslations } from "lib/hooks";
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import styled from "styled-components";
 
 
 type UserProfileProps = {
     lang: string
+    userName: string
   }
+
+type userdata = {
+  id: number,
+  username: string,
+  first_name: string,
+  last_name: string,
+  email: string,
+  password: string,
+  date: string,
+  phone: string
+}
   
   
   export const UserProfile: React.FunctionComponent<UserProfileProps> = ({
-    lang
+    lang,
+    userName
   }) => {
-    
+
+    const T = useTranslations(lang)
+    const [userData, setUserData] = useState<userdata>()
+    const [userImage, setuserImage] = useState()
+
+    const get_user_data_from_db = async () => {
+      const query = `SELECT * FROM account_credentials WHERE username = '${userName}' `
+      await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
+      .then( (response: any)=>{setUserData(response.data[0])})
+      .catch((err)=>{console.log('db status :(',err)})
+  }
+
+  const get_user_image_from_db = async () => {
+      const query = `SELECT CONVERT(img1 USING utf8) as img FROM face_img_storage WHERE username = '${userName}'`
+      await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
+      .then( (response: any)=>{setuserImage(response.data[0].img) })
+      .catch((err)=>{console.log('db status :(',err)})
+  }
+
+  useEffect(()=>{
+    get_user_data_from_db();
+    get_user_image_from_db();
+  },[])
+
+  const mapPasswordToStars = (passord: string) => {
+    const num = passord.length
+    let stars = ""
+    for(let i = 0; i<num; i++){
+      stars = stars + '*'
+    }
+    return stars
+  }
+
+  
     return(
       <OrderContainer>        
 
-          <SavedContainer style={{overflowY:'hidden', width:'250px'}} key={100}>
-            Twoje dane:
-            <Users  lang={lang}/>
-          </SavedContainer>
+          <UserDataContainer >
+            {T.user_profile.data_header}
+            <DataBar></DataBar>
+           <DataBar2>{T.user_profile.username}    <span/>  {userData?.username ? userData.username : 'Brak'}                                </DataBar2>
+           <DataBar>{T.user_profile.first_name}   <span/>  {userData?.first_name ? userData.first_name : 'Brak'}                            </DataBar>
+           <DataBar2>{T.user_profile.last_name}   <span/>  {userData?.last_name ? userData.last_name : 'Brak'}                              </DataBar2>
+           <DataBar>{T.user_profile.emial}        <span/>  {userData?.email ? userData.email : 'Brak'}                                      </DataBar>
+           <DataBar2>{T.user_profile.phone}       <span/>  {userData?.phone ? userData.phone : 'Brak'}                              </DataBar2>
+           <DataBar>{T.user_profile.auth}         <span/>  {userData?.id ? userData.id : 'Brak'}                                      </DataBar>
+           <DataBar2>{T.user_profile.password}    <span/>  {userData?.password ? mapPasswordToStars(userData.password) : 'Brak'}                                </DataBar2>
+           <DataBar>{T.user_profile.date}         <span/>  {userData?.date ? userData.date.replace('T',' | ').slice(0,-16) : 'Brak'}        </DataBar>
+          </UserDataContainer>
 
 
-          <SpaceBetweenContainer style={{width:'300px'}}>
-            Statystyki:
-          </SpaceBetweenContainer>
-
-        <SpaceBetweenContainer style={{width:'300px'}}>
-        <FaceImage lang={lang} />
-        </SpaceBetweenContainer>
+       
+        <CenterContainer>
+          <ImageContainer >
+          {T.user_profile.image_header}
+            <UserImage src={userImage ? userImage : APP_CONFIG.USER_IMG_URL} />
+        </ImageContainer>
+        </CenterContainer>
+        
                   
     </OrderContainer>
     )
@@ -36,33 +93,13 @@ type UserProfileProps = {
   }
 
 
-const MainContainer = styled.div`
-    position: absolute;
-    width: 100%;
-    top: 20%;
-    display: flex;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid;
-    border-color: rgba(255,255,255,.15);
-     background-color:#161b22;
-`
-const CenterContainer = styled.div`
-    color: ${({theme}) => theme.colors.typography};
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    justify-content: center;
-    
-`
 const OrderContainer = styled.div`
     color: ${({theme}) => theme.colors.typography};
     display: flex;
     flex-direction: row;
     flex: 1;
-    justify-content: space-between;
+    margin: 10px;
+    /* justify-content: space-between; */
 `
 
 const Container = styled.div`
@@ -70,25 +107,47 @@ const Container = styled.div`
   justify-content: center;
   flex-direction: column;
   z-index: 2;
-  width: 200px;
-  max-width: 200px;
   overflow: hidden;
   padding: 10px;
   margin-left: 30px;
   margin-right: 30px;
   border: 1px solid;
-  border-color: rgba(255,255,255,.15);    border: 1px solid;
-  border-color: rgba(255,255,255,.15);
+  border-color: rgba(255,255,255,.15);    
 
 `
 
-const SpaceBetweenContainer = styled(Container)`
+const UserDataContainer = styled(Container)`
    justify-content: space-between;
+   width:60%;
 `
 
-const SavedContainer = styled(SpaceBetweenContainer)`
-  width: 350px;
-  max-width: 350px;
-
+const ImageContainer = styled.div`
+   display: flex;
+   flex-direction: column;
+    height: 400px;    
+   justify-content: space-around;
 `
 
+const CenterContainer = styled.div`
+  display: flex;  
+  width:300px;
+  justify-content: center;
+  border: 1px solid;
+  border-color: rgba(255,255,255,.15);    
+`
+
+const DataBar = styled.span`  
+  padding: 10px;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+`
+const DataBar2 = styled(DataBar)`
+  background-color:#282728;
+`
+
+const UserImage = styled.img`
+  width: 170px;
+  height: 200px;
+`

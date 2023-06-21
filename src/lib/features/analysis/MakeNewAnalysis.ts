@@ -5,16 +5,13 @@ export const db_insert_new_id_and_status_analysis = async (id: number,name:strin
 
     if(variety == 'cation'){
         const status = 'new'
-        await Axios.post(SERVER_ROUTS.cation_analysis_result.post, {id:id,name:name,end:status,user_id: username})
-        .then(ressponse => {return 'ok'})
+        await Axios.post(SERVER_ROUTS.cation_analysis_result.post, {id:id,name:name,end:status,user_id: username})        
         .catch(err => console.log(err))
     }
 
     if(variety == 'anion'){
         const status = 'new'
-        await Axios.post(SERVER_ROUTS.anion_analysis_result.post, {id:id,name:name,end:status,user_id: username})
-        .then(ressponse => {            
-            return 'ok'})
+        await Axios.post(SERVER_ROUTS.anion_analysis_result.post, {id:id,name:name,end:status,user_id: username})       
         .catch(err => console.log(err))
     }   
 }

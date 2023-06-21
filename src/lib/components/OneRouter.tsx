@@ -28,12 +28,12 @@ export const OneRouter: React.FunctionComponent = () => {
                     {webStatus == 'RegisterFaceRecognition' && <RegisterFaceRecognition lang={language} userName={userName} />}
                     {webStatus == 'Screenshot' && <WebcamScreenshot lang={language}/>}      
                     {webStatus == 'UserSettings' && <UserSettings lang={language}/>}     
-                    {webStatus == 'UserProfile' && <UserProfile lang={language}/>}        
+                    {webStatus == 'UserProfile' && <UserProfile userName={userName} lang={language}/>}        
                     {webStatus == 'UserIonAnalysis' && <UserIonAnalysis userName={userName} lang={language}/>}      
                     {webStatus == 'UserPHAnalysis' && <UserPhAnalysis userName={userName} lang={language}/>}  
                     {webStatus == 'UserHelp' && <UserHelp lang={language}/>}  
                 </Container>
-                <Footer lang={language}/>
+                {/* <Footer lang={language}/> */}
             </MojDIV>}
 
             {loginStatus=='Start' &&   <StartPage language={(e)=>{setLanguage(e)}} choosenWeb={e => {setUserName(e['userName']) ; setLoginStatus(e['result']) }} />}

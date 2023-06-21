@@ -188,6 +188,18 @@ export type Dictionary =  {
         text_1: string,
         text_2: string,
         text_3: string,
+    },
+    user_profile: {
+        data_header: string,
+        image_header: string,
+        username: string,
+        first_name: string,
+        last_name: string,
+        emial: string,
+        phone: string,
+        auth: string,
+        password: string,
+        date: string
     }
 
 

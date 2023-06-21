@@ -1,5 +1,5 @@
 import  Axios  from "axios"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules"
@@ -77,6 +77,9 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
         return component
      }
 
+     useMemo(()=>{
+        if(dataFromDataBase.length) reset()
+     },[dataFromDataBase])
     return(
         <ContainerP>
 
@@ -84,7 +87,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                   <BestButton onClick={delete_all_data}>{T.databse.clear_all_bt}</BestButton>
             </Container>
 
-            {!showModyf &&  <Container>
+            {!showModyf && dataFromDataBase.length && <Container key={seed}>
                 <Container>
                     <Container>{header_name} </Container>
                     <TableContainer key={seed}>
@@ -95,8 +98,8 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                                 {input_name.map( (obj, i) => { return(<Th key={i}>{obj}</Th>) })}
 
                             </Tr_sticky_row>
-                            {dataFromDataBase.slice(0).reverse().map((data: any, index)=>{
-                                if(user){                                    
+                            {dataFromDataBase.slice(0).reverse().map((data: any, index)=>{                                                                   
+                                if(user){                                                                    
                                     if(data.user_id == userName ){                                        
                                     return (
                                         <tr key={index}>  

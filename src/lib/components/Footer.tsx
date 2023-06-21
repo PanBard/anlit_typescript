@@ -18,10 +18,10 @@ export const Footer: React.FunctionComponent<FooterProps> = ({
                 &copy; {year} {T.common.companyName}
             </CodemaskContainer>
             <LinkContainer>
-                <Link href={APP_CONFIG.FLAT_ICON_URL} target='_blank'>
+                <Link href={APP_CONFIG.GITHUB_URL} target='_blank'>
                     {T.components.footer.github}
                 </Link>
-                <Link  href={APP_CONFIG.LIBRE_TRANSLATE_URL}  target='_blank'>
+                <Link  href={APP_CONFIG.MODELS_URL}  target='_blank'>
                     {T.components.footer.models}
                 </Link>
             </LinkContainer>
