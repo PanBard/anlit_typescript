@@ -7,6 +7,7 @@ import { Footer } from "./Footer"
 import { RegistrationForm } from "./RegistrationForm"
 import { LoginForm } from "./LoginForm"
 import { useTranslations } from "lib/hooks/useTranslations"
+import { AboutPage } from "./AboutPage"
 
 type BeforeLoginProps = {
     choosenWeb(params: any): any
@@ -26,16 +27,15 @@ export const StartPage: React.FunctionComponent<BeforeLoginProps> = ({
         <Container>
             <OneHeader language={(e)=>{language(e);setlang(e)}} insideChoice={(e)=>{setLoginStatus(e)}} choosenWeb={e=>{ choosenWeb(e)}}/>
             
-           { loginStatus =='Start' && <ContainerMain>
-        <Containerr>
-          <h1>{T.start_page.welcome_text_1}</h1>
-          <H2s>{T.start_page.welcome_text_2}</H2s>
-          <H2s>{T.start_page.welcome_text_3}</H2s>
-        </Containerr>
-        <Containerr>
-        </Containerr>
-        
-        </ContainerMain>}
+           { loginStatus =='Start' && 
+           <ContainerMain>
+                <div style={{margin:'20px'}}>
+                {/* <div> */}
+                    <h1>{T.start_page.welcome_text_1}</h1>
+                    <H2s>{T.start_page.welcome_text_2}</H2s>
+                    <H2s>{T.start_page.welcome_text_3}</H2s>
+                </div>                      
+            </ContainerMain>}
 
             <div className="circles" style={{position: 'absolute'}}>
                         <div></div>
@@ -58,6 +58,11 @@ export const StartPage: React.FunctionComponent<BeforeLoginProps> = ({
                 <LoginForm lang={lang} result={(e)=>{choosenWeb(e)}}/>
             }
 
+            {loginStatus=='AboutPage'&&
+                <AboutPage lang={lang} />
+            }
+
+
            <Footer lang={lang}/>
       
         </Container>
@@ -75,25 +80,16 @@ const Container = styled.div`
     justify-content: space-between;
     z-index:1;
     overflow-wrap:normal;
+
 `
-
-
-
-
 
 const H2s = styled.h3`
     width:50%;
 `
 
-const Imagee = styled.img`
-    /* width: 1200px;
-    height: 480px; */
-    border-radius: 10px;
-`
-
 const ContainerMain = styled.div`
     position: absolute;
-    width: 90%;
+    width: 70%;
     top: 20%;
     display: flex;
     flex-direction: row;

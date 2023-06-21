@@ -7,12 +7,14 @@ import { SERVER_ROUTS } from "lib/database/server_routs";
 import { useTranslations } from "lib/hooks";
 
 type PHAnalyserProps = {
-  lang: string
+  lang: string,
+  userName: string
 }
 
 
 export const PHAnalyser: React.FunctionComponent<PHAnalyserProps> = ({
-  lang
+  lang,
+  userName
 }) => {
 
 
@@ -340,13 +342,15 @@ const makeRGBAnalysis = () => {
         const date = new Date()
         name = 'Default' +  date.toISOString().toString()
       }
-          
+
+        const owner = userName ? userName : 'test'
         const wholeImage = WholeImageCanvasRef.current.toDataURL()
-        const queryONE = `INSERT INTO ph_analysis (username, img, ph, rgb, date, analysis_name) VALUES ('test','${wholeImage}','prime','-',now(), '${name}') `
+        const queryONE = `INSERT INTO ph_analysis (username, img, ph, rgb, date, analysis_name) VALUES ('${owner}','${wholeImage}','prime','-',now(), '${name}') `
+        console.log(queryONE)
         Axios.post(SERVER_ROUTS.custom_query.get, {query: queryONE})        
         .then( ()=>{
            keys.map((nr: any)=>{
-            const query = `INSERT INTO ph_analysis (username, img, ph, rgb, date, analysis_name,R,G,B,ph_number) VALUES ('test','${objectToDatabase[nr]['img']}','${objectToDatabase[nr]['value']}','${objectToDatabase[nr]['rgbForDiv']}',now(), '${name}',${objectToDatabase[nr]['rgb']['r']},${objectToDatabase[nr]['rgb']['g']},${objectToDatabase[nr]['rgb']['b']},${objectToDatabase[nr]['value']}) `
+            const query = `INSERT INTO ph_analysis (username, img, ph, rgb, date, analysis_name,R,G,B,ph_number) VALUES ('${owner}','${objectToDatabase[nr]['img']}','${objectToDatabase[nr]['value']}','${objectToDatabase[nr]['rgbForDiv']}',now(), '${name}',${objectToDatabase[nr]['rgb']['r']},${objectToDatabase[nr]['rgb']['g']},${objectToDatabase[nr]['rgb']['b']},${objectToDatabase[nr]['value']}) `
             Axios.post(SERVER_ROUTS.custom_query.get, {query: query})            
             .then( )
             .catch((err)=>{console.log('send status :(',err)})

@@ -15,9 +15,9 @@ export const WelcomePage: React.FunctionComponent<WelcomePageProps> = ({
     return(
         <ContainerMain>
             <Container>
-                <h1>Let’s build from here</h1>
-                <H2s>Our AI-powered platform drives  innovation with tools that boost developer velocity.</H2s>
-                <H2s>GitHub Codespaces offers a complete dev environment in seconds, so you can code, build, test, and open pull requests from any repo anywhere.</H2s>
+                <h1>{T.welcome_page.text_1}</h1>
+                <H2s>{T.welcome_page.text_2}</H2s>
+                <H2s>{T.welcome_page.text_3}</H2s>                                                
             </Container>
             <Container>
                 <Imagee src={APP_CONFIG.PROBE_GALAXY_URL}></Imagee>

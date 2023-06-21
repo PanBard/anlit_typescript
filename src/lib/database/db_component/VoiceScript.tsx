@@ -7,12 +7,14 @@ import { useTranslations } from "lib/hooks"
 
 type VoiceScriptProps = {
     rout_name: string,
+    lang: string
 }
 
 export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
-    rout_name
+    rout_name,
+    lang
 })=>{
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
 
@@ -40,7 +42,7 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
     },[])
 
     const get_data_from_db = async () => {
-        await  Axios.get(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].get)
+        await  Axios.get(((rout_name=='anion_voice_script') ?  SERVER_ROUTS.anion_voice_script.get : SERVER_ROUTS.cation_voice_script.get))
         .then( (response: any)=>{setDataFromDataBase(response.data) })
         .catch((err)=>{console.log('db status :(',err)})
     }

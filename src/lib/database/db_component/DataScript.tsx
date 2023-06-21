@@ -7,12 +7,14 @@ import { useTranslations } from "lib/hooks"
 
 type DataScriptProps = {
     rout_name: string,
+    lang: string
 }
 
 export const DataScript: React.FunctionComponent<DataScriptProps> = ({
-    rout_name
+    rout_name,
+    lang
 })=>{
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
 
@@ -43,7 +45,7 @@ export const DataScript: React.FunctionComponent<DataScriptProps> = ({
     },[])
 
     const get_data_from_db = async () => {
-        await  Axios.get(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].get)
+        await  Axios.get( ((rout_name=='anion_script_flow') ?  SERVER_ROUTS.anion_script_flow.get : SERVER_ROUTS.cation_script_flow.get))
         .then( (response: any)=>{setDataFromDataBase(response.data) })
         .catch((err)=>{console.log('db status :(',err)})
     }

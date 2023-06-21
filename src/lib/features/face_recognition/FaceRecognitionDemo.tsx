@@ -67,18 +67,18 @@ export const FaceRecognitionDemo: React.FunctionComponent<FaceRecognitionDemoPro
     const face_number = Object.keys(data)
     return Promise.all(
       face_number.map(async (nr: any)=>{
-        let description = []
+        let description: Float32Array[] = []
         const userData = data[nr]
       
         for(let i =1; i==1; i++){
             const url = userData[`img${i}`]
             const image = await faceapi.fetchImage(url)
             const detection = await faceapi.detectSingleFace(image).withFaceLandmarks().withFaceDescriptor();
-            description.push(detection?.descriptor)          
+            description.push(detection?.descriptor!)    //non-null assertion      
           }
-      
-          if(typeof description != 'undefined') {  
-          return  new faceapi.LabeledFaceDescriptors(userData['username'], description )
+          
+          if(description.length) {  
+            return  new faceapi.LabeledFaceDescriptors(userData['username'], description )
           }
         })
       
@@ -123,7 +123,8 @@ export const FaceRecognitionDemo: React.FunctionComponent<FaceRecognitionDemoPro
                     }                    
                     results.forEach(async (result , i)=>{
                       const box = resizedDetections[i].detection.box
-                      const drawBox = new faceapi.draw.DrawBox(box, {label: result} )                           
+                      
+                      const drawBox = new faceapi.draw.DrawBox(box, {label: result as unknown as string} )                           
                       drawBox.draw(canvasRef.current)
                     })
                   }

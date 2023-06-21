@@ -3,7 +3,7 @@ import { Dictionary } from "lib/types/dictionary";
 export const en_US: Dictionary = {
     common: {
         autoTranslate: 'Auto ',
-        companyName: "Hog Ademy",
+        companyName: "AnalysisAI",
         close: "Close",
         back: "Back",
         end: "End",
@@ -51,8 +51,8 @@ export const en_US: Dictionary = {
         button_sign_in: "Sign in",
         button_sign_up: "Sign up",
         welcome_text_1: "Hi there!",
-        welcome_text_2: "Our AI-powered platform drives  innovation with tools that boost developer velocity.",
-        welcome_text_3: "GitHub Codespaces offers a complete dev environment in seconds, so you can code, build, test, and open pull requests from any repo anywhere."
+        welcome_text_2: "Our AI-powered platform drives innovation with tools that boost Qualitative Chemical Analysis.",
+        welcome_text_3: "To use the app's services, you must log in or register."
     },
 
     login_form: {
@@ -61,7 +61,7 @@ export const en_US: Dictionary = {
         username: "Username",
         password: "Password",
         button_sign_in: "Log in",
-        button_scan: "Log in with Face ID",
+        button_scan: "Log in with face identification",
         warn_wrong_username: "Wrong username",
         warn_wrong_pass: "Wrong password"
     },
@@ -71,6 +71,9 @@ export const en_US: Dictionary = {
         header: "Create a new user",
         username: "Username",
         password: "Password",
+        first_name: "First Name",
+        last_name: "Last Name",
+        email: "Email",
         confirm_password: "Confirm Password",
         button_register: "Register",
         warn_pass_not_match: "Password does not match",
@@ -175,6 +178,17 @@ export const en_US: Dictionary = {
         age:"Age: ",
         gender:"Gender: ",
         expression: "Expression: "
+    },
+    about_page: {
+        text_1: "AnalysisAI is a one-page application that helps you in chemical analysis and allows you to better manage your laboratory. It uses custom image detection and image classification algorithms to distinguish chemical analysis results.",
+        text_2: "The main functionality is a voice assistant that will guide you through the stages of chemical analysis. Everything you need in one place. Analysis progress is automatically saved in the database so you can always go back and re-trace the process. When you interrupt the analysis, you can resume it at any time.",
+        text_3: "You can automate the comparison of pH test results obtained with test strips.",
+        text_4: "The login system supports face recognition, so you can log in to the site only by scanning your face."
+    },
+    welcome_page: {
+        text_1: "let's get started!",
+        text_2: "To start chemical analysis of ions in solutions, select the Ion Analysis button in the top bar.",
+        text_3: "Select pH Analysis to start comparing the acidity and alkalinity scales of aqueous solutions."
     }
 
 

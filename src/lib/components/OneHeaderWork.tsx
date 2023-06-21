@@ -39,7 +39,7 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
            <UserImage className="dropbtn"  src={userImage ? userImage : APP_CONFIG.USER_IMG_URL}  alt=""  />      {/* take img from db or set default img as avatar*/}
             <div className="dropdown-content-user">
               <a onClick={()=>{choosenWeb('UserProfile')}}>{T.dashboard_header.dropdown_profile}</a>
-              <a onClick={()=> choosenWeb('RegisterFaceRecognition')} >{T.dashboard_header.dropdown_faceid}</a>
+              <a onClick={()=>{choosenWeb('RegisterFaceRecognition')}} >{T.dashboard_header.dropdown_faceid}</a>
               <a onClick={()=>{choosenWeb('UserIonAnalysis')}} >{T.dashboard_header.dropdown_ion}</a>
               <a onClick={()=>{choosenWeb('UserPHAnalysis')}}>{T.dashboard_header.dropdown_ph}</a>              
               <a onClick={()=>{choosenWeb('UserHelp')}}>{T.dashboard_header.dropdown_help}</a>
@@ -117,6 +117,6 @@ const UserImage = styled.img`
     background-color:rgb(200, 214, 229);
     border-radius: 15px;
     margin: 10px;
-    height:25px;
-    width:25px;
+    height:30px;
+    width:30px;
 `

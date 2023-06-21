@@ -74,7 +74,7 @@ export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecogn
           const videoo = videoRef.current.video
           wholeImageCanvasRef.current.width = 640;
           wholeImageCanvasRef.current.height = 480;
-          let description = []
+          let description: any = []
           const labelos = name 
           for(let i =1; i<=3; i++){
               wholeImageCanvasRef.current.getContext('2d').drawImage(videoo, 0, 0, 640, 480 )
@@ -117,7 +117,7 @@ export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecogn
                     })
                     results.forEach((result , i)=>{
                       const box = resizedDetections[i].detection.box
-                      const drawBox = new faceapi.draw.DrawBox(box, {label: result} )                    
+                      const drawBox = new faceapi.draw.DrawBox(box, {label: result as unknown as string} )                    
                       drawBox.draw(canvasRef.current)
                     })
                   }

@@ -130,20 +130,20 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
                     <Input style={{borderColor: errorType == 'wrongUsername' ? 'red' : ''}}  type="text" id='username' onChange = {(e) => handleInputChange(e)} placeholder={T.registration_form.username}/>
                 </Cell>
 
-                {/* <Cell >
-                    <label>First Name </label>
+                <Cell >
+                    <label>{T.registration_form.first_name}</label>
                     <Input  type="text"  onChange = {(e) => handleInputChange(e)} placeholder="First Name"/>
                 </Cell>
 
                 <Cell  >
-                    <label>Last Name </label>
+                    <label>{T.registration_form.last_name}</label>
                     <Input  type="text" name=""  onChange = {(e) => handleInputChange(e)} placeholder="LastName"/>
-                </Cell> */}
+                </Cell>
 
-                {/* <Cell >
-                    <label >Email </label>
+                <Cell >
+                    <label >{T.registration_form.email}</label>
                     <Input  type="email" id="email"   onChange = {(e) => handleInputChange(e)} placeholder="Email"/>
-                </Cell> */}
+                </Cell>
 
                 <Cell>
                     <label >{T.registration_form.password} </label>
@@ -175,7 +175,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center; 
     position: absolute;
-    top: 20%;
+    top: 10%;
     
     z-index: 4;
     width: 100%;    

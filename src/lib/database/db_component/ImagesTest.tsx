@@ -5,9 +5,14 @@ import { SERVER_ROUTS } from "../server_routs"
 import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
 import { useTranslations } from "lib/hooks"
 
+type ImagesTestProps = {
+    lang: string
+}
 
-export const ImagesTest: React.FunctionComponent = ()=>{
-    const T = useTranslations()
+export const ImagesTest: React.FunctionComponent<ImagesTestProps> = ({
+    lang
+})=>{
+    const T = useTranslations(lang)
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
 
@@ -33,7 +38,7 @@ export const ImagesTest: React.FunctionComponent = ()=>{
     },[])
 
     const get_data_from_db = async () => {
-        await  Axios.get(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].get)
+        await  Axios.get(SERVER_ROUTS.test_images.get)
         .then( (response: any)=>{setDataFromDataBase(response.data) })
         .catch((err)=>{console.log('db status :(',err)})
     }

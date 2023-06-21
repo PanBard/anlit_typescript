@@ -7,13 +7,15 @@ import { useTranslations } from "lib/hooks"
 
 type ChatMessagesProps = {
     rout_name?: string,
+    lang: string
 }
 
 export const ChatMessages: React.FunctionComponent<ChatMessagesProps> = ({
-    rout_name
+    rout_name,
+    lang
 })=>{
 
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [dataFromDataBase, setDataFromDataBase] = useState([])
     const [hide, setHide] =  useState<boolean>(false)
     const [showModyf, setTesto] = useState(false)

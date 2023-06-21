@@ -69,6 +69,9 @@ export type Dictionary =  {
         header: string,
         username: string,
         password: string,
+        first_name: string,
+        last_name: string,
+        email: string,
         confirm_password: string,
         button_register: string,
         warn_pass_not_match: string,
@@ -173,6 +176,18 @@ export type Dictionary =  {
         age:string,
         gender:string,
         expression: string
+    },
+
+    about_page: {
+        text_1: string,
+        text_2: string,
+        text_3: string,
+        text_4: string
+    },
+    welcome_page: {
+        text_1: string,
+        text_2: string,
+        text_3: string,
     }
 
 

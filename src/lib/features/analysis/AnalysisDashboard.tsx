@@ -11,11 +11,13 @@ import { Chat } from "../chat/Chat"
 import { useTranslations } from "lib/hooks/useTranslations"
 
 type AnalysisDashboardProps = {
-    lang: string
+    lang: string,
+    userName: string
 }
 
 export const AnalysisDashboard: React.FunctionComponent<AnalysisDashboardProps> = ({
-    lang
+    lang,
+    userName
 }) => {
     
     const T = useTranslations(lang)
@@ -53,19 +55,19 @@ export const AnalysisDashboard: React.FunctionComponent<AnalysisDashboardProps> 
 
     const insert_to_db =async () => {
         if(data.length == 0){
-            await db_insert_new_id_and_status_analysis(1,analysis_name,current_analysis)
+            await db_insert_new_id_and_status_analysis(1,analysis_name,current_analysis,userName)
             .then(()=>setChoosen_mode('analiza'))
         }
 
         if(data[0]){
-            await db_insert_new_id_and_status_analysis(id,analysis_name,current_analysis)
+            await db_insert_new_id_and_status_analysis(id,analysis_name,current_analysis,userName)
             .then(()=>setChoosen_mode('analiza'))
         }
 }
 
 
     const get_data_from_db = (db: string) => {
-        Axios.get(SERVER_ROUTS[db as keyof typeof SERVER_ROUTS].get)
+        Axios.get((db=='cation_analysis_result' ? SERVER_ROUTS.cation_analysis_result.get : SERVER_ROUTS.anion_analysis_result.get))
         .then( (response: any)=>{
         setData(response.data);return_new_analysis_id(response.data) })
         .catch((err)=>{console.log(err)})

@@ -5,16 +5,18 @@ import styled from "styled-components";
 
 type UserPhAnalysisProps = {
     lang: string
+    userName: string
   }
   
   
   export const UserPhAnalysis: React.FunctionComponent<UserPhAnalysisProps> = ({
-    lang
+    lang,
+    userName
   }) => {
     
   return (
     <MainContainer>
-     <PhAnalysis />  
+     <PhAnalysis lang={lang} user={true} userName={userName}/>  
     </MainContainer> 
   ); 
 

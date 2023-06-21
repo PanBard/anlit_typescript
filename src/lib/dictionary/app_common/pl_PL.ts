@@ -52,8 +52,8 @@ export const pl_PL: Dictionary = {
         button_sign_in: "Zaloguj",
         button_sign_up: "Rejestracja",
         welcome_text_1: "Witaj!",
-        welcome_text_2: "Nasza platforma oparta na sztucznej inteligencji napędza innowacje dzięki narzędziom, które przyspieszają pracę programistów.",
-        welcome_text_3: "GitHub Codespaces oferuje kompletne środowisko deweloperskie w ciągu kilku sekund, dzięki czemu możesz kodować, budować, testować i otwierać żądania ściągania z dowolnego repozytorium w dowolnym miejscu."
+        welcome_text_2: "Nasza platforma oparta na sztucznej inteligencji dostarcza narzędzia usprawniające jakościową analizę chemiczną.",
+        welcome_text_3: "Aby skorzystać z usług aplikacji zaloguj się lub zarejestruj."
     },
 
     login_form: {
@@ -72,6 +72,9 @@ export const pl_PL: Dictionary = {
         header: "Zarejestruj się",
         username: "Nazwa użytkownika",
         password: "Hasło",
+        first_name: "Imię",
+        last_name: "Nazwisko",
+        email: "Email",
         confirm_password: "Potwierdź hasło",
         button_register: "Utwórz nowe konto",
         warn_pass_not_match: "Hasła się nie zgadzają",
@@ -175,6 +178,17 @@ export const pl_PL: Dictionary = {
         age:"Wiek: ",
         gender:"Płeć: ",
         expression: "Nastrój: "
+    },
+    about_page: {
+        text_1: "AnalysisAI to aplikacja SPA, która pomaga w analizie chemicznej i pozwala lepiej zarządzać laboratorium. Wykorzystuje autorskie algorytmy wykrywania i klasyfikacji obrazów do rozróżniania wyników analizy chemicznej.",
+        text_2: "Główna funkcjonalnośc to asystent głosowy który przeprowadzi cie poprzez etapy analizy chemicznej. Wszystko co potrzebujesz w jednym miejscu. Postępy w analizie są automatycznie zapisywane w bazie danych dzięki czemu zawsze możesz wrócić i ponownie prześledzić proces. Gdy przerwiesz analizę możesz wznowić ją w dowolnym momencie.",
+        text_3: "Możesz zautomatyzować porównywanie wyników testów pH uzyskanych za pomocą pasków wskaźnikowych.",
+        text_4: "System logowania wspiera rozpoznawanie twarzy, dzięki czemu możesz zalogować się do serwisu tylko za pomocą skanowania twarzy."
+    },
+    welcome_page: {
+        text_1: "Zacznijmy!",
+        text_2: "Aby rozpocząć analizę chemiczną jonów w roztworach, wybierz przycisk Analiza jonów w górnym pasku.",
+        text_3: "Wybierz Analiza pH, aby rozpocząć porównywanie skali kwasowości i zasadowości roztworów wodnych.",
     }
 
 

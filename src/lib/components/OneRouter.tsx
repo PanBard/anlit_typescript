@@ -22,15 +22,15 @@ export const OneRouter: React.FunctionComponent = () => {
                 <Container>
                     {webStatus=='Start' && <WelcomePage lang={language}/>}
                     {webStatus=='DataBase' && <DataDashboard lang={language}/>}                
-                    {webStatus=='Analysis' && <AnalysisDashboard lang={language}/>}                                                
-                    {webStatus == 'pH' && <PHAnalyser lang={language}/>}                
+                    {webStatus=='Analysis' && <AnalysisDashboard  userName={userName} lang={language}/>}                                                
+                    {webStatus == 'pH' && <PHAnalyser userName={userName} lang={language}/>}                
                     {webStatus == 'FaceRecognition' && <FaceRecognitionDemo lang={language} />}
                     {webStatus == 'RegisterFaceRecognition' && <RegisterFaceRecognition lang={language} userName={userName} />}
                     {webStatus == 'Screenshot' && <WebcamScreenshot lang={language}/>}      
                     {webStatus == 'UserSettings' && <UserSettings lang={language}/>}     
                     {webStatus == 'UserProfile' && <UserProfile lang={language}/>}        
-                    {webStatus == 'UserIonAnalysis' && <UserIonAnalysis lang={language}/>}      
-                    {webStatus == 'UserPHAnalysis' && <UserPhAnalysis lang={language}/>}  
+                    {webStatus == 'UserIonAnalysis' && <UserIonAnalysis userName={userName} lang={language}/>}      
+                    {webStatus == 'UserPHAnalysis' && <UserPhAnalysis userName={userName} lang={language}/>}  
                     {webStatus == 'UserHelp' && <UserHelp lang={language}/>}  
                 </Container>
                 <Footer lang={language}/>

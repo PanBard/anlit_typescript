@@ -6,10 +6,13 @@ import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImag
 import { image } from "@tensorflow/tfjs"
 import { useTranslations } from "lib/hooks"
 
+type UsersProps = {
+    lang: string
+}
 
-export const Users: React.FunctionComponent = ()=>{
+export const Users: React.FunctionComponent<UsersProps> = ({lang})=>{
 
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
 

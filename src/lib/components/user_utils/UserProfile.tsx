@@ -18,7 +18,7 @@ type UserProfileProps = {
 
           <SavedContainer style={{overflowY:'hidden', width:'250px'}} key={100}>
             Twoje dane:
-            <Users />
+            <Users  lang={lang}/>
           </SavedContainer>
 
 
@@ -27,7 +27,7 @@ type UserProfileProps = {
           </SpaceBetweenContainer>
 
         <SpaceBetweenContainer style={{width:'300px'}}>
-        <FaceImage />
+        <FaceImage lang={lang} />
         </SpaceBetweenContainer>
                   
     </OrderContainer>

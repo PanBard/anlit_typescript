@@ -23,9 +23,9 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
         return(
             <div className="dropdown">
                 {language_bt}
-            <div className="dropdown-content-user">
-              <a onClick={()=>{language("EN");setLanguage_bt("EN")}} >{T.supported_languages.en}</a>
-              <a onClick={()=>{language("PL");setLanguage_bt("PL")}} >{T.supported_languages.pl}</a>
+            <div style={{width:'20px'}} className="dropdown-content-user">
+              <Clk style={{display: language_bt=='EN' ? 'none' : 'block'}} onClick={()=>{language("EN");setLanguage_bt("EN")}} >{T.supported_languages.en}</Clk>
+              <Clk style={{display: language_bt=='EN' ? 'block' : 'none'}} onClick={()=>{language("PL");setLanguage_bt("PL")}} >{T.supported_languages.pl}</Clk>
             </div>
           </div> 
         )
@@ -40,23 +40,27 @@ export const OneHeader: React.FunctionComponent<OneHeaderProps> = ({
                         {T.components.header.title} 
                     </Title>
                 </Linkos>  
-                <img src={APP_CONFIG.LOGO_URL}alt=""  height={25} width={25}/>              
+                <img onClick={()=>{choosenWeb({result:'Login'})}} src={APP_CONFIG.LOGO_URL}alt=""  height={25} width={25}/>              
             </LogoContainer>
 
-            <LinkContainer>                     
-                <BestButton style={{background: 'transparent'}} onClick={()=>{choosenWeb({result:'Login'})}}> {T.start_page.button_about} </BestButton>                                                                       
+            <LinkContainer>                                 
+                <BestButton style={{background: 'transparent'}} onClick={()=>{insideChoice('AboutPage')}}> {T.start_page.button_about} </BestButton>                                                                       
             </LinkContainer>
 
             <LinkContainer>
-                 <Linkos  onClick={()=>{insideChoice('Login')}} >  {/* target='_blank' eby otwierao sié w nowym oknie */}
+
+                <Linkos  onClick={()=>{insideChoice('Login')}} >  {/* target='_blank' eby otwierao sié w nowym oknie */}
                     {T.start_page.button_sign_in}
                 </Linkos>
+
                 <Linkos onClick={()=>{insideChoice('Register')}} >
                 {T.start_page.button_sign_up}
                 </Linkos>
-                <Linkos>
-                <DropdownChangeLanguage/>
-                </Linkos>
+
+                <Linkoss>
+                    <DropdownChangeLanguage/>
+                </Linkoss>
+
             </LinkContainer>
 
         </HeaderContainer>
@@ -108,4 +112,21 @@ const Linkos = styled.a`
     align-items: center;
 `
 
+const Linkoss = styled.div`
+    color: ${({theme})=> theme.colors.typography};
+    text-decoration: underline;
+    cursor: pointer; 
+    padding: 0 10px;
+    text-decoration: none;
+    :hover{text-decoration: underline};
+    font-size: large;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`
 
+
+const Clk = styled.div`
+    width: 20px;
+    height: 20px;
+`

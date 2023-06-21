@@ -5,11 +5,15 @@ import { SERVER_ROUTS } from "../server_routs"
 import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
 import { useTranslations } from "lib/hooks"
 
+type ImagesStorageProps = {
+    lang: string
+}
 
+export const ImagesStorage: React.FunctionComponent<ImagesStorageProps> = ({
+    lang
+})=>{
 
-export const ImagesStorage: React.FunctionComponent = ()=>{
-
-    const T = useTranslations()
+    const T = useTranslations(lang)
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
     const [allFiles,setAllFiles] =  useState<any>()
@@ -35,7 +39,7 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
     },[])
 
     const get_data_from_db = async () => {
-        await  Axios.get(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].get)
+        await  Axios.get(SERVER_ROUTS.image_storage.get)
         .then( (response: any)=>{setDataFromDataBase(response.data) })
         .catch((err)=>{console.log('db status :(',err)})
     }
@@ -51,7 +55,7 @@ export const ImagesStorage: React.FunctionComponent = ()=>{
 
 
     const update_data_in_db = (ajdi: any)=>{
-        Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, {id:ajdi,img:img,label:label})
+        Axios.put(SERVER_ROUTS.image_storage.put, {id:ajdi,img:img,label:label})
         .then((response: any)=>{get_data_from_db()})
         .then(()=>{reset()})
         .then(()=>{ setters.map((set)=>{set(undefined)}) })

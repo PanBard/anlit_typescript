@@ -44,8 +44,8 @@ export const DataDashboard: React.FunctionComponent<DataDashboard> = ({
             <div className="dropdown">
             <BestButton className="dropbtn">{T.database_buttons.ion_analysis}</BestButton>
             <div className="dropdown-content">
-              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="anion_analysis_result"/>)}}> {T.database_buttons.anion} </a>
-              <a onClick={()=>{showComponent(<Analysis key={seed} rout_name="cation_analysis_result"/>)}} > {T.database_buttons.cation} </a>
+              <a onClick={()=>{showComponent(<Analysis lang={lang} key={seed} rout_name="anion_analysis_result"/>)}}> {T.database_buttons.anion} </a>
+              <a onClick={()=>{showComponent(<Analysis lang={lang} key={seed} rout_name="cation_analysis_result"/>)}} > {T.database_buttons.cation} </a>
             </div>
           </div> 
         )
@@ -56,8 +56,8 @@ export const DataDashboard: React.FunctionComponent<DataDashboard> = ({
             <div className="dropdown">
             <BestButton className="dropbtn">{T.database_buttons.dataflow}</BestButton>
             <div className="dropdown-content">
-            <a onClick={()=>{showComponent(<DataScript key={seed} rout_name="anion_script_flow"/>)}}> {T.database_buttons.anion} </a>
-            <a onClick={()=>{showComponent(<DataScript key={seed} rout_name="cation_script_flow"/>)}}> {T.database_buttons.cation} </a>
+            <a onClick={()=>{showComponent(<DataScript lang={lang} key={seed} rout_name="anion_script_flow"/>)}}> {T.database_buttons.anion} </a>
+            <a onClick={()=>{showComponent(<DataScript lang={lang} key={seed} rout_name="cation_script_flow"/>)}}> {T.database_buttons.cation} </a>
             </div>
           </div> 
         )
@@ -68,8 +68,8 @@ export const DataDashboard: React.FunctionComponent<DataDashboard> = ({
             <div className="dropdown">
             <BestButton className="dropbtn">{T.database_buttons.voicescript}</BestButton>
             <div className="dropdown-content">
-            <a onClick={()=>{showComponent(<VoiceScript rout_name="anion_voice_script" key={seed}/>)}}> {T.database_buttons.anion} </a>
-            <a onClick={()=>{showComponent(<VoiceScript rout_name="cation_voice_script" key={seed}/>)}}> {T.database_buttons.cation} </a>
+            <a onClick={()=>{showComponent(<VoiceScript lang={lang} rout_name="anion_voice_script" key={seed}/>)}}> {T.database_buttons.anion} </a>
+            <a onClick={()=>{showComponent(<VoiceScript lang={lang} rout_name="cation_voice_script" key={seed}/>)}}> {T.database_buttons.cation} </a>
             </div>
           </div> 
         )
@@ -80,9 +80,9 @@ export const DataDashboard: React.FunctionComponent<DataDashboard> = ({
             <div className="dropdown">
             <BestButton className="dropbtn">{T.database_buttons.images}</BestButton>
             <div className="dropdown-content">
-            <a onClick={()=>{showComponent(<ImagesTest key={seed}/>)}}> {T.database_buttons.img_1} </a>
-            <a onClick={()=>{showComponent(<ImagesStorage key={seed}/>)}}> {T.database_buttons.img_2} </a>
-            <a  onClick={()=>{showComponent(<FaceImage key={seed}/>)}}> {T.database_buttons.img_3} </a>
+            <a onClick={()=>{showComponent(<ImagesTest lang={lang} key={seed}/>)}}> {T.database_buttons.img_1} </a>
+            <a onClick={()=>{showComponent(<ImagesStorage lang={lang} key={seed}/>)}}> {T.database_buttons.img_2} </a>
+            <a  onClick={()=>{showComponent(<FaceImage lang={lang} key={seed}/>)}}> {T.database_buttons.img_3} </a>
             </div>
           </div> 
         )
@@ -97,9 +97,9 @@ export const DataDashboard: React.FunctionComponent<DataDashboard> = ({
                 <DropdownMenu_dataflow/>
                 <DropdownMenu_voicescript/>
                 <DropdownMenu_images/>
-                <BestButton onClick={()=>{showComponent(<ChatMessages key={seed}/>)}}> {T.database_buttons.chat} </BestButton>
-                <BestButton onClick={()=>{showComponent(<Users key={seed}/>)}}> {T.database_buttons.users} </BestButton>
-                <BestButton onClick={()=>{showComponent(<PhAnalysis key={seed}/>)}}> {T.database_buttons.ph} </BestButton>               
+                <BestButton onClick={()=>{showComponent(<ChatMessages lang={lang} key={seed}/>)}}> {T.database_buttons.chat} </BestButton>
+                <BestButton onClick={()=>{showComponent(<Users lang={lang} key={seed}/>)}}> {T.database_buttons.users} </BestButton>
+                <BestButton onClick={()=>{showComponent(<PhAnalysis lang={lang} key={seed}/>)}}> {T.database_buttons.ph} </BestButton>               
             </HeaderContainer>
             {showComponent2()}
         </Container>

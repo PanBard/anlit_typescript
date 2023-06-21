@@ -6,9 +6,12 @@ import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImag
 import { Attention } from "lib/components/Attention"
 import { useTranslations } from "lib/hooks"
 
+type FaceImageProps = {
+    lang: string
+}
 
-export const FaceImage: React.FunctionComponent = ()=>{
-    const T = useTranslations()
+export const FaceImage: React.FunctionComponent<FaceImageProps> = ({lang})=>{
+    const T = useTranslations(lang)
     const [hide, setHide] =  useState<string>()
     const [dataFromDataBase, setDataFromDataBase] = useState([])
     const [component, setComponent] = useState<any>()

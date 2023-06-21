@@ -116,20 +116,24 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
 
                     results.forEach(async (result , i)=>{
                       const box = resizedDetections[i].detection.box
-                      const drawBox = new faceapi.draw.DrawBox(box, {label: result} )
+                      const drawBox = new faceapi.draw.DrawBox(box, {label: result as unknown as string} )
                    
-                      const keys = Object.keys(data);
-                      keys.map(async (obj: any)=>{
-                         if (data[obj]['username'] == await drawBox['options']['label']['_label']){                      
-                            returnResult({result: 'Login', userName : data[obj]['username']})
-                         }
-                      })
-                     
+
+                      await compareUsernameAndDetectLabel(drawBox)           
                       drawBox.draw(canvasRef.current)
                     })
                   }
                 },100)
       } 
+  }
+
+  const compareUsernameAndDetectLabel = async (drawBox: any) => {
+    const keys = Object.keys(data);
+    keys.map(async (obj: any)=>{
+      if (data[obj]['username'] == await drawBox['options']['label']['_label']){                      
+         returnResult({result: 'Login', userName : data[obj]['username']})
+      }
+   })
   }
 
   useMemo(()=>{    
