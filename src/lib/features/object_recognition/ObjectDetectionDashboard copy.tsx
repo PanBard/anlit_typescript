@@ -45,8 +45,6 @@ export const ObjectDetectionDashboard: React.FunctionComponent<AnalysisProps> = 
 
     const db_type = cation ? 'cation_analysis_result' : 'anion_analysis_result' 
     const title = cation ? T.analysis.cation_identification : T.analysis.anion_identification
-    const phases =cation ? ['f1','f2','f3','f4','f5','f6','f7'] : ['f1','f2','f3','f4']
-    
     
 
     const catchMessageFromChild = (message: any) => {
@@ -81,17 +79,16 @@ export const ObjectDetectionDashboard: React.FunctionComponent<AnalysisProps> = 
 
     const send_detection_results_to_db = async ()  => {
        await get_data()
-       .then(e =>{   
-             
+       .then(e =>{        
         const current = data[data.length-1]
         if((current['end'] == 'new') && (phase !== 100)){
-          
-          let condition = true
-          phases.map((phase: string, index)=>{
-            console.log(`img${index+1}`)
-            if(current[phase] == null && current['end'] !== 'end' && condition){quck_update(testowy_label,`img${index+1}`,phase,'new'); condition=false}
-          })
-
+            if(current['f1'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img1','f1','new');return true}
+            if(current['f2'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img2','f2','new');return true}
+            if(current['f3'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img3','f3','new');return true}
+            if(current['f4'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img4','f4','new');return true}
+            if(current['f5'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img5','f5','new');return true}
+            if(current['f6'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img6','f6','new');return true}
+            if(current['f7'] == null && current['end'] !== 'end'){quck_update(testowy_label,'img7','f7','new');return true}
         }
         if((current['end'] == 'new') && (current['f7'] !== null)){
            rerender

@@ -117,7 +117,7 @@ export const pl_PL: Dictionary = {
         
         end_analysis: "Analiza została zakończona",
         wrong_result: "Taki wynik nie powinien się pojawić na tym etapie analizy.",
-        end_of_analysis: "Analiza zakoczona powodzeniem!",
+        end_of_analysis: "Analiza zakączona powodzeniem!",
         ion_found: "Znaleziony jon: ",
        
         chat_name: "Chat",
@@ -173,7 +173,7 @@ export const pl_PL: Dictionary = {
     
     face_recognition: {
         start_scan: "Wykonaj skan twarzy",
-        open_webcam:"Otwórz kamerę",
+        open_webcam:"Włącz kamerę",
         close_webcam: "Zamknij kamerę",
         age:"Wiek: ",
         gender:"Płeć: ",
@@ -201,6 +201,20 @@ export const pl_PL: Dictionary = {
         auth: "Authcode:",
         password: "Hasło:",
         date: "Data rejestracji:"
+    },
+    analysis_results_names:{
+        zolty_p: "żółty płyn",
+        fioletowy_p: "fioletowy płyn",
+        pomaranczowy_p: "pomarańczowy płyn",
+        cielisty: "sielisty osad",
+        nieb_rozowy: "nieb-różowy osad",
+        niebieski: "niebieski osad",
+        zielony: "zielony osad",
+        pomaranczowy: "pomarańczowy osad",
+        zolty: "żółty osad",
+        czarny: "czarny osad",
+        bialy: "biały osad",
+        brak: "brak osadu"
     }
 
 

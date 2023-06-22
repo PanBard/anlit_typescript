@@ -60,10 +60,7 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
             <BestButton style={{float:'right', backgroundColor:'black'}} onClick={closeImagePreview} id="close">{T.common.close}</BestButton>
             </Modal>
         </div>)
-        ShadeRef.current.style.display = ModalRef.current.style.display = 'block'
-       
-        
-      
+        ShadeRef.current.style.display = ModalRef.current.style.display = 'block'                     
      }
      
      const showComponent = ()=>{
@@ -75,7 +72,8 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
     const viewPoint = () =>{
         if(data){
             const all_key = Object.keys(data)
-            const keys = cation ?  ['Stage 1','Stage 2','Stage 3','Stage 4','Stage 5','Stage 6','Stage 7'] : ['Stage 1','Stage 2','Stage 3','Stage 4']
+            // const keys = cation ?  ['Stage 1','Stage 2','Stage 3','Stage 4','Stage 5','Stage 6','Stage 7'] : ['Stage 1','Stage 2','Stage 3','Stage 4']
+             const keys = lang=='EN' ? (cation ?  ['Stage 1','Stage 2','Stage 3','Stage 4','Stage 5','Stage 6','Stage 7'] : ['Stage 1','Stage 2','Stage 3','Stage 4']) : (cation ?  ['Faza 1','Faza 2','Faza 3','Faza 4','Faza 5','Faza 6','Faza 7'] : ['Faza 1','Faza 2','Faza 3','Faza 4'])
             const keys_f = cation ? ['f1',"f2","f3",'f4','f5','f6','f7'] : ['f1',"f2","f3",'f4']
             const keys_img = cation ? ['img1','img2','img3','img4','img5','img6','img7'] : ['img1','img2','img3','img4']
             return (
@@ -87,7 +85,7 @@ export const LiveUpdate: React.FunctionComponent<LiveUpdateProps> = ({
                                     <tbody >
                                     
                                         <Tr>{keys.map( (obj, i) => { return(<Th key={i}>{obj}</Th>) })}</Tr>
-                                        <tr key={seed+2}>{keys_f.map( (obj: any, i) => { return(<Td style={{maxWidth: '55px', overflow:'hidden'}} key={i}>{data[obj]}</Td>) })}</tr>
+                                        <tr key={seed+2}>{keys_f.map( (obj: any, i) => { return(<Td style={{maxWidth: '55px', overflow:'hidden'}} key={i}>{ T.analysis_results_names[data[obj] as keyof typeof T.analysis_results_names] }</Td>) })}</tr>
                                         <tr key={seed+1}>{keys_img.map( (obj: any, i) => { return(<Td_image key={i}><MyImage onClick={()=>{showFullImage(data[obj])}} style={{display: data[obj]==null? 'none' : 'flex'}}  src={data[obj]}/></Td_image>) })}</tr>
                                     </tbody>
                     </table>

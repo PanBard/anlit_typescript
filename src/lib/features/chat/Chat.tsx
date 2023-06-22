@@ -134,7 +134,7 @@ useMemo(async ()=>{
             
             <ContainerF>
                 <ChatHeader>
-                 <b>{T.analysis.chat_name}</b> 
+                 {T.analysis.chat_name}
                 </ChatHeader>
                 <ChatBody >
 
@@ -203,6 +203,8 @@ const ChatHeader = styled.div`
      border: 1px solid;
     border-color: rgba(255,255,255,.35);
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     text-align: center;
     height: 40px;

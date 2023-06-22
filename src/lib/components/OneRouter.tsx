@@ -22,12 +22,12 @@ export const OneRouter: React.FunctionComponent = () => {
                 <Container>
                     {webStatus=='Start' && <WelcomePage lang={language}/>}
                     {webStatus=='DataBase' && <DataDashboard lang={language}/>}                
-                    {webStatus=='Analysis' && <AnalysisDashboard  userName={userName} lang={language}/>}                                                
+                    {webStatus=='Analysis' && <AnalysisDashboard  userName={userName} lang={language} back={(e)=>{setWebStatus(e)}}/>}                                                
                     {webStatus == 'pH' && <PHAnalyser userName={userName} lang={language}/>}                
                     {webStatus == 'FaceRecognition' && <FaceRecognitionDemo lang={language} />}
                     {webStatus == 'RegisterFaceRecognition' && <RegisterFaceRecognition lang={language} userName={userName} />}
                     {webStatus == 'Screenshot' && <WebcamScreenshot lang={language}/>}      
-                    {webStatus == 'UserSettings' && <UserSettings lang={language}/>}     
+                    {webStatus == 'UserSettings' && <UserSettings language={(e)=>{setLanguage(e)}} lang={language}/>}     
                     {webStatus == 'UserProfile' && <UserProfile userName={userName} lang={language}/>}        
                     {webStatus == 'UserIonAnalysis' && <UserIonAnalysis userName={userName} lang={language}/>}      
                     {webStatus == 'UserPHAnalysis' && <UserPhAnalysis userName={userName} lang={language}/>}  

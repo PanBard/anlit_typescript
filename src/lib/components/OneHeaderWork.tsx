@@ -4,7 +4,7 @@ import { BestButton } from './components_modules';
 import { useTranslations } from "lib/hooks/useTranslations";
 import  Axios  from "axios";
 import { SERVER_ROUTS } from "lib/database/server_routs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 
 type OneHeaderWorkProps = {
@@ -20,6 +20,10 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
 }) => {
     const T = useTranslations(lang)
     const [userImage,setUserImage] = useState()
+    const [menu, setMenu] = useState<any>()
+
+    const ShadeRef = useRef<any>(null);
+    const ModalRef = useRef<any>(null);
 
     useEffect(()=>{
         getUserImage()
@@ -32,22 +36,29 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
             .catch((err)=>{console.log('send status :(',err)})
     }
 
+    const makeInstanceOfMenu = ()=>{
+        setMenu( 
+        <div>
+            <Shade ref={ShadeRef} onClick={closeMenu}></Shade>
+            <Modal ref={ModalRef} > 
+                <MenuButton onClick={()=>{choosenWeb('UserProfile');closeMenu()}}>  <CustomImage src={APP_CONFIG.USER_IMAGE_MENU}  alt=""  />   {T.dashboard_header.dropdown_profile} </MenuButton>          
+                <MenuButton onClick={()=>{choosenWeb('RegisterFaceRecognition');closeMenu()}} > <CustomImage src={APP_CONFIG.FACEID_IMAGR}  alt=""  />  {T.dashboard_header.dropdown_faceid}</MenuButton>   
+                <MenuButton onClick={()=>{choosenWeb('UserIonAnalysis');closeMenu()}}> <CustomImage src={APP_CONFIG.ION_ANNALYS_IMAGE}  alt=""  />{T.dashboard_header.dropdown_ion}</MenuButton>   
+                <MenuButton onClick={()=>{choosenWeb('UserPHAnalysis');closeMenu()}}> <CustomImage src={APP_CONFIG.PH_ANALYS_IMAGE}  alt=""  />{T.dashboard_header.dropdown_ph}</MenuButton>   
+                <MenuButton onClick={()=>{choosenWeb('UserHelp');closeMenu()}}> <CustomImage src={APP_CONFIG.HELP_IMAGE}  alt=""  />{T.dashboard_header.dropdown_help}</MenuButton>   
+                <MenuButton onClick={()=>{choosenWeb('UserSettings');closeMenu()}}> <CustomImage src={APP_CONFIG.SETTINGS_IMAGE}  alt=""  />{T.dashboard_header.dropdown_Settings}</MenuButton>   
+                <MenuButton onClick={()=>{location.reload();closeMenu()}} >{T.dashboard_header.dropdown_signout}</MenuButton>        
+            </Modal>
+        </div>)
+        ShadeRef.current.style.display = ModalRef.current.style.display = 'flex'                     
+     }
+     
+     const showMenu = ()=>{
+        return menu
+     }
 
-    const DropdownMenu_analysis = () =>{
-        return(
-            <div className="dropdown">
-           <UserImage className="dropbtn"  src={userImage ? userImage : APP_CONFIG.USER_IMG_URL}  alt=""  />      {/* take img from db or set default img as avatar*/}
-            <div className="dropdown-content-user">
-              <a onClick={()=>{choosenWeb('UserProfile')}}>{T.dashboard_header.dropdown_profile}</a>
-              <a onClick={()=>{choosenWeb('RegisterFaceRecognition')}} >{T.dashboard_header.dropdown_faceid}</a>
-              <a onClick={()=>{choosenWeb('UserIonAnalysis')}} >{T.dashboard_header.dropdown_ion}</a>
-              <a onClick={()=>{choosenWeb('UserPHAnalysis')}}>{T.dashboard_header.dropdown_ph}</a>              
-              <a onClick={()=>{choosenWeb('UserHelp')}}>{T.dashboard_header.dropdown_help}</a>
-              <a onClick={()=>{choosenWeb('UserSettings')}} >{T.dashboard_header.dropdown_Settings}</a>
-              <a onClick={()=>{location.reload()}} >{T.dashboard_header.dropdown_signout}</a>
-            </div>
-          </div> 
-        )
+     const closeMenu = () =>{
+        ShadeRef.current.style.display = ModalRef.current.style.display = 'none';    
     }
   
     return(
@@ -62,16 +73,18 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
             </LogoContainer>
 
             <LinkContainer>  
-            <BestButton onClick={()=>{choosenWeb('Analysis')}}>{T.dashboard_header.analysis} </BestButton>            
-            <BestButton onClick={()=>{choosenWeb('DataBase')}}> {T.dashboard_header.database}  </BestButton>
-            <BestButton onClick={()=>{choosenWeb('pH')}}> {T.dashboard_header.ph}  </BestButton>            
+            <BestButton onClick={()=>{choosenWeb('Analysis')}}>{T.dashboard_header.analysis} </BestButton>    
+            <BestButton onClick={()=>{choosenWeb('pH')}}> {T.dashboard_header.ph}  </BestButton>               
+            <BestButton onClick={()=>{choosenWeb('DataBase')}}> {T.dashboard_header.database}  </BestButton>         
             <BestButton onClick={()=>{choosenWeb('FaceRecognition')}}> {T.dashboard_header.face_recognition}  </BestButton>
             <BestButton onClick={()=>{choosenWeb('Screenshot')}}> {T.dashboard_header.others}  </BestButton>
             </LinkContainer>
 
             <LinkContainer>
-                <DropdownMenu_analysis />
+                {/* <DropdownMenu_analysis /> */}
                 <div>{T.dashboard_header.user_id} {userName}</div>
+                <UserImage onClick={()=>{makeInstanceOfMenu()}} src={userImage ? userImage : APP_CONFIG.USER_IMG_URL}  alt=""  />      {/* take img from db or set default img as avatar*/}
+                {showMenu()}
             </LinkContainer>
         </HeaderContainer>
     )
@@ -119,4 +132,47 @@ const UserImage = styled.img`
     margin: 10px;
     height:30px;
     width:30px;
+`
+
+const CustomImage = styled.img`
+    cursor: pointer;
+    /* background-color:rgb(200, 214, 229); */
+    /* border-radius: 15px; */
+    zoom:0.5;
+    height:40px;
+    width:40px;
+`
+const Shade = styled.div`
+    display: block;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(110,118,129,0.4);
+    /* opacity: 0.5; */
+    filter: alpha(opacity=50);
+`
+
+const Modal = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: #282728;
+
+    position: absolute;
+    z-index: 101;
+    top: 10%;
+    right: 5px;
+    width: 200px;
+`
+
+const MenuButton = styled(BestButton)`
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+    flex-direction: row;
+    z-index: 101;
+    background-color:black;
+    margin: 2px;
 `

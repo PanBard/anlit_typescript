@@ -147,7 +147,15 @@ const DataBar2 = styled(DataBar)`
   background-color:#282728;
 `
 
+// const UserImage = styled.img`
+//   width: 200px;
+//   height: 200px;
+// `
 const UserImage = styled.img`
-  width: 170px;
-  height: 200px;
+    cursor: pointer;
+    background-color:rgb(200, 214, 229);
+    border-radius: 15px;
+    margin: 10px;
+    height:200px;
+    width:200px;
 `

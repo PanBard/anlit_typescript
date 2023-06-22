@@ -36,10 +36,11 @@ export const DataScript: React.FunctionComponent<DataScriptProps> = ({
     const reset = () => {
          setSeed(Math.random())
      }
+    const foraml_data = ['id','symbol']
     const header_name =  (rout_name=='cation_script_flow') ? T.databse.cation_scriptflow : T.databse.anion_scriptflow
-    const input_name = (rout_name=='cation_script_flow') ? ['id','symbol','f1','f2','f3','f4','f5','f6','f7'] : ['id','symbol','f1','f2','f3','f4']
+    const input_name = (rout_name=='cation_script_flow') ? ['f1','f2','f3','f4','f5','f6','f7'] : ['f1','f2','f3','f4']
     const setters = (rout_name=='cation_script_flow') ? [setID,setSymbol,set1,set2,set3,set4,set5,set6,set7] : [setID,setSymbol,set1,set2,set3,set4]
-    
+    const first_row = foraml_data.concat(input_name)
     useEffect(  ()  =>  {
         get_data_from_db()
     },[])
@@ -92,15 +93,16 @@ export const DataScript: React.FunctionComponent<DataScriptProps> = ({
                 <Container>
                     <Container>{header_name} </Container>
                     <TableContainer key={seed}>
-                        <table >
+                        <table  style={{tableLayout: 'fixed'}} >
                             <tbody >
                                 <Tr_sticky_row>
-                                    {input_name.map( (obj, i) => { return(<Th key={i}>{obj}</Th>) })}
+                                    {first_row.map( (obj, i) => { return(<Th key={i}>{obj}</Th>) })}
                                 </Tr_sticky_row>
                                 {dataFromDataBase.slice(0).reverse().map((data: any)=>{
                                     return (
                                         <tr key={data.id}>
-                                            {input_name.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
+                                            {foraml_data.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
+                                            {input_name.map( (obj, i) => { return(<Td key={i}>{T.analysis_results_names[data[obj] as keyof typeof T.analysis_results_names]}</Td>) })}
                                             <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>
                                             <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { setTesto(true);setuj(data.id);setChoosen_mode('modify')}} ><ModifyButton>{T.databse.mod_bt}</ModifyButton></Td_container> 
                                             <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> 
@@ -169,6 +171,7 @@ const Td = styled.td`
     border: 1px solid gray;
     justify-content: center;
     text-align:center; 
+    word-wrap:break-word;
 `
 const Td_container = styled.td`
     justify-content: center;

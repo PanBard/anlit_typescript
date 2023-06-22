@@ -201,6 +201,20 @@ export const en_US: Dictionary = {
         auth: "Authcode:",
         password: "Password:",
         date: "Registered at:"
+    },
+    analysis_results_names:{
+        zolty_p: "yellow liquid",
+        fioletowy_p: "purple liquid",
+        pomaranczowy_p: "orange liquid",
+        cielisty: "nude precipitate",
+        nieb_rozowy: "blue-pink precipitate",
+        niebieski: "blue precipitate",
+        zielony: "green precipitate",
+        pomaranczowy: "orange precipitate",
+        zolty: "yellow precipitate",
+        czarny: "dark precipitate",
+        bialy: "white precipitate",
+        brak: "no precipitate"
     }
 
 

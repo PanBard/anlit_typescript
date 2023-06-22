@@ -36,13 +36,14 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
     const header_name =  (rout_name=='cation_voice_script') ? T.databse.cation_voicescript : T.databse.anion_voicescript
     const input_name = ['id','phase','f6','f7','match_id','script']
     const setters = [setID,setPhase,set6,set7,setMatch_id,setScript]
+    const db_rout = lang=='EN' ? ((rout_name=='anion_voice_script') ?  SERVER_ROUTS.anion_voice_script_en.get : SERVER_ROUTS.cation_voice_script_en.get) : ((rout_name=='anion_voice_script') ?  SERVER_ROUTS.anion_voice_script.get : SERVER_ROUTS.cation_voice_script.get)
     
     useEffect(  ()  =>  {
         get_data_from_db()
     },[])
 
     const get_data_from_db = async () => {
-        await  Axios.get(((rout_name=='anion_voice_script') ?  SERVER_ROUTS.anion_voice_script.get : SERVER_ROUTS.cation_voice_script.get))
+        await  Axios.get(db_rout)
         .then( (response: any)=>{setDataFromDataBase(response.data) })
         .catch((err)=>{console.log('db status :(',err)})
     }

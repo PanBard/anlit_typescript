@@ -200,6 +200,20 @@ export type Dictionary =  {
         auth: string,
         password: string,
         date: string
+    },
+    analysis_results_names:{
+        zolty_p: string,
+        fioletowy_p: string,
+        pomaranczowy_p: string,
+        cielisty: string,
+        nieb_rozowy: string,
+        niebieski: string,
+        zielony: string,
+        pomaranczowy: string,
+        zolty: string,
+        czarny: string,
+        bialy: string,
+        brak: string
     }
 
 

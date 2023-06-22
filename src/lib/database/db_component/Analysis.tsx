@@ -33,10 +33,11 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
      }
      const db_name = (rout_name == 'cation_analysis_result') ? 'cation_analysis_result' : 'anion_analysis_result'
     const header_name =  (rout_name=='cation_analysis_result') ? T.databse.cation_analysis : T.databse.anion_analisys
-    const keys_f = (rout_name=='cation_analysis_result') ? ['id','name','f1',"f2","f3",'f4','f5','f6','f7'] : ['id','name','f1',"f2","f3",'f4']
+    const foraml_data = ['id','name']
+    const keys_f = (rout_name=='cation_analysis_result') ? ['f1',"f2","f3",'f4','f5','f6','f7'] : ['f1',"f2","f3",'f4']
     const keys_img = (rout_name=='cation_analysis_result') ? ['img1','img2','img3','img4','img5','img6','img7'] : ['img1','img2','img3','img4'] 
     const keys_end = ['end','result'] 
-    const input_name = keys_f.concat(keys_img.concat(keys_end))
+    const input_name = foraml_data.concat(keys_f.concat(keys_img.concat(keys_end))) 
     
    //get data
     useEffect(  ()  =>  {
@@ -92,7 +93,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                     <Container>{header_name} </Container>
                     <TableContainer key={seed}>
                         {showComponent()} 
-                        <table >
+                        <table style={{tableLayout: 'fixed'}}>
                         <tbody >
                             <Tr_sticky_row>
                                 {input_name.map( (obj, i) => { return(<Th key={i}>{obj}</Th>) })}
@@ -103,7 +104,8 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                                     if(data.user_id == userName ){                                        
                                     return (
                                         <tr key={index}>  
-                                            {keys_f.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
+                                            {foraml_data.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
+                                            {keys_f.map( (obj, i) => { return(<Td key={i}>{T.analysis_results_names[data[obj] as keyof typeof T.analysis_results_names]}</Td>) })}
                                             {/* {keys_img.map( (obj, i) => {  return( <Td_image key={i}>  <MyImage style={{display: data[obj]==null? 'none' : 'flex'}}  src={data[obj]}/></Td_image>) })} */}
                                             {keys_img.map( (obj, i) => { if( data[obj]!=null) {return(  <Td_image key={i} >  <MyImage onClick={()=>{showFullImage(data[obj])}}   src={data[obj]}/></Td_image>)} else { return(<Td_image key={i} style={{cursor:'auto'}}/> ) } })}
                                             {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='end' ? '#618685' : data[obj]=='fail' ? `#c44569` : 'none'}} key={i}>{data[obj]}</Td>) })}
@@ -116,7 +118,8 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                                 else{
                                     return (
                                         <tr key={index}>  
-                                            {keys_f.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
+                                            {foraml_data.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
+                                            {keys_f.map( (obj, i) => { return(<Td key={i}>{T.analysis_results_names[data[obj] as keyof typeof T.analysis_results_names]}</Td>) })}
                                             {/* {keys_img.map( (obj, i) => {  return( <Td_image key={i}>  <MyImage style={{display: data[obj]==null? 'none' : 'flex'}}  src={data[obj]}/></Td_image>) })} */}
                                             {keys_img.map( (obj, i) => { if( data[obj]!=null) {return(  <Td_image key={i} >  <MyImage onClick={()=>{showFullImage(data[obj])}}   src={data[obj]}/></Td_image>)} else { return(<Td_image key={i} style={{cursor:'auto'}}/> ) } })}
                                             {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='end' ? '#618685' : data[obj]=='fail' ? `#c44569` : 'none'}} key={i}>{data[obj]}</Td>) })}
@@ -143,6 +146,7 @@ const Td = styled.td`
     border: 1px solid gray;
     justify-content: center;
     text-align:center; 
+    word-wrap:break-word;
 `
 const Td_container = styled.td`
     justify-content: center;
