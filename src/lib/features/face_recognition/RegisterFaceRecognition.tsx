@@ -10,12 +10,14 @@ import { useTranslations } from "lib/hooks";
 
 type RegisterFaceRecognitionProps = {
   userName: any
-  lang: string
+  lang: string,
+  back(): void
 }
 
 export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecognitionProps> = ({
   userName,
-  lang
+  lang,
+  back
 }) => {
 
   const T = useTranslations(lang)
@@ -51,7 +53,7 @@ export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecogn
 
   const send_data_to_db = async () => {
     if(typeof images[2] != 'undefined'){
-        const query = `INSERT INTO face_img_storage (userName, img1, img2, img3) VALUES ('${userName}','${images[0]}','${images[1]}','${images[2]}') `
+        const query = `INSERT INTO face_img_storage (userName, img1, img2, img3, date) VALUES ('${userName}','${images[0]}','${images[1]}','${images[2]}',now()) `
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
             .catch((err)=>{console.log('send status :(',err)})
         }
@@ -126,9 +128,12 @@ export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecogn
   }
 
   return (
-    <MainContainer>
+    <MainContainer1>
+      <h3>Your new Face ID</h3> 
+    <MainContainer2>
       <OrderContainer>
-          <div style={{width:'200px'}}>
+          <div style={{width:'100px'}}>
+            <BestButton onClick={()=>{back()}}>{T.common.back}</BestButton>
              <canvas style={{width: 100, height: 100, margin: 5, display:'none'}} ref={wholeImageCanvasRef}/>
           </div>
 
@@ -148,34 +153,35 @@ export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecogn
               }
           </SpaceBetweenContainer>
 
-          <Container>
-              {captureVideo && !buttonDisplay && <BestButton onClick={()=>{rightInFace(); setProcessIndicator(true) ; setButtonDisplay(true)}} style={{cursor: 'pointer'}}>{T.face_recognition.start_scan}</BestButton>}
+         {captureVideo && modelsLoaded &&  <Container>
+             {!buttonDisplay && <BestButton onClick={()=>{rightInFace(); setProcessIndicator(true) ; setButtonDisplay(true)}} style={{cursor: 'pointer'}}>{T.face_recognition.start_scan}</BestButton>}
               {images[0] && images.map((img,index)=>{
               return(
               <Image key={index} src={img}></Image>
               )
               })}      
-          </Container>
+          </Container>}
       </OrderContainer>
-    </MainContainer>
+    </MainContainer2></MainContainer1>
   );
 
 }
 
-const MainContainer = styled.div`
-    position: absolute;
+const MainContainer2 = styled.div`
+    /* position: absolute; */ 
     width: 100%;
-    top: 20%;
-    display: flex;
+    /* top: 20%; */
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     border: 1px solid;
     border-color: rgba(255,255,255,.15);
-     background-color:#161b22;
+    background-color:#161b22;
 `
-
+const MainContainer1 = styled.div`
+      justify-content: center;
+`
 const OrderContainer = styled.div`
     color: ${({theme}) => theme.colors.typography};
     display: flex;
@@ -196,9 +202,7 @@ const Container = styled.div`
   margin-left: 30px;
   margin-right: 30px;
   border: 1px solid;
-  border-color: rgba(255,255,255,.15);    border: 1px solid;
-  border-color: rgba(255,255,255,.15);
-
+  border-color: rgba(255,255,255,.15);   
 `
 
 const SpaceBetweenContainer = styled(Container)`

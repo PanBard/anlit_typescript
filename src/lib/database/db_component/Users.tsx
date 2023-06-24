@@ -5,6 +5,7 @@ import { SERVER_ROUTS } from "../server_routs"
 import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
 import { image } from "@tensorflow/tfjs"
 import { useTranslations } from "lib/hooks"
+import { APP_CONFIG } from "lib/config"
 
 type UsersProps = {
     lang: string
@@ -78,7 +79,7 @@ export const Users: React.FunctionComponent<UsersProps> = ({lang})=>{
                                             <Td>{data.email} </Td>
                                             <Td>{data.password} </Td>
                                             <Td>{date1} </Td>
-                                            <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>
+                                            <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src={APP_CONFIG.EDIT_BTN_IMG}/></OptionButton></Td_container>
                                             <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> 
                                         </tr>)})}
                             </tbody>

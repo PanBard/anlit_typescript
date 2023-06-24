@@ -152,7 +152,6 @@ const DataBar2 = styled(DataBar)`
 //   height: 200px;
 // `
 const UserImage = styled.img`
-    cursor: pointer;
     background-color:rgb(200, 214, 229);
     border-radius: 15px;
     margin: 10px;

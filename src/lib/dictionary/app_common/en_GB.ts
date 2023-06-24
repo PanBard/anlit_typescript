@@ -215,6 +215,27 @@ export const en_US: Dictionary = {
         czarny: "dark precipitate",
         bialy: "white precipitate",
         brak: "no precipitate"
+    },
+    user_settings: {
+        lang_btn: "Language",
+        apperance_btn: "Apperance",
+        lang_header: "Choose language:",
+        apperance_header: "Apperance option:",
+        EN_btn: "ENGLISH",
+        PL_btn: "POLISH"
+    },
+    user_help:{
+        system_info: "More information about the functionality and structure of the system: ",
+        model_info: "Information about the custom models:",
+    },
+
+    user_faceid:{
+        menu_btn:"Current scans",
+        no_scan_btn: "Create a new scan",
+        no_scan_text: "No Face ID",
+        scan_exist_btn: "Change Scan",
+        scan_exist_text: "Date of last scan: "
+
     }
 
 

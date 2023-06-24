@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useMemo } from "react";
 import styled from "styled-components";
 import { BestButton } from "../components_modules";
 import { APP_CONFIG } from "lib/config";
+import { useTranslations } from "lib/hooks";
 
 
 type UserSettingsProps = {
@@ -15,22 +16,23 @@ type UserSettingsProps = {
     language
   }) => {
     
+    const T = useTranslations(lang)
     const [status, setStatus] = useState<any>()
 
     const returnSetting = ()=>{
       if(status=='language'){
          return(
             <SettingContainer>
-                Wybierz język: 
-                <BestButton onClick={()=>{language('EN')}}>ENGLISH</BestButton>
-                <BestButton onClick={()=>{language('PL')}}>POLISH</BestButton>
+                {T.user_settings.lang_header}
+                <BestButton onClick={()=>{language('EN')}}>{T.user_settings.EN_btn}</BestButton>
+                <BestButton onClick={()=>{language('PL')}}>{T.user_settings.PL_btn}</BestButton>
             </SettingContainer>
         )
       }
       if(status=='apperance'){
         return(
            <SettingContainer>
-               Opcje wyglądu: 
+               {T.user_settings.apperance_header} 
                
            </SettingContainer>
        )
@@ -41,8 +43,8 @@ type UserSettingsProps = {
     <OrderContainer>        
 
     <UserDataContainer >
-    <BestButton onClick={()=>{setStatus("language")}}> Język  </BestButton>
-    <BestButton onClick={()=>{setStatus("apperance")}}> Wygląd  </BestButton>
+    <BestButton onClick={()=>{setStatus("language")}}> {T.user_settings.lang_btn} </BestButton>
+    <BestButton onClick={()=>{setStatus("apperance")}}> {T.user_settings.apperance_btn}  </BestButton>
     </UserDataContainer>
 
 
@@ -85,7 +87,7 @@ border: none;
 `
 
 const UserDataContainer = styled(Container)`
- justify-content: space-between;
+ /* justify-content: space-between; */
  width:300px;
 `
 

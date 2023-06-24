@@ -1,13 +1,12 @@
-import zIndex from "@mui/material/styles/zIndex"
 import React, { useState } from "react"
 import styled from "styled-components"
-import { BestButton } from "./components_modules"
 import { OneHeader } from "./OneHeader"
 import { Footer } from "./Footer"
 import { RegistrationForm } from "./RegistrationForm"
 import { LoginForm } from "./LoginForm"
 import { useTranslations } from "lib/hooks/useTranslations"
 import { AboutPage } from "./AboutPage"
+import { APP_CONFIG } from "lib/config"
 
 type BeforeLoginProps = {
     choosenWeb(params: any): any
@@ -24,7 +23,7 @@ export const StartPage: React.FunctionComponent<BeforeLoginProps> = ({
     const T = useTranslations(lang);
 
     return(
-        <Container>
+        <Container image_url={APP_CONFIG.GALAXY_START_IMAGE}>
             <OneHeader language={(e)=>{language(e);setlang(e)}} insideChoice={(e)=>{setLoginStatus(e)}} choosenWeb={e=>{ choosenWeb(e)}}/>
             
            { loginStatus =='Start' && 
@@ -61,16 +60,13 @@ export const StartPage: React.FunctionComponent<BeforeLoginProps> = ({
             {loginStatus=='AboutPage'&&
                 <AboutPage lang={lang} />
             }
-
-
-           <Footer lang={lang}/>
-      
+           <Footer lang={lang}/>      
         </Container>
     )
 }
 
-const Container = styled.div`
-    background-image: url("/gala.jpg");
+const Container = styled.div<{image_url: string}>`
+    background-image: url(${p=>p.image_url});
     /* background-color: gold; */
     width: 100%;
     height: 100vh;

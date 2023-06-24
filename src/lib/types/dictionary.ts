@@ -214,6 +214,28 @@ export type Dictionary =  {
         czarny: string,
         bialy: string,
         brak: string
+    },
+    user_settings: {
+        lang_btn: string,
+        apperance_btn: string,
+        lang_header: string,
+        apperance_header: string,
+        EN_btn: string,
+        PL_btn: string
+    },
+
+    user_help:{
+        system_info: string,
+        model_info: string,
+    },
+
+    user_faceid:{
+        menu_btn:string,
+        no_scan_btn: string,
+        no_scan_text: string,
+        scan_exist_btn: string,
+        scan_exist_text: string
+
     }
 
 

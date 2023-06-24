@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules"
 import { useTranslations } from "lib/hooks"
+import { APP_CONFIG } from "lib/config"
 
 type ChatMessagesProps = {
     rout_name?: string,
@@ -75,7 +76,7 @@ export const ChatMessages: React.FunctionComponent<ChatMessagesProps> = ({
                             return (
                                 <tr key={index}>  
                                     {keys_q.map( (obj, i) => { return(<Td key={i}>{data[obj]}</Td>) })}
-                                    {!hide && <Td_container style={{cursor:'pointer'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>}
+                                    {!hide && <Td_container style={{cursor:'pointer'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src={APP_CONFIG.EDIT_BTN_IMG}/></OptionButton></Td_container>}
                                     {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container>  }
                                     <Td style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td>
                                 </tr>)

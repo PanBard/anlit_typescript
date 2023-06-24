@@ -42,6 +42,7 @@ export const OneHeaderWork: React.FunctionComponent<OneHeaderWorkProps> = ({
             <Shade ref={ShadeRef} onClick={closeMenu}></Shade>
             <Modal ref={ModalRef} > 
                 <MenuButton onClick={()=>{choosenWeb('UserProfile');closeMenu()}}>  <CustomImage src={APP_CONFIG.USER_IMAGE_MENU}  alt=""  />   {T.dashboard_header.dropdown_profile} </MenuButton>          
+                {/* <MenuButton onClick={()=>{choosenWeb('RegisterFaceRecognition');closeMenu()}} > <CustomImage src={APP_CONFIG.FACEID_IMAGR}  alt=""  />  {T.dashboard_header.dropdown_faceid}</MenuButton>  */} 
                 <MenuButton onClick={()=>{choosenWeb('RegisterFaceRecognition');closeMenu()}} > <CustomImage src={APP_CONFIG.FACEID_IMAGR}  alt=""  />  {T.dashboard_header.dropdown_faceid}</MenuButton>   
                 <MenuButton onClick={()=>{choosenWeb('UserIonAnalysis');closeMenu()}}> <CustomImage src={APP_CONFIG.ION_ANNALYS_IMAGE}  alt=""  />{T.dashboard_header.dropdown_ion}</MenuButton>   
                 <MenuButton onClick={()=>{choosenWeb('UserPHAnalysis');closeMenu()}}> <CustomImage src={APP_CONFIG.PH_ANALYS_IMAGE}  alt=""  />{T.dashboard_header.dropdown_ph}</MenuButton>   

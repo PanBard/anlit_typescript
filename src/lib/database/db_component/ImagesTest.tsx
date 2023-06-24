@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Tr_sticky_row } from "lib/components/components_modules"
 import { useTranslations } from "lib/hooks"
+import { APP_CONFIG } from "lib/config"
 
 type ImagesTestProps = {
     lang: string
@@ -93,7 +94,7 @@ export const ImagesTest: React.FunctionComponent<ImagesTestProps> = ({
                                              <Td>{data.id} </Td>
                                             <Td><MyImage style={{height: '150px', width:'150px' }}  src={data.img}/></Td>
                                             <Td>{T.analysis_results_names[data.label as keyof typeof T.analysis_results_names]} </Td>
-                                            <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src="/editing.png"/></OptionButton></Td_container>
+                                            <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src={APP_CONFIG.EDIT_BTN_IMG}/></OptionButton></Td_container>
                                                 <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> 
                                                 <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { setTesto(true);setuj(data.id);setChoosen_mode('modify')}} ><ModifyButton>{T.databse.mod_bt}</ModifyButton></Td_container>  
                                         </tr>)})}

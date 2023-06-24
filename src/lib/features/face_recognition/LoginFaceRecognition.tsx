@@ -6,6 +6,7 @@ import * as faceapi from '@vladmandic/face-api';
 import  Axios  from "axios";
 import { SERVER_ROUTS } from "lib/database/server_routs";
 import { useTranslations } from "lib/hooks/useTranslations";
+import { LoadingAnimation } from "lib/styles";
 
 
 type LoginFaceRecognitionProps = {
@@ -22,8 +23,10 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
   const [modelsLoaded, setModelsLoaded] = useState<boolean>(false);
   const [captureVideo, setCaptureVideo] = useState<boolean>(false);
   const [data,setData] = useState<any>([])
-  const [component, setComponent] = useState<any>()
+  const [component, setComponent] = useState<string>('default')
+  const [showLoadnig, setShowLoadnig] = useState<boolean>(true);
 
+  let g = false
   const videoRef = useRef<Webcam>(null);
   const videoHeight = 340;
   const videoWidth = 420;
@@ -79,7 +82,7 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
             description.push(detection?.descriptor)                      
           }
       
-          if(typeof description != 'undefined') {            
+          if(typeof description != 'undefined') {                       
           return  new faceapi.LabeledFaceDescriptors(userData['username'], description )
           }
         })     
@@ -100,7 +103,7 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
             }
 
             faceapi.matchDimensions(canvasRef.current, displaySize);
-
+              setShowLoadnig(false) 
             setInterval( async ()=>{
                 if(videoRef.current?.video){
                     
@@ -138,10 +141,13 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
 
   useMemo(()=>{    
     if(captureVideo){
+    
+      g= false 
       const interval =  setInterval(()=>{
     if(typeof videoRef.current !== "undefined" && videoRef.current !== null && videoRef.current.video ){
-      clearInterval(interval);      
+      clearInterval(interval);           
        rightInFace()
+       
     }
     },100)
     }
@@ -149,31 +155,37 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
 
 
     const showFullImage = ()=>{
-      setComponent( 
+      if(component == 'startLogin'){
+        return( 
       <div>
           <Shade ></Shade>
           <Modal > 
-              <Container >
+              <Container >    
+             
                     <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>                
                       <Webcam ref={videoRef} height={videoHeight} width={videoWidth}  style={{ borderRadius: '10px' }} />
                       <canvas ref={canvasRef} style={{ position: 'absolute' }} />
                       </div>
+                      {showLoadnig &&   <LoadingAnimation></LoadingAnimation>   }        
               </Container>
-              <BestButton style={{float:'right', backgroundColor:'black'}} onClick={()=>{setComponent('')}} id="close">{T.common.close}</BestButton>
+              {!showLoadnig &&<BestButton style={{float:'right', backgroundColor:'black'}} onClick={()=>{setComponent('')}} id="close">{T.common.close}</BestButton>}
           </Modal>
-      </div>)
+      </div>      
+      )
+      }
+   
    }
 
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>      
       <div style={{ textAlign: 'center',display: data[0] ? 'flex' : 'none' ,justifyItems:'center', flexDirection:'column'}}>   
       {T.common.or}    
-      <BestButton onClick={()=>{startVideo() ;showFullImage()}} >{T.login_form.button_scan}</BestButton>    
+      <BestButton onClick={()=>{startVideo() ;setComponent('startLogin')}} >{T.login_form.button_scan}</BestButton>    
       </div>
       
       {captureVideo ? modelsLoaded ?
-            <div>             
-              {component}
+            <div>                   
+              { showFullImage()}
             </div>
             :   <div>loading...</div>  : <>  </>
         }

@@ -215,6 +215,29 @@ export const pl_PL: Dictionary = {
         czarny: "czarny osad",
         bialy: "biały osad",
         brak: "brak osadu"
+    },
+
+    user_settings: {
+        lang_btn: "Język",
+        apperance_btn: "Wygląd",
+        lang_header: "Wybierz język:",
+        apperance_header: "Opcje wyglądu:",
+        EN_btn: "ANGIELSKI",
+        PL_btn: "POLSKI"
+    },
+
+    user_help:{
+        system_info: "Więcej informacji dotyczących funkcjonalności i budowy systemu: ",
+        model_info: "Informacje na temat użytych modeli: ",
+    },
+
+    user_faceid:{
+        menu_btn:"Aktualne skany  ",
+        no_scan_btn: " Utwórz nowy skan ",
+        no_scan_text: "Brak Face ID",
+        scan_exist_btn: "Zmień skan",
+        scan_exist_text: "Data ostatniego skanu: "
+
     }
 
 
