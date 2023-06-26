@@ -7,7 +7,8 @@ export type Dictionary =  {
         end: string,
         begin: string,
         save: string,
-        or:string
+        or:string,
+        no_data: string
     },
     supported_languages:{
         en:string,
@@ -199,7 +200,8 @@ export type Dictionary =  {
         phone: string,
         auth: string,
         password: string,
-        date: string
+        date: string,
+        accout_type: string
     },
     analysis_results_names:{
         zolty_p: string,

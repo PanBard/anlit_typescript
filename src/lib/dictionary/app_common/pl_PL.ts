@@ -10,7 +10,8 @@ export const pl_PL: Dictionary = {
         end: "Zakończ",
         begin: "Rozpocznij",
         save: "Zapisz",
-        or:"LUB"
+        or:"LUB",
+        no_data: "Brak danych"
     },
 
     supported_languages:{
@@ -200,7 +201,8 @@ export const pl_PL: Dictionary = {
         phone: "Telefon:",
         auth: "Authcode:",
         password: "Hasło:",
-        date: "Data rejestracji:"
+        date: "Data rejestracji:",
+        accout_type: "Typ konta"
     },
     analysis_results_names:{
         zolty_p: "żółty płyn",

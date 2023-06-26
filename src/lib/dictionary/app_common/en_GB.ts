@@ -9,7 +9,8 @@ export const en_US: Dictionary = {
         end: "End",
         begin: "Begin",
         save: "save",
-        or:"OR"
+        or:"OR",
+        no_data:"No data"
     },
 
     supported_languages:{
@@ -200,7 +201,8 @@ export const en_US: Dictionary = {
         phone: "Phone:",
         auth: "Authcode:",
         password: "Password:",
-        date: "Registered at:"
+        date: "Registered at:",
+        accout_type: "Account type"
     },
     analysis_results_names:{
         zolty_p: "yellow liquid",

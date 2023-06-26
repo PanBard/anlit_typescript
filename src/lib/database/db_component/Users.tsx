@@ -70,14 +70,13 @@ export const Users: React.FunctionComponent<UsersProps> = ({lang})=>{
                                     return (
                                         <tr key={data.id}>
                                              <Td>{data.id} </Td>
-                                            {/* <Td><MyImage style={{height: '150px', width:'150px' }}  src={data.img1}/></Td>
-                                            <Td><MyImage style={{height: '150px', width:'150px' }}  src={data.img2}/></Td>
-                                            <Td><MyImage style={{height: '150px', width:'150px' }}  src={data.img3}/></Td> */}
+                                    
                                             <Td>{data.username} </Td>
                                             <Td>{data.first_name} </Td>
                                             <Td>{data.last_name} </Td>
                                             <Td>{data.email} </Td>
                                             <Td>{data.password} </Td>
+                                            <Td>{data.status} </Td>
                                             <Td>{date1} </Td>
                                             <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src={APP_CONFIG.EDIT_BTN_IMG}/></OptionButton></Td_container>
                                             <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> 

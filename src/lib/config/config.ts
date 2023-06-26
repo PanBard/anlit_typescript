@@ -15,5 +15,6 @@ export const APP_CONFIG = {
     HELP_IMAGE: '/img/help.svg',
     SETTINGS_IMAGE:'/img/settings.svg',
     USER_IMAGE_MENU: '/img/user.svg',
-    EDIT_BTN_IMG: '/img/editing.png'
+    EDIT_BTN_IMG: '/img/editing.png',
+    MICROPHONE_IMAGE: "/img/micro.svg" 
 }

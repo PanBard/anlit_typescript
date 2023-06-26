@@ -5,6 +5,7 @@ import  Axios  from "axios"
 import { SERVER_ROUTS } from "lib/database/server_routs";
 import { VoiceRecognition } from "../voice_recognition/VoiceRecognition";
 import { useTranslations } from "lib/hooks";
+import { APP_CONFIG } from "lib/config";
 
 
 type ChatCatProps = {
@@ -147,7 +148,7 @@ useMemo(async ()=>{
                     <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition cation={cation} id={id} phase={phase} return_described_to_parent_component={e => {return_results_to_parent_component(e)}} grabSound={3}/>}   </Container></Container2>
                 </ChatBody>
                 <AnswerBox onClick={()=>{ setNowTellSomething(!nowTellSomething)}} >
-                   <img style={{cursor:'pointer', backgroundColor: 'rgb(200, 214, 229)' , borderRadius: '5px', margin: '5px'}} src="/micro.svg" alt=""  height={25} width={25}/>    
+                   <img style={{cursor:'pointer', backgroundColor: 'rgb(200, 214, 229)' , borderRadius: '5px', margin: '5px'}} src={APP_CONFIG.MICROPHONE_IMAGE} alt=""  height={25} width={25}/>    
                 </AnswerBox>
             </ContainerF>
           

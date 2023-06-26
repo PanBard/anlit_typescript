@@ -19,7 +19,8 @@ type userdata = {
   email: string,
   password: string,
   date: string,
-  phone: string
+  phone: string,
+  status: string
 }
   
   
@@ -67,14 +68,15 @@ type userdata = {
           <UserDataContainer >
             {T.user_profile.data_header}
             <DataBar></DataBar>
-           <DataBar2>{T.user_profile.username}    <span/>  {userData?.username ? userData.username : 'Brak'}                                </DataBar2>
-           <DataBar>{T.user_profile.first_name}   <span/>  {userData?.first_name ? userData.first_name : 'Brak'}                            </DataBar>
-           <DataBar2>{T.user_profile.last_name}   <span/>  {userData?.last_name ? userData.last_name : 'Brak'}                              </DataBar2>
-           <DataBar>{T.user_profile.emial}        <span/>  {userData?.email ? userData.email : 'Brak'}                                      </DataBar>
-           <DataBar2>{T.user_profile.phone}       <span/>  {userData?.phone ? userData.phone : 'Brak'}                              </DataBar2>
-           <DataBar>{T.user_profile.auth}         <span/>  {userData?.id ? userData.id : 'Brak'}                                      </DataBar>
-           <DataBar2>{T.user_profile.password}    <span/>  {userData?.password ? mapPasswordToStars(userData.password) : 'Brak'}                                </DataBar2>
-           <DataBar>{T.user_profile.date}         <span/>  {userData?.date ? userData.date.replace('T',' | ').slice(0,-16) : 'Brak'}        </DataBar>
+           <DataBar2>{T.user_profile.username}    <span/>  {userData?.username ? userData.username : T.common.no_data}                                </DataBar2>
+           <DataBar>{T.user_profile.first_name}   <span/>  {userData?.first_name ? userData.first_name : T.common.no_data}                            </DataBar>
+           <DataBar2>{T.user_profile.last_name}   <span/>  {userData?.last_name ? userData.last_name : T.common.no_data}                              </DataBar2>
+           <DataBar>{T.user_profile.emial}        <span/>  {userData?.email ? userData.email : T.common.no_data}                                      </DataBar>
+           <DataBar2>{T.user_profile.phone}       <span/>  {userData?.phone ? userData.phone : T.common.no_data}                              </DataBar2>
+           <DataBar>{T.user_profile.auth}         <span/>  {userData?.id ? userData.id : T.common.no_data}                                      </DataBar>
+           <DataBar2>{T.user_profile.password}    <span/>  {userData?.password ? mapPasswordToStars(userData.password) : T.common.no_data}        </DataBar2>
+           <DataBar> {T.user_profile.accout_type}        <span/> {userData?.status ? userData.status : T.common.no_data}      </DataBar>
+           <DataBar2>{T.user_profile.date}  <span/>   {userData?.date ? userData.date.replace('T',' | ').slice(0,-16) : T.common.no_data}         </DataBar2>
           </UserDataContainer>
 
 
@@ -138,7 +140,7 @@ const CenterContainer = styled.div`
 
 const DataBar = styled.span`  
   padding: 10px;
-  height: 50px;
+  height: 45px;
   display: flex;
   justify-content: space-between;
   justify-items: center;

@@ -87,7 +87,7 @@ export const RegistrationForm: React.FunctionComponent<RegistrationFormProps> = 
 
 
      const send_data_to_db = async () => {            
-        const query = `INSERT INTO account_credentials (username, password, date) VALUES ('${username}','${password}',now()) `
+        const query = `INSERT INTO account_credentials (username, password, status, date) VALUES ('${username}','${password}','employee',now()) `
         await Axios.post(SERVER_ROUTS.custom_query.get, {query: query})            
             .then(  result({result: 'Login', userName : username}))
             .catch((err)=>{console.log('send status :(',err)})

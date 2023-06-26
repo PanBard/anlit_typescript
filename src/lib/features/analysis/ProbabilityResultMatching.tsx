@@ -167,6 +167,7 @@ useMemo(()=>{
                       return(
                         <ShuffleContainer ref={shuffleDiv}>
                             {word}
+                            <div style={{width:'40px'}}></div>
                             {rightSymbol.map((obj: any,index:number)=>{ return(obj+' ')})}
                         </ShuffleContainer>
                         
