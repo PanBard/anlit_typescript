@@ -87,8 +87,7 @@ export const ObjectDetectionDashboard: React.FunctionComponent<AnalysisProps> = 
         if((current['end'] == 'new') && (phase !== 100)){
           
           let condition = true
-          phases.map((phase: string, index)=>{
-            console.log(`img${index+1}`)
+          phases.map((phase: string, index)=>{            
             if(current[phase] == null && current['end'] !== 'end' && condition){quck_update(testowy_label,`img${index+1}`,phase,'new'); condition=false}
           })
 

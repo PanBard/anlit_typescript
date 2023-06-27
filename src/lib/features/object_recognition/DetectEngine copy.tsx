@@ -111,7 +111,7 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
                 webcamRef.current.video?.readyState === 4
             ) {
               
-                // const detected_image = webcamRef.current.getScreenshot();
+                const detected_image = webcamRef.current.getScreenshot();
 
                 // Get Video Properties
                 const video = webcamRef.current.video;
@@ -156,24 +156,10 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
                   wholeImageCanvasRef.current.width = 640;
                   wholeImageCanvasRef.current.height = 480;
                   wholeImageCanvasRef.current.getContext('2d').drawImage(video2, 0, 0, video2.width, video2.height )
-                  const ctx = wholeImageCanvasRef.current.getContext("2d");
-                  const [x, y, width, height] = boxes[0][0]; 
-                  ctx.strokeStyle  = '#ffa500'
-                  ctx.lineWidth = 3
-                  const text =`DETECTION [${xmin-10}, ${ymin+200}, ${xmin+90}, ${ymin+200+220}]`
-                  ctx.font = '18px Arial';
-                  ctx.fillStyle = '#ffa500'
-                  ctx.fillText(text, xmin-10, ymin+190);
-                  ctx.rect(xmin-10, ymin+200, 90, 220);    
-                  ctx.stroke();  
-
-                 
+                  
                   // new html img object for return to further detection
                   var target = new Image(90,220);
-                  target.src = croppedImageCanvasRef.current.toDataURL(); 
-                  
-                   var target2 = wholeImageCanvasRef.current.toDataURL(); 
-                  
+                  target.src = croppedImageCanvasRef.current.toDataURL();                
 
                   // ------ canvas set and conversion to image ----------------------------------------------------------------
 
@@ -186,7 +172,7 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
                         tf.dispose(classes)
                         tf.dispose(scores)
                         tf.dispose(net)
-                        setDetectedImage(target2)                                              
+                        setDetectedImage(detected_image)                                              
                         tf.disposeVariables()                                            
                         return target
                 }
