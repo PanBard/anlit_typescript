@@ -37,14 +37,15 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
     const header_name =  (rout_name=='cation_voice_script') ? T.databse.cation_voicescript : T.databse.anion_voicescript
     const input_name = ['id','phase','f6','f7','match_id','script']
     const setters = [setID,setPhase,set6,set7,setMatch_id,setScript]
-    const db_rout = lang=='EN' ? ((rout_name=='anion_voice_script') ?  SERVER_ROUTS.anion_voice_script_en.get : SERVER_ROUTS.cation_voice_script_en.get) : ((rout_name=='anion_voice_script') ?  SERVER_ROUTS.anion_voice_script.get : SERVER_ROUTS.cation_voice_script.get)
+    const db_rout_get = lang=='EN' ? ((rout_name=='anion_voice_script') ?  SERVER_ROUTS.anion_voice_script_en.get : SERVER_ROUTS.cation_voice_script_en.get) : ((rout_name=='anion_voice_script') ?  SERVER_ROUTS.anion_voice_script.get : SERVER_ROUTS.cation_voice_script.get)
+    const db_rout_put = lang=='EN' ? ((rout_name=='anion_voice_script') ?  SERVER_ROUTS.anion_voice_script_en.put : SERVER_ROUTS.cation_voice_script_en.put) : ((rout_name=='anion_voice_script') ?  SERVER_ROUTS.anion_voice_script.put : SERVER_ROUTS.cation_voice_script.put)
     
     useEffect(  ()  =>  {
         get_data_from_db()
     },[])
 
     const get_data_from_db = async () => {
-        await  Axios.get(db_rout)
+        await  Axios.get(db_rout_get)
         .then( (response: any)=>{setDataFromDataBase(response.data) })
         .catch((err)=>{console.log('db status :(',err)})
     }
@@ -57,11 +58,11 @@ export const VoiceScript: React.FunctionComponent<VoiceScriptProps> = ({
 
 
     const update_data_in_db = (ajdi: any)=>{
-        // Axios.put(SERVER_ROUTS[rout_name as keyof typeof SERVER_ROUTS].put, {id:ajdi,phase:phase,script:script,f6:f6,f7:f7,match_id:match_id})
-        // .then((response: any)=>{get_data_from_db()})
-        // .then(()=>{reset()})
-        // .then(()=>{ setters.map((set)=>{set(undefined)}) })
-        // .catch(err => {console.log(err)})
+        Axios.put(db_rout_put, {id:ajdi,phase:phase,script:script,f6:f6,f7:f7,match_id:match_id})
+        .then((response: any)=>{get_data_from_db()})
+        .then(()=>{reset()})
+        .then(()=>{ setters.map((set)=>{set(undefined)}) })
+        .catch(err => {console.log(err)})
     };
 
     const send_data_to_db = async ()=>{
