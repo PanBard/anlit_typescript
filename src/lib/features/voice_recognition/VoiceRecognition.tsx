@@ -10,6 +10,7 @@ type VoiceRecognitionProps = {
   cation: boolean,
   id?: any,
   phase?:any,
+  lang: string
 }
 
 export const VoiceRecognition: React.FunctionComponent<VoiceRecognitionProps> = ({
@@ -17,7 +18,8 @@ export const VoiceRecognition: React.FunctionComponent<VoiceRecognitionProps> = 
   return_described_to_parent_component,
   cation,
   id,
-  phase
+  phase,
+  lang
 }) => {
 
   const [word , setWord] = useState<string>()
@@ -30,18 +32,10 @@ export const VoiceRecognition: React.FunctionComponent<VoiceRecognitionProps> = 
   let detected: any;
 
 let recognition = new SpeechRecognition()
-recognition.lang = 'pl-PL'
+recognition.lang = (lang == 'PL' ? 'pl-PL' : 'en-US')
 recognition.continuous = false;
 recognition.interimResults = true;
 recognition.maxAlternatives = 1;
-
-const Voice = (words: string) => {
-  const msg = new SpeechSynthesisUtterance()
-  msg.lang = 'pl-PL'
-  msg.text =  words
-  window.speechSynthesis.speak(msg)
-}
-
 
 const renderSpeech = () => {
 recognition.start()
@@ -50,12 +44,15 @@ recognition.onresult = (event: any) => {
   setShow(true)  
   setWord(event.results[0][0].transcript) 
   slowa = event.results[0][0].transcript
-  if(event.results[0][0].transcript.search("bocie")!=-1){
-    Voice('Tak panie?')
-  }
+
   if((event.results[0][0].transcript.search("brak")!=-1) || (event.results[0][0].transcript.search("nic")!=-1)){
     detected=0
   }
+
+  if((event.results[0][0].transcript.search("nothing")!=-1) || (event.results[0][0].transcript.search("nic")!=-1)){
+    detected=0
+  }
+
   if((event.results[0][0].transcript.search("biały")!=-1) || (event.results[0][0].transcript.search("białe")!=-1)){
     detected=1
   }

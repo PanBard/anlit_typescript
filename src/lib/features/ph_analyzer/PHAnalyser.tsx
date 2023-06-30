@@ -346,7 +346,7 @@ const makeRGBAnalysis = () => {
         const owner = userName ? userName : 'test'
         const wholeImage = WholeImageCanvasRef.current.toDataURL()
         const queryONE = `INSERT INTO ph_analysis (username, img, ph, rgb, date, analysis_name) VALUES ('${owner}','${wholeImage}','prime','-',now(), '${name}') `
-        console.log(queryONE)
+        // console.log(queryONE)
         Axios.post(SERVER_ROUTS.custom_query.get, {query: queryONE})        
         .then( ()=>{
            keys.map((nr: any)=>{
@@ -362,7 +362,7 @@ const makeRGBAnalysis = () => {
   
    
   const getDataFromDb = () => {
-    const query = 'SELECT DISTINCT analysis_name FROM ph_analysis'
+    const query = `SELECT DISTINCT analysis_name FROM ph_analysis WHERE username = '${userName}'`
     Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
     .then((response)=>{ setForegoingAnalysis(response.data)})
     .then( )
@@ -399,14 +399,14 @@ const makeRGBAnalysis = () => {
       return(
         <CenterContainer >
         <Container>
-        {T.ph.saved_cal}
+        <span style={{margin:'10px'}}>{T.ph.saved_cal}</span>
         <TableContainer>
                    <table >
                         <tbody >
-                           { foregoingAnalysis.map((obj:any, index)=>{
+                           { foregoingAnalysis.map((obj:any, index)=>{                            
                              return( 
                               <tr key={index}> 
-                                {<Td style={{cursor:'pointer'}} onClick={()=>{getSpecificAnalysis(obj.analysis_name) ;setStatus('makeComparison')}} >{obj.analysis_name}</Td>}
+                                <Td style={{cursor:'pointer', width: '180px',borderRadius:'5px'}} onClick={()=>{getSpecificAnalysis(obj.analysis_name) ;setStatus('makeComparison')}} >{obj.analysis_name}</Td>
                               </tr>
                              )
                              }) }
@@ -510,6 +510,7 @@ const makeRGBAnalysis = () => {
               /> 
             <Container>
               <BestButton style={{width:'150px',height:'50px'}} onClick={ ()=>{ setWholeImage(); } } >{T.ph.take_screenshot}</BestButton>
+              <BestButton style={{width:'auto',height:'50px', zIndex:2}}  onClick={()=>{setStatus2('getFileFromDevice')}}> {T.ph.file_from_device}  </BestButton>
             </Container> 
         </CenterContainer>
       )

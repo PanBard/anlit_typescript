@@ -145,7 +145,7 @@ useMemo(async ()=>{
                     {ready && < GptDisplayStyleChat key={seed} cation={cation} id ={id} script={script} phase={phase}/>  }
                     <div style={{clear: 'left'}}></div>
 
-                    <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition cation={cation} id={id} phase={phase} return_described_to_parent_component={e => {return_results_to_parent_component(e)}} grabSound={3}/>}   </Container></Container2>
+                    <Container2 ref={refChat}><Container > {nowTellSomething && <VoiceRecognition lang={lang} cation={cation} id={id} phase={phase} return_described_to_parent_component={e => {return_results_to_parent_component(e)}} grabSound={3}/>}   </Container></Container2>
                 </ChatBody>
                 <AnswerBox onClick={()=>{ setNowTellSomething(!nowTellSomething)}} >
                    <img style={{cursor:'pointer', backgroundColor: 'rgb(200, 214, 229)' , borderRadius: '5px', margin: '5px'}} src={APP_CONFIG.MICROPHONE_IMAGE} alt=""  height={25} width={25}/>    

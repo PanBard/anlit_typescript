@@ -161,7 +161,7 @@ export const en_US: Dictionary = {
     ph:{
         new_calibrations: "New calibration",
         prevoius_calibrations: "Previous calibrations",
-        saved_cal: "Saved pH calibrations",
+        saved_cal: "Saved pH calibrations:",
         cal_name: "Calibration name:",
         cal_begin: "Begin",
         take_screenshot: "Get frame sample",

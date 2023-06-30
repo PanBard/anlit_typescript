@@ -30,7 +30,7 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
 
   const [show, setShow] = useState<boolean>(false)
 
-  const classification_labels = ['pomaranczowy_plyn','fioletowy_plyn','zolty_plyn','bialy','czarny','zolty','pomaranczowy','zielony','niebieski','niebiesko_rozowy']
+
   
    useEffect(()=>{
     if(functionReturn || functionReturn==0){
@@ -224,7 +224,7 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
                         muted={true} 
                         screenshotFormat="image/jpeg"
                         style={{                          
-                          width: 540,
+                          width: 640,
                           height: 480,
                         }}
                       />                
@@ -244,8 +244,8 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
 const Decoration = styled.div<ColorProps>`
   border:5px solid;
   border-color: ${({changeColor, theme})=> changeColor ? theme.colors.error : theme.colors.background  };
-  width: 550px;
-  height: 480px;
+  width: 650px;
+  height: 490px;
 `
 const CenterContainer = styled.div`
     display: flex;
