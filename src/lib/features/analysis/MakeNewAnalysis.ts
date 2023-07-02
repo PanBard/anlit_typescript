@@ -9,7 +9,7 @@ export const db_insert_new_id_and_status_analysis = async (id: number,name:strin
         .catch(err => console.log(err))
     }
 
-    if(variety == 'anion'){
+    if(variety == 'anion'){ 
         const status = 'incomplete'
         await Axios.post(SERVER_ROUTS.anion_analysis_result.post, {id:id,name:name,end:status,user_id: username})       
         .catch(err => console.log(err))
