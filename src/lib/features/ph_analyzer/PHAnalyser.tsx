@@ -362,7 +362,7 @@ const makeRGBAnalysis = () => {
   
    
   const getDataFromDb = () => {
-    const query = `SELECT DISTINCT analysis_name FROM ph_analysis WHERE username = '${userName}'`
+    const query = userName ? `SELECT DISTINCT analysis_name FROM ph_analysis WHERE username = '${userName}'` : 'SELECT DISTINCT analysis_name FROM ph_analysis'
     Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
     .then((response)=>{ setForegoingAnalysis(response.data)})
     .then( )
@@ -410,7 +410,7 @@ const makeRGBAnalysis = () => {
                               </tr>
                              )
                              }) }
-                        </tbody>
+                        </tbody> 
                     </table>
                      
                    </TableContainer>

@@ -35,10 +35,12 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
      const db_name = (rout_name == 'cation_analysis_result') ? 'cation_analysis_result' : 'anion_analysis_result'
     const header_name =  (rout_name=='cation_analysis_result') ? T.databse.cation_analysis : T.databse.anion_analisys
     const foraml_data = ['id','name']
+    const phases = (rout_name=='cation_analysis_result') ? ['Stage 1',"Stage 2","Stage 3",'Stage 4','Stage 5','Stage 6','Stage 7'] : ['Stage 1',"Stage 2","Stage 3",'Stage 4'] //only for sticky row
     const keys_f = (rout_name=='cation_analysis_result') ? ['f1',"f2","f3",'f4','f5','f6','f7'] : ['f1',"f2","f3",'f4']
     const keys_img = (rout_name=='cation_analysis_result') ? ['img1','img2','img3','img4','img5','img6','img7'] : ['img1','img2','img3','img4'] 
     const keys_end = ['end','result'] 
-    const input_name = foraml_data.concat(keys_f.concat(keys_img.concat(keys_end))) 
+    const input_name = foraml_data.concat(phases.concat(keys_img.concat(keys_end))) 
+   
     
    //get data
     useEffect(  ()  =>  {
@@ -109,7 +111,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                                             {keys_f.map( (obj, i) => { return(<Td key={i}>{T.analysis_results_names[data[obj] as keyof typeof T.analysis_results_names]}</Td>) })}
                                             {/* {keys_img.map( (obj, i) => {  return( <Td_image key={i}>  <MyImage style={{display: data[obj]==null? 'none' : 'flex'}}  src={data[obj]}/></Td_image>) })} */}
                                             {keys_img.map( (obj, i) => { if( data[obj]!=null) {return(  <Td_image key={i} >  <MyImage onClick={()=>{showFullImage(data[obj])}}   src={data[obj]}/></Td_image>)} else { return(<Td_image key={i} style={{cursor:'auto'}}/> ) } })}
-                                            {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='end' ? '#618685' : data[obj]=='fail' ? `#c44569` : 'none'}} key={i}>{data[obj]}</Td>) })}
+                                            {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='success' ? '#618685' : data[obj]=='fail' ? `#c44569` : 'none'}} key={i}>{data[obj]}</Td>) })}
                                             {!hide && <Td_container style={{cursor:'pointer', display: user ? 'none' : 'block'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src={APP_CONFIG.EDIT_BTN_IMG}/></OptionButton></Td_container>}
                                             {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container>  }
                                             {/* <Td style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td> */}
@@ -123,7 +125,7 @@ export const Analysis: React.FunctionComponent<AnalysysProps> = ({
                                             {keys_f.map( (obj, i) => { return(<Td key={i}>{T.analysis_results_names[data[obj] as keyof typeof T.analysis_results_names]}</Td>) })}
                                             {/* {keys_img.map( (obj, i) => {  return( <Td_image key={i}>  <MyImage style={{display: data[obj]==null? 'none' : 'flex'}}  src={data[obj]}/></Td_image>) })} */}
                                             {keys_img.map( (obj, i) => { if( data[obj]!=null) {return(  <Td_image key={i} >  <MyImage onClick={()=>{showFullImage(data[obj])}}   src={data[obj]}/></Td_image>)} else { return(<Td_image key={i} style={{cursor:'auto'}}/> ) } })}
-                                            {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='end' ? '#618685' : data[obj]=='fail' ? `#c44569` : 'none'}} key={i}>{data[obj]}</Td>) })}
+                                            {keys_end.map( (obj, i) => { return(<Td style={{ background: data[obj]=='success' ? '#618685' : data[obj]=='fail' ? `#c44569` : 'none'}} key={i}>{data[obj]}</Td>) })}
                                             {!hide && <Td_container style={{cursor:'pointer', display: user ? 'none' : 'block'}}  onClick={()=>{setHide(true)}} ><OptionButton><ButtonImage src={APP_CONFIG.EDIT_BTN_IMG}/></OptionButton></Td_container>}
                                             {hide &&  <Td_container onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container>  }
                                             {/* <Td style={{cursor:'pointer', display: 'none'}}> {data.end=='end' ? 'ZOBACZ' : 'KONTYNYUJ'} </Td> */}

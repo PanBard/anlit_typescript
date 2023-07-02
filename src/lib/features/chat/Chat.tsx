@@ -54,7 +54,7 @@ export const Chat: React.FunctionComponent<ChatCatProps> = ({
     const set_up_phase = async (data: any)  => {
         const current = data[data.length-1]
        if(typeof current !== 'undefined'){
-            if((current['end'] == 'new') && (phase !== 100)){
+            if((current['end'] == 'incomplete') && (phase !== 100)){
             if(current['f1'] == null){setPhase(1);return true}
             if(current['f2'] == null){setPhase(2);return true}
             if(current['f3'] == null){setPhase(3);return true}
@@ -64,7 +64,7 @@ export const Chat: React.FunctionComponent<ChatCatProps> = ({
             if(current['f7'] == null){setPhase(7);return true}
            }  
            
-           if((current['end'] == 'new') && (current['f7'] !== null)){
+           if((current['end'] == 'incomplete') && (current['f7'] !== null)){
                setPhase(8)
            }
        }

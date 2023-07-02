@@ -46,7 +46,7 @@ export const ProbabilityResultMatching: React.FunctionComponent<ShuffleFateProps
          const current = data[data.length-1]
          
         if(typeof current !== 'undefined'){
-             if((current['end'] == 'new') ){
+             if((current['end'] == 'incomplete') ){
              if(current['f1'] == null){setPhase(1);return true}
              if(current['f2'] == null){setPhase(2);return true}
              if(current['f3'] == null){setPhase(3);return true}

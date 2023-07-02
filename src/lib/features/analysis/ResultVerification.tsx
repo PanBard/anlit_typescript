@@ -75,7 +75,7 @@ export const ResultVerification: React.FunctionComponent<ShuffleFateProps> = ({
     const set_up_phase = async (data: any)  => {
          const current = data[data.length-1]
         if(typeof current !== 'undefined'){
-             if((current['end'] == 'new') && (phase !== 100)){
+             if((current['end'] == 'incomplete') && (phase !== 100)){
              if(current['f1'] == null){setPhase(1);return true}
              if(current['f2'] == null){setPhase(2);return true}
              if(current['f3'] == null){setPhase(3);return true}
@@ -85,7 +85,7 @@ export const ResultVerification: React.FunctionComponent<ShuffleFateProps> = ({
              if(current['f7'] == null){setPhase(7);return true}
             }  
             
-            if((current['end'] == 'new') && (current['f7'] !== null)){
+            if((current['end'] == 'incomplete') && (current['f7'] !== null)){
                 setPhase(8)
             }
         }
@@ -159,7 +159,7 @@ const set_failed_end = async () => {
 const set_happy_end =async (id: any) => {
     const current = data[data.length-1]    
 if(current.end !== 'end'){
-    await Axios.put(SERVER_ROUTS[db_type].put, {id: current.id , end:'end'})
+    await Axios.put(SERVER_ROUTS[db_type].put, {id: current.id , end:'success'})
         .then(p => {            
             const query = `SELECT symbol FROM ${db_type_name} WHERE id = ${id}`
             Axios.post(SERVER_ROUTS.custom_query.get, {query: query})
