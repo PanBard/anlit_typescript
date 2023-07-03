@@ -94,12 +94,13 @@ export const DataDashboard: React.FunctionComponent<DataDashboard> = ({
         <Container>
             <HeaderContainer>
                 <DropdownMenu_analysis/>
+                <BestButton onClick={()=>{showComponent(<PhAnalysis lang={lang} key={seed}/>)}}> {T.database_buttons.ph} </BestButton>        
                 <DropdownMenu_dataflow/>
                 <DropdownMenu_voicescript/>
                 <DropdownMenu_images/>
                 <BestButton onClick={()=>{showComponent(<ChatMessages lang={lang} key={seed}/>)}}> {T.database_buttons.chat} </BestButton>
                 <BestButton onClick={()=>{showComponent(<Users lang={lang} key={seed}/>)}}> {T.database_buttons.users} </BestButton>
-                <BestButton onClick={()=>{showComponent(<PhAnalysis lang={lang} key={seed}/>)}}> {T.database_buttons.ph} </BestButton>               
+                       
             </HeaderContainer>
             {showComponent2()}
         </Container>

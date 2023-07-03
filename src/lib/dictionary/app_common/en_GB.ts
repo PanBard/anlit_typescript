@@ -148,8 +148,8 @@ export const en_US: Dictionary = {
         entry_modification:"Modification of entry number ", //Modyfikacja wersetu nr:
         anion_analisys: "Anion analysis",
         cation_analysis: "Cation analysis",
-        anion_scriptflow: "Anion scriptflow",
-        cation_scriptflow: "Cation scriptflow",
+        anion_scriptflow: "Anion dataflow",
+        cation_scriptflow: "Cation dataflow",
         anion_voicescript: "Anion voicescript",
         cation_voicescript: "Cation voicescript",
         update_data: "Update data",

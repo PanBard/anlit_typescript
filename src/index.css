@@ -45,7 +45,7 @@ body {
     /* right: 10px; */
     /* background-color: #484748; */
     /* background-color: gray; */
-    min-width: 160px;
+    min-width: 50px;
     /* box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); */
     z-index: 100;
     border-radius: 8px;
@@ -89,7 +89,7 @@ body {
     border: 1px solid gray;
     float: none;
     color: #c8d6e5;
-    padding: 12px 16px;
+    padding: 10px 10px;
     border-radius: 8px;
     text-decoration: none;
     display: block;
@@ -115,33 +115,6 @@ body {
 
 /* ######################### Dropdown menu */
 
-/* move bac */
-
-/* 
-#morek {
-	background: linear-gradient(-45deg,#593759,#838183, #484748, #2a2a2a  );
-	background-size: 400% 400%;
-	animation: gradient 10s ease infinite;
-	height: 100vh;
-}
-
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-} */
-
-
-
-/* move bac */
-
-/* 4444444444444444444444444444444 */
 
 #morek{
   font-family: 'Exo', sans-serif;

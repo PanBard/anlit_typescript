@@ -60,6 +60,10 @@ recognition.onresult = (event: any) => {
     detected=2
   }
 
+  if((event.results[0][0].transcript.search("dark")!=-1) || (event.results[0][0].transcript.search("Czarny")!=-1) || (event.results[0][0].transcript.search("ciemny")!=-1)){    
+    detected=2
+  }
+
   if((event.results[0][0].transcript.search("pomarańczowy")!=-1) || (event.results[0][0].transcript.search("pomarańczowym")!=-1)){    
     detected=9
   }

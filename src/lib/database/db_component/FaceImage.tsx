@@ -89,7 +89,7 @@ export const FaceImage: React.FunctionComponent<FaceImageProps> = ({
                                             <Td_image><MyImage  onClick={()=>{showFullImage(data.img1)}} style={{height: '150px', width:'150px' }}  src={data.img2}/></Td_image>
                                             <Td_image><MyImage  onClick={()=>{showFullImage(data.img1)}} style={{height: '150px', width:'150px' }}  src={data.img3}/></Td_image>
                                             <Td>{data.username} </Td>
-                                            <Td>{data.password} </Td>
+                                            
                                             <Td>{data.date} </Td>
                                             {!user && <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src={APP_CONFIG.EDIT_BTN_IMG}/></OptionButton></Td_container>}
                                             {!user && <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> }

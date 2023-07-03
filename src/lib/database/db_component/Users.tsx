@@ -21,6 +21,7 @@ export const Users: React.FunctionComponent<UsersProps> = ({lang})=>{
 
     const [seed, setSeed] = useState(1);
     const [choosen_mode, setChoosen_mode] = useState('start')
+    const labels = ["Username","Name","Surname","Email","Phone","Authcode","Password","Account type","Registered at"]
 
     const reset = () => {
          setSeed(Math.random())
@@ -50,6 +51,14 @@ export const Users: React.FunctionComponent<UsersProps> = ({lang})=>{
         .catch(err => {console.log(err)})
     }; 
 
+    const mapPasswordToStars = (passord: string) => {
+        const num = passord.length
+        let stars = ""
+        for(let i = 0; i<num; i++){
+          stars = stars + '*'
+        }
+        return stars
+      }
 
     const showComponent = ()=>{
 
@@ -62,21 +71,23 @@ export const Users: React.FunctionComponent<UsersProps> = ({lang})=>{
                         <table >
                             <tbody >
                                 <Tr_sticky_row>
-                                    {dataFromDataBase && keys_p.map( (obj, i) => {
+                                    {dataFromDataBase && labels.map( (obj, i) => {
                                         return(<Th key={i}>{obj}</Th>) })}
                                 </Tr_sticky_row>
                                 { dataFromDataBase && dataFromDataBase.map((data: any,index:any)=>{
                                     const date1 = data.date.replace('T',' | ').slice(0,-8)
+                                    // const labels = ["Username","Name","Surname","Email","Phone","Authcode","Password","Account type","Registered at"]
+
                                     return (
-                                        <tr key={data.id}>
-                                             <Td>{data.id} </Td>
-                                    
-                                            <Td>{data.username} </Td>
-                                            <Td>{data.first_name} </Td>
-                                            <Td>{data.last_name} </Td>
-                                            <Td>{data.email} </Td>
-                                            <Td>{data.password} </Td>
-                                            <Td>{data.status} </Td>
+                                        <tr key={data.id}>                                                                    
+                                            <Td>{data.username ? data.username : T.common.no_data} </Td>
+                                            <Td>{data.first_name ? data.first_name : T.common.no_data } </Td>
+                                            <Td>{data.last_name ? data.last_name : T.common.no_data} </Td>
+                                            <Td>{data.email ? data.email : T.common.no_data} </Td>                                           
+                                            <Td>{data.phone ? data.phone : T.common.no_data} </Td>                                       
+                                            <Td>{data.id ? data.id : T.common.no_data} </Td>  
+                                            <Td>{data.password ? data.password : T.common.no_data} </Td> 
+                                            <Td>{data.status ? data.status : T.common.no_data} </Td>
                                             <Td>{date1} </Td>
                                             <Td_container style={{cursor:'pointer' , display: hide==`${data.id}` ? 'none' : 'block'}}  onClick={()=>{setHide(data.id)}} ><OptionButton><ButtonImage src={APP_CONFIG.EDIT_BTN_IMG}/></OptionButton></Td_container>
                                             <Td_container style={{display: hide==`${data.id}` ? 'flex' : 'none'}} onClick={ ()=> { delete_row_from_db(data.id)}} ><DeleteButton>{T.databse.remove_bt}</DeleteButton></Td_container> 
