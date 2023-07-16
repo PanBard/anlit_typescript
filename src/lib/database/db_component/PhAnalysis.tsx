@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, MyImage, OptionButton, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules"
-import { Attention } from "lib/components/Attention"
+import { Attention } from "lib/components/components_modules/Attention"
 import { useTranslations } from "lib/hooks"
 import { APP_CONFIG } from "lib/config"
 
@@ -34,7 +34,7 @@ export const PhAnalysis: React.FunctionComponent<PhAnalysisProps> = ({
     const header_name =   'ph analysis'
     const keys_f = ['id','username','analysis_name']
     const keys_img = ['img']
-    const keys_end = ['ph',"rgb",'date','R','G','B','ph_number'] 
+    const keys_end = ['ph',"rgb",'date','R','G','B'] 
     const input_name = keys_f.concat(keys_img.concat(keys_end))
     
    //get data

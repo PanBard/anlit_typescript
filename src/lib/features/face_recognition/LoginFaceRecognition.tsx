@@ -7,6 +7,7 @@ import  Axios  from "axios";
 import { SERVER_ROUTS } from "lib/database/server_routs";
 import { useTranslations } from "lib/hooks/useTranslations";
 import { LoadingAnimation } from "lib/styles";
+import { APP_CONFIG } from "lib/config";
 
 
 type LoginFaceRecognitionProps = {
@@ -35,7 +36,7 @@ export const LoginFaceRecognition: React.FunctionComponent<LoginFaceRecognitionP
 
   useEffect(() => {
     const loadModels = async () => {
-      const MODEL_URL =  '/face_recognition_model';
+      const MODEL_URL = APP_CONFIG.FACES_MODELS_URL
 
       Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),

@@ -26,7 +26,6 @@ export const OneRouter: React.FunctionComponent = () => {
                     {webStatus=='Analysis' && <AnalysisDashboard  userName={userName} lang={language} back={(e)=>{setWebStatus(e)}}/>}                                                
                     {webStatus == 'pH' && <PHAnalyser userName={userName} lang={language}/>}                
                     {webStatus == 'FaceRecognition' && <FaceRecognitionDemo lang={language} />}
-                    {/* {webStatus == 'RegisterFaceRecognition' && <RegisterFaceRecognition lang={language} userName={userName} />} */}
                     {webStatus == 'RegisterFaceRecognition' && <UserFaceID lang={language} userName={userName} />}
                     {webStatus == 'Screenshot' && <WebcamScreenshot lang={language}/>}      
                     {webStatus == 'UserSettings' && <UserSettings language={(e)=>{setLanguage(e)}} lang={language}/>}     
@@ -35,7 +34,6 @@ export const OneRouter: React.FunctionComponent = () => {
                     {webStatus == 'UserPHAnalysis' && <UserPhAnalysis userName={userName} lang={language}/>}  
                     {webStatus == 'UserHelp' && <UserHelp lang={language}/>}  
                 </Container>
-                {/* <Footer lang={language}/> */}
             </MojDIV>}
 
             {loginStatus=='Start' &&   <StartPage language={(e)=>{setLanguage(e)}} choosenWeb={e => {setUserName(e['userName']) ; setLoginStatus(e['result']) }} />}

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import styled from "styled-components"
 import { SERVER_ROUTS } from "../server_routs" 
 import { BestButton, ButtonImage, ContainerP, DeleteButton, ModifyButton, MyImage, OptionButton, TableContainer, Td_image, Tr_sticky_row } from "lib/components/components_modules"
-import { Attention } from "lib/components/Attention"
+import { Attention } from "lib/components/components_modules/Attention"
 import { useTranslations } from "lib/hooks"
 import { APP_CONFIG } from "lib/config"
 

@@ -6,6 +6,7 @@ import * as faceapi from '@vladmandic/face-api';
 import  Axios  from "axios";
 import { SERVER_ROUTS } from "lib/database/server_routs";
 import { useTranslations } from "lib/hooks";
+import { APP_CONFIG } from "lib/config";
 
 
 type RegisterFaceRecognitionProps = {
@@ -37,7 +38,7 @@ export const RegisterFaceRecognition: React.FunctionComponent<RegisterFaceRecogn
   useEffect(() => {
     setName(userName)
     const loadModels = async () => {
-      const MODEL_URL =  '/face_recognition_model';
+      const MODEL_URL = APP_CONFIG.FACES_MODELS_URL
       Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
         faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),

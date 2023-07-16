@@ -23,27 +23,22 @@ export const VoiceRecognition: React.FunctionComponent<VoiceRecognitionProps> = 
 }) => {
 
   const [word , setWord] = useState<string>()
-  let SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition
-  
-  
   const [show, setShow] = useState(true)
-  const db_text_name = cation ? 'c_analysis_texts' : 'a_analysis_texts' 
-  let slowa = ''
+  let recognition_words = ''
   let detected: any;
 
-let recognition = new SpeechRecognition()
-recognition.lang = (lang == 'PL' ? 'pl-PL' : 'en-US')
-recognition.continuous = false;
-recognition.interimResults = true;
-recognition.maxAlternatives = 1;
+let speechRecognition = new SpeechRecognition()
+speechRecognition.lang = (lang == 'PL' ? 'pl-PL' : 'en-US')
+speechRecognition.continuous = false;
+speechRecognition.interimResults = true;
+speechRecognition.maxAlternatives = 1;
 
 const renderSpeech = () => {
-recognition.start()
-recognition.onresult = (event: any) => {
-  //handle result in here
+speechRecognition.start()
+speechRecognition.onresult = (event: any) => {
   setShow(true)  
   setWord(event.results[0][0].transcript) 
-  slowa = event.results[0][0].transcript
+  recognition_words = event.results[0][0].transcript
 
   if((event.results[0][0].transcript.search("brak")!=-1) || (event.results[0][0].transcript.search("nic")!=-1)){
     detected=0
@@ -78,8 +73,8 @@ recognition.onresult = (event: any) => {
   
 }
 
-recognition.onend = (event) => {
-  if(slowa?.length)(Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:id, message: slowa,author: 'human', ion: cation ? 'cation' : 'anion' }).then(res=>console.log('Messages db: ',res.data))
+speechRecognition.onend = (event) => {
+  if(recognition_words?.length)(Axios.post(SERVER_ROUTS.chat_messages.post, {chat_id:id, message: recognition_words,author: 'human', ion: cation ? 'cation' : 'anion' }).then(res=>console.log('Messages db: ',res.data))
   .then(()=>{
     if(typeof detected != 'undefined'){
       return_described_to_parent_component(detected)

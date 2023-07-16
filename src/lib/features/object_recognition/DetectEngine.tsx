@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useMemo } from "react";
 import Webcam from "react-webcam";
 import styled from "styled-components";
 import * as tf from "@tensorflow/tfjs";
+import { APP_CONFIG } from "lib/config";
 
 
 type ColorProps = {
@@ -30,7 +31,7 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
 
   const [show, setShow] = useState<boolean>(false)
 
-
+  const classification_labels = ['pomaranczowy_plyn','fioletowy_plyn','zolty_plyn','bialy','czarny','zolty','pomaranczowy','zielony','niebieski','niebiesko_rozowy']
   
    useEffect(()=>{
     if(functionReturn || functionReturn==0){
@@ -64,7 +65,7 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
         }
     
         const loadModelC = async () => { 
-            const net =  tf.loadGraphModel('object_classifyication_model/model.json')
+            const net =  tf.loadGraphModel(APP_CONFIG.OBJECT_CLASSIFICATION_MODEL_URL)
             return net}
     
     
@@ -99,7 +100,7 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
      }
         
         const loadModel = async () => { 
-            const net =  tf.loadGraphModel('object_detection_model/model.json')            
+            const net =  tf.loadGraphModel(APP_CONFIG.OBJECT_DETECTION_MODEL_URL)            
             return net}
     
         
@@ -111,7 +112,7 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
                 webcamRef.current.video?.readyState === 4
             ) {
               
-                // const detected_image = webcamRef.current.getScreenshot();
+                const detected_image = webcamRef.current.getScreenshot();
 
                 // Get Video Properties
                 const video = webcamRef.current.video;
@@ -156,6 +157,8 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
                   wholeImageCanvasRef.current.width = 640;
                   wholeImageCanvasRef.current.height = 480;
                   wholeImageCanvasRef.current.getContext('2d').drawImage(video2, 0, 0, video2.width, video2.height )
+
+                  //draw detect rectangle on image
                   const ctx = wholeImageCanvasRef.current.getContext("2d");
                   const [x, y, width, height] = boxes[0][0]; 
                   ctx.strokeStyle  = '#ffa500'
@@ -166,14 +169,11 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
                   ctx.fillText(text, xmin-10, ymin+190);
                   ctx.rect(xmin-10, ymin+200, 90, 220);    
                   ctx.stroke();  
+                  var target2 = wholeImageCanvasRef.current.toDataURL(); 
 
-                 
                   // new html img object for return to further detection
                   var target = new Image(90,220);
-                  target.src = croppedImageCanvasRef.current.toDataURL(); 
-                  
-                   var target2 = wholeImageCanvasRef.current.toDataURL(); 
-                  
+                  target.src = croppedImageCanvasRef.current.toDataURL();                
 
                   // ------ canvas set and conversion to image ----------------------------------------------------------------
 
@@ -224,7 +224,7 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
                         muted={true} 
                         screenshotFormat="image/jpeg"
                         style={{                          
-                          width: 640,
+                          width: 540,
                           height: 480,
                         }}
                       />                
@@ -244,8 +244,8 @@ export const DetectEngine: React.FunctionComponent<DetectBaseProps> = ({
 const Decoration = styled.div<ColorProps>`
   border:5px solid;
   border-color: ${({changeColor, theme})=> changeColor ? theme.colors.error : theme.colors.background  };
-  width: 650px;
-  height: 490px;
+  width: 550px;
+  height: 480px;
 `
 const CenterContainer = styled.div`
     display: flex;

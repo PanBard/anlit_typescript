@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { BestButton } from "./components_modules"
+import { BestButton } from "."
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type AttentionProps = {
