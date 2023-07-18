@@ -22,4 +22,6 @@ export const APP_CONFIG = {
     OBJECT_DETECTION_MODEL_URL: 'object_detection_model/model.json',
     OBJECT_CLASSIFICATION_MODEL_URL: 'object_classifyication_model/model.json',
 
+    HOST : 'http://vps-da4bbe54.vps.ovh.net:4001'
+
 }
